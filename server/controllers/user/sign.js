@@ -8,13 +8,14 @@ module.exports = {
     post: async (req, res) => {
       try {
         // 정보 불충분
-        const { user_id, password } = req.body;
-        if (!user_id || !password) {
-          res.status(422).send("insufficient parameters supplied");
+        const { email, nickname, password } = req.body;
+        if (!email || !nickname || !password) {
+          return res.status(422).send({ message: "insufficient parameters supplied" });
         }
         const userInfo = await user.findOne({
           where: {
-            user_id: req.body.user_id,
+            email: req.body.email,
+            nickname: req.body.nickname,
             password: req.body.password,
           },
         });
@@ -22,20 +23,18 @@ module.exports = {
         //이미 가입되었을 경우
 
         if (userInfo) {
-          res.status(400).send({ data: null, message: "email already exists" });
+          return res.status(409).send({ message: "email already exists" });
         }
 
         //가입이 되지 않았을 경우
         else {
           const payload = {
-            userInfo: {
-              user_id: req.body.user_id,
-              password: req.body.password,
-            },
-            message: "Successfully Sign Up",
+            email: req.body.email,
+            nickname: req.body.nickname,
+            password: req.body.password,
           };
 
-          await user.create(payload.userInfo);
+          await user.create(payload);
           res.status(201).send(payload);
         }
       } catch (err) {
@@ -47,36 +46,47 @@ module.exports = {
   in: {
     post: async (req, res) => {
       try {
-        console.log("dkpkfdpmwefpmfwmpwfpmfewpmkwef");
+        //데이터베이스에 email이 없을때
+        const emailExists = await user.findOne({
+          where: {
+            email: req.body.email,
+          },
+        });
+
+        if (!emailExists) {
+          return res.status(400).send({ message: "Wrong email" });
+        }
+
+        //데이터베이스에 email 있지만 비밀번호가 틀릴때
         const userInfo = await user.findOne({
           where: {
-            user_id: req.body.user_id,
+            email: req.body.email,
             password: req.body.password,
           },
         });
 
-        //데이터베이스에 회원정보가 없을 경우
         if (!userInfo) {
-          res.status(400).send({ data: null, message: "Wrong email or password" });
+          return res.status(400).send({ message: "Wrong password" });
         }
+
         //데이터 베이스에 회원정보가 있을 경우
         else {
           const payload = {
             id: userInfo.id,
-            user_id: userInfo.user_id,
-            password: userInfo.password,
+            email: req.body.email,
+            nickname: userInfo.nickname,
+            password: req.body.password,
           };
-          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1s" });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });
           res.cookie("refreshToken", refreshToken, {
-            sameSite: "none",
+            sameSite: "Strict",
             httpOnly: true,
-            secure: true,
+            secure: false, // https로 바꾼후에 true로 바꿔야함
           });
 
           res.status(200).send({
-            data: { accessToken: accessToken },
-            message: `${req.body.user_id}님 로그인을 환영합니다.`,
+            accessToken: accessToken,
           });
         }
       } catch (err) {
@@ -89,7 +99,10 @@ module.exports = {
       try {
         const validity = tokenHandler.accessTokenVerify(req);
         if (validity) {
-          res.status(200).send("Successfully Sign Out");
+          return res.status(200).send();
+        } else {
+          //리프레시 토큰을 가져와서 복호화하고 유효기간내면 엑세스토큰 재발행 유효기간 지났으면 401에러
+          return res.status(401).send({ message: "Unauthenticated" });
         }
       } catch (err) {
         res.status(500).send("Server Error Code 500");

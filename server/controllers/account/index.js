@@ -18,17 +18,17 @@ module.exports = {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { category, item_name, price, paid_person, currency, pictuer, gps, write_date } =
+        const { category, item_name, price, spent_person, target_currency, gps, memo, write_date } =
           req.body;
         const payload = {
           trip_id: req.params.trip_id,
           category: category,
           item_name: item_name,
           price: price,
-          paid_person: paid_person,
-          currency: currency,
-          pictuer: pictuer,
+          spent_person: spent_person,
+          target_currency: target_currency,
           gps: gps,
+          memo: memo,
           write_date: write_date,
         };
         const result = await account.create(payload);

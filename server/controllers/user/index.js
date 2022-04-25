@@ -22,7 +22,7 @@ module.exports = {
       // if (validity) {
       const userInfo = await user.findOne({
         where: {
-          user_id: req.body.user_id,
+          email: req.body.email,
           password: req.body.password,
         },
       });
