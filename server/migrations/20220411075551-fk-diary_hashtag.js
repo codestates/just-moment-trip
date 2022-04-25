@@ -25,13 +25,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn(
-      "diary_hashtag", // name of Source model
-      "diary_id" // key we want to remove
-    );
-    await queryInterface.removeColumn(
-      "diary_hashtag", // name of Source model
-      "hashtag_id" // key we want to remove
-    );
+    await queryInterface.removeColumn("diary_hashtag", "diary_id");
+    await queryInterface.removeColumn("diary_hashtag", "hashtag_id");
   },
 };
