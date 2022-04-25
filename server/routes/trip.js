@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const diaryController = require("../controllers/diary/index");
-const accountController = require("../controllers/account/index");
+const tripController = require("../controllers/trip");
+const diaryController = require("../controllers/diary");
+const accountController = require("../controllers/account");
+
+router.get("/", tripController.get);
+router.post("/", tripController.post);
+router.delete("/:trip_id", tripController.delete);
 
 router.get("/:trip_id/diary", diaryController.get);
 router.post("/:trip_id/diary", diaryController.post);

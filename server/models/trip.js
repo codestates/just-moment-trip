@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   trip.init(
     {
-      // user_id: DataTypes.INTEGER,
+      title: DataTypes.STRING,
       country: DataTypes.STRING,
-      totalPrice: DataTypes.INTEGER,
+      total_price: DataTypes.INTEGER,
+      base_currency: DataTypes.STRING,
       start_date: DataTypes.DATE,
       end_date: DataTypes.DATE,
     },
