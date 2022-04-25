@@ -46,6 +46,7 @@ function DiaryWriteUp({ onCreate }) {
       content: '',
       writeDate: nowTime,
     });
+    console.log('뭐야또');
   };
 
   return (
