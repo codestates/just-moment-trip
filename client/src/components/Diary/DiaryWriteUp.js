@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-function DiaryWriteUp({ onCreate }) {
+function DiaryWriteUp({ onCreate, openModalHandler }) {
   const locationInput = useRef();
   const contentInput = useRef();
   let newDate = new Date();
@@ -46,7 +46,7 @@ function DiaryWriteUp({ onCreate }) {
       content: '',
       writeDate: nowTime,
     });
-    console.log('뭐야또');
+    openModalHandler(false);
   };
 
   return (

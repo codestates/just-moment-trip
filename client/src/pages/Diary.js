@@ -1,15 +1,22 @@
 import React from 'react';
 import DiaryList from '../components/Diary/DiaryList';
 import DiaryStore from '../components/Diary/DiaryStore';
+import styled from 'styled-components';
+
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  border: 10px solid red;
+`;
 
 function Diary() {
   return (
-    <div>
+    <Box>
       니하오!
       <DiaryStore>
         <DiaryList />
       </DiaryStore>
-    </div>
+    </Box>
   );
 }
 
