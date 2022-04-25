@@ -8,7 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      location: {
+      title: {
+        type: Sequelize.STRING,
+      },
+      picture: {
+        type: Sequelize.STRING,
+      },
+      gps: {
         type: Sequelize.STRING,
       },
       content: {

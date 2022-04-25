@@ -11,9 +11,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      // trip_id: {
-      //   type: Sequelize.INTEGER,
-      // },
       category: {
         type: Sequelize.STRING,
       },
@@ -26,10 +23,10 @@ module.exports = {
       paid_person: {
         type: Sequelize.STRING,
       },
-      currency: {
+      target_currency: {
         type: Sequelize.STRING,
       },
-      picture: {
+      memo: {
         type: Sequelize.STRING,
       },
       gps: {
