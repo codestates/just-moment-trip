@@ -14,7 +14,9 @@ function DiaryEditor({
   });
 
   const localContentInput = useRef();
+  const localLocationInput = useRef();
   const [localContent, setLocalContent] = useState(content);
+  const [localLocation, setLocalLocation] = useState(location);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
@@ -26,17 +28,23 @@ function DiaryEditor({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
+    setLocalLocation(location);
     setLocalContent(content);
   };
 
   const handleEdit = () => {
+    if (localLocation.length < 1) {
+      localContentInput.current.focus();
+      return;
+    }
+
     if (localContent.length < 5) {
       localContentInput.current.focus();
       return;
     }
 
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent);
+      onEdit(id, localContent, localLocation);
       toggleIsEdit();
     }
   };
@@ -44,7 +52,17 @@ function DiaryEditor({
   return (
     <div className="DiaryEditor">
       <div className="info">
-        <span className="location_info"></span>
+        {isEdit ? (
+          <input
+            className="location_info"
+            ref={localLocationInput}
+            value={localLocation}
+            onChange={e => setLocalLocation(e.target.value)}
+          />
+        ) : (
+          location
+        )}
+
         <br />
         <span className="date">
           {new Date(created_date).toLocaleDateString()}

@@ -1,23 +1,33 @@
 import React, { useCallback, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
 
+const INIT = 'INIT';
+const CREATE = 'CREATE';
+const REMOVE = 'REMOVE';
+const EDIT = 'EDIT';
+
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'CREATE': {
+    case INIT: {
+      return action.data;
+    }
+
+    case CREATE: {
       const newItem = {
         ...action.data,
       };
       return [newItem, ...state];
     }
-    case 'REMOVE': {
+    case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
     }
-    case 'EDIT': {
+    case EDIT: {
       return state.map(it =>
         it.id === action.targetId
           ? {
               ...it,
               content: action.newContent,
+              location: action.newLocation,
             }
           : it,
       );
@@ -33,21 +43,22 @@ function DiaryStore() {
 
   const onCreate = useCallback((location, content) => {
     dispatch({
-      type: 'CREATE',
+      type: CREATE,
       data: { location, content, id: dataId.current },
     });
     dataId.current += 1;
   }, []);
 
   const onRemove = useCallback(targetId => {
-    dispatch({ type: 'REMOVE', targetId });
+    dispatch({ type: REMOVE, targetId });
   }, []);
 
-  const onEdit = useCallback((targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent, newLocation) => {
     dispatch({
-      type: 'EDIT',
+      type: EDIT,
       targetId,
       newContent,
+      newLocation,
     });
   }, []);
 
