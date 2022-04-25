@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ModalBackdrop = styled.div`
@@ -20,7 +20,7 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBtn = styled.button`
-  background-color: #4000c7;
+  background-color: cadetblue;
   text-decoration: none;
   border: none;
   padding: 20px;
@@ -48,7 +48,7 @@ const ModalView = styled.div.attrs(props => ({
   }
 `;
 
-function Modal() {
+function Modal({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const openModalHandler = () => {
     setIsOpen(!isOpen);
@@ -57,7 +57,7 @@ function Modal() {
     <>
       <ModalContainer>
         <ModalBtn onClick={openModalHandler}>
-          {isOpen === false ? 'Open Modal' : 'Opened!'}
+          {isOpen === false ? '📝' : '📝'}
         </ModalBtn>
         {isOpen === true ? (
           <ModalBackdrop onClick={openModalHandler}>
@@ -65,7 +65,9 @@ function Modal() {
               <span onClick={openModalHandler} className="close-btn">
                 &times;
               </span>
-              <div className="desc">버튼맛 궁금해 흐어니</div>
+              <div className="desc">
+                {React.cloneElement(children, { openModalHandler })}
+              </div>
             </ModalView>
           </ModalBackdrop>
         ) : null}
