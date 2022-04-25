@@ -16,11 +16,13 @@ module.exports = {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { country, totalPrice, start_date, end_date } = req.body;
+        const { title, country, total_price, base_currency, start_date, end_date } = req.body;
         const payload = {
           user_id: validity.id,
+          title: title,
           country: country,
-          totalPrice: totalPrice,
+          total_price: total_price,
+          base_currency: base_currency,
           start_date: start_date,
           end_date: end_date,
         };

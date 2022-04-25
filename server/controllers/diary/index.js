@@ -18,13 +18,16 @@ module.exports = {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { location, content, write_date, hashtags } = req.body;
+        const { title, picture, gps, content, write_date, hashtags } = req.body;
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
           trip_id: req.params.trip_id,
-          location: location,
+          title: title,
+          picture: picture,
+          gps: gps,
           content: content,
           write_date: write_date,
+          hashtags: hashtags,
         };
 
         const diaryInfo = await diary.create(diaryPayload);

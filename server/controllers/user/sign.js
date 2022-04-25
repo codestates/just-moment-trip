@@ -8,13 +8,14 @@ module.exports = {
     post: async (req, res) => {
       try {
         // 정보 불충분
-        const { user_id, password } = req.body;
-        if (!user_id || !password) {
+        const { email, nickname, password } = req.body;
+        if (!email || !nickname || !password) {
           res.status(422).send("insufficient parameters supplied");
         }
         const userInfo = await user.findOne({
           where: {
-            user_id: req.body.user_id,
+            email: req.body.email,
+            nickname: req.body.nickname,
             password: req.body.password,
           },
         });
@@ -29,7 +30,8 @@ module.exports = {
         else {
           const payload = {
             userInfo: {
-              user_id: req.body.user_id,
+              email: req.body.email,
+              nickname: req.body.nickname,
               password: req.body.password,
             },
             message: "Successfully Sign Up",
@@ -47,10 +49,9 @@ module.exports = {
   in: {
     post: async (req, res) => {
       try {
-        console.log("dkpkfdpmwefpmfwmpwfpmfewpmkwef");
         const userInfo = await user.findOne({
           where: {
-            user_id: req.body.user_id,
+            email: req.body.email,
             password: req.body.password,
           },
         });
@@ -63,8 +64,8 @@ module.exports = {
         else {
           const payload = {
             id: userInfo.id,
-            user_id: userInfo.user_id,
-            password: userInfo.password,
+            email: req.body.email,
+            password: req.body.password,
           };
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });
