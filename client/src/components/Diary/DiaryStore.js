@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer, useRef } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
 
 const INIT = 'INIT';
@@ -13,8 +13,10 @@ const reducer = (state, action) => {
     }
 
     case CREATE: {
+      const createDate = new Date().getTime();
       const newItem = {
         ...action.data,
+        createDate,
       };
       return [newItem, ...state];
     }
@@ -41,13 +43,20 @@ function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
 
-  const onCreate = useCallback((location, content) => {
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('실수하지마라 제발');
+    }, 1500);
+  }, []);
+
+  const onCreate = useCallback((location, content, writeDate) => {
     dispatch({
       type: CREATE,
-      data: { location, content, id: dataId.current },
+      data: { location, content, writeDate, id: dataId.current },
     });
+
     dataId.current += 1;
-  }, []);
+  });
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
