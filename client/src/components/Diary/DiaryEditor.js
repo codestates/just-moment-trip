@@ -1,14 +1,7 @@
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 
-function DiaryEditor({
-  onRemove,
-  onEdit,
-  id,
-  location,
-  content,
-  created_date,
-}) {
+function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
   });
@@ -64,9 +57,7 @@ function DiaryEditor({
         )}
 
         <br />
-        <span className="date">
-          {new Date(created_date).toLocaleDateString()}
-        </span>
+        <span className="date">작성 시간 :{writeDate}</span>
       </div>
       <div className="content">
         {isEdit ? (

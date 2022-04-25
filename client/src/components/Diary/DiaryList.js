@@ -15,6 +15,7 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList }) {
           <DiaryEditor
             key={it.id}
             {...it}
+            diaryList={diaryList}
             onCreate={onCreate}
             onEdit={onEdit}
             onRemove={onRemove}
