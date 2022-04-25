@@ -16,8 +16,11 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
+      console.log("값");
+      console.log(validity); //Promise { 2 }
       if (validity) {
+        console.log("88");
         const { title, picture, gps, content, write_date, hashtags } = req.body;
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
@@ -56,9 +59,10 @@ module.exports = {
         //   };
         //   await diary_hashtag.create(diary_hashtagPayload);
         // });
-        res.status(201).send({ id: diaryInfo.id, message: "Successfully Account Post" });
+        res.status(201).send({ id: diaryInfo.id, accessToken: validity.accessToken });
       }
     } catch (err) {
+      console.log("diary catch");
       res.status(500).send("Server Error Code 500");
     }
   },
