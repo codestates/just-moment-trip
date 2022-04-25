@@ -8,12 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      // diary_id: {
-      //   type: Sequelize.INTEGER,
-      // },
-      // hashtag_id: {
-      //   type: Sequelize.INTEGER,
-      // },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.fn("now"),

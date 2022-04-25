@@ -5,9 +5,8 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const user = require("./routes/user");
-const mypage = require("./routes/mypage");
+const sign = require("./routes/sign");
 const trip = require("./routes/trip");
-// const hashtag = require("./routes/hashtag");
 
 app.use(express.json());
 app.use(
@@ -18,12 +17,10 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use("/", user);
-app.use("/mypage", mypage);
+app.use("/user", user);
+app.use("/sign", sign);
 app.use("/trip", trip);
-// app.use("/hashtag", hashtag);
 
 server = app.listen(port, () => {
   console.log(`Listening on ${port}`);
 });
-// /trip/trip_id/account
