@@ -1,31 +1,6 @@
 const { trip } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 module.exports = {
-  // get: async (req, res) => {
-  //   try {
-  //     const validity = tokenHandler.accessTokenVerify(req);
-  //     if (validity) {
-  //       console.log("111");
-  //       console.log(validity);
-  //       let data = await diary.findAll();
-  //       console.log("222");
-  //       res.status(200).json(data);
-  //     }
-  //   } catch (err) {
-  //     res.status(500).send("Server Error Code 5010");
-  //   }
-  // },
-  // get: async (req, res) => {
-  //   try {
-  //     const validity = tokenHandler.accessTokenVerify(req);
-  //     if (validity) {
-  //       const data = await trip.findAll();
-  //       res.status(200).json(data);
-  //     }
-  //   } catch (err) {
-  //     res.status(500).send("Server Error Code 500");
-  //   }
-  // },
   get: async (req, res) => {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
@@ -41,11 +16,13 @@ module.exports = {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { country, totalPrice, start_date, end_date } = req.body;
+        const { title, country, total_price, base_currency, start_date, end_date } = req.body;
         const payload = {
           user_id: validity.id,
+          title: title,
           country: country,
-          totalPrice: totalPrice,
+          total_price: total_price,
+          base_currency: base_currency,
           start_date: start_date,
           end_date: end_date,
         };
