@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountStore from '../components/Account/AccountStore';
 import AccountList from '../components/Account/AccountList';
+import Navbar from '../components/common/Navbar';
 
 const Box = styled.div`
   display: flex;
@@ -11,11 +12,14 @@ const Box = styled.div`
 
 function Account() {
   return (
-    <Box>
-      <AccountStore>
-        <AccountList />
-      </AccountStore>
-    </Box>
+    <>
+      <Navbar />
+      <Box>
+        <AccountStore>
+          <AccountList />
+        </AccountStore>
+      </Box>
+    </>
   );
 }
 
