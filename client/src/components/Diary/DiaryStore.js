@@ -45,7 +45,7 @@ function DiaryStore() {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('실수하지마라 제발');
+      console.log('울부짖어라 도토잠보여 🐘');
     }, 1500);
   }, []);
 

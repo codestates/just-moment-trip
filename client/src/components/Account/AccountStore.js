@@ -75,7 +75,7 @@ function AccountStore() {
           id: dataId.current,
         },
       });
-      console.log(accountData);
+      dataId.current += 1;
     },
     [data],
   );

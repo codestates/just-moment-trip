@@ -2,6 +2,7 @@ import React from 'react';
 import DiaryList from '../components/Diary/DiaryList';
 import DiaryStore from '../components/Diary/DiaryStore';
 import styled from 'styled-components';
+import Navbar from '../components/common/Navbar';
 
 const Box = styled.div`
   display: flex;
@@ -11,12 +12,14 @@ const Box = styled.div`
 
 function Diary() {
   return (
-    <Box>
-      니하오!
-      <DiaryStore>
-        <DiaryList />
-      </DiaryStore>
-    </Box>
+    <>
+      <Navbar />
+      <Box>
+        <DiaryStore>
+          <DiaryList />
+        </DiaryStore>
+      </Box>
+    </>
   );
 }
 
