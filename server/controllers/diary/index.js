@@ -4,12 +4,12 @@ const tokenHandler = require("../tokenHandler");
 module.exports = {
   get: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const data = await diary.findAll({
           where: { trip_id: req.params.trip_id },
         });
-        res.status(200).send(data);
+        res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
       res.status(501).send("Diary Get");
@@ -18,6 +18,10 @@ module.exports = {
 
   post: async (req, res) => {
     try {
+      const { title, picture, content, write_date } = req.body;
+      if (!title || !picture || !content || !write_date) {
+        return res.status(422).send({ message: "insufficient parameters supplied" });
+      }
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const { title, picture, gps, content, write_date, hashtags } = req.body;
@@ -66,13 +70,13 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const id = req.params.diary_id;
         await diary.destroy({
           where: { id: id },
         });
-        res.status(200).send();
+        res.status(200).send({ accessToken: validity.accessToken });
       }
     } catch (err) {
       res.status(501).send("Diary Delete");
@@ -81,13 +85,13 @@ module.exports = {
   patch: async (req, res) => {
     //patch 하나만 바꾸는거고 put은 모든거 지정(지정안한거 null됨)
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         await diary.update(
           { content: req.body.newContent },
           { where: { id: req.params.diary_id } }
         );
-        res.status(200).sned();
+        res.status(200).sned({ accessToken: validity.accessToken });
       }
     } catch (err) {
       res.status(501).send("Diary Patch");

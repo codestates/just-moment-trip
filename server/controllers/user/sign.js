@@ -34,8 +34,8 @@ module.exports = {
             password: req.body.password,
           };
 
-          await user.create(payload);
-          res.status(201).send(payload);
+          const result = await user.create(payload);
+          res.status(201).send({ id: result.id });
         }
       } catch (err) {
         res.status(501).send("Signup Post");
@@ -46,6 +46,10 @@ module.exports = {
   in: {
     post: async (req, res) => {
       try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+          return res.status(422).send({ message: "insufficient parameters supplied" });
+        }
         //데이터베이스에 email이 없을때
         const emailExists = await user.findOne({
           where: {
@@ -97,13 +101,8 @@ module.exports = {
   out: {
     post: async (req, res) => {
       try {
-        const validity = tokenHandler.accessTokenVerify(req);
-        if (validity) {
-          return res.status(200).send();
-        } else {
-          //리프레시 토큰을 가져와서 복호화하고 유효기간내면 엑세스토큰 재발행 유효기간 지났으면 401에러
-          return res.status(401).send({ message: "Unauthenticated" });
-        }
+        res.clearCookie("refreshToken");
+        return res.status(200).send();
       } catch (err) {
         res.status(501).send("Signout Post");
       }
