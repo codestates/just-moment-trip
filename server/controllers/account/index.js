@@ -16,8 +16,8 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { category, itme_name, price, spent_person, target_currency, write_date } = req.body;
-      if (!category || !itme_name || !price || !spent_person || !target_currency || !write_date) {
+      const { category, item_name, price, spent_person, target_currency, write_date } = req.body;
+      if (!category || !item_name || !price || !spent_person || !target_currency || !write_date) {
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
       const validity = await tokenHandler.accessTokenVerify(req);
