@@ -7,10 +7,10 @@ module.exports = {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
         const data = await account.findAll({ where: { trip_id: req.params.trip_id } });
-        res.status(200).json(data);
+        res.status(200).send(data);
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Acoount Get");
     }
   },
 
@@ -32,10 +32,10 @@ module.exports = {
           write_date: write_date,
         };
         const result = await account.create(payload);
-        res.status(201).send({ id: result.id, message: "Successfully Account Post" });
+        res.status(201).send({ id: result.id });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Account Post");
     }
   },
   delete: async (req, res) => {
@@ -45,10 +45,10 @@ module.exports = {
         await account.destroy({
           where: { id: req.params.account_id },
         });
-        res.status(200).json("Successfully Account Deleted");
+        res.status(200).send();
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Account Delete");
     }
   },
   patch: async (req, res) => {
@@ -60,10 +60,10 @@ module.exports = {
           { price: req.body.newPrice },
           { where: { id: req.params.account_id } }
         );
-        res.status(200).json("Successfully Account Patch");
+        res.status(200).sned();
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Account Patch");
     }
   },
 };

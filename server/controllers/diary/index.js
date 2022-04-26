@@ -6,21 +6,20 @@ module.exports = {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const data = await diary.findAll({ where: { trip_id: req.params.trip_id } });
-        res.status(200).json(data);
+        const data = await diary.findAll({
+          where: { trip_id: req.params.trip_id },
+        });
+        res.status(200).send(data);
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Diary Get");
     }
   },
 
   post: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
-      console.log("값");
-      console.log(validity); //Promise { 2 }
       if (validity) {
-        console.log("88");
         const { title, picture, gps, content, write_date, hashtags } = req.body;
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
@@ -62,8 +61,7 @@ module.exports = {
         res.status(201).send({ id: diaryInfo.id, accessToken: validity.accessToken });
       }
     } catch (err) {
-      console.log("diary catch");
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Diary Post");
     }
   },
   delete: async (req, res) => {
@@ -74,10 +72,10 @@ module.exports = {
         await diary.destroy({
           where: { id: id },
         });
-        res.status(200).json("Successfully Diary Deleted");
+        res.status(200).send();
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Diary Delete");
     }
   },
   patch: async (req, res) => {
@@ -89,10 +87,10 @@ module.exports = {
           { content: req.body.newContent },
           { where: { id: req.params.diary_id } }
         );
-        res.status(200).json("Successfully Diary Deleted");
+        res.status(200).sned();
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Diary Patch");
     }
   },
 };
@@ -113,7 +111,7 @@ module.exports = {
 //       res.status(201).send("ok");
 //       await diary_hashtag.create(diary_hashtagPayload);
 //     } catch (err) {
-//       res.status(500).send("Server Error Code 500");
+//       res.status(501).send("Server Error Code 501");
 //     }
 //   },
 // };
