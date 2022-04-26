@@ -9,10 +9,10 @@ module.exports = {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
         const data = await user.findAll();
-        res.status(200).json(data);
+        res.status(200).send(data);
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("User Get");
     }
   },
   patch: async (req, res) => {
@@ -28,10 +28,10 @@ module.exports = {
       });
 
       await user.update({ password: req.body.newPassword }, { where: { id: userInfo.id } });
-      res.status(200).json("Successfully Password Patch");
+      res.status(200).send();
       // }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Use Patch");
     }
   },
   delete: async (req, res) => {
@@ -41,10 +41,10 @@ module.exports = {
         await user.destroy({
           where: { id: validity.id },
         });
-        res.status(200).json("Successfully User Deleted");
+        res.status(200).send();
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("User delete");
     }
   },
 };

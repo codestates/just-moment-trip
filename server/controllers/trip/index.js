@@ -6,12 +6,13 @@ module.exports = {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
         const data = await trip.findAll();
-        res.status(200).json(data);
+        res.status(200).send(data);
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Trip Get");
     }
   },
+
   post: async (req, res) => {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
@@ -28,23 +29,23 @@ module.exports = {
         };
 
         const result = await trip.create(payload);
-        res.status(201).send({ id: result.id, message: "Successfully Trip Post" });
+        res.status(201).send({ id: result.id });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Trip Post");
     }
   },
   delete: async (req, res) => {
     try {
       const validity = tokenHandler.accessTokenVerify(req);
       if (validity) {
-        res.status(200).json("Successfully Trip Deleted");
+        res.status(200).send();
         await trip.destroy({
           where: { id: req.params.trip_id },
         });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      res.status(501).send("Trip Delete");
     }
   },
 };
