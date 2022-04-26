@@ -38,7 +38,7 @@ module.exports = {
           res.status(201).send(payload);
         }
       } catch (err) {
-        res.status(500).send("Server Error Code 500/ in singup");
+        res.status(501).send("Signup Post");
       }
     },
   },
@@ -90,7 +90,7 @@ module.exports = {
           });
         }
       } catch (err) {
-        res.status(500).send("Server Error Code 500");
+        res.status(501).send("Signin Post");
       }
     },
   },
@@ -105,7 +105,7 @@ module.exports = {
           return res.status(401).send({ message: "Unauthenticated" });
         }
       } catch (err) {
-        res.status(500).send("Server Error Code 500");
+        res.status(501).send("Signout Post");
       }
     },
   },
