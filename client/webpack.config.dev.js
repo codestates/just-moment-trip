@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  name: 'remember-trip',
+  name: 'just-moment-trip',
   mode: 'development',
   entry: './src/index.js',
   output: {
@@ -41,5 +41,6 @@ module.exports = {
     host: 'localhost',
     port: 9000,
     open: true, // open page when start
+    historyApiFallback: true,
   },
 };
