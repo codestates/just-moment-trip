@@ -1,6 +1,7 @@
 # 서비스 소개
 
-![JMT](https://user-images.githubusercontent.com/89363516/164162946-7e45bf97-aea2-48af-aee2-6b41d6218422.PNG)
+![JMT 로고 배경없음](https://user-images.githubusercontent.com/89363516/165240860-f200568c-6e65-4c88-ab04-d2789e29c8f1.png)
+
 
 **여행 중 지출 내역을 보다 편리하게 관리할 수 있고 여행을 편하게 기록할 수 있도록 만든 웹사이트입니다.**
 
