@@ -54,6 +54,7 @@ function Modal({ children }) {
     setIsOpen(!isOpen);
   };
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       <ModalContainer>
         <ModalBtn onClick={openModalHandler}>
