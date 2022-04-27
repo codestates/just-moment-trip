@@ -36,7 +36,7 @@ const { user } = require("../../models");
           nickname: userInfo.nickname,
           password: userInfo.password,
         };
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1d" });
+        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30m" });
         data["accessToken"] = accessToken;
         return data;
       } catch {

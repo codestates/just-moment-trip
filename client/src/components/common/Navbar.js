@@ -1,10 +1,18 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const NavbarBox = styled.div`
+  display: flex;
+  padding: 10 0px;
+  width: 100%;
+  background-color: #b39bf2;
+`;
 
 function Navbar() {
   return (
-    <div className="Navbar">
+    <NavbarBox>
       <div className="Navbar_1">
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/">
           Home
@@ -25,7 +33,7 @@ function Navbar() {
           Account
         </Link>
       </div>
-    </div>
+    </NavbarBox>
   );
 }
 
