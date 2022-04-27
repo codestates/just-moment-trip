@@ -3,7 +3,7 @@ require("dotenv").config();
   module.exports = {
     development: {
       username: "root",
-      password: "12345678",
+      password: process.env.MYSQL_PASSWORD,
       database: "JMT_development",
       host: "127.0.0.1",
       dialect: "mysql",
@@ -16,8 +16,8 @@ require("dotenv").config();
     },
     test: {
       username: "root",
-      password: "12345678",
-      database: "JMT_development",
+      password: process.env.MYSQL_PASSWORD,
+      database: "JMT_test",
       host: "127.0.0.1",
       dialect: "mysql",
       timezone: "+09:00",
@@ -29,8 +29,8 @@ require("dotenv").config();
     },
     production: {
       username: "root",
-      password: "12345678",
-      database: "JMT_development",
+      password: process.env.MYSQL_PASSWORD,
+      database: "JMT_production",
       host: "127.0.0.1",
       timezone: "+09:00",
       dialectOptions: {

@@ -19,17 +19,17 @@ module.exports = {
       if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
+
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { title, country, total_price, base_currency, start_date, end_date } = req.body;
         const payload = {
           user_id: validity.id,
-          title: title,
-          country: country,
-          total_price: total_price,
-          base_currency: base_currency,
-          start_date: start_date,
-          end_date: end_date,
+          title,
+          country,
+          total_price,
+          base_currency,
+          start_date,
+          end_date,
         };
 
         const result = await trip.create(payload);

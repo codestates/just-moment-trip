@@ -14,9 +14,9 @@ module.exports = {
         }
         const userInfo = await user.findOne({
           where: {
-            email: req.body.email,
-            nickname: req.body.nickname,
-            password: req.body.password,
+            email,
+            nickname,
+            password,
           },
         });
 
@@ -29,9 +29,9 @@ module.exports = {
         //가입이 되지 않았을 경우
         else {
           const payload = {
-            email: req.body.email,
-            nickname: req.body.nickname,
-            password: req.body.password,
+            email,
+            nickname,
+            password,
           };
 
           const result = await user.create(payload);
@@ -53,7 +53,7 @@ module.exports = {
         //데이터베이스에 email이 없을때
         const emailExists = await user.findOne({
           where: {
-            email: req.body.email,
+            email,
           },
         });
 
@@ -64,8 +64,8 @@ module.exports = {
         //데이터베이스에 email 있지만 비밀번호가 틀릴때
         const userInfo = await user.findOne({
           where: {
-            email: req.body.email,
-            password: req.body.password,
+            email,
+            password,
           },
         });
 
@@ -77,11 +77,11 @@ module.exports = {
         else {
           const payload = {
             id: userInfo.id,
-            email: req.body.email,
+            email,
             nickname: userInfo.nickname,
-            password: req.body.password,
+            password,
           };
-          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1s" });
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30h" });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });
           res.cookie("refreshToken", refreshToken, {
             sameSite: "Strict",
