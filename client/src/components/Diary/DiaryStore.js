@@ -56,10 +56,12 @@ function DiaryStore() {
     });
 
     dataId.current += 1;
+    console.log('DiaryStore dataId 확인 :', dataId.current);
   });
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
+    console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
 
   const onEdit = useCallback((targetId, newContent, newLocation) => {
