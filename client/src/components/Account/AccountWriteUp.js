@@ -57,7 +57,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       return;
     }
 
-    if (state.memo.length < 5) {
+    if (state.memo.length < 1) {
       memoInput.current.focus();
       return;
     }
