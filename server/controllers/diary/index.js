@@ -18,27 +18,26 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { title, picture, content, write_date } = req.body;
+      const { title, picture, gps, content, write_date, hashtags } = req.body;
       if (!title || !picture || !content || !write_date) {
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
-        const { title, picture, gps, content, write_date, hashtags } = req.body;
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
           trip_id: req.params.trip_id,
-          title: title,
-          picture: picture,
-          gps: gps,
-          content: content,
-          write_date: write_date,
-          hashtags: hashtags,
+          title,
+          picture,
+          gps,
+          content,
+          write_date,
+          hashtags,
         };
 
         const diaryInfo = await diary.create(diaryPayload);
 
-        // //해쉬태그 추가 // map같은거 배열로 오는 해쉬태그를 하나하나추가 / 해쉬태그 중복여부
+        // // 해쉬태그 추가 // map같은거 배열로 오는 해쉬태그를 하나하나추가 / 해쉬태그 중복여부
         // hashtags.map(async (ele) => {
         //   const data = await hashtag.findOne({
         //     where: {
@@ -98,24 +97,3 @@ module.exports = {
     }
   },
 };
-
-//!
-//       const hashtagPayload = {
-//         content: content,
-//       };
-//       let hashtagInfo;
-//       for (let i = 0; i < 1; i++) {
-//         hashtagInfo = await hashtag.create(hashtagPayload);
-//       }
-//       //조인테이블 추가
-//       const diary_hashtagPayload = {
-//         diary_id: diaryInfo.dataValues.id,
-//         hashtag_id: hashtagInfo.dataValues.id,
-//       };
-//       res.status(201).send("ok");
-//       await diary_hashtag.create(diary_hashtagPayload);
-//     } catch (err) {
-//       res.status(501).send("Server Error Code 501");
-//     }
-//   },
-// };
