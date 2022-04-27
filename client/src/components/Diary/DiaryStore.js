@@ -45,7 +45,7 @@ function DiaryStore() {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('실수하지마라 제발');
+      console.log('울부짖어라 도토잠보여 🐘');
     }, 1500);
   }, []);
 
@@ -56,10 +56,12 @@ function DiaryStore() {
     });
 
     dataId.current += 1;
+    console.log('DiaryStore dataId 확인 :', dataId.current);
   });
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
+    console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
 
   const onEdit = useCallback((targetId, newContent, newLocation) => {

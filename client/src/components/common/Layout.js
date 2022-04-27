@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import Navbar from './Navbar';
 
-function Layout({ Children }) {
+function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main> {Children}</main>
+      {children}
     </>
   );
 }

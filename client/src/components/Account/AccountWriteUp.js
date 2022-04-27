@@ -82,7 +82,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       memo: '',
       category: '교통비',
     });
-    console.log(state);
+    console.log('AccountWriteUp', state);
     openModalHandler(false);
   };
 
