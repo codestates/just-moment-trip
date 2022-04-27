@@ -22,12 +22,14 @@ function AccountItem({
   const [editItem_name, setEditItem_name] = useState(item_name);
   const [editTarget_currency, setEditTarget_currency] =
     useState(target_currency);
+  const [editCategory, setEditCategory] = useState(category);
 
   const editPriceInput = useRef();
   const editMemoInput = useRef();
   const editSpent_personInput = useRef();
   const editItem_nameInput = useRef();
   const editTarget_currencyInput = useRef();
+  const editCategoryInput = useRef();
 
   const handleRemove = () => {
     if (window.confirm(`${id + 1}번째 기록을 삭제할까요?`)) {
@@ -42,6 +44,7 @@ function AccountItem({
     setEditSpent_person(spent_person);
     setEditItem_name(item_name);
     setEditTarget_currency(target_currency);
+    setEditCategory(category);
   };
 
   const handleEdit = () => {
@@ -74,9 +77,11 @@ function AccountItem({
         editSpent_person,
         editItem_name,
         editTarget_currency,
+        editCategory,
       );
       toggleIsEdit();
     }
+    console.log('id :', id);
   };
   return (
     <div className="AccountItem">
@@ -133,6 +138,23 @@ function AccountItem({
                 onChange={e => setEditPrice(e.target.value)}
               />
             </div>
+            <span className="selectSpan">
+              <select
+                className="select"
+                name="category"
+                ref={editCategoryInput}
+                value={editCategory}
+                // value={state.category}
+                onChange={e => setEditCategory(e.target.value)}
+              >
+                <option value={'식비'}>식비</option>
+                <option value={'교통비'}>교통비</option>
+                <option value={'숙박비'}>숙박비</option>
+                <option value={'티켓'}>티켓</option>
+                <option value={'기념품'}>티켓</option>
+                <option value={'기타항목'}>기타항목</option>
+              </select>
+            </span>
           </>
         ) : (
           <>

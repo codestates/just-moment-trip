@@ -40,6 +40,7 @@ const reducer = (state, action) => {
               spent_person: action.newSpent_person,
               item_name: action.newItem_name,
               target_currency: action.newTarget_currency,
+              category: action.newCategory,
             }
           : it,
       );
@@ -85,6 +86,7 @@ function AccountStore() {
         },
       });
       dataId.current += 1;
+      console.log('AccountStore dataId 확인 :', dataId.current);
     },
     [data],
   );
@@ -116,6 +118,7 @@ function AccountStore() {
     newSpent_person,
     newItem_name,
     newTarget_currency,
+    newCategory,
   ) => {
     dispatch({
       type: EDIT,
@@ -125,6 +128,7 @@ function AccountStore() {
       newSpent_person,
       newItem_name,
       newTarget_currency,
+      newCategory,
     });
 
     accountSetData(
@@ -137,6 +141,7 @@ function AccountStore() {
               spent_person: newSpent_person,
               item_name: newItem_name,
               target_currency: newTarget_currency,
+              category: newCategory,
             }
           : it,
       ),
