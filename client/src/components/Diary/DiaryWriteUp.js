@@ -23,8 +23,8 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   });
 
   const handleChangeState = e => {
-    console.log('타겟이름: ', e.target.name);
-    console.log('타겟벨류: ', e.target.value);
+    // console.log('타겟이름: ', e.target.name);
+    // console.log('타겟벨류: ', e.target.value);
     setState({ ...state, [e.target.name]: e.target.value });
   };
 

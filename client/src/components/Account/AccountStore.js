@@ -32,7 +32,9 @@ const reducer = (state, action) => {
     }
     case EDIT: {
       return state.map(it =>
-        it.id === action.targetId ? { ...it, price: action.newContent } : it,
+        it.id === action.targetId
+          ? { ...it, price: action.newPrice, memo: action.newMemo }
+          : it,
       );
     }
     default:
@@ -100,12 +102,12 @@ function AccountStore() {
     accountSetData(newAccountList);
   };
 
-  const onEdit = (targetId, newContent) => {
-    dispatch({ type: EDIT, targetId, newContent });
+  const onEdit = (targetId, newPrice, newMemo) => {
+    dispatch({ type: EDIT, targetId, newPrice, newMemo });
 
     accountSetData(
       data.map(it =>
-        it.id === targetId ? { ...it, target_currency: newContent } : it,
+        it.id === targetId ? { ...it, price: newPrice, memo: newMemo } : it,
       ),
     );
   };

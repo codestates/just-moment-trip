@@ -16,8 +16,10 @@ function AccountItem({
   const toggleIsEdit = () => {
     setIsEdit(!isEdit);
   };
-  const [localContent, setLocalContent] = useState(price);
-  const localContentInput = useRef();
+  const [editPrice, setEditPrice] = useState(price);
+  const [editMemo, setEditMemo] = useState(memo);
+  const editPriceInput = useRef();
+  const editMemoInput = useRef();
 
   const handleRemove = () => {
     if (window.confirm(`${id + 1}번째 기록을 삭제할까요?`)) {
@@ -27,16 +29,22 @@ function AccountItem({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setLocalContent(price);
+    setEditPrice(price);
+    setEditMemo(memo);
   };
 
   const handleEdit = () => {
-    if (localContent.length < 1) {
-      localContentInput.current.focus();
+    if (editPrice.length < 1) {
+      editPriceInput.current.focus();
       return;
     }
+    if (editMemo.length < 1) {
+      editMemoInput.current.focus();
+      return;
+    }
+
     if (window.confirm(`${id + 1}번째 가계부를 수정할까요 ?`)) {
-      onEdit(id, localContent);
+      onEdit(id, editPrice, editMemo);
       toggleIsEdit();
     }
   };
@@ -60,11 +68,34 @@ function AccountItem({
         {isEdit ? (
           <div className="AccountItemInputBox">
             <input
+              placeholder="메모를 입력해요"
+              className="AccountItemInput"
+              ref={editMemoInput}
+              value={editMemo}
+              onChange={e => setEditMemo(e.target.value)}
+            />
+          </div>
+        ) : (
+          <div className="AccountItemContentBox">
+            <div className="AccountItemContentBoxText1">
+              <p>💐</p>
+            </div>
+            <div className="AccountItemContentBoxText2">
+              <p>{memo}</p>
+            </div>
+          </div>
+        )}
+        {/*
+        ?-------------------------------------------------------
+        */}
+        {isEdit ? (
+          <div className="AccountItemInputBox">
+            <input
               placeholder="사용금액을 입력해요"
               className="AccountItemInput"
-              ref={localContentInput}
-              value={localContent}
-              onChange={e => setLocalContent(e.target.value)}
+              ref={editPriceInput}
+              value={editPrice}
+              onChange={e => setEditPrice(e.target.value)}
             />
           </div>
         ) : (

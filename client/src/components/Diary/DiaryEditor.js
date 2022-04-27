@@ -16,6 +16,7 @@ function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
   const handleClickRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
       onRemove(id);
+      console.log('check ID :', id);
     }
   };
 
@@ -31,7 +32,7 @@ function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
       return;
     }
 
-    if (localContent.length < 5) {
+    if (localContent.length < 1) {
       localContentInput.current.focus();
       return;
     }
@@ -46,30 +47,34 @@ function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
     <div className="DiaryEditor">
       <div className="info">
         {isEdit ? (
-          <input
-            className="location_info"
-            ref={localLocationInput}
-            value={localLocation}
-            onChange={e => setLocalLocation(e.target.value)}
-          />
+          <>
+            <div className="location_edit">
+              <input
+                className="location_info"
+                ref={localLocationInput}
+                value={localLocation}
+                onChange={e => setLocalLocation(e.target.value)}
+              />
+            </div>
+            <div className="content_edit">
+              <textarea
+                ref={localContentInput}
+                value={localContent}
+                onChange={e => setLocalContent(e.target.value)}
+              />
+            </div>
+          </>
         ) : (
-          location
+          <>
+            <div className="location">{location}</div>
+            <div className="content">{content}</div>
+          </>
         )}
 
         <br />
         <span className="date">작성 시간 :{writeDate}</span>
       </div>
-      <div className="content">
-        {isEdit ? (
-          <textarea
-            ref={localContentInput}
-            value={localContent}
-            onChange={e => setLocalContent(e.target.value)}
-          />
-        ) : (
-          content
-        )}
-      </div>
+
       {isEdit ? (
         <>
           <button onClick={handleQuitEdit}>수정 취소</button>
