@@ -33,7 +33,14 @@ const reducer = (state, action) => {
     case EDIT: {
       return state.map(it =>
         it.id === action.targetId
-          ? { ...it, price: action.newPrice, memo: action.newMemo }
+          ? {
+              ...it,
+              price: action.newPrice,
+              memo: action.newMemo,
+              spent_person: action.newSpent_person,
+              item_name: action.newItem_name,
+              target_currency: action.newTarget_currency,
+            }
           : it,
       );
     }
@@ -102,12 +109,36 @@ function AccountStore() {
     accountSetData(newAccountList);
   };
 
-  const onEdit = (targetId, newPrice, newMemo) => {
-    dispatch({ type: EDIT, targetId, newPrice, newMemo });
+  const onEdit = (
+    targetId,
+    newPrice,
+    newMemo,
+    newSpent_person,
+    newItem_name,
+    newTarget_currency,
+  ) => {
+    dispatch({
+      type: EDIT,
+      targetId,
+      newPrice,
+      newMemo,
+      newSpent_person,
+      newItem_name,
+      newTarget_currency,
+    });
 
     accountSetData(
       data.map(it =>
-        it.id === targetId ? { ...it, price: newPrice, memo: newMemo } : it,
+        it.id === targetId
+          ? {
+              ...it,
+              price: newPrice,
+              memo: newMemo,
+              spent_person: newSpent_person,
+              item_name: newItem_name,
+              target_currency: newTarget_currency,
+            }
+          : it,
       ),
     );
   };
