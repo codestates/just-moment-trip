@@ -40,7 +40,7 @@ module.exports = {
         };
         const result = await account.create(payload);
         await slack.slack("Account Post 201", `id : ${result.id}`);
-        res.status(201).send({ id: result.id, accessToken: validity.accessToken });
+        res.status(201).send({ data: { id: result.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Account Post 501");
@@ -56,7 +56,7 @@ module.exports = {
           where: { id: id },
         });
         await slack.slack("Account Delete 200", `id : ${id}`);
-        res.status(200).send({ accessToken: validity.accessToken });
+        res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Account Delete 501");
@@ -71,7 +71,7 @@ module.exports = {
         const id = req.params.account_id;
         await account.update({ price: req.body.newPrice }, { where: { id: id } });
         await slack.slack("Account Patch 200", `id : ${id}`);
-        res.status(200).sned({ accessToken: validity.accessToken });
+        res.status(200).sned({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Account Patch 501");
