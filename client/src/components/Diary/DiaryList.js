@@ -15,6 +15,7 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList }) {
       <h2>일기 리스트</h2>
       <h4>{diaryList.length}개의 일기가 있습니다.</h4>
       <div>
+        10
         {diaryList.map(it => (
           <DiaryEditor
             key={it.id}
@@ -25,6 +26,8 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList }) {
             onRemove={onRemove}
           />
         ))}
+        {/* 여기 손보기 삼항연산자 사용해서 태그 눌렀을때 ? 태그 관련 페이지 보이게 : 총 데이터 리스트 보이게*/}
+        20
       </div>
     </div>
   );
