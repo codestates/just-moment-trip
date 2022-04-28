@@ -37,7 +37,7 @@ module.exports = {
         };
         const result = await trip.create(payload);
         await slack.slack("Trip Post 201", `id : ${result.id}`);
-        res.status(201).send({ id: result.id, accessToken: validity.accessToken });
+        res.status(201).send({ data: { id: result.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Trip Post 501");
@@ -53,7 +53,7 @@ module.exports = {
           where: { id: id },
         });
         await slack.slack("Trip Delete 200", `id : ${id}`);
-        res.status(200).send({ accessToken: validity.accessToken });
+        res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Trip Delete 501");
