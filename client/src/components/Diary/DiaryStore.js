@@ -49,10 +49,10 @@ function DiaryStore() {
     }, 1500);
   }, []);
 
-  const onCreate = useCallback((location, content, writeDate) => {
+  const onCreate = useCallback((location, content, writeDate, hashtags) => {
     dispatch({
       type: CREATE,
-      data: { location, content, writeDate, id: dataId.current },
+      data: { location, content, writeDate, hashtags, id: dataId.current },
     });
 
     dataId.current += 1;
