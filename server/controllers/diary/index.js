@@ -1,5 +1,6 @@
 const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
+const slack = require("../slack");
 
 module.exports = {
   get: async (req, res) => {
@@ -9,9 +10,11 @@ module.exports = {
         const data = await diary.findAll({
           where: { trip_id: req.params.trip_id },
         });
+        await slack.slack("Diary Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
+      await slack.slack("Diary Get 501");
       res.status(501).send("Diary Get");
     }
   },
@@ -20,6 +23,7 @@ module.exports = {
     try {
       const { title, picture, gps, content, write_date, hashtags } = req.body;
       if (!title || !picture || !content || !write_date) {
+        await slack.slack("Diary Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
       const validity = await tokenHandler.accessTokenVerify(req, res);
@@ -61,9 +65,11 @@ module.exports = {
         //   };
         //   await diary_hashtag.create(diary_hashtagPayload);
         // });
+        await slack.slack("Diary Post 201", `id : ${diaryInfo.id}`);
         res.status(201).send({ id: diaryInfo.id, accessToken: validity.accessToken });
       }
     } catch (err) {
+      await slack.slack("Diary Post 501");
       res.status(501).send("Diary Post");
     }
   },
@@ -75,9 +81,11 @@ module.exports = {
         await diary.destroy({
           where: { id: id },
         });
+        await slack.slack("Diary Delete 200", `id : ${id}`);
         res.status(200).send({ accessToken: validity.accessToken });
       }
     } catch (err) {
+      await slack.slack("Diary Delete 501");
       res.status(501).send("Diary Delete");
     }
   },
@@ -86,13 +94,13 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        await diary.update(
-          { content: req.body.newContent },
-          { where: { id: req.params.diary_id } }
-        );
+        const id = req.params.diary_id;
+        await diary.update({ content: req.body.newContent }, { where: { id: id } });
+        await slack.slack("Diary Patch 200", `id : ${id}`);
         res.status(200).sned({ accessToken: validity.accessToken });
       }
     } catch (err) {
+      await slack.slack("Diary Patch 501");
       res.status(501).send("Diary Patch");
     }
   },
