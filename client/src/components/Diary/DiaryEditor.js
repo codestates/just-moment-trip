@@ -1,7 +1,15 @@
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 
-function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
+function DiaryEditor({
+  onRemove,
+  onEdit,
+  id,
+  location,
+  content,
+  writeDate,
+  hashtags,
+}) {
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
   });
@@ -68,6 +76,7 @@ function DiaryEditor({ onRemove, onEdit, id, location, content, writeDate }) {
           <>
             <div className="location">{location}</div>
             <div className="content">{content}</div>
+            <div className="hashtags">{hashtags}</div>
           </>
         )}
 

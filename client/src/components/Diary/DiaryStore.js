@@ -50,11 +50,16 @@ function DiaryStore() {
   }, []);
 
   const onCreate = useCallback((location, content, writeDate, hashtags) => {
+    console.log('content');
+    console.log(content);
+    console.log('hashtags');
+    console.log(hashtags);
     dispatch({
       type: CREATE,
       data: { location, content, writeDate, hashtags, id: dataId.current },
     });
-
+    console.log('data');
+    console.log(data);
     dataId.current += 1;
     console.log('DiaryStore dataId 확인 :', dataId.current);
   });
