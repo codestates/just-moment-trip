@@ -76,7 +76,13 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
 
   const addTags = event => {
     const filtered = tags.filter(el => el === event.target.value);
+    console.log('tags');
+    console.log(tags);
+    console.log('addTags');
+    console.log(filtered);
     if (event.target.value !== '' && filtered.length === 0) {
+      console.log('event.target.value');
+      console.log(event.target.value);
       setTags([...tags, event.target.value]);
       // selectedTags([...tags, event.target.value]);
       event.target.value = '';
@@ -119,7 +125,11 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       contentInput.current.focus();
       return;
     }
-    onCreate(state.location, state.content, state.writeDate, tags.hashtags);
+    console.log('state.location');
+    console.log(state.location);
+    console.log('tags');
+    console.log(tags);
+    onCreate(state.location, state.content, state.writeDate, tags);
     console.log('일기작성여부확인 :', state);
     alert('저장성공!');
     setState({
