@@ -28,8 +28,9 @@ const reducer = (state, action) => {
         it.id === action.targetId
           ? {
               ...it,
-              content: action.newContent,
-              title: action.newtitle,
+              content: action.new_content,
+              title: action.new_title,
+              hashtags: action.new_hashtags,
             }
           : it,
       );
@@ -50,16 +51,13 @@ function DiaryStore() {
   }, []);
 
   const onCreate = useCallback((title, content, writeDate, hashtags) => {
-    console.log('content');
-    console.log(content);
-    console.log('hashtags');
-    console.log(hashtags);
+    console.log('Store의 Content :', content);
+    console.log('Store의 Hashtags :', hashtags);
     dispatch({
       type: CREATE,
       data: { title, content, writeDate, hashtags, id: dataId.current },
     });
-    console.log('data');
-    console.log(data);
+    console.log('Store의 data :', data);
     dataId.current += 1;
     console.log('DiaryStore dataId 확인 :', dataId.current);
   });
@@ -69,14 +67,20 @@ function DiaryStore() {
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
 
-  const onEdit = useCallback((targetId, newContent, newTitle) => {
-    dispatch({
-      type: EDIT,
-      targetId,
-      newContent,
-      newTitle,
-    });
-  }, []);
+  const onEdit = useCallback(
+    (targetId, new_content, new_title, new_hashtags) => {
+      dispatch({
+        type: EDIT,
+        targetId,
+        new_content,
+        new_title,
+        new_hashtags,
+      });
+      console.log('Store의 new_content :', new_content);
+      console.log('Store의 new_hashtags :', new_hashtags);
+    },
+    [],
+  );
 
   return (
     <div className="DiaryStore">
