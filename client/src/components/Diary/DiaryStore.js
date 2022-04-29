@@ -29,7 +29,7 @@ const reducer = (state, action) => {
           ? {
               ...it,
               content: action.newContent,
-              location: action.newLocation,
+              title: action.newtitle,
             }
           : it,
       );
@@ -49,14 +49,14 @@ function DiaryStore() {
     }, 1500);
   }, []);
 
-  const onCreate = useCallback((location, content, writeDate, hashtags) => {
+  const onCreate = useCallback((title, content, writeDate, hashtags) => {
     console.log('content');
     console.log(content);
     console.log('hashtags');
     console.log(hashtags);
     dispatch({
       type: CREATE,
-      data: { location, content, writeDate, hashtags, id: dataId.current },
+      data: { title, content, writeDate, hashtags, id: dataId.current },
     });
     console.log('data');
     console.log(data);
@@ -69,12 +69,12 @@ function DiaryStore() {
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
 
-  const onEdit = useCallback((targetId, newContent, newLocation) => {
+  const onEdit = useCallback((targetId, newContent, newTitle) => {
     dispatch({
       type: EDIT,
       targetId,
       newContent,
-      newLocation,
+      newTitle,
     });
   }, []);
 

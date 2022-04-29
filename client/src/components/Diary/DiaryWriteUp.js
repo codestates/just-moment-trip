@@ -88,7 +88,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       event.target.value = '';
     }
   };
-  const locationInput = useRef();
+  const titleInput = useRef();
   const contentInput = useRef();
   let newDate = new Date();
   let nowTime =
@@ -104,7 +104,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     ':' +
     newDate.getSeconds();
   const [state, setState] = useState({
-    location: '',
+    title: '',
     content: '',
     writeDate: nowTime,
   });
@@ -116,8 +116,8 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   };
 
   const handleSubmit = e => {
-    if (state.location.length < 1) {
-      locationInput.current.focus();
+    if (state.title.length < 1) {
+      titleInput.current.focus();
       return;
     }
 
@@ -125,15 +125,15 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       contentInput.current.focus();
       return;
     }
-    console.log('state.location');
-    console.log(state.location);
+    console.log('state.title');
+    console.log(state.title);
     console.log('tags');
     console.log(tags);
-    onCreate(state.location, state.content, state.writeDate, tags);
+    onCreate(state.title, state.content, state.writeDate, tags);
     console.log('일기작성여부확인 :', state);
     alert('저장성공!');
     setState({
-      location: '',
+      title: '',
       content: '',
       writeDate: nowTime,
     });
@@ -151,9 +151,9 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
           <input
             className="DiaryEditorInput"
             placeholder="다녀온 장소를 적어요"
-            ref={locationInput}
-            value={state.location}
-            name="location"
+            ref={titleInput}
+            value={state.title}
+            name="title"
             onChange={handleChangeState}
           />
         </div>
