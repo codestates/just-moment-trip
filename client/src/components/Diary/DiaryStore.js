@@ -1,12 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
-import test from './test';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -49,7 +42,6 @@ const reducer = (state, action) => {
 };
 
 function DiaryStore() {
-  const [testData, setTestData] = useState([]);
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
 
@@ -58,7 +50,7 @@ function DiaryStore() {
       'https://jsonplaceholder.typicode.com/comments',
     ).then(res => res.json());
 
-    const initData = res.slice(0, 20).map(it => {
+    const initData = res.slice(0, 5).map(it => {
       return {
         title: it.email,
         content: it.body,
@@ -92,9 +84,7 @@ function DiaryStore() {
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
-    const newDiaryList = data.filter(it => it.id !== targetId);
-    setDiaryData(newDiaryList);
-    console.log('--------🐘 Store의 diaryData-------- :', diarytData);
+
     console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
@@ -109,7 +99,6 @@ function DiaryStore() {
         new_hashtags,
       });
 
-      console.log('--------🐘 Store의 diaryData-------- :', diarytData);
       console.log('Store의 new_content :', new_content);
       console.log('Store의 new_hashtags :', new_hashtags);
     },

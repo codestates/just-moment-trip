@@ -4,13 +4,13 @@ import styled from 'styled-components';
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
-  display: flex;
+  display: ${props => props.display};
   align-items: flex-start;
   flex-wrap: wrap;
   min-height: 48px;
   width: 480px;
   padding: 0 8px;
-  border: 10px solid rgb(214, 216, 218);
+  border: 10px solid rgb(93, 176, 198);
   border-radius: 6px;
 
   > ul {
@@ -117,6 +117,7 @@ function DiaryEditor({
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
       onEdit(id, localContent, localTitle, localHashtags);
       toggleIsEdit();
+      console.log('localHashtags ? :', localHashtags);
     }
   };
 
@@ -137,9 +138,9 @@ function DiaryEditor({
 
   /*<------------------------------ 수정중인 함수 (태그 클릭시 해당 해시태그의 글 리스트 모아서 보여주기) --------------------------------->*/
 
-  function handleHashtags() {
-    console.log('함수 확인입니다');
-  }
+  // function handleHashtags() {
+  //   console.log(localHashtags);
+  // }
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
 
@@ -192,17 +193,41 @@ function DiaryEditor({
             <div className="title">{title}</div>
             <div className="content">{content}</div>
             <div className="hashtags">
-              <TagsInput>
-                <ul id="tags">
-                  {localHashtags.map((tag, index) => (
-                    <li key={index} className="tag">
-                      <span className="tag-title" onClick={handleHashtags()}>
-                        {tag}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </TagsInput>
+              {localHashtags.length === 0 ? (
+                <TagsInput display="none">
+                  <ul id="tags">
+                    {localHashtags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        <span
+                          className="tag-title"
+                          onClick={() => {
+                            console.log(localHashtags);
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </TagsInput>
+              ) : (
+                <TagsInput display="flex">
+                  <ul id="tags">
+                    {localHashtags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        <span
+                          className="tag-title"
+                          onClick={() => {
+                            console.log(localHashtags);
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </TagsInput>
+              )}
             </div>
           </>
         )}
