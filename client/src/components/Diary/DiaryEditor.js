@@ -135,6 +135,14 @@ function DiaryEditor({
     );
   };
 
+  /*<------------------------------ 수정중인 함수 (태그 클릭시 해당 해시태그의 글 리스트 모아서 보여주기) --------------------------------->*/
+
+  function handleHashtags() {
+    console.log('함수 확인입니다');
+  }
+
+  /*<--------------------------------------------------------------------------------------------------------------------->*/
+
   return (
     <div className="DiaryEditor">
       <div className="info">
@@ -188,12 +196,7 @@ function DiaryEditor({
                 <ul id="tags">
                   {localHashtags.map((tag, index) => (
                     <li key={index} className="tag">
-                      <span
-                        className="tag-title"
-                        onClick={() => {
-                          console.log('AXIOS넣기');
-                        }}
-                      >
+                      <span className="tag-title" onClick={handleHashtags()}>
                         {tag}
                       </span>
                     </li>
