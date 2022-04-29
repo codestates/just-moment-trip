@@ -85,8 +85,6 @@ module.exports = {
           const payload = {
             id: userInfo.id,
             email,
-            nickname: userInfo.nickname,
-            password,
           };
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30h" });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });

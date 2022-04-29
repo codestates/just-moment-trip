@@ -52,11 +52,23 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const id = req.params.account_id;
-        await account.destroy({
+        const accountInfo = await account.findOne({
           where: { id: id },
         });
-        await slack.slack("Account Delete 200", `id : ${id}`);
-        res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
+        if (accountInfo) {
+          await account.destroy({
+            where: { id: id },
+          });
+          await slack.slack("Account Delete 200", `id : ${id}`);
+          res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
+        } else {
+          await slack.slack("Account Delete 404", `id : ${id}`);
+          res.status(404).send({
+            data: { id: id },
+            accessToken: validity.accessToken,
+            message: "account already delete",
+          });
+        }
       }
     } catch (err) {
       await slack.slack("Account Delete 501");
@@ -69,9 +81,58 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const id = req.params.account_id;
-        await account.update({ price: req.body.newPrice }, { where: { id: id } });
-        await slack.slack("Account Patch 200", `id : ${id}`);
-        res.status(200).sned({ data: { id: id }, accessToken: validity.accessToken });
+        const {
+          new_category,
+          new_item_name,
+          new_price,
+          new_spent_person,
+          new_target_currency,
+          new_memo,
+        } = req.body;
+        const accountInfo = await account.findOne({
+          where: { id: id },
+        });
+        const { category, item_name, price, spent_person, target_currency, memo } = accountInfo;
+        if (accountInfo) {
+          if (
+            category === new_category &&
+            item_name === new_item_name &&
+            price === new_price &&
+            spent_person === new_spent_person &&
+            target_currency === new_target_currency &&
+            memo === new_memo
+          ) {
+            // 바뀐게 없음
+            await slack.slack("Account Patch 412", `id : ${id}`);
+            res.status(412).send({
+              data: { id: id },
+              accessToken: validity.accessToken,
+              message: "No Change",
+            });
+          } else {
+            await account.update(
+              {
+                category: new_category,
+                item_name: new_item_name,
+                price: new_price,
+                spent_person: new_spent_person,
+                target_currency: new_target_currency,
+                memo: new_memo,
+              },
+              { where: { id: id } }
+            );
+            await slack.slack("Account Patch 200", `id : ${id}`);
+            res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
+          }
+        } else {
+          //가계부 정보 없음
+          await slack.slack("Account Patch 404", `id : ${id}`);
+          res.status(404).send({
+            data: { id: id },
+            accessToken: validity.accessToken,
+            message: "Deleted Account",
+          });
+        }
       }
     } catch (err) {
       await slack.slack("Account Patch 501");
