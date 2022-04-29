@@ -33,8 +33,6 @@ const { user } = require("../../models");
         const payload = {
           id: userInfo.id,
           email: userInfo.email,
-          nickname: userInfo.nickname,
-          password: userInfo.password,
         };
         const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30m" });
         data["accessToken"] = accessToken;
