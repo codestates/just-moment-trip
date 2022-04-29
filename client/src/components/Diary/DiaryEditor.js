@@ -85,7 +85,7 @@ function DiaryEditor({
   const lacalTitleInput = useRef();
   const [localContent, setLocalContent] = useState(content);
   const [localTitle, setlocalTitle] = useState(title);
-  const [LocalHasttags, setLocalHashtags] = useState(hashtags);
+  const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
@@ -101,6 +101,7 @@ function DiaryEditor({
     setlocalTitle(title);
     setLocalContent(content);
     setLocalHashtags(hashtags);
+    console.log('로컬해쉬태그확인 :', localHashtags);
   };
 
   const handleEdit = () => {
@@ -115,9 +116,30 @@ function DiaryEditor({
     }
 
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent, localTitle);
+      onEdit(id, localContent, localTitle, localHashtags);
       toggleIsEdit();
     }
+  };
+
+  const addTags = event => {
+    const filtered = localHashtags.filter(el => el === event.target.value);
+    console.log('tags');
+    console.log(tags);
+    console.log('addTags');
+    console.log(filtered);
+    if (event.target.value !== '' && filtered.length === 0) {
+      console.log('event.target.value');
+      console.log(event.target.value);
+      setLocalHashtags([...localHashtags, event.target.value]);
+      // selectedTags([...tags, event.target.value]);
+      event.target.value = '';
+    }
+  };
+
+  const removeTags = indexToRemove => {
+    setLocalHashtags(
+      localHashtags.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   return (
@@ -140,6 +162,29 @@ function DiaryEditor({
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
+            <TagsInput>
+              <ul id="tags">
+                {localHashtags.map((tag, index) => (
+                  <li key={index} className="tag">
+                    <span className="tag-title">{tag}</span>
+                    <span
+                      className="tag-close-icon"
+                      onClick={() => removeTags(index)}
+                    >
+                      &times;
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <input
+                className="tag-input"
+                type="text"
+                onKeyUp={event =>
+                  event.key === 'Enter' ? addTags(event) : null
+                }
+                placeholder="입력할테면해보시지"
+              />
+            </TagsInput>
           </>
         ) : (
           <>
@@ -148,7 +193,7 @@ function DiaryEditor({
             <div className="hashtags">
               <TagsInput>
                 <ul id="tags">
-                  {LocalHasttags.map((tag, index) => (
+                  {localHashtags.map((tag, index) => (
                     <li key={index} className="tag">
                       <span
                         className="tag-title"
