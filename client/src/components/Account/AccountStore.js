@@ -25,6 +25,8 @@ const reducer = (state, action) => {
         ...action.data,
         create_date,
       };
+      console.log('--------🚨 Store의 state-------- :', state);
+
       return [newItem, ...state];
     }
     case REMOVE: {
@@ -51,7 +53,6 @@ const reducer = (state, action) => {
 };
 
 function AccountStore() {
-  const [accountData, accountSetData] = useState([]);
   const [data, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
@@ -88,7 +89,7 @@ function AccountStore() {
       dataId.current += 1;
       console.log('AccountStore dataId 확인 :', dataId.current);
     },
-    [accountData],
+    [],
   );
   // let newDate = new Date();
   // let nowTime =
@@ -104,12 +105,9 @@ function AccountStore() {
   //   ':' +
   //   newDate.getSeconds();
 
-  const onRemove = targetId => {
+  const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
-
-    const newAccountList = data.filter(it => it.id !== targetId);
-    accountSetData(newAccountList);
-  };
+  }, []);
 
   const onEdit = (
     targetId,
@@ -129,23 +127,8 @@ function AccountStore() {
       new_item_name,
       new_target_currency,
       new_category,
-    });
-
-    accountSetData(
-      data.map(it =>
-        it.id === targetId
-          ? {
-              ...it,
-              price: new_price,
-              memo: new_memo,
-              spent_person: new_spent_person,
-              item_name: new_item_name,
-              target_currency: new_target_currency,
-              category: new_category,
-            }
-          : it,
-      ),
-    );
+    }),
+      [];
   };
 
   const memoizedDispatches = useMemo(() => {
