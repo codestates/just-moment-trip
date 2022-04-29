@@ -101,7 +101,6 @@ function DiaryEditor({
     setLocalTitle(title);
     setLocalContent(content);
     setLocalHashtags(hashtags);
-
   };
 
   const handleEdit = () => {
