@@ -72,7 +72,7 @@ function DiaryEditor({
   onRemove,
   onEdit,
   id,
-  location,
+  title,
   content,
   writeDate,
   hashtags,
@@ -82,9 +82,9 @@ function DiaryEditor({
   });
 
   const localContentInput = useRef();
-  const localLocationInput = useRef();
+  const lacalTitleInput = useRef();
   const [localContent, setLocalContent] = useState(content);
-  const [localLocation, setLocalLocation] = useState(location);
+  const [localTitle, setlocalTitle] = useState(title);
   const [LocalHasttags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
@@ -98,12 +98,13 @@ function DiaryEditor({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setLocalLocation(location);
+    setlocalTitle(title);
     setLocalContent(content);
+    setLocalHashtags(hashtags);
   };
 
   const handleEdit = () => {
-    if (localLocation.length < 1) {
+    if (localTitle.length < 1) {
       localContentInput.current.focus();
       return;
     }
@@ -114,7 +115,7 @@ function DiaryEditor({
     }
 
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent, localLocation);
+      onEdit(id, localContent, localTitle);
       toggleIsEdit();
     }
   };
@@ -124,12 +125,12 @@ function DiaryEditor({
       <div className="info">
         {isEdit ? (
           <>
-            <div className="location_edit">
+            <div className="title_edit">
               <input
-                className="location_info"
-                ref={localLocationInput}
-                value={localLocation}
-                onChange={e => setLocalLocation(e.target.value)}
+                className="title_info"
+                ref={lacalTitleInput}
+                value={localTitle}
+                onChange={e => setlocalTitle(e.target.value)}
               />
             </div>
             <div className="content_edit">
@@ -142,7 +143,7 @@ function DiaryEditor({
           </>
         ) : (
           <>
-            <div className="location">{location}</div>
+            <div className="title">{title}</div>
             <div className="content">{content}</div>
             <div className="hashtags">
               <TagsInput>
