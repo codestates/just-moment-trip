@@ -84,7 +84,7 @@ function DiaryEditor({
   const localContentInput = useRef();
   const lacalTitleInput = useRef();
   const [localContent, setLocalContent] = useState(content);
-  const [localTitle, setlocalTitle] = useState(title);
+  const [localTitle, setLocalTitle] = useState(title);
   const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
@@ -98,10 +98,10 @@ function DiaryEditor({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setlocalTitle(title);
+    setLocalTitle(title);
     setLocalContent(content);
     setLocalHashtags(hashtags);
-    console.log('로컬해쉬태그확인 :', localHashtags);
+
   };
 
   const handleEdit = () => {
@@ -123,13 +123,7 @@ function DiaryEditor({
 
   const addTags = event => {
     const filtered = localHashtags.filter(el => el === event.target.value);
-    console.log('tags');
-    console.log(tags);
-    console.log('addTags');
-    console.log(filtered);
     if (event.target.value !== '' && filtered.length === 0) {
-      console.log('event.target.value');
-      console.log(event.target.value);
       setLocalHashtags([...localHashtags, event.target.value]);
       // selectedTags([...tags, event.target.value]);
       event.target.value = '';
@@ -152,7 +146,7 @@ function DiaryEditor({
                 className="title_info"
                 ref={lacalTitleInput}
                 value={localTitle}
-                onChange={e => setlocalTitle(e.target.value)}
+                onChange={e => setLocalTitle(e.target.value)}
               />
             </div>
             <div className="content_edit">

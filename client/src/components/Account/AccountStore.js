@@ -35,12 +35,12 @@ const reducer = (state, action) => {
         it.id === action.targetId
           ? {
               ...it,
-              price: action.newPrice,
-              memo: action.newMemo,
-              spent_person: action.newSpent_person,
-              item_name: action.newItem_name,
-              target_currency: action.newTarget_currency,
-              category: action.newCategory,
+              price: action.new_price,
+              memo: action.new_memo,
+              spent_person: action.new_spent_person,
+              item_name: action.new_item_name,
+              target_currency: action.new_target_currency,
+              category: action.new_category,
             }
           : it,
       );
@@ -88,7 +88,7 @@ function AccountStore() {
       dataId.current += 1;
       console.log('AccountStore dataId 확인 :', dataId.current);
     },
-    [data],
+    [accountData],
   );
   // let newDate = new Date();
   // let nowTime =
@@ -113,22 +113,22 @@ function AccountStore() {
 
   const onEdit = (
     targetId,
-    newPrice,
-    newMemo,
-    newSpent_person,
-    newItem_name,
-    newTarget_currency,
-    newCategory,
+    new_price,
+    new_memo,
+    new_spent_person,
+    new_item_name,
+    new_target_currency,
+    new_category,
   ) => {
     dispatch({
       type: EDIT,
       targetId,
-      newPrice,
-      newMemo,
-      newSpent_person,
-      newItem_name,
-      newTarget_currency,
-      newCategory,
+      new_price,
+      new_memo,
+      new_spent_person,
+      new_item_name,
+      new_target_currency,
+      new_category,
     });
 
     accountSetData(
@@ -136,12 +136,12 @@ function AccountStore() {
         it.id === targetId
           ? {
               ...it,
-              price: newPrice,
-              memo: newMemo,
-              spent_person: newSpent_person,
-              item_name: newItem_name,
-              target_currency: newTarget_currency,
-              category: newCategory,
+              price: new_price,
+              memo: new_memo,
+              spent_person: new_spent_person,
+              item_name: new_item_name,
+              target_currency: new_target_currency,
+              category: new_category,
             }
           : it,
       ),
