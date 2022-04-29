@@ -66,7 +66,7 @@ module.exports = {
         //   await diary_hashtag.create(diary_hashtagPayload);
         // });
         await slack.slack("Diary Post 201", `id : ${diaryInfo.id}`);
-        res.status(201).send({ id: diaryInfo.id, accessToken: validity.accessToken });
+        res.status(201).send({ data: { id: diaryInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Diary Post 501");
@@ -82,7 +82,7 @@ module.exports = {
           where: { id: id },
         });
         await slack.slack("Diary Delete 200", `id : ${id}`);
-        res.status(200).send({ accessToken: validity.accessToken });
+        res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Diary Delete 501");
@@ -97,7 +97,7 @@ module.exports = {
         const id = req.params.diary_id;
         await diary.update({ content: req.body.newContent }, { where: { id: id } });
         await slack.slack("Diary Patch 200", `id : ${id}`);
-        res.status(200).sned({ accessToken: validity.accessToken });
+        res.status(200).sned({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Diary Patch 501");

@@ -38,7 +38,7 @@ module.exports = {
           };
 
           const result = await user.create(payload);
-          res.status(201).send({ id: result.id });
+          res.status(201).send({ data: { id: result.id } });
         }
       } catch (err) {
         await slack.slack("Signup Post 501");
@@ -97,7 +97,7 @@ module.exports = {
           });
           await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
           res.status(200).send({
-            id: userInfo.id,
+            data: { id: userInfo.id },
             accessToken: accessToken,
           });
         }

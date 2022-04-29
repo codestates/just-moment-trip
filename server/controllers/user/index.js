@@ -32,7 +32,7 @@ module.exports = {
 
         await user.update({ password: req.body.newPassword }, { where: { id: userInfo.id } });
         await slack.slack("User Patch 200", `id : ${userInfo.id}`);
-        res.status(200).send({ accessToken: validity.accessToken });
+        res.status(200).send({ data: { id: userInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("User Patch 501");
@@ -47,7 +47,7 @@ module.exports = {
           where: { id: validity.id },
         });
         await slack.slack("User Delete 200", `id : ${userInfo.id}`);
-        res.status(200).send();
+        res.status(200).send({ data: validity.id });
       }
     } catch (err) {
       await slack.slack("User Delete 501");
