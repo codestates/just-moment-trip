@@ -112,11 +112,18 @@ module.exports = {
         const diaryInfo = await diary.findOne({
           where: { id: id },
         });
+        // const hashtagsInfo = map
         console.log(diaryInfo);
         const { title, content } = diaryInfo;
+        // const hashtags =
+        //배열을 받아와서 각각의 요소가 원래 그 다이어어리 id값에 있는 해쉬태그에 없으면 생성 그리고
+        // 원래 있는 다이어리id값에 해당하는 해쉬태그 배열도 받아와서  받아온 배열에 있는 해쉬태그가 없다면 원래그거 삭제
+        //기존 [1,2,3].map
+        // 받아온거 [1,2,4].map
+        //
         // const {hashtags} =
         if (diaryInfo) {
-          if (title === new_title && content === new_content) {
+          if (title === new_title && content === new_content && hashtag === new_hashtags) {
             // 바뀐게 없음
             await slack.slack("Diary Patch 412", `id : ${id}`);
             res.status(412).send({
