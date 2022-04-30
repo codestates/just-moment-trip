@@ -4,13 +4,13 @@ import styled from 'styled-components';
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
-  display: flex;
+  display: ${props => props.display};
   align-items: flex-start;
   flex-wrap: wrap;
   min-height: 48px;
   width: 480px;
   padding: 0 8px;
-  border: 10px solid rgb(214, 216, 218);
+  border: 10px solid rgb(93, 176, 198);
   border-radius: 6px;
 
   > ul {
@@ -72,7 +72,7 @@ function DiaryEditor({
   onRemove,
   onEdit,
   id,
-  location,
+  title,
   content,
   writeDate,
   hashtags,
@@ -82,10 +82,10 @@ function DiaryEditor({
   });
 
   const localContentInput = useRef();
-  const localLocationInput = useRef();
+  const lacalTitleInput = useRef();
   const [localContent, setLocalContent] = useState(content);
-  const [localLocation, setLocalLocation] = useState(location);
-  const [LocalHasttags, setLocalHashtags] = useState(hashtags);
+  const [localTitle, setLocalTitle] = useState(title);
+  const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
@@ -98,12 +98,13 @@ function DiaryEditor({
 
   const handleQuitEdit = () => {
     setIsEdit(false);
-    setLocalLocation(location);
+    setLocalTitle(title);
     setLocalContent(content);
+    setLocalHashtags(hashtags);
   };
 
   const handleEdit = () => {
-    if (localLocation.length < 1) {
+    if (localTitle.length < 1) {
       localContentInput.current.focus();
       return;
     }
@@ -114,22 +115,46 @@ function DiaryEditor({
     }
 
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent, localLocation);
+      onEdit(id, localContent, localTitle, localHashtags);
       toggleIsEdit();
+      console.log('localHashtags ? :', localHashtags);
     }
   };
+
+  const addTags = event => {
+    const filtered = localHashtags.filter(el => el === event.target.value);
+    if (event.target.value !== '' && filtered.length === 0) {
+      setLocalHashtags([...localHashtags, event.target.value]);
+      // selectedTags([...tags, event.target.value]);
+      event.target.value = '';
+    }
+  };
+
+  const removeTags = indexToRemove => {
+    setLocalHashtags(
+      localHashtags.filter((_, index) => index !== indexToRemove),
+    );
+  };
+
+  /*<------------------------------ 수정중인 함수 (태그 클릭시 해당 해시태그의 글 리스트 모아서 보여주기) --------------------------------->*/
+
+  // function handleHashtags() {
+  //   console.log(localHashtags);
+  // }
+
+  /*<--------------------------------------------------------------------------------------------------------------------->*/
 
   return (
     <div className="DiaryEditor">
       <div className="info">
         {isEdit ? (
           <>
-            <div className="location_edit">
+            <div className="title_edit">
               <input
-                className="location_info"
-                ref={localLocationInput}
-                value={localLocation}
-                onChange={e => setLocalLocation(e.target.value)}
+                className="title_info"
+                ref={lacalTitleInput}
+                value={localTitle}
+                onChange={e => setLocalTitle(e.target.value)}
               />
             </div>
             <div className="content_edit">
@@ -139,28 +164,70 @@ function DiaryEditor({
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
+            <TagsInput>
+              <ul id="tags">
+                {localHashtags.map((tag, index) => (
+                  <li key={index} className="tag">
+                    <span className="tag-title">{tag}</span>
+                    <span
+                      className="tag-close-icon"
+                      onClick={() => removeTags(index)}
+                    >
+                      &times;
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <input
+                className="tag-input"
+                type="text"
+                onKeyUp={event =>
+                  event.key === 'Enter' ? addTags(event) : null
+                }
+                placeholder="입력할테면해보시지"
+              />
+            </TagsInput>
           </>
         ) : (
           <>
-            <div className="location">{location}</div>
+            <div className="title">{title}</div>
             <div className="content">{content}</div>
             <div className="hashtags">
-              <TagsInput>
-                <ul id="tags">
-                  {LocalHasttags.map((tag, index) => (
-                    <li key={index} className="tag">
-                      <span
-                        className="tag-title"
-                        onClick={() => {
-                          console.log('AXIOS넣기');
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </TagsInput>
+              {localHashtags.length === 0 ? (
+                <TagsInput display="none">
+                  <ul id="tags">
+                    {localHashtags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        <span
+                          className="tag-title"
+                          onClick={() => {
+                            console.log(localHashtags);
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </TagsInput>
+              ) : (
+                <TagsInput display="flex">
+                  <ul id="tags">
+                    {localHashtags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        <span
+                          className="tag-title"
+                          onClick={() => {
+                            console.log(localHashtags);
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </TagsInput>
+              )}
             </div>
           </>
         )}

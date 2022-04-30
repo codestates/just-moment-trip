@@ -4,7 +4,7 @@ const moment = require('moment');
 function AccountWriteUp({ onCreate, openModalHandler }) {
   const item_nameInput = useRef();
   const priceInput = useRef();
-  const paid_personInput = useRef();
+  const spent_personInput = useRef();
   const target_currencyInput = useRef();
   const memoInput = useRef();
 
@@ -124,7 +124,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
             돈 쓴 사람
             <input
               className="spent_personInput"
-              ref={paid_personInput}
+              ref={spent_personInput}
               value={state.spent_person || ''}
               name="spent_person"
               onChange={handleChangeState}
