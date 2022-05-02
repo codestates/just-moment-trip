@@ -75,7 +75,7 @@ function DiaryEditor({
   id,
   title,
   content,
-  writeDate,
+  write_date,
   hashtags,
 }) {
   useEffect(() => {
@@ -229,7 +229,7 @@ function DiaryEditor({
         )}
 
         <br />
-        <span className="date">작성 시간 :{writeDate}</span>
+        <span className="date">작성 시간 :{write_date}</span>
       </div>
 
       {isEdit ? (
