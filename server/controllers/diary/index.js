@@ -1,4 +1,4 @@
-const { diary, hashtag, diary_hashtag } = require("../../models");
+const { diary, hashtag, diary_hashtag, user, trip } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
@@ -102,6 +102,7 @@ module.exports = {
     }
   },
   patch: async (req, res) => {
+    //!
     //patch 하나만 바꾸는거고 put은 모든거 지정(지정안한거 null됨)
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
@@ -111,10 +112,19 @@ module.exports = {
         const diaryInfo = await diary.findOne({
           where: { id: id },
         });
-        // const hashtagsInfo = map
-        console.log(diaryInfo);
+        const hashtagsInfo = await diary.findAll({
+          include: [
+            {
+              model: hashtag,
+              attributes: ["id", "hashtags"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+            },
+          ],
+          where: { id: id },
+        });
         const { title, content } = diaryInfo;
-        // const hashtags =
+        let hashtags = [];
+        hashtagsInfo[0].hashtags.forEach((ele) => hashtags.push(ele.hashtags));
+
         //배열을 받아와서 각각의 요소가 원래 그 다이어어리 id값에 있는 해쉬태그에 없으면 생성 그리고
         // 원래 있는 다이어리id값에 해당하는 해쉬태그 배열도 받아와서  받아온 배열에 있는 해쉬태그가 없다면 원래그거 삭제
         //기존 [1,2,3].map
@@ -122,7 +132,11 @@ module.exports = {
         //
         // const {hashtags} =
         if (diaryInfo) {
-          if (title === new_title && content === new_content && hashtag === new_hashtags) {
+          if (
+            title === new_title &&
+            content === new_content &&
+            JSON.stringify(hashtags) === JSON.stringify(new_hashtags)
+          ) {
             // 바뀐게 없음
             await slack.slack("Diary Patch 412", `id : ${id}`);
             res.status(412).send({
@@ -135,10 +149,10 @@ module.exports = {
               {
                 title: new_title,
                 content: new_content,
-                // hashtag: new_hashtags,
               },
               { where: { id: id } }
             );
+
             await slack.slack("Diary Patch 200", `id : ${id}`);
             res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
           }
@@ -156,6 +170,39 @@ module.exports = {
       await slack.slack("Diary Patch 501");
       res.status(501).send("Diary Patch");
     }
+
+    //!
+    // const id = req.params.diary_id;
+    // const { new_title, new_content, new_hashtags } = req.body;
+    // // const diaryInfo = await diary.findOne({
+    // //   where: { id: id },
+    // // });
+
+    // const hashtagsInfo = await diary.findAll({
+    //   include: [
+    //     {
+    //       model: hashtag,
+    //       // attributes: ["hashtag_id"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+    //     },
+    //   ],
+    //   where: { id: id },
+    // });
+    // console.log(hashtagsInfo);
+    // console.log("42894238949328493248234");
+    // console.log(hashtagsInfo[0].hashtags);
+    // const tripInfo = await user.findAll({
+    //   include: [
+    //     {
+    //       model: trip,
+    //       // attributes: ["country", "total_price"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+    //     },
+    //   ],
+    //   // where: { nickname: "manseon" },
+    // });
+    // // console.log(tripInfo);
+    // // console.log(tripInfo[0].trips);
+    // // console.log("-------");
+    //!
   },
 };
 //타이틀 컨탠트 해쉬태그
