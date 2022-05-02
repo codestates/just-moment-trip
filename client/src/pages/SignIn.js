@@ -1,14 +1,14 @@
 import React from 'react';
 import Navbar from '../components/common/Navbar';
-import SignUpInput from '../components/SignUp/Input';
+import SignInput from '../components/SingIn/Input';
 
-function SignUp() {
+function SignIn() {
   return (
     <>
       <Navbar />
-      <SignUpInput />
+      <SignInput />
     </>
   );
 }
 
-export default SignUp;
+export default SignIn;

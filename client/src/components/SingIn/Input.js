@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import TextField from './TextField';
-import { signUp } from '../../modules/Reducers/userReducer';
+import { signIn } from '../../modules/Reducers/userReducer';
+import TextField from '../SignUp/TextField';
+import kakaoImg from '../../Assets/kakao_login_medium_wide.png';
+import { KAKAO_AUTH_URL } from '../../routers/index';
 
 const Container = styled.div`
   text-align: center;
@@ -16,16 +18,14 @@ const HeadTag = styled.h1`
 
 const Btn = styled.button``;
 
-function SignUpInput() {
+const KakaoBtn = styled.button``;
+
+function SignInput() {
   const dispatch = useDispatch();
   const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
 
   const validate = Yup.object({
     email: Yup.string().email('Email is invalid').required('Required'),
-    nickname: Yup.string()
-      .min(1, '닉네임을 입력해주세요')
-      .max(16, '닉네임은 16자까지 입력할 수 있습니다')
-      .required('Nickname is required'),
     password: Yup.string()
       .min(
         6,
@@ -45,23 +45,24 @@ function SignUpInput() {
       .required('Confirm password is required'),
   });
 
-  const signUpRequest = (values, actions) => {
-    const { email, nickname, password } = values;
+  const handleClick = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
+  const signInRequest = (values, actions) => {
+    const { email, password } = values;
     console.log(values);
-    dispatch(signUp({ email, nickname, password }))
+    dispatch(signIn({ email, password }))
       .unwrap()
       .then(res => {
         console.log(res);
         actions.setSubmittings(false);
-        alert('Thanks');
+        alert('Success');
       })
       .catch(err => {
-        if (err.response.status === 409) {
+        if (err.response.status === 400) {
           actions.resetForm();
-          alert(`Email elready exist`);
-        } else {
-          actions.resetForm();
-          alert(`Failed to sign up please try again`);
+          alert(`Email or Password is worng`);
         }
       });
   };
@@ -70,31 +71,26 @@ function SignUpInput() {
     <Formik
       initialValues={{
         email: '',
-        nickname: '',
         password: '',
-        confirmPassword: '',
       }}
       validationSchema={validate}
-      onSubmit={signUpRequest}
+      onSubmit={signInRequest}
     >
       {() => (
         <Container>
           <HeadTag>Sign-Up</HeadTag>
           <Form>
             <TextField label="Email" name="email" type="email" />
-            <TextField label="NickName" name="nickname" type="text" />
             <TextField label="Password" name="password" type="password" />
-            <TextField
-              label="Confirm-Password"
-              name="confirmPassword"
-              type="password"
-            />
-            <Btn type="submit">SignUp</Btn>
+            <Btn type="submit">SignIn</Btn>
           </Form>
+          <KakaoBtn onClick={handleClick}>
+            <img src={kakaoImg} alt="" />
+          </KakaoBtn>
         </Container>
       )}
     </Formik>
   );
 }
 
-export default SignUpInput;
+export default SignInput;
