@@ -5,6 +5,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
+const FILTER = 'FILTER';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,6 +26,7 @@ const reducer = (state, action) => {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
+      console.log('--------🚨 EDIT시 reducer의 state-------- :', state);
       return state.map(it =>
         it.id === action.targetId
           ? {
@@ -36,6 +38,26 @@ const reducer = (state, action) => {
           : it,
       );
     }
+    case FILTER: {
+      return state.filter(it => {
+        let test = false;
+        it.hashtags.forEach(element => {
+          if (element === action.selectHashtags) test = true;
+        });
+        return test;
+        //state 를 유지시켜야함
+        //state를 변수에 저장 후 ? 기존 데이터가 유지되게끔 , filter시에도 !
+        // 참조하는 data값이 항상 같아야한다. 그래야 filter시에도 ...!
+        // let test = false;
+        // console.log('------ it ?', it);
+        // for (let i = 0; i < it.hashtags.length; i++) {
+        //   console.log('--------------- test ?', it.hashtags[i]);
+        //   if (it.hashtags[i] === action.selectHashtags) test = true;
+        // }
+
+        // return test;
+      });
+    }
     default:
       return state;
   }
@@ -43,6 +65,7 @@ const reducer = (state, action) => {
 
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  // const [data1, dispatch1] = useReducer(reducer, []);
   const dataId = useRef(0);
 
   const getData = async () => {
@@ -105,6 +128,11 @@ function DiaryStore() {
     [],
   );
 
+  const onFilter = useCallback(selectHashtags => {
+    dispatch({ type: FILTER, selectHashtags });
+    console.log('-------- Store의 selectHashtags :', selectHashtags);
+  }, []);
+
   return (
     <div className="DiaryStore">
       <div>전체 일기 : {data.length}</div>
@@ -113,6 +141,7 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
+        onFilter={onFilter}
       />
     </div>
   );

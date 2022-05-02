@@ -20,7 +20,7 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER,
       },
-      paid_person: {
+      spent_person: {
         type: Sequelize.STRING,
       },
       target_currency: {

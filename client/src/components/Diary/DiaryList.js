@@ -4,7 +4,7 @@ import DiaryWriteUp from './DiaryWriteUp';
 import styled from 'styled-components';
 import Modal from '../common/Modal';
 
-function DiaryList({ onCreate, onEdit, onRemove, diaryList }) {
+function DiaryList({ onCreate, onEdit, onRemove, onFilter, diaryList }) {
   return (
     <div className="DiaryList">
       <div>
@@ -23,6 +23,7 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList }) {
             onCreate={onCreate}
             onEdit={onEdit}
             onRemove={onRemove}
+            onFilter={onFilter}
           />
         ))}
         {/* 여기 손보기 삼항연산자 사용해서 태그 눌렀을때 ? 태그 관련 페이지 보이게 : 총 데이터 리스트 보이게*/}
