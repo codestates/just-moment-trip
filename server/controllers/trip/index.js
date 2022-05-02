@@ -6,8 +6,10 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const data = await trip.findAll();
-        await slack.slack("Trip Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        const data = await trip.findAll({
+          where: { user_id: validity.id },
+        });
+        await slack.slack("Trip Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`); //
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {

@@ -36,7 +36,6 @@ module.exports = {
           gps,
           content,
           write_date,
-          hashtags,
         };
 
         const diaryInfo = await diary.create(diaryPayload);
@@ -45,7 +44,7 @@ module.exports = {
         hashtags.map(async (ele) => {
           const data = await hashtag.findOne({
             where: {
-              hashtags: ele,
+              hashtag: ele,
             },
           });
           let hashtagInfo = data;
@@ -53,7 +52,7 @@ module.exports = {
           //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
           if (!data) {
             const hashtagPayload = {
-              hashtags: ele,
+              hashtag: ele,
             };
             hashtagInfo = await hashtag.create(hashtagPayload);
             await slack.slack("Hashtag Post 201", `id : ${hashtagInfo.id}`);
