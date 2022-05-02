@@ -46,13 +46,13 @@ db.trip.hasMany(db.diary, { foreignKey: "trip_id", sourceKey: "id" });
 db.diary.belongsTo(db.trip, { foreignKey: "trip_id", targetKey: "id" });
 
 db.diary.belongsToMany(db.hashtag, {
-  through: "diary-hashtag",
+  through: "diary_hashtag",
   foreignKey: "diary_id",
   sourceKey: "id",
   onDelete: "cascade",
 });
 db.hashtag.belongsToMany(db.diary, {
-  through: "diary-hashtag",
+  through: "diary_hashtag",
   foreignKey: "hashtag_id",
   sourceKey: "id",
   onDelete: "cascade",
