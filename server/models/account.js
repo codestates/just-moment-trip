@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       category: DataTypes.STRING,
       item_name: DataTypes.STRING,
       price: DataTypes.NUMBER,
-      paid_person: DataTypes.STRING,
+      spent_person: DataTypes.STRING,
       target_currency: DataTypes.STRING,
       memo: DataTypes.STRING,
       gps: DataTypes.STRING,

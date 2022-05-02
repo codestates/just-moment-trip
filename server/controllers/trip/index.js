@@ -1,50 +1,63 @@
 const { trip } = require("../../models");
 const tokenHandler = require("../tokenHandler");
+const slack = require("../slack");
 module.exports = {
   get: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const data = await trip.findAll();
-        res.status(200).json(data);
+        await slack.slack("Trip Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      await slack.slack("Trip Get 501");
+      res.status(501).send("Trip Get");
     }
   },
+
   post: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const { title, country, total_price, base_currency, start_date, end_date } = req.body;
+      if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
+        await slack.slack("Trip Post 422");
+        return res.status(422).send({ message: "insufficient parameters supplied" });
+      }
+
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { title, country, total_price, base_currency, start_date, end_date } = req.body;
         const payload = {
           user_id: validity.id,
-          title: title,
-          country: country,
-          total_price: total_price,
-          base_currency: base_currency,
-          start_date: start_date,
-          end_date: end_date,
+          title,
+          country,
+          total_price,
+          base_currency,
+          start_date,
+          end_date,
         };
-
         const result = await trip.create(payload);
-        res.status(201).send({ id: result.id, message: "Successfully Trip Post" });
+        await slack.slack("Trip Post 201", `id : ${result.id}`);
+        res.status(201).send({ data: { id: result.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      await slack.slack("Trip Post 501");
+      res.status(501).send("Trip Post");
     }
   },
   delete: async (req, res) => {
     try {
-      const validity = tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        res.status(200).json("Successfully Trip Deleted");
+        const id = req.params.trip_id;
         await trip.destroy({
-          where: { id: req.params.trip_id },
+          where: { id: id },
         });
+        await slack.slack("Trip Delete 200", `id : ${id}`);
+        res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
       }
     } catch (err) {
-      res.status(500).send("Server Error Code 500");
+      await slack.slack("Trip Delete 501");
+      res.status(501).send("Trip Delete");
     }
   },
 };

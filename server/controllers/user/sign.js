@@ -2,6 +2,7 @@ const { user } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const tokenHandler = require("../tokenHandler");
+const slack = require("../slack");
 
 module.exports = {
   up: {
@@ -10,35 +11,38 @@ module.exports = {
         // 정보 불충분
         const { email, nickname, password } = req.body;
         if (!email || !nickname || !password) {
+          await slack.slack("Signup Post 422");
           return res.status(422).send({ message: "insufficient parameters supplied" });
         }
         const userInfo = await user.findOne({
           where: {
-            email: req.body.email,
-            nickname: req.body.nickname,
-            password: req.body.password,
+            email,
+            nickname,
+            password,
           },
         });
 
         //이미 가입되었을 경우
 
         if (userInfo) {
+          await slack.slack("Signup Post 409");
           return res.status(409).send({ message: "email already exists" });
         }
 
         //가입이 되지 않았을 경우
         else {
           const payload = {
-            email: req.body.email,
-            nickname: req.body.nickname,
-            password: req.body.password,
+            email,
+            nickname,
+            password,
           };
 
-          await user.create(payload);
-          res.status(201).send(payload);
+          const result = await user.create(payload);
+          res.status(201).send({ data: { id: result.id } });
         }
       } catch (err) {
-        res.status(500).send("Server Error Code 500/ in singup");
+        await slack.slack("Signup Post 501");
+        res.status(501).send("Signup Post");
       }
     },
   },
@@ -46,26 +50,33 @@ module.exports = {
   in: {
     post: async (req, res) => {
       try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+          await slack.slack("Signin Post 422");
+          return res.status(422).send({ message: "insufficient parameters supplied" });
+        }
         //데이터베이스에 email이 없을때
         const emailExists = await user.findOne({
           where: {
-            email: req.body.email,
+            email,
           },
         });
 
         if (!emailExists) {
+          await slack.slack("Signin Post 400");
           return res.status(400).send({ message: "Wrong email" });
         }
 
         //데이터베이스에 email 있지만 비밀번호가 틀릴때
         const userInfo = await user.findOne({
           where: {
-            email: req.body.email,
-            password: req.body.password,
+            email,
+            password,
           },
         });
 
         if (!userInfo) {
+          await slack.slack("Signin Post 400");
           return res.status(400).send({ message: "Wrong password" });
         }
 
@@ -73,39 +84,36 @@ module.exports = {
         else {
           const payload = {
             id: userInfo.id,
-            email: req.body.email,
-            nickname: userInfo.nickname,
-            password: req.body.password,
+            email,
           };
-          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1s" });
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30h" });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });
           res.cookie("refreshToken", refreshToken, {
             sameSite: "Strict",
             httpOnly: true,
             secure: false, // https로 바꾼후에 true로 바꿔야함
           });
-
+          await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
           res.status(200).send({
+            data: { id: userInfo.id },
             accessToken: accessToken,
           });
         }
       } catch (err) {
-        res.status(500).send("Server Error Code 500");
+        await slack.slack("Signin Post 501");
+        res.status(501).send("Signin Post");
       }
     },
   },
   out: {
     post: async (req, res) => {
       try {
-        const validity = tokenHandler.accessTokenVerify(req);
-        if (validity) {
-          return res.status(200).send();
-        } else {
-          //리프레시 토큰을 가져와서 복호화하고 유효기간내면 엑세스토큰 재발행 유효기간 지났으면 401에러
-          return res.status(401).send({ message: "Unauthenticated" });
-        }
+        res.clearCookie("refreshToken");
+        await slack.slack("SignOut Post 200");
+        return res.status(200).send();
       } catch (err) {
-        res.status(500).send("Server Error Code 500");
+        await slack.slack("Signin Post 501");
+        res.status(501).send("Signout Post");
       }
     },
   },

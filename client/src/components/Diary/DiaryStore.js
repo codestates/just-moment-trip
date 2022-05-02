@@ -18,6 +18,7 @@ const reducer = (state, action) => {
         ...action.data,
         createDate,
       };
+      console.log('--------🚨 CREATE시 reducer의 state-------- :', state);
       return [newItem, ...state];
     }
     case REMOVE: {
@@ -28,8 +29,9 @@ const reducer = (state, action) => {
         it.id === action.targetId
           ? {
               ...it,
-              content: action.newContent,
-              location: action.newLocation,
+              content: action.new_content,
+              title: action.new_title,
+              hashtags: action.new_hashtags,
             }
           : it,
       );
@@ -43,33 +45,65 @@ function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
 
+  const getData = async () => {
+    const res = await fetch(
+      'https://jsonplaceholder.typicode.com/comments',
+    ).then(res => res.json());
+
+    const initData = res.slice(0, 5).map(it => {
+      return {
+        title: it.email,
+        content: it.body,
+        hashtags: [it.name],
+        // emotion: Math.floor(Math.random() * 5) + 1,
+        writeDate: new Date().getTime() + 1,
+        id: dataId.current++,
+      };
+    });
+
+    dispatch({ type: 'INIT', data: initData });
+  };
+
   useEffect(() => {
     setTimeout(() => {
-      console.log('실수하지마라 제발');
+      getData();
     }, 1500);
   }, []);
 
-  const onCreate = useCallback((location, content, writeDate) => {
+  const onCreate = useCallback((title, content, writeDate, hashtags) => {
     dispatch({
       type: CREATE,
-      data: { location, content, writeDate, id: dataId.current },
+      data: { title, content, writeDate, hashtags, id: dataId.current },
     });
-
+    console.log('--------🚨 Store의 data-------- :', data);
+    console.log('--------🦭 Store의 Content-------- :', content);
+    console.log('--------🦭 Store의 Hashtags-------- :', hashtags);
     dataId.current += 1;
+    console.log('DiaryStore dataId 확인 :', dataId.current);
   });
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
+
+    console.log('--------🚨 Store의 data-------- :', data);
+    console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
 
-  const onEdit = useCallback((targetId, newContent, newLocation) => {
-    dispatch({
-      type: EDIT,
-      targetId,
-      newContent,
-      newLocation,
-    });
-  }, []);
+  const onEdit = useCallback(
+    (targetId, new_content, new_title, new_hashtags) => {
+      dispatch({
+        type: EDIT,
+        targetId,
+        new_content,
+        new_title,
+        new_hashtags,
+      });
+
+      console.log('Store의 new_content :', new_content);
+      console.log('Store의 new_hashtags :', new_hashtags);
+    },
+    [],
+  );
 
   return (
     <div className="DiaryStore">
