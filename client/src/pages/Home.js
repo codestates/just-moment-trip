@@ -85,6 +85,9 @@ function Home() {
             <Link to="/sign-up">
               <span>함께하기</span>
             </Link>
+            <Link to="/sign-in">
+              <span>Start</span>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-const moment = require('moment');
 
 function AccountWriteUp({ onCreate, openModalHandler }) {
   const item_nameInput = useRef();
