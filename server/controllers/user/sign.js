@@ -17,13 +17,10 @@ module.exports = {
         const userInfo = await user.findOne({
           where: {
             email,
-            nickname,
-            password,
           },
         });
 
         //이미 가입되었을 경우
-
         if (userInfo) {
           await slack.slack("Signup Post 409");
           return res.status(409).send({ message: "email already exists" });
@@ -109,10 +106,10 @@ module.exports = {
     post: async (req, res) => {
       try {
         res.clearCookie("refreshToken");
-        await slack.slack("SignOut Post 200");
+        await slack.slack("Signout Post 200");
         return res.status(200).send();
       } catch (err) {
-        await slack.slack("Signin Post 501");
+        await slack.slack("Signout Post 501");
         res.status(501).send("Signout Post");
       }
     },
