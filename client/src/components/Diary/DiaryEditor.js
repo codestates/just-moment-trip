@@ -72,7 +72,7 @@ function DiaryEditor({
   diaryList,
   onRemove,
   onEdit,
-  onFilter,
+  toggleClicked,
   id,
   title,
   content,
@@ -144,12 +144,13 @@ function DiaryEditor({
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
 
-  function handleHashtags(selectedHashtag) {
-    onFilter(selectedHashtag);
+  function handleHashtags(event) {
+    // onFilter(selectedHashtag);
     console.log(
       '------------- 클릭시 localHashtags는 어떻게 되나요 ? :',
       localHashtags,
     );
+    toggleClicked(event);
   }
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
@@ -217,7 +218,7 @@ function DiaryEditor({
                               '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
                               event.target.innerText,
                             );
-                            handleHashtags(event.target.innerText);
+                            handleHashtags(event);
                           }}
                         >
                           {tag}
