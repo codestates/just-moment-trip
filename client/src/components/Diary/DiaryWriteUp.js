@@ -87,23 +87,10 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   };
   const titleInput = useRef();
   const contentInput = useRef();
-  let newDate = new Date();
-  let nowTime =
-    newDate.getFullYear() +
-    '-' +
-    newDate.getMonth() +
-    '-' +
-    newDate.getDate() +
-    ' ' +
-    newDate.getHours() +
-    ':' +
-    newDate.getMinutes() +
-    ':' +
-    newDate.getSeconds();
   const [state, setState] = useState({
     title: '',
     content: '',
-    writeDate: nowTime,
+    write_date: '',
   });
 
   const handleChangeState = e => {
@@ -122,14 +109,19 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       contentInput.current.focus();
       return;
     }
-    onCreate(state.title, state.content, state.writeDate, tags);
+    onCreate(
+      state.title,
+      state.content,
+      (state.write_date = new Date().toLocaleString()),
+      tags,
+    );
     console.log('일기작성여부확인 :', state);
     console.log('handleSubmit시 tags :', tags);
     alert('저장성공!');
     setState({
       title: '',
       content: '',
-      writeDate: nowTime,
+      write_date: '',
     });
 
     openModalHandler(false);

@@ -5,6 +5,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
+const FILTER = 'FILTER';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,6 +26,7 @@ const reducer = (state, action) => {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
+      console.log('--------🚨 EDIT시 reducer의 state-------- :', state);
       return state.map(it =>
         it.id === action.targetId
           ? {
@@ -35,6 +37,15 @@ const reducer = (state, action) => {
             }
           : it,
       );
+    }
+    case FILTER: {
+      return state.filter(it => {
+        let test = false;
+        it.hashtags.forEach(element => {
+          if (element === action.selectHashtags) test = true;
+        });
+        return test;
+      });
     }
     default:
       return state;
@@ -56,7 +67,7 @@ function DiaryStore() {
         content: it.body,
         hashtags: [it.name],
         // emotion: Math.floor(Math.random() * 5) + 1,
-        writeDate: new Date().getTime() + 1,
+        write_date: new Date().getTime() + 1,
         id: dataId.current++,
       };
     });
@@ -70,14 +81,14 @@ function DiaryStore() {
     }, 1500);
   }, []);
 
-  const onCreate = useCallback((title, content, writeDate, hashtags) => {
+  const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
       type: CREATE,
-      data: { title, content, writeDate, hashtags, id: dataId.current },
+      data: { title, content, write_date, hashtags, id: dataId.current },
     });
     console.log('--------🚨 Store의 data-------- :', data);
-    console.log('--------🦭 Store의 Content-------- :', content);
-    console.log('--------🦭 Store의 Hashtags-------- :', hashtags);
+    // console.log('--------🦭 Store의 Content-------- :', content);
+    // console.log('--------🦭 Store의 Hashtags-------- :', hashtags);
     dataId.current += 1;
     console.log('DiaryStore dataId 확인 :', dataId.current);
   });
@@ -105,6 +116,11 @@ function DiaryStore() {
     [],
   );
 
+  const onFilter = useCallback(selectHashtags => {
+    dispatch({ type: FILTER, selectHashtags });
+    console.log('-------- Store의 selectHashtags :', selectHashtags);
+  }, []);
+
   return (
     <div className="DiaryStore">
       <div>전체 일기 : {data.length}</div>
@@ -113,6 +129,7 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
+        onFilter={onFilter}
       />
     </div>
   );

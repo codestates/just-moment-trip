@@ -69,12 +69,14 @@ const TagsInput = styled.div`
 `;
 
 function DiaryEditor({
+  diaryList,
   onRemove,
   onEdit,
+  onFilter,
   id,
   title,
   content,
-  writeDate,
+  write_date,
   hashtags,
 }) {
   useEffect(() => {
@@ -117,7 +119,11 @@ function DiaryEditor({
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
       onEdit(id, localContent, localTitle, localHashtags);
       toggleIsEdit();
-      console.log('localHashtags ? :', localHashtags);
+      console.log(
+        '------------- 수정시 localHashtags는 어떻게 되나요 ? :',
+        localHashtags,
+      );
+      console.log('------------- 수정시 id는 어떻게 되나요 ? :', hashtags);
     }
   };
 
@@ -136,11 +142,15 @@ function DiaryEditor({
     );
   };
 
-  /*<------------------------------ 수정중인 함수 (태그 클릭시 해당 해시태그의 글 리스트 모아서 보여주기) --------------------------------->*/
+  /*<--------------------------------------------------------------------------------------------------------------------->*/
 
-  // function handleHashtags() {
-  //   console.log(localHashtags);
-  // }
+  function handleHashtags(selectedHashtag) {
+    onFilter(selectedHashtag);
+    console.log(
+      '------------- 클릭시 localHashtags는 어떻게 되나요 ? :',
+      localHashtags,
+    );
+  }
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
 
@@ -194,22 +204,7 @@ function DiaryEditor({
             <div className="content">{content}</div>
             <div className="hashtags">
               {localHashtags.length === 0 ? (
-                <TagsInput display="none">
-                  <ul id="tags">
-                    {localHashtags.map((tag, index) => (
-                      <li key={index} className="tag">
-                        <span
-                          className="tag-title"
-                          onClick={() => {
-                            console.log(localHashtags);
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </TagsInput>
+                <TagsInput display="none" />
               ) : (
                 <TagsInput display="flex">
                   <ul id="tags">
@@ -217,8 +212,12 @@ function DiaryEditor({
                       <li key={index} className="tag">
                         <span
                           className="tag-title"
-                          onClick={() => {
-                            console.log(localHashtags);
+                          onClick={event => {
+                            console.log(
+                              '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
+                              event.target.innerText,
+                            );
+                            handleHashtags(event.target.innerText);
                           }}
                         >
                           {tag}
@@ -233,7 +232,7 @@ function DiaryEditor({
         )}
 
         <br />
-        <span className="date">작성 시간 :{writeDate}</span>
+        <span className="date">작성 시간 :{write_date}</span>
       </div>
 
       {isEdit ? (

@@ -10,7 +10,11 @@ module.exports = {
         const data = await trip.findAll({
           where: { user_id: validity.id },
         });
-        await slack.slack("Trip Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`); //
+        let data_slack_id = "";
+        data.forEach((ele) => {
+          data_slack_id += `${ele.dataValues.id}, `;
+        });
+        await slack.slack("Trip Get 200", `id : ${data_slack_id}`); //
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
