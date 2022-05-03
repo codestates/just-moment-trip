@@ -49,13 +49,15 @@ db.diary.belongsToMany(db.hashtag, {
   through: "diary_hashtag",
   foreignKey: "diary_id",
   sourceKey: "id",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 db.hashtag.belongsToMany(db.diary, {
   through: "diary_hashtag",
   foreignKey: "hashtag_id",
   sourceKey: "id",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
 db.sequelize = sequelize;
