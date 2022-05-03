@@ -1,3 +1,4 @@
+const hashtag_delete_schedule = require("./controllers/diary/hashtag_delete_schedule");
 require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -7,6 +8,8 @@ const port = 8080;
 const user = require("./routes/user");
 const sign = require("./routes/sign");
 const trip = require("./routes/trip");
+
+hashtag_delete_schedule.cron();
 
 app.use(express.json());
 app.use(
