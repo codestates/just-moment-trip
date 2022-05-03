@@ -5,7 +5,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-const FILTER = 'FILTER';
+// const ONCKLICKED = 'ONCKLICKED';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,15 +38,22 @@ const reducer = (state, action) => {
           : it,
       );
     }
-    case FILTER: {
-      return state.filter(it => {
-        let test = false;
-        it.hashtags.forEach(element => {
-          if (element === action.selectHashtags) test = true;
-        });
-        return test;
-      });
-    }
+    //   case FILTER: {
+    //     return state.filter(it => {
+    //       let test = false;
+    //       it.hashtags.forEach(element => {
+    //         if (element === action.selectHashtags) test = true;
+    //       });
+    //       return test;
+    //     });
+    //   }
+    // case ONCKLICKED: {
+    //   return state.map(it => {
+    //     if (it.hashtags === action.selectHashtags)
+    //       console.log('범인?', it.hashtags);
+    //     return it;
+    //   });
+    // }
     default:
       return state;
   }
@@ -116,10 +123,10 @@ function DiaryStore() {
     [],
   );
 
-  const onFilter = useCallback(selectHashtags => {
-    dispatch({ type: FILTER, selectHashtags });
-    console.log('-------- Store의 selectHashtags :', selectHashtags);
-  }, []);
+  // const onClicked = useCallback(selectHashtags => {
+  //   dispatch({ type: ONCKLICKED, selectHashtags });
+  //   console.log('-------- Store의 selectHashtags :', selectHashtags);
+  // }, []);
 
   return (
     <div className="DiaryStore">
@@ -129,7 +136,8 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
-        onFilter={onFilter}
+        // onClicked={onClicked}
+        // onFilter={onFilter}
       />
     </div>
   );
