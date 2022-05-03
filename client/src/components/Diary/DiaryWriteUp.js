@@ -87,19 +87,6 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   };
   const titleInput = useRef();
   const contentInput = useRef();
-  // let newDate = new Date();
-  // let nowTime =
-  //   newDate.getFullYear() +
-  //   '-' +
-  //   (1 + newDate.getMonth()) +
-  //   '-' +
-  //   newDate.getDate() +
-  //   ' ' +
-  //   newDate.getHours() +
-  //   ':' +
-  //   newDate.getMinutes() +
-  //   ':' +
-  //   newDate.getSeconds();
   const [state, setState] = useState({
     title: '',
     content: '',

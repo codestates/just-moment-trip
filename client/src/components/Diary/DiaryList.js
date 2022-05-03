@@ -26,8 +26,8 @@ function DiaryList({ onCreate, onEdit, onRemove, onFilter, diaryList }) {
             onFilter={onFilter}
           />
         ))}
-        {/* 여기 손보기 삼항연산자 사용해서 태그 눌렀을때 ? 태그 관련 페이지 보이게 : 총 데이터 리스트 보이게*/}
       </div>
+      {console.log('------------------- DiaryList의 Data ? ', diaryList)}
     </div>
   );
 }
