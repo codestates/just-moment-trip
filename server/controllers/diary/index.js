@@ -1,7 +1,6 @@
 const { diary, hashtag, diary_hashtag, user, trip } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-// const hashtag = require("../../models/hashtag");
 
 module.exports = {
   get: async (req, res) => {
