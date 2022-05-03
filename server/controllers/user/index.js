@@ -62,11 +62,13 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
+      console.log(validity);
       if (validity) {
         await user.destroy({
           where: { id: validity.id },
         });
-        await slack.slack("User Delete 200", `id : ${userInfo.id}`);
+        console.log(22222222);
+        await slack.slack("User Delete 200", `id : ${validity.id}`);
         res.status(200).send({ data: validity.id });
       }
     } catch (err) {

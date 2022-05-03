@@ -1,6 +1,7 @@
-const { trip } = require("../../models");
+const { trip, user } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
+// const user = require("../user");
 module.exports = {
   get: async (req, res) => {
     try {
@@ -19,13 +20,17 @@ module.exports = {
   },
 
   post: async (req, res) => {
+    // const post1 = await trip.create({ title: "111" });
+    // const post2 = await trip.create({ title: "222" });
+    // // user.addtrips([post1, post2]);
+    // user.addtrip(post2);
+    //!
     try {
       const { title, country, total_price, base_currency, start_date, end_date } = req.body;
       if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
         await slack.slack("Trip Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
-
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const payload = {
