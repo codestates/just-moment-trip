@@ -1,4 +1,4 @@
-const { diary, hashtag, diary_hashtag, user, trip } = require("../../models");
+const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
@@ -10,7 +10,28 @@ module.exports = {
         const data = await diary.findAll({
           where: { trip_id: req.params.trip_id },
         });
-        await slack.slack("Diary Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        const hashtagsInfo = await diary.findAll({
+          include: [
+            {
+              model: hashtag,
+              attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+            },
+          ],
+          where: { trip_id: req.params.trip_id },
+        });
+
+        hashtagsInfo.forEach((ele, index) => {
+          let hashtags = [];
+          ele.hashtags.forEach((ele) => {
+            hashtags.push(ele.hashtag);
+          });
+          data[index].dataValues.hashtags = hashtags;
+        });
+        let data_slack_id = "";
+        data.forEach((ele) => {
+          data_slack_id += `${ele.dataValues.id}, `;
+        });
+        await slack.slack("Diary Get 200", `id : ${data_slack_id}`);
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
@@ -142,22 +163,41 @@ module.exports = {
               { where: { id: id } }
             );
             //? 해쉬태그 부분
-            //만약 new값의 요소가 원래 db상에 없다면 조인테이블과 해쉬태그 테이블에 추가
+            //만약 new값의 요소가 현재 다이어리의 원래 db상에 없다면 조인테이블과 해쉬태그 테이블에 추가
             new_hashtags.forEach(async (ele) => {
               if (!hashtags.includes(ele)) {
-                const hashtagInfo = await hashtag.create({ hashtag: ele });
+                //?
+                //데이터베이스상 모든 헤시태그
+                const hashtagAllDBInfo = await hashtag.findAll();
+                let hashtagAllDBHashtag = [];
+                hashtagAllDBInfo.forEach((ele) => {
+                  hashtagAllDBHashtag.push(ele.hashtag);
+                });
+
+                //new_hashtag의 요소가 모든db상에 없다면 hashtag테이블에 추가
+                if (!hashtagAllDBHashtag.includes(ele)) {
+                  await hashtag.create({ hashtag: ele });
+                }
+                const hashtag_id = await hashtag.findOne({
+                  where: { hashtag: ele },
+                });
+
+                //조인 테이블추가
                 const diary_hashtagPayload = {
                   diary_id: diaryInfo.dataValues.id,
-                  hashtag_id: hashtagInfo.dataValues.id,
+                  hashtag_id: hashtag_id.dataValues.id,
                 };
                 await diary_hashtag.create(diary_hashtagPayload);
               }
             });
-            //만약 hashtag db상에 있는 요소가 new값에 없다면 해당 요소 db상에서 삭제 및 조인테이블에서 삭제 (조인테이블은 관계설정되어있어서 자동 삭제됨)
+            //만약 해당 다이어리의 hashtag db상에 있는 요소가 new값에 없다면 해당 요소 조인테이블상에서 삭제
             hashtags.forEach(async (ele) => {
+              const hashtag_id = await hashtag.findOne({
+                where: { hashtag: ele },
+              });
               if (!new_hashtags.includes(ele)) {
-                const hashtagInfo = await hashtag.destroy({
-                  where: { hashtag: ele },
+                await diary_hashtag.destroy({
+                  where: { hashtag_id: hashtag_id.dataValues.id, diary_id: id },
                 });
               }
             });
