@@ -1,7 +1,6 @@
 const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-const e = require("cors");
 
 module.exports = {
   get: async (req, res) => {
