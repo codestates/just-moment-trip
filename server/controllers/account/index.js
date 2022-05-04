@@ -7,6 +7,10 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
+        console.log("req.params");
+        console.log(req.params);
+        console.log("req.query");
+        console.log(req.query);
         const data = await account.findAll({ where: { trip_id: req.params.trip_id } });
         let data_slack_id = "";
         data.forEach((ele) => {
