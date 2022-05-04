@@ -16,7 +16,7 @@ require("dotenv").config();
     },
     test: {
       username: process.env.DATABASE_USER,
-      password: process.env.MYSQL_PASSWORD,
+      password: process.env.DATABASE_PASSWORD,
       database: "JMT_test",
       host: "127.0.0.1",
       dialect: "mysql",
@@ -29,7 +29,7 @@ require("dotenv").config();
     },
     production: {
       username: process.env.DATABASE_USER,
-      password: process.env.MYSQL_PASSWORD,
+      password: process.env.DATABASE_PASSWORD,
       database: "JMT_production",
       host: process.env.DATABASE_HOST,
       dialect: "mysql",
