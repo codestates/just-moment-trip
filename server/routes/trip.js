@@ -18,14 +18,3 @@ router.post("/:trip_id/account", accountController.post);
 router.delete("/:trip_id/account/:account_id", accountController.delete);
 router.patch("/:trip_id/account/:account_id", accountController.patch);
 module.exports = router;
-
-"id",
-  "title",
-  "country",
-  "total_price",
-  "base_currency",
-  "start_date",
-  "end_date",
-  "createdAt",
-  "updatedAt",
-  "user_id";
