@@ -7,8 +7,9 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
+        const { trip_id } = req.query;
         const data = await diary.findAll({
-          where: { trip_id: req.params.trip_id },
+          where: { trip_id },
         });
         const hashtagsInfo = await diary.findAll({
           include: [
@@ -17,7 +18,7 @@ module.exports = {
               attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
             },
           ],
-          where: { trip_id: req.params.trip_id },
+          where: { trip_id },
         });
 
         hashtagsInfo.forEach((ele, index) => {
@@ -42,7 +43,7 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { title, picture, gps, content, write_date, hashtags } = req.body;
+      const { trip_id, title, picture, gps, content, write_date, hashtags } = req.body;
       if (!title || !picture || !content || !write_date) {
         await slack.slack("Diary Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
@@ -51,7 +52,7 @@ module.exports = {
       if (validity) {
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
-          trip_id: req.params.trip_id,
+          trip_id,
           title,
           picture,
           gps,

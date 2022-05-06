@@ -6,16 +6,25 @@ const user = JSON.parse(localStorage.getItem('user'));
 export const signUp = createAsyncThunk(
   'sign/up',
   async ({ email, nickname, password }) => {
-    const response = await signUpApi(email, nickname, password);
-    return response.data;
+    try {
+      const response = await signUpApi(email, nickname, password);
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
   },
 );
 
 export const signIn = createAsyncThunk(
   'sign/in',
   async ({ email, password }) => {
-    const data = await signInApi(email, password);
-    return { user: data };
+    try {
+      const data = await signInApi(email, password);
+      return { user: data };
+    } catch (err) {
+      console.log(err);
+    }
   },
 );
 
