@@ -1,13 +1,20 @@
-const { trip } = require("../../models");
+const { trip, user } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
+// const user = require("../user");
 module.exports = {
   get: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const data = await trip.findAll();
-        await slack.slack("Trip Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        const data = await trip.findAll({
+          where: { user_id: validity.id },
+        });
+        let data_slack_id = "";
+        data.forEach((ele) => {
+          data_slack_id += `${ele.dataValues.id}, `;
+        });
+        await slack.slack("Trip Get 200", `id : ${data_slack_id}`); //
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
@@ -17,13 +24,17 @@ module.exports = {
   },
 
   post: async (req, res) => {
+    // const post1 = await trip.create({ title: "111" });
+    // const post2 = await trip.create({ title: "222" });
+    // // user.addtrips([post1, post2]);
+    // user.addtrip(post2);
+    //!
     try {
       const { title, country, total_price, base_currency, start_date, end_date } = req.body;
       if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
         await slack.slack("Trip Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
-
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const payload = {

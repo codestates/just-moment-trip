@@ -7,8 +7,13 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const data = await account.findAll({ where: { trip_id: req.params.trip_id } });
-        await slack.slack("Account Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        const { trip_id } = req.query;
+        const data = await account.findAll({ where: { trip_id } });
+        let data_slack_id = "";
+        data.forEach((ele) => {
+          data_slack_id += `${ele.dataValues.id}, `;
+        });
+        await slack.slack("Account Get 200", `id : ${data_slack_id}`);
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
@@ -19,7 +24,7 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { category, item_name, price, spent_person, target_currency, gps, memo, write_date } =
+      const { trip_id, category, item_name, price, spent_person, target_currency, gps, memo, write_date } =
         req.body;
       if (!category || !item_name || !price || !spent_person || !target_currency || !write_date) {
         await slack.slack("Account Post 422");
@@ -28,7 +33,7 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const payload = {
-          trip_id: req.params.trip_id,
+          trip_id,
           category,
           item_name,
           price,

@@ -7,10 +7,32 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
+        const { trip_id } = req.query;
         const data = await diary.findAll({
-          where: { trip_id: req.params.trip_id },
+          where: { trip_id },
         });
-        await slack.slack("Diary Get 200", `id : ${data[0].id} ~ ${data[data.length - 1].id}`);
+        const hashtagsInfo = await diary.findAll({
+          include: [
+            {
+              model: hashtag,
+              attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+            },
+          ],
+          where: { trip_id },
+        });
+
+        hashtagsInfo.forEach((ele, index) => {
+          let hashtags = [];
+          ele.hashtags.forEach((ele) => {
+            hashtags.push(ele.hashtag);
+          });
+          data[index].dataValues.hashtags = hashtags;
+        });
+        let data_slack_id = "";
+        data.forEach((ele) => {
+          data_slack_id += `${ele.dataValues.id}, `;
+        });
+        await slack.slack("Diary Get 200", `id : ${data_slack_id}`);
         res.status(200).send({ data: data, accessToken: validity.accessToken });
       }
     } catch (err) {
@@ -21,7 +43,7 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { title, picture, gps, content, write_date, hashtags } = req.body;
+      const { trip_id, title, picture, gps, content, write_date, hashtags } = req.body;
       if (!title || !picture || !content || !write_date) {
         await slack.slack("Diary Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
@@ -30,35 +52,30 @@ module.exports = {
       if (validity) {
         //해쉬태그 제외한 다이어리 추가
         const diaryPayload = {
-          trip_id: req.params.trip_id,
+          trip_id,
           title,
           picture,
           gps,
           content,
           write_date,
-          hashtags,
         };
-
         const diaryInfo = await diary.create(diaryPayload);
-
         // 해쉬태그 추가 // map같은거 배열로 오는 해쉬태그를 하나하나추가 / 해쉬태그 중복여부
         hashtags.map(async (ele) => {
           const data = await hashtag.findOne({
             where: {
-              hashtags: ele,
+              hashtag: ele,
             },
           });
           let hashtagInfo = data;
-
           //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
           if (!data) {
             const hashtagPayload = {
-              hashtags: ele,
+              hashtag: ele,
             };
             hashtagInfo = await hashtag.create(hashtagPayload);
             await slack.slack("Hashtag Post 201", `id : ${hashtagInfo.id}`);
           }
-
           //조인테이블 추가
           const diary_hashtagPayload = {
             diary_id: diaryInfo.dataValues.id,
@@ -112,18 +129,25 @@ module.exports = {
         const diaryInfo = await diary.findOne({
           where: { id: id },
         });
-        // const hashtagsInfo = map
-        console.log(diaryInfo);
+        const hashtagsInfo = await diary.findAll({
+          include: [
+            {
+              model: hashtag,
+              attributes: ["id", "hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
+            },
+          ],
+          where: { id: id },
+        });
         const { title, content } = diaryInfo;
-        // const hashtags =
-        //배열을 받아와서 각각의 요소가 원래 그 다이어어리 id값에 있는 해쉬태그에 없으면 생성 그리고
-        // 원래 있는 다이어리id값에 해당하는 해쉬태그 배열도 받아와서  받아온 배열에 있는 해쉬태그가 없다면 원래그거 삭제
-        //기존 [1,2,3].map
-        // 받아온거 [1,2,4].map
-        //
-        // const {hashtags} =
+        let hashtags = [];
+        hashtagsInfo[0].hashtags.forEach((ele) => hashtags.push(ele.hashtag));
+
         if (diaryInfo) {
-          if (title === new_title && content === new_content && hashtag === new_hashtags) {
+          if (
+            title === new_title &&
+            content === new_content &&
+            JSON.stringify(hashtags.sort()) === JSON.stringify(new_hashtags.sort())
+          ) {
             // 바뀐게 없음
             await slack.slack("Diary Patch 412", `id : ${id}`);
             res.status(412).send({
@@ -136,10 +160,50 @@ module.exports = {
               {
                 title: new_title,
                 content: new_content,
-                // hashtag: new_hashtags,
               },
               { where: { id: id } }
             );
+            //? 해쉬태그 부분
+            //만약 new값의 요소가 현재 다이어리의 원래 db상에 없다면 조인테이블과 해쉬태그 테이블에 추가
+            new_hashtags.forEach(async (ele) => {
+              if (!hashtags.includes(ele)) {
+                //?
+                //데이터베이스상 모든 헤시태그
+                const hashtagAllDBInfo = await hashtag.findAll();
+                let hashtagAllDBHashtag = [];
+                hashtagAllDBInfo.forEach((ele) => {
+                  hashtagAllDBHashtag.push(ele.hashtag);
+                });
+
+                //new_hashtag의 요소가 모든db상에 없다면 hashtag테이블에 추가
+                if (!hashtagAllDBHashtag.includes(ele)) {
+                  await hashtag.create({ hashtag: ele });
+                }
+                const hashtag_id = await hashtag.findOne({
+                  where: { hashtag: ele },
+                });
+
+                //조인 테이블추가
+                const diary_hashtagPayload = {
+                  diary_id: diaryInfo.dataValues.id,
+                  hashtag_id: hashtag_id.dataValues.id,
+                };
+                await diary_hashtag.create(diary_hashtagPayload);
+              }
+            });
+            //만약 해당 다이어리의 hashtag db상에 있는 요소가 new값에 없다면 해당 요소 조인테이블상에서 삭제
+            hashtags.forEach(async (ele) => {
+              const hashtag_id = await hashtag.findOne({
+                where: { hashtag: ele },
+              });
+              if (!new_hashtags.includes(ele)) {
+                await diary_hashtag.destroy({
+                  where: { hashtag_id: hashtag_id.dataValues.id, diary_id: id },
+                });
+              }
+            });
+            //?
+
             await slack.slack("Diary Patch 200", `id : ${id}`);
             res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
           }
@@ -159,4 +223,3 @@ module.exports = {
     }
   },
 };
-//타이틀 컨탠트 해쉬태그
