@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
+import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
+import dummydata from './dummydata';
 
 function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
   const a = new Date().toLocaleString();
@@ -11,6 +13,12 @@ function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
         <h4>{AccountList.length}개의 기록이 있어요 !</h4>
         <Modal>
           <AccountWriteUp onCreate={onCreate} />
+        </Modal>
+
+        <Modal>
+          <div style={{ width: '400px', height: '500px' }}>
+            <AccountPieChart data={dummydata} />
+          </div>
         </Modal>
       </div>
       <div>
