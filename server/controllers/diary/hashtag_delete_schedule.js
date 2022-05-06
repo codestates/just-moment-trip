@@ -2,7 +2,7 @@ const { diary, hashtag, diary_hashtag } = require("../../models");
 const cron = require("node-cron");
 
 schedule = cron.schedule(
-  "* * * *", //1시간마다
+  "0 * * * *", //1시간마다
   async function () {
     try {
       const hashtagAllDBInfo = await hashtag.findAll();

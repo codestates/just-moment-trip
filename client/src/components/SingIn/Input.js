@@ -36,13 +36,6 @@ function SignInput() {
         '비밀번호는 최소 하나의 문자 및 하나의 숫자로 8자 이상이여야 합니다.',
       )
       .required('Password is required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Password must match')
-      .matches(
-        pwdReg,
-        '비밀번호는 최소 하나의 문자 및 하나의 숫자로 8자 이상이여야 합니다.',
-      )
-      .required('Confirm password is required'),
   });
 
   const handleClick = () => {
@@ -56,11 +49,11 @@ function SignInput() {
       .unwrap()
       .then(res => {
         console.log(res);
-        actions.setSubmittings(false);
+        // actions.setSubmittings(false);
         alert('Success');
       })
       .catch(err => {
-        if (err.response.status === 400) {
+        if (err) {
           actions.resetForm();
           alert(`Email or Password is worng`);
         }
@@ -78,7 +71,7 @@ function SignInput() {
     >
       {() => (
         <Container>
-          <HeadTag>Sign-Up</HeadTag>
+          <HeadTag>Sign-In</HeadTag>
           <Form>
             <TextField label="Email" name="email" type="email" />
             <TextField label="Password" name="password" type="password" />
