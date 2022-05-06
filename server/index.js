@@ -7,6 +7,7 @@ const port = 8080;
 const user = require("./routes/user");
 const sign = require("./routes/sign");
 const trip = require("./routes/trip");
+const ouath = require("./routes/oauth");
 
 app.use(express.json());
 app.use(
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use("/user", user);
 app.use("/sign", sign);
 app.use("/trip", trip);
+app.use("/oauth", ouath);
 
 server = app.listen(port, () => {
   console.log(`Listening on ${port}`);

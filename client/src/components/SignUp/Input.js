@@ -47,16 +47,16 @@ function SignUpInput() {
 
   const signUpRequest = (values, actions) => {
     const { email, nickname, password } = values;
-    console.log(values);
     dispatch(signUp({ email, nickname, password }))
       .unwrap()
       .then(res => {
         console.log(res);
-        actions.setSubmittings(false);
+        // actions.setSubmittings(false);
         alert('Thanks');
       })
       .catch(err => {
-        if (err.response.status === 409) {
+        console.log(err);
+        if (err) {
           actions.resetForm();
           alert(`Email elready exist`);
         } else {
