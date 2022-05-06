@@ -191,7 +191,7 @@ const dummydata = [
   },
   {
     id: 19,
-    category: '기념품',https://github.com/Do66i/just-moment-trip/pull/18/conflict?name=client%252Fsrc%252Fcomponents%252FAccount%252FAccountList.js&ancestor_oid=e1b058522b913ecb9e2ed7229434ced0230b69f4&base_oid=0fd074f68e13e9304959bada6ddd0a8f99b4ce1b&head_oid=e1028bc260a94bad94d4da0a020c51c43741e049
+    category: '기념품',
     item_name: '썬더치킨',
     price: 9000,
     paid_person: '사람1',
@@ -238,7 +238,6 @@ const dummydata = [
     gps: '11.1111, 22.2222',
     target_currency: 'KRW',
     write_date: '2022-01-01 17:13:22',
-
   },
 ];
 

@@ -16,9 +16,6 @@ function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
         </Modal>
         <Modal>
           <AccountPieChart data={dummydata} />
-          <div style={{ width: '400px', height: '500px' }}>
-            <AccountPieChart data={dummydata} />
-          </div>
         </Modal>
       </div>
       <div>
