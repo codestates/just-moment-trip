@@ -1,16 +1,22 @@
 const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+const fuzzy = require("./fuzzy");
 module.exports = {
   get: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const { trip_id } = req.query;
+        const { trip_id, search } = req.query;
         const data = await diary.findAll({
-          where: { trip_id },
+          where: {
+            trip_id,
+            title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
+          },
         });
+        data.forEach((ele) => console.log(ele.title));
         const hashtagsInfo = await diary.findAll({
           include: [
             {
@@ -18,7 +24,10 @@ module.exports = {
               attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
             },
           ],
-          where: { trip_id },
+          where: {
+            trip_id,
+            title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
+          },
         });
 
         hashtagsInfo.forEach((ele, index) => {

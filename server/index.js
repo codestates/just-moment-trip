@@ -8,6 +8,7 @@ const port = 8080;
 const user = require("./routes/user");
 const sign = require("./routes/sign");
 const trip = require("./routes/trip");
+const ouath = require("./routes/oauth");
 const account = require("./routes/account");
 const diary = require("./routes/diary");
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/user", user);
 app.use("/sign", sign);
 app.use("/trip", trip);
+app.use("/oauth", ouath);
 app.use("/account", account);
 app.use("/diary", diary);
 

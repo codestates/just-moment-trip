@@ -9,10 +9,13 @@ module.exports = {
     post: async (req, res) => {
       try {
         // 정보 불충분
+        console.log(req.body);
         const { email, nickname, password } = req.body;
         if (!email || !nickname || !password) {
           await slack.slack("Signup Post 422");
-          return res.status(422).send({ message: "insufficient parameters supplied" });
+          return res
+            .status(422)
+            .send({ message: "insufficient parameters supplied" });
         }
         const userInfo = await user.findOne({
           where: {
@@ -46,11 +49,14 @@ module.exports = {
 
   in: {
     post: async (req, res) => {
+      console.log(req.body);
       try {
         const { email, password } = req.body;
         if (!email || !password) {
           await slack.slack("Signin Post 422");
-          return res.status(422).send({ message: "insufficient parameters supplied" });
+          return res
+            .status(422)
+            .send({ message: "insufficient parameters supplied" });
         }
         //데이터베이스에 email이 없을때
         const emailExists = await user.findOne({
@@ -83,8 +89,12 @@ module.exports = {
             id: userInfo.id,
             email,
           };
-          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30h" });
-          const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, { expiresIn: "7d" });
+          const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+            expiresIn: "30h",
+          });
+          const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+            expiresIn: "7d",
+          });
           res.cookie("refreshToken", refreshToken, {
             sameSite: "Strict",
             httpOnly: true,
