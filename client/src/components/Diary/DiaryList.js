@@ -4,14 +4,21 @@ import DiaryWriteUp from './DiaryWriteUp';
 import Modal from '../common/Modal';
 import axios from 'axios';
 
-function DiaryList({ onCreate, onEdit, onRemove, diaryList, hashTags }) {
+function DiaryList({
+  onCreate,
+  onEdit,
+  onRemove,
+  diaryList,
+  hashTags,
+  changeInput,
+}) {
   const [clickedHashtag, setClickedHashtag] = useState('');
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
 
-  const changeInput = e => {
-    setSearch(e.target.value);
-  };
+  // const changeInput = e => {
+  //   setSearch(e.target.value);
+  // };
 
   const toggleClicked = event => {
     setClicked(true);
@@ -65,8 +72,8 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, hashTags }) {
             <input
               type="text"
               placeholder="입력하지마라"
-              // onKeyPress={onKeyPress}
-              onChange={changeInput}
+              onKeyPress={changeInput}
+              // onChange={changeInput}
             />
           </div>
           <h2>일기 리스트</h2>
