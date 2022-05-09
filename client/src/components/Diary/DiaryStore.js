@@ -13,7 +13,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-const SEARCH = 'SEARCH';
+
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -52,8 +52,6 @@ const reducer = (state, action) => {
 
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
-  const [searchData, setSearchData] = useState('');
-
   const dataId = useRef(0);
   //!
   const [search, setSearch] = React.useState('');
@@ -87,7 +85,7 @@ function DiaryStore() {
         dispatch({ type: INIT, data: initData });
       })
       .catch(err => console.log('에러났는디?', err));
-    dispatch({ type: INIT, data: jjapData });
+    dispatch({ type: INIT, data: dummydata });
   }
 
   useEffect(() => {
@@ -146,7 +144,6 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
-        onKeyPress={onKeyPress}
         // onClicked={onClicked}
         // onFilter={onFilter}
       />

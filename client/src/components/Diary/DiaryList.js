@@ -12,12 +12,7 @@ function DiaryList({
   changeInput,
 }) {
   const [clickedHashtag, setClickedHashtag] = useState('');
-  // const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
-
-  // const changeInput = e => {
-  //   setSearch(e.target.value);
-  // };
 
   const toggleClicked = event => {
     setClicked(true);
