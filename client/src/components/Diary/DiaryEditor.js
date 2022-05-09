@@ -68,6 +68,10 @@ const TagsInput = styled.div`
   }
 `;
 
+const DiaryEditorBox = styled.div`
+  border: 5px solid rgb(124, 152, 188);
+`;
+
 function DiaryEditor({
   diaryList,
   onRemove,
@@ -156,7 +160,7 @@ function DiaryEditor({
   /*<--------------------------------------------------------------------------------------------------------------------->*/
 
   return (
-    <div className="DiaryEditor">
+    <DiaryEditorBox>
       <div className="info">
         {isEdit ? (
           <>
@@ -247,7 +251,7 @@ function DiaryEditor({
           <button onClick={toggleIsEdit}>수정하기</button>
         </>
       )}
-    </div>
+    </DiaryEditorBox>
   );
 }
 export default memo(DiaryEditor);
