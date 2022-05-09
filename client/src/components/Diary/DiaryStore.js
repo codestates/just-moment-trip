@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 import axios from 'axios';
@@ -46,12 +52,15 @@ const reducer = (state, action) => {
 
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [searchData, setSearchData] = useState('');
+
   const dataId = useRef(0);
+  const jjapData = dummydata;
 
   const onKeyPress = e => {
-    if (e.key == 'Enter') {
-      console.log('엔터를 누르면 실행이 됩니까 ? => YES !');
-    }
+    console.log('setsearch전콘솔', searchData);
+    setSearchData(e.target.value);
+    console.log('setsearch전콘솔', searchData);
   };
 
   function getData() {
@@ -68,14 +77,14 @@ function DiaryStore() {
         if (data.data.accessToken) accessToken = data.data.accessToken;
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
-      });
+      })
+      .catch(err => console.log('에러났는디?', err));
+    dispatch({ type: INIT, data: jjapData });
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1500);
-  }, []);
+    getData();
+  }, [searchData]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
@@ -125,6 +134,7 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
+        onKeyPress={onKeyPress}
         // onClicked={onClicked}
         // onFilter={onFilter}
       />

@@ -15,9 +15,7 @@ function Diary() {
     <>
       <Navbar />
       <Box>
-        <DiaryStore>
-          <DiaryList />
-        </DiaryStore>
+        <DiaryStore />
       </Box>
     </>
   );
