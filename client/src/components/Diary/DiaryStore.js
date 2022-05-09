@@ -53,17 +53,12 @@ const reducer = (state, action) => {
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
-  //!
+  //! --------------------------------------------
   const [search, setSearch] = React.useState('');
   const changeInput = e => {
     setSearch(e.target.value);
   };
-  //!
-  // const onKeyPress = e => {
-  //   if (e.key == 'Enter') {
-  //     console.log('엔터를 누르면 실행이 됩니까 ? => YES !');
-  //   }
-  // };
+  //! --------------------------------------------
 
   function getData() {
     let accessToken =
@@ -83,8 +78,12 @@ function DiaryStore() {
         if (data.data.accessToken) accessToken = data.data.accessToken;
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
+<<<<<<< HEAD
       })
       .catch(err => console.log('에러났는디?', err));
+=======
+      });
+>>>>>>> 3ee298380f13687f10e2dd9dc2036e7429ee74d2
     dispatch({ type: INIT, data: dummydata });
   }
 
@@ -129,23 +128,15 @@ function DiaryStore() {
     [],
   );
 
-  // const onClicked = useCallback(selectHashtags => {
-  //   dispatch({ type: ONCKLICKED, selectHashtags });
-  //   console.log('-------- Store의 selectHashtags :', selectHashtags);
-  // }, []);
-
   return (
     <div className="DiaryStore">
       <div>전체 일기 : {data.length}</div>
-      {/* <diaryList =changeInput={changeInput}/> */}
       <DiaryList
         changeInput={changeInput}
         diaryList={data}
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
-        // onClicked={onClicked}
-        // onFilter={onFilter}
       />
     </div>
   );
