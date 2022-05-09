@@ -6,7 +6,6 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.js")[env];
-console.log(config);
 const db = {};
 let sequelize;
 if (config.use_env_variable) {
@@ -47,16 +46,18 @@ db.trip.hasMany(db.diary, { foreignKey: "trip_id", sourceKey: "id" });
 db.diary.belongsTo(db.trip, { foreignKey: "trip_id", targetKey: "id" });
 
 db.diary.belongsToMany(db.hashtag, {
-  through: "diary-hashtag",
+  through: "diary_hashtag",
   foreignKey: "diary_id",
   sourceKey: "id",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 db.hashtag.belongsToMany(db.diary, {
-  through: "diary-hashtag",
+  through: "diary_hashtag",
   foreignKey: "hashtag_id",
   sourceKey: "id",
-  onDelete: "cascade",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
 db.sequelize = sequelize;

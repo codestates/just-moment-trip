@@ -2,16 +2,33 @@ const { user } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const tokenHandler = require("../tokenHandler");
+const slack = require("../slack");
+const trip = require("../trip");
 
 module.exports = {
   get: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
-        const data = await user.findAll();
-        res.status(200).send({ data: data, accessToken: validity.accessToken });
+        const { id, email, accessToken } = validity;
+        const userInfo = await user.findeOne({
+          where: { id, email },
+        });
+        const trips = await trip.findAll({
+          where: { user_id: id },
+        });
+        const num_trips = trips.length;
+
+        const data = {
+          email,
+          nickname: userInfo.nickname,
+          num_trips,
+        };
+        await slack.slack("User Get 200", `id : ${id}`);
+        res.status(200).send({ data, accessToken });
       }
     } catch (err) {
+      await slack.slack("User Get 501");
       res.status(501).send("User Get");
     }
   },
@@ -26,25 +43,37 @@ module.exports = {
             password: req.body.password,
           },
         });
-
-        await user.update({ password: req.body.newPassword }, { where: { id: userInfo.id } });
-        res.status(200).send({ accessToken: validity.accessToken });
+        if (!userInfo) {
+          await slack.slack("User Patch 404", `id : ${validity.id}`);
+          res.status(404).send({
+            data: { id: validity.id },
+            message: "No User",
+          });
+        }
+        await user.update({ password: req.body.new_password }, { where: { id: userInfo.id } });
+        await slack.slack("User Patch 200", `id : ${userInfo.id}`);
+        res.status(200).send({ data: { id: userInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
-      res.status(501).send("Use Patch");
+      await slack.slack("User Patch 501");
+      res.status(501).send("User Patch");
     }
   },
   delete: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req);
+      console.log(validity);
       if (validity) {
         await user.destroy({
           where: { id: validity.id },
         });
-        res.status(200).send();
+        console.log(22222222);
+        await slack.slack("User Delete 200", `id : ${validity.id}`);
+        res.status(200).send({ data: validity.id });
       }
     } catch (err) {
-      res.status(501).send("User delete");
+      await slack.slack("User Delete 501");
+      res.status(501).send("User Delete");
     }
   },
 };

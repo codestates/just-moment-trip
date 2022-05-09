@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react';
-const moment = require('moment');
 
 function AccountWriteUp({ onCreate, openModalHandler }) {
   const item_nameInput = useRef();
   const priceInput = useRef();
-  const paid_personInput = useRef();
+  const spent_personInput = useRef();
   const target_currencyInput = useRef();
   const memoInput = useRef();
 
@@ -57,7 +56,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       return;
     }
 
-    if (state.memo.length < 5) {
+    if (state.memo.length < 1) {
       memoInput.current.focus();
       return;
     }
@@ -124,7 +123,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
             돈 쓴 사람
             <input
               className="spent_personInput"
-              ref={paid_personInput}
+              ref={spent_personInput}
               value={state.spent_person || ''}
               name="spent_person"
               onChange={handleChangeState}
@@ -171,6 +170,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
             <option value={'교통비'}>교통비</option>
             <option value={'숙박비'}>숙박비</option>
             <option value={'티켓'}>티켓</option>
+            <option value={'기념품'}>기념품</option>
             <option value={'기타항목'}>기타항목</option>
           </select>
         </span>

@@ -25,6 +25,8 @@ const reducer = (state, action) => {
         ...action.data,
         create_date,
       };
+      console.log('--------🚨 Store의 state-------- :', state);
+
       return [newItem, ...state];
     }
     case REMOVE: {
@@ -33,7 +35,15 @@ const reducer = (state, action) => {
     case EDIT: {
       return state.map(it =>
         it.id === action.targetId
-          ? { ...it, price: action.newPrice, memo: action.newMemo }
+          ? {
+              ...it,
+              price: action.new_price,
+              memo: action.new_memo,
+              spent_person: action.new_spent_person,
+              item_name: action.new_item_name,
+              target_currency: action.new_target_currency,
+              category: action.new_category,
+            }
           : it,
       );
     }
@@ -43,7 +53,6 @@ const reducer = (state, action) => {
 };
 
 function AccountStore() {
-  const [accountData, accountSetData] = useState([]);
   const [data, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
@@ -78,8 +87,9 @@ function AccountStore() {
         },
       });
       dataId.current += 1;
+      console.log('AccountStore dataId 확인 :', dataId.current);
     },
-    [data],
+    [],
   );
   // let newDate = new Date();
   // let nowTime =
@@ -95,21 +105,30 @@ function AccountStore() {
   //   ':' +
   //   newDate.getSeconds();
 
-  const onRemove = targetId => {
+  const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
+  }, []);
 
-    const newAccountList = data.filter(it => it.id !== targetId);
-    accountSetData(newAccountList);
-  };
-
-  const onEdit = (targetId, newPrice, newMemo) => {
-    dispatch({ type: EDIT, targetId, newPrice, newMemo });
-
-    accountSetData(
-      data.map(it =>
-        it.id === targetId ? { ...it, price: newPrice, memo: newMemo } : it,
-      ),
-    );
+  const onEdit = (
+    targetId,
+    new_price,
+    new_memo,
+    new_spent_person,
+    new_item_name,
+    new_target_currency,
+    new_category,
+  ) => {
+    dispatch({
+      type: EDIT,
+      targetId,
+      new_price,
+      new_memo,
+      new_spent_person,
+      new_item_name,
+      new_target_currency,
+      new_category,
+    }),
+      [];
   };
 
   const memoizedDispatches = useMemo(() => {
