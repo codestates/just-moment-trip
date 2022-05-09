@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 
 import AccountList from './AccountList';
+import dummydata from './dummydata';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -54,11 +55,16 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const initData = dummydata;
+  function getData() {
+    dispatch({ type: 'INIT', data: initData });
+  }
 
   const dataId = useRef(0);
 
   useEffect(() => {
     setTimeout(() => {
+      getData();
       console.log('setTimeout 확인용');
     }, 1500);
   }, []);
