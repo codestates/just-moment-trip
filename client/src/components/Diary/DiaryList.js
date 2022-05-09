@@ -3,16 +3,21 @@ import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
 import Modal from '../common/Modal';
 
-function DiaryList({ onCreate, onEdit, onRemove, diaryList, onKeyPress }) {
+function DiaryList({
+  onCreate,
+  onEdit,
+  onRemove,
+  diaryList,
+  hashTags,
+  changeInput,
+}) {
   const [clickedHashtag, setClickedHashtag] = useState('');
+  // const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
 
-  const changeInput = e => {
-    if (e.key == 'Enter') {
-      console.log('왜안돼', e.target.value);
-      onKeyPress(e);
-    }
-  };
+  // const changeInput = e => {
+  //   setSearch(e.target.value);
+  // };
 
   const toggleClicked = event => {
     setClicked(true);
