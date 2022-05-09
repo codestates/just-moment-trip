@@ -5,7 +5,8 @@ require("dotenv").config();
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: "JMT_development",
-      host: "127.0.0.1",
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
       dialect: "mysql",
       timezone: "+09:00",
       dialectOptions: {
@@ -18,7 +19,8 @@ require("dotenv").config();
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: "JMT_test",
-      host: "127.0.0.1",
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
       dialect: "mysql",
       timezone: "+09:00",
       dialectOptions: {
@@ -32,6 +34,7 @@ require("dotenv").config();
       password: process.env.DATABASE_PASSWORD,
       database: "JMT_production",
       host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
       dialect: "mysql",
       timezone: "+09:00",
       dialectOptions: {
