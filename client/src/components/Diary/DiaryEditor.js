@@ -81,7 +81,7 @@ function DiaryEditor({
 }) {
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
-  });
+  }, []);
 
   const localContentInput = useRef();
   const lacalTitleInput = useRef();

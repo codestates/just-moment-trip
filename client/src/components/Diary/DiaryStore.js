@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
+import axios from 'axios';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -46,29 +47,29 @@ const reducer = (state, action) => {
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
-  const initData = dummydata;
+
+  const onKeyPress = e => {
+    if (e.key == 'Enter') {
+      console.log('엔터를 누르면 실행이 됩니까 ? => YES !');
+    }
+  };
+
   function getData() {
-    dispatch({ type: 'INIT', data: initData });
+    let accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjA3OTM2MywiZXhwIjoxNjUyMTg3MzYzfQ.xbjdPPuQNiFpNQuVShyQbC302BMuLlMAQJOMu3Vtk40';
+    axios
+      .get('http://localhost:8080/diary?trip_id=1', {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(data => {
+        if (data.data.accessToken) accessToken = data.data.accessToken;
+        const initData = data.data.data;
+        dispatch({ type: INIT, data: initData });
+      });
   }
-
-  // const getData = async () => {
-  //   const res = await fetch(
-  //     'https://jsonplaceholder.typicode.com/comments',
-  //   ).then(res => res.json());
-
-  //   const initData = res.slice(0, 5).map(it => {
-  //     return {
-  //       title: it.email,
-  //       content: it.body,
-  //       hashtags: [it.name],
-  //       // emotion: Math.floor(Math.random() * 5) + 1,
-  //       write_date: new Date().getTime() + 1,
-  //       id: dataId.current++,
-  //     };
-  //   });
-
-  //   dispatch({ type: 'INIT', data: initData });
-  // };
 
   useEffect(() => {
     setTimeout(() => {

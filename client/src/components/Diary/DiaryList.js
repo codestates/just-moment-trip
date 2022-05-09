@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
-import styled from 'styled-components';
 import Modal from '../common/Modal';
+import axios from 'axios';
 
 function DiaryList({ onCreate, onEdit, onRemove, diaryList, hashTags }) {
-  if (diaryList[0] !== undefined) {
-    console.log(diaryList[0].hashtags);
-  }
-
-  const navigate = useNavigate();
-
   const [clickedHashtag, setClickedHashtag] = useState('');
-  //
+  const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
+
+  const changeInput = e => {
+    setSearch(e.target.value);
+  };
+
   const toggleClicked = event => {
     setClicked(true);
     setClickedHashtag(event.target.innerText);
@@ -62,6 +60,14 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, hashTags }) {
             <Modal>
               <DiaryWriteUp onCreate={onCreate} />
             </Modal>
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="입력하지마라"
+              // onKeyPress={onKeyPress}
+              onChange={changeInput}
+            />
           </div>
           <h2>일기 리스트</h2>
           <h4>{diaryList.length}개의 일기가 있습니다.</h4>
