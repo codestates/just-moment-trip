@@ -69,7 +69,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       state.spent_person,
       state.memo,
       // state.new Date
-      (state.write_date = new Date().toLocaleString()),
+      (state.write_date = new Date().toLocaleDateString()),
     );
     alert('저장성공!');
     setState({

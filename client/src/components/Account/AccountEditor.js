@@ -176,7 +176,7 @@ function AccountItem({
             </div>
             <div className=" AccountCategoryBox">카테고리 : {category}</div>
             <div className="dateBox">
-              <span className="date">{write_date}</span>
+              <span className="date">{write_date.split(' ')[0]}</span>
             </div>
             <div className="AccountItemContentBox">
               <div className="AccountItemContentBoxText1">
