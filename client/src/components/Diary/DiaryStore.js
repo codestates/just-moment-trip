@@ -64,7 +64,7 @@ function DiaryStore() {
   function getData() {
     let accessToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjA3OTM2MywiZXhwIjoxNjUyMTg3MzYzfQ.xbjdPPuQNiFpNQuVShyQbC302BMuLlMAQJOMu3Vtk40';
-    let url = 'http://localhost:8080/diary?trip_id=1';
+    let url = 'https://www.just-momet-trip.tk/diary?trip_id=1';
 
     if (search) url += `&search=${search}`;
     axios
@@ -78,10 +78,7 @@ function DiaryStore() {
         if (data.data.accessToken) accessToken = data.data.accessToken;
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
-      })
-      .catch(err => console.log('에러났는디?', err));
-
-    dispatch({ type: INIT, data: dummydata });
+    });
   }
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
 import styled from 'styled-components';
 import Modal from '../common/Modal';
-
+const fuzzy = require('./fuzzy');
 function DiaryList({
   onCreate,
   onEdit,
@@ -25,7 +25,9 @@ function DiaryList({
     console.log('------------- clicked?', clicked);
     console.log('------------- clickedHashtag', clickedHashtag);
   };
-
+  console.log('diaryList', diaryList);
+  console.log(fuzzy.sort(diaryList, search));
+  console.log('diaryList', diaryList);
   function filterDiary() {
     return diaryList.filter(it => {
       let test = false;
