@@ -37,7 +37,7 @@ function chageUnicode(ch) {
   return ch;
   // return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
 }
-exports.createFuzzyMatcher = input => {
+createFuzzyMatcher = input => {
   if (input === undefined) return '.';
   const pattern = input
     .split('')
@@ -46,3 +46,21 @@ exports.createFuzzyMatcher = input => {
     .join('.*?');
   return new RegExp(pattern);
 };
+
+exports.chageRed = (data, search) => {
+  const regex = createFuzzyMatcher(search); //새[uadqoe92-1238ed].*/[213]
+  const resultData = data.replace(regex, (match, ...groups) => {
+    const letters = groups.slice(0, search.length);
+    let lastIndex = 0;
+    let redColor = [];
+    for (let i = 0, l = letters.length; i < l; i++) {
+      const idx = match.indexOf(letters[i], lastIndex);
+      redColor.push(match.substring(lastIndex, idx));
+      redColor.push(`<span style="color: red">${letters[i]}</span>`);
+      lastIndex = idx + 1;
+    }
+    return redColor.join('');
+  });
+  return resultData;
+};
+// console.log(this.chageRed('새우깡은과자다', '새우'));

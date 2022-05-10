@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
 import Modal from '../common/Modal';
@@ -11,14 +11,10 @@ function DiaryList({
   diaryList,
   hashTags,
   changeInput,
+  search,
 }) {
   const [clickedHashtag, setClickedHashtag] = useState('');
-  // const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
-
-  // const changeInput = e => {
-  //   setSearch(e.target.value);
-  // };
 
   const toggleClicked = event => {
     setClicked(true);
@@ -36,7 +32,6 @@ function DiaryList({
       return test;
     });
   }
-
   return (
     <div className="DiaryList">
       {clicked ? (
@@ -51,6 +46,7 @@ function DiaryList({
               onEdit={onEdit}
               onRemove={onRemove}
               toggleClicked={toggleClicked}
+              search={search}
             />
           ))}
           <button
@@ -88,6 +84,7 @@ function DiaryList({
                 onEdit={onEdit}
                 onRemove={onRemove}
                 toggleClicked={toggleClicked}
+                search={search}
               />
             ))}
           </div>

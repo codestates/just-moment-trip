@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 import axios from 'axios';
+import DiaryEditor from './DiaryEditor';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-const SEARCH = 'SEARCH';
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -47,23 +47,18 @@ const reducer = (state, action) => {
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
-  //!
   const [search, setSearch] = React.useState('');
+
   const changeInput = e => {
-    setSearch(e.target.value);
+    if (e.key === 'Enter') {
+      setSearch(e.target.value);
+    }
   };
-  //!
-  // const onKeyPress = e => {
-  //   if (e.key == 'Enter') {
-  //     console.log('엔터를 누르면 실행이 됩니까 ? => YES !');
-  //   }
-  // };
 
   function getData() {
     let accessToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjA3OTM2MywiZXhwIjoxNjUyMTg3MzYzfQ.xbjdPPuQNiFpNQuVShyQbC302BMuLlMAQJOMu3Vtk40';
     let url = 'http://localhost:8080/diary?trip_id=1';
-    console.log('SEARCH', search);
 
     if (search) url += `&search=${search}`;
     axios
@@ -81,9 +76,7 @@ function DiaryStore() {
   }
 
   useEffect(() => {
-    // setTimeout(() => {
     getData();
-    // }, 1500);
   }, [search]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
@@ -104,7 +97,6 @@ function DiaryStore() {
     console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
-
   const onEdit = useCallback(
     (targetId, new_content, new_title, new_hashtags) => {
       dispatch({
@@ -136,6 +128,7 @@ function DiaryStore() {
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
+        search={search}
         // onClicked={onClicked}
         // onFilter={onFilter}
       />
