@@ -1,11 +1,20 @@
 import React from 'react';
+import Footer from '../common/Footer';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
 import dummydata from './dummydata';
 
-function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
+function AccountList({
+  AccountList,
+  onEdit,
+  onRemove,
+  onCreate,
+  totalSpentString,
+  remainingString,
+  PercentageOfAmountUsed,
+}) {
   // const a = new Date().toLocaleString();
   return (
     <div className="AccountList">
@@ -30,6 +39,11 @@ function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
           />
         ))}
       </div>
+      <Footer
+        totalSpentString={totalSpentString}
+        remainingString={remainingString}
+        PercentageOfAmountUsed={PercentageOfAmountUsed}
+      />
     </div>
   );
 }

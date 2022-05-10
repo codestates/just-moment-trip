@@ -141,6 +141,7 @@ function AccountStore() {
   let totalPriceString = 0; // 총금액
   let totalSpentString = 0; // 사용금액
   let remainingString = 0; // 남은금액
+  let PercentageOfAmountUsed = 0; // 사용금액백분율
 
   totalPriceString = `${totalPrice.toLocaleString()}원`;
   let totalSpent = 0;
@@ -152,6 +153,7 @@ function AccountStore() {
 
   totalSpentString = `${totalSpent.toLocaleString()}원`;
   remainingString = `${(totalPrice - totalSpent).toLocaleString()}원`;
+  PercentageOfAmountUsed = `${((totalSpent / totalPrice) * 100).toFixed(2)}%`;
 
   return (
     <div
@@ -178,6 +180,9 @@ function AccountStore() {
         onEdit={onEdit}
         onRemove={onRemove}
         AccountList={data}
+        totalSpentString={totalSpentString}
+        remainingString={remainingString}
+        PercentageOfAmountUsed={PercentageOfAmountUsed}
       />
     </div>
   );
