@@ -72,7 +72,7 @@ function DiaryStore() {
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
       });
-    dispatch({ type: INIT, data: dummydata });
+    // dispatch({ type: INIT, data: dummydata });
   }
 
   useEffect(() => {

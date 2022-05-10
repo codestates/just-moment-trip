@@ -62,3 +62,31 @@ exports.chageRed = (data, search) => {
   });
   return resultData;
 };
+exports.sort = (data, search) => {
+  const regex = createFuzzyMatcher(search);
+  const resultData = data.map(ele => {
+    let totalDistance = 0;
+    const title = ele.title.replace(regex, (match, ...groups) => {
+      const letters = groups.slice(0, search.length);
+      let lastIndex = 0;
+      let redColor = [];
+      for (let i = 0, l = letters.length; i < l; i++) {
+        const idx = match.indexOf(letters[i], lastIndex);
+        redColor.push(match.substring(lastIndex, idx));
+        redColor.push(`${letters[i]}`);
+        if (lastIndex > 0) {
+          totalDistance += idx - lastIndex;
+        }
+        lastIndex = idx + 1;
+      }
+      return redColor.join('');
+    });
+    return { title, totalDistance };
+  });
+  resultData.sort((a, b) => {
+    return a.totalDistance - b.totalDistance;
+  });
+  for (let i = 0; i < data.length; i++) {
+    data[i].title = resultData[i].title;
+  }
+};
