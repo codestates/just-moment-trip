@@ -19,7 +19,7 @@ const UPDATE = 'UPDATE';
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data;
+      return action.data.reverse();
     }
     case CREATE: {
       const create_date = new Date().getTime();
@@ -70,6 +70,8 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
+
   const getData = () => {
     let accessToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
@@ -91,11 +93,10 @@ function AccountStore() {
   const dataId = useRef(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-      console.log('setTimeout 확인용');
-    }, 1500);
-  }, []);
+    getData();
+    console.log('setTimeout 확인용');
+    console.log('--------------- useEffect', isTrue);
+  }, [isTrue]);
 
   const onCreate = useCallback(
     (
@@ -120,6 +121,7 @@ function AccountStore() {
           id: dataId.current,
         },
       });
+      // console.log()
       dataId.current += 1;
       console.log('AccountStore dataId 확인 :', dataId.current);
 
@@ -148,6 +150,8 @@ function AccountStore() {
           },
         )
         .then(res => {
+          setIsTrue(currentIsTrue => !currentIsTrue);
+          console.log('--------------- onCreate', isTrue);
           console.log(res.data);
           console.log(res.status);
         })
@@ -177,6 +181,7 @@ function AccountStore() {
         },
       })
       .then(res => {
+        console.log('--------------- 삭제시', isTrue);
         console.log(res.data);
         console.log(res.status);
       })
