@@ -14,7 +14,6 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-const UPDATE = 'UPDATE';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,20 +48,6 @@ const reducer = (state, action) => {
           : it,
       );
     }
-
-    // case UPDATE: {
-    //   let accessToken =
-    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-    //   let url = 'https://www.just-moment-trip.tk/account?trip_id=2';
-    //   const AccountInfo = await axios.get(url, {
-    //     headers: {
-    //       authorization: `Bearer ${accessToken}`,
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-    //   console.log(AccountInfo.data);
-    //   return AccountInfo.data;
-    // }
     default:
       return state;
   }
