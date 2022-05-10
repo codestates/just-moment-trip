@@ -137,50 +137,41 @@ function AccountStore() {
       [];
   };
 
-  const memoizedDispatches = useMemo(() => {
-    return { onCreate, onRemove, onEdit };
-  }, []);
+  let totalPrice = 10000000; // 총금액 (서버에서 요청받아함)
+  let totalPriceString = 0; // 총금액
+  let totalSpentString = 0; // 사용금액
+  let remainingString = 0; // 남은금액
+  let PercentageOfAmountUsed = 0; // 사용금액백분율
 
-  // let totalPrice = context.state.tripList[0].totalPrice;
-  // let totalPriceString = '';
-  // let totalSpentString = '';
-  // let remainingString = '';
-  // if (totalPrice < 10000) {
-  //   totalPriceString = `${totalPrice}원`;
-  // } else {
-  //   totalPriceString = `${totalPrice / 10000}만원`;
-  // }
-  // let totalSpent = 0;
-  // if (accountData.length > 0) {
-  //   totalSpent = accountData
-  //     .map(el => el.price)
-  //     .reduce((prev, next) => prev + next, 0);
-  // }
+  totalPriceString = `${totalPrice.toLocaleString()}원`;
+  let totalSpent = 0;
+  if (data.length > 0) {
+    totalSpent = data
+      .map(el => el.price)
+      .reduce((prev, next) => Number(prev) + Number(next), 0);
+  } // list에서 거르고 거르는 작업 !
 
-  // if (totalSpent < 10000) {
-  //   totalSpentString = `${totalSpent}원`;
-  // } else {
-  //   totalSpentString = `${totalSpent / 10000}만원`;
-  // }
-
-  // if (totalPrice - totalSpent < 10000) {
-  //   remainingString = `${totalPrice - totalSpent}원`;
-  // } else {
-  //   remainingString = `${(totalPrice - totalSpent) / 10000}만원`;
-  // }
+  totalSpentString = `${totalSpent.toLocaleString()}원`;
+  remainingString = `${(totalPrice - totalSpent).toLocaleString()}원`;
+  PercentageOfAmountUsed = `${((totalSpent / totalPrice) * 100).toFixed(2)}%`;
 
   return (
-    <div className="Account">
+    <div
+      className="Account"
+      style={{
+        padding: '70px 0',
+      }}
+    >
       <div className="AccountHead">
         <div className="AccountHeadSpan">
           <div className="AccountHeadTotalMoney">
             {/* {`${getName(context.state.tripList[0].country)}에`} */}
+            미국에
             <br />
-            {/* {`총 ${totalPriceString}을 들고갔어요`} */}총 10억원 들고갔어요
+            {`총 ${totalPriceString}을 들고갔어요`}
           </div>
           <div className="AccountHeadpaidMoney">
-            {/* {`✅ 사용한돈${totalSpentString}/남은돈${remainingString}`} */}
-            사용한돈 20000원 / 남은돈 9억 9998만원
+            {`✅ 사용한돈${totalSpentString}/남은돈${remainingString}`}
           </div>
         </div>
       </div>
@@ -189,6 +180,9 @@ function AccountStore() {
         onEdit={onEdit}
         onRemove={onRemove}
         AccountList={data}
+        totalSpentString={totalSpentString}
+        remainingString={remainingString}
+        PercentageOfAmountUsed={PercentageOfAmountUsed}
       />
     </div>
   );

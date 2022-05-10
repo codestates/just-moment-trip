@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { kakaoSign } from '../../services/sign';
+import { useNavigate } from 'react-router-dom';
+import { kakaoLogIn } from '../../modules/Reducers/userReducer';
 import Spinner from '../Spinner/index';
 
 function KakaoSignIn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
 
-  console.log(code);
-  // useEffect(async () => {
-  //   await kakaoSign(code);
-  // }, []);
+  useEffect(() => {
+    dispatch(kakaoLogIn(code))
+      .unwrap()
+      .then(() => {
+        navigate('/');
+      });
+  }, []);
 
-  return <div>Loading...</div>;
+  return <Spinner />;
 }
 
 export default KakaoSignIn;

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import AccountStore from '../components/Account/AccountStore';
 import AccountList from '../components/Account/AccountList';
+import AccountStore from '../components/Account/AccountStore';
+import Footer from '../components/common/Footer';
 import Navbar from '../components/common/Navbar';
 
 const Box = styled.div`
@@ -15,9 +16,7 @@ function Account() {
     <>
       <Navbar />
       <Box>
-        <AccountStore>
-          <AccountList />
-        </AccountStore>
+        <AccountStore />
       </Box>
     </>
   );

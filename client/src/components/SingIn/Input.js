@@ -49,7 +49,6 @@ function SignInput() {
       .unwrap()
       .then(res => {
         console.log(res);
-        // actions.setSubmittings(false);
         alert('Success');
       })
       .catch(err => {

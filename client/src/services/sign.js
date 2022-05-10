@@ -38,13 +38,16 @@ export const signOutApi = () => {
 };
 
 export const kakaoSign = code => {
-  axios
-    .get(`http://localhost:8080/oauth/callback/kakao?code=${code}`)
+  axios({
+    method: 'GET',
+    url: `http://localhost:8080/oauth/callback/kakao?code=${code}`,
+  })
     .then(res => {
-      console.log(res);
-      const ACCESS_TOKEN = res.data.accessToken;
-      localStorage.setItem('KakaoToken', ACCESS_TOKEN);
+      console.log(res.data);
+      localStorage.setItem('user', JSON.stringify(res.data));
       alert('success');
+      window.location.reload();
+      return res.data;
     })
     .catch(err => {
       console.log(err);

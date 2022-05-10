@@ -5,6 +5,10 @@ import styled from 'styled-components';
 
 const NavbarBox = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   font-size: 20px;
   padding: 20px 0px;
   width: 100%;
@@ -32,6 +36,11 @@ function Navbar() {
       <div className="Navbar_4">
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/mypage">
           Mypage
+        </Link>
+      </div>
+      <div className="Navbar_5">
+        <Link style={{ textDecoration: 'none', color: 'black' }} to="/aboutUs">
+          AboutUs
         </Link>
       </div>
     </NavbarBox>

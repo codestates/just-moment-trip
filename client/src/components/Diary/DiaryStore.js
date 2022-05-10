@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 import axios from 'axios';
@@ -7,6 +13,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
+
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -71,8 +78,7 @@ function DiaryStore() {
         if (data.data.accessToken) accessToken = data.data.accessToken;
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
-      });
-    // dispatch({ type: INIT, data: dummydata });
+    });
   }
 
   useEffect(() => {

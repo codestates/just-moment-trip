@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { signInApi, signUpApi, signOutApi } from '../../services/sign';
+import {
+  signInApi,
+  signUpApi,
+  signOutApi,
+  kakaoSign,
+} from '../../services/sign';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -21,7 +26,21 @@ export const signIn = createAsyncThunk(
   async ({ email, password }) => {
     try {
       const data = await signInApi(email, password);
+      console.log(data);
       return { user: data };
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
+
+export const kakaoLogIn = createAsyncThunk(
+  'oauth/callback/kakao',
+  async (code, thunkAPI) => {
+    try {
+      const result = await kakaoSign(code);
+      console.log(result);
+      return { user: result };
     } catch (err) {
       console.log(err);
     }
@@ -56,6 +75,10 @@ const signSlice = createSlice({
     [signOut.fulfilled]: state => {
       state.isLoggedIn = false;
       state.user = null;
+    },
+    [kakaoLogIn.fulfilled]: (state, action) => {
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
     },
   },
 });
