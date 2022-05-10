@@ -26,8 +26,8 @@ function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
           <p>{PercentageOfAmountUsed}</p>
         </div>
         <div>
-          <div>{totalSpentString}원</div>
-          <div>{remainingString}원</div>
+          <div>{totalSpentString}</div>
+          <div>{remainingString}</div>
         </div>
       </div>
     </FooterBox>

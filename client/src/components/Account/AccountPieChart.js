@@ -7,7 +7,7 @@ function AccountPieChart({ data /* see data tab */ }) {
       .filter(el => el.category === category)
       .map(el => el.price)
       .reduce((acc, cur) => {
-        return acc + cur;
+        return Number(acc) + Number(cur);
       }, 0);
   }
 
