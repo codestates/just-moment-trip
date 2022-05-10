@@ -1,3 +1,4 @@
+import { doc } from 'prettier';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -92,7 +93,6 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     content: '',
     write_date: '',
   });
-
   const handleChangeState = e => {
     // console.log('타겟이름: ', e.target.name);
     // console.log('타겟벨류: ', e.target.value);
@@ -123,7 +123,6 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       content: '',
       write_date: '',
     });
-
     openModalHandler(false);
   };
 
