@@ -1,7 +1,8 @@
+import { set } from 'lodash';
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
+const fuzzy = require('./fuzzy');
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
@@ -12,7 +13,6 @@ const TagsInput = styled.div`
   padding: 0 8px;
   border: 10px solid rgb(93, 176, 198);
   border-radius: 6px;
-
   > ul {
     display: flex;
     flex-wrap: wrap;
@@ -82,10 +82,19 @@ function DiaryEditor({
   content,
   write_date,
   hashtags,
+  search,
 }) {
+  const titleInput = useRef();
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
-  }, []);
+    titleInput.current.innerHTML = titleInput.current.innerHTML
+      .replace(/<span style="color: red">/g, '')
+      .replace(/<\/span>/g, '');
+    titleInput.current.innerHTML = fuzzy.chageRed(
+      titleInput.current.innerHTML,
+      search,
+    );
+  }, [search]);
 
   const localContentInput = useRef();
   const lacalTitleInput = useRef();
@@ -94,7 +103,6 @@ function DiaryEditor({
   const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
-
   const handleClickRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
       onRemove(id);
@@ -158,7 +166,6 @@ function DiaryEditor({
   }
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
-
   return (
     <DiaryEditorBox>
       <div className="info">
@@ -205,7 +212,9 @@ function DiaryEditor({
           </>
         ) : (
           <>
-            <div className="title">{title}</div>
+            <div className="title" ref={titleInput}>
+              {title}
+            </div>
             <div className="content">{content}</div>
             <div className="hashtags">
               {localHashtags.length === 0 ? (
@@ -254,4 +263,5 @@ function DiaryEditor({
     </DiaryEditorBox>
   );
 }
+
 export default memo(DiaryEditor);

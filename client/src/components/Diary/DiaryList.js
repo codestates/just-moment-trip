@@ -4,11 +4,18 @@ import DiaryWriteUp from './DiaryWriteUp';
 import styled from 'styled-components';
 import Modal from '../common/Modal';
 
-const DiaryListBox = styled.div`
-  text-align: center;
-`;
+function DiaryList({
+  onCreate,
+  onEdit,
+  onRemove,
+  diaryList,
 
-function DiaryList({ onCreate, onEdit, onRemove, diaryList, changeInput }) {
+  changeInput,
+  search,
+}) {
+  const DiaryListBox = styled.div`
+    text-align: center;
+  `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
 
@@ -28,7 +35,6 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, changeInput }) {
       return test;
     });
   }
-
   return (
     <DiaryListBox>
       {clicked ? (
@@ -43,6 +49,7 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, changeInput }) {
               onEdit={onEdit}
               onRemove={onRemove}
               toggleClicked={toggleClicked}
+              search={search}
             />
           ))}
           <button
@@ -66,7 +73,6 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, changeInput }) {
               type="text"
               placeholder="입력하지마라"
               onKeyPress={changeInput}
-              // onChange={changeInput}
             />
           </div>
           <h2>일기 리스트</h2>
@@ -81,6 +87,7 @@ function DiaryList({ onCreate, onEdit, onRemove, diaryList, changeInput }) {
                 onEdit={onEdit}
                 onRemove={onRemove}
                 toggleClicked={toggleClicked}
+                search={search}
               />
             ))}
           </div>
