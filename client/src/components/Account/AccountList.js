@@ -4,6 +4,20 @@ import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
+import styled from 'styled-components';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+
+const some = <FontAwesomeIcon icon={faPen} />;
+
+const ModalBox = styled.div`
+  display: flex;
+`;
+
+const AccountListBox = styled.div`
+  text-align: center;
+`;
 
 function AccountList({
   data,
@@ -19,14 +33,17 @@ function AccountList({
     <div className="AccountList">
       <div className="AccountListSpanBox">
         <h4>{AccountList.length}개의 기록이 있어요 !</h4>
-        <Modal>
-          <AccountWriteUp onCreate={onCreate} />
-        </Modal>
-        <Modal>
-          <AccountPieChart data={data} />
-        </Modal>
+        {some}
+        <ModalBox>
+          <Modal>
+            <AccountWriteUp onCreate={onCreate} />
+          </Modal>
+          <Modal>
+            <AccountPieChart data={data} />
+          </Modal>
+        </ModalBox>
       </div>
-      <div>
+      <AccountListBox>
         {data.map(it => (
           <AccountEditor
             key={it.id}
@@ -37,7 +54,7 @@ function AccountList({
             AccountList={AccountList}
           />
         ))}
-      </div>
+      </AccountListBox>
       <Footer
         totalSpentString={totalSpentString}
         remainingString={remainingString}
