@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
+import styled from 'styled-components';
 import Modal from '../common/Modal';
-import axios from 'axios';
 
 function DiaryList({
   onCreate,
   onEdit,
   onRemove,
   diaryList,
-  hashTags,
+
   changeInput,
   search,
 }) {
+  const DiaryListBox = styled.div`
+    text-align: center;
+  `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
 
@@ -33,7 +36,7 @@ function DiaryList({
     });
   }
   return (
-    <div className="DiaryList">
+    <DiaryListBox>
       {clicked ? (
         <>
           {console.log('공사중')}
@@ -66,10 +69,10 @@ function DiaryList({
           </div>
           <div>
             <input
+              style={{ width: '70%', height: '50px' }}
               type="text"
               placeholder="입력하지마라"
               onKeyPress={changeInput}
-              // onChange={changeInput}
             />
           </div>
           <h2>일기 리스트</h2>
@@ -90,7 +93,7 @@ function DiaryList({
           </div>
         </>
       )}
-    </div>
+    </DiaryListBox>
   );
 }
 

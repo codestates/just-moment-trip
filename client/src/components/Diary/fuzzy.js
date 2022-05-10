@@ -1,4 +1,4 @@
-// const _ = require("lodash");
+const _ = require('lodash');
 
 function chageUnicode(ch) {
   const offset = 44032; /* '가'의 코드 */
@@ -34,8 +34,7 @@ function chageUnicode(ch) {
     return `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`;
   }
   // 그 외엔 그대로 내보냄
-  return ch;
-  // return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
+  return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
 }
 createFuzzyMatcher = input => {
   if (input === undefined) return '.';
@@ -48,7 +47,7 @@ createFuzzyMatcher = input => {
 };
 
 exports.chageRed = (data, search) => {
-  const regex = createFuzzyMatcher(search); //새[uadqoe92-1238ed].*/[213]
+  const regex = createFuzzyMatcher(search);
   const resultData = data.replace(regex, (match, ...groups) => {
     const letters = groups.slice(0, search.length);
     let lastIndex = 0;
@@ -63,4 +62,3 @@ exports.chageRed = (data, search) => {
   });
   return resultData;
 };
-// console.log(this.chageRed('새우깡은과자다', '새우'));

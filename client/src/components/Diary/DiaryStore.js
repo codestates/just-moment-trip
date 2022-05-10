@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 import axios from 'axios';
-import DiaryEditor from './DiaryEditor';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -73,6 +72,7 @@ function DiaryStore() {
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
       });
+    dispatch({ type: INIT, data: dummydata });
   }
 
   useEffect(() => {
@@ -113,15 +113,9 @@ function DiaryStore() {
     [],
   );
 
-  // const onClicked = useCallback(selectHashtags => {
-  //   dispatch({ type: ONCKLICKED, selectHashtags });
-  //   console.log('-------- Store의 selectHashtags :', selectHashtags);
-  // }, []);
-
   return (
     <div className="DiaryStore">
       <div>전체 일기 : {data.length}</div>
-      {/* <diaryList =changeInput={changeInput}/> */}
       <DiaryList
         changeInput={changeInput}
         diaryList={data}
@@ -129,8 +123,6 @@ function DiaryStore() {
         onRemove={onRemove}
         onEdit={onEdit}
         search={search}
-        // onClicked={onClicked}
-        // onFilter={onFilter}
       />
     </div>
   );
