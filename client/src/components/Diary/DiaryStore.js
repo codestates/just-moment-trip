@@ -13,10 +13,7 @@ const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-<<<<<<< HEAD
 
-=======
->>>>>>> f532920c6a6c9968b625d00ba5629de9448ed3fa
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -81,12 +78,9 @@ function DiaryStore() {
         if (data.data.accessToken) accessToken = data.data.accessToken;
         const initData = data.data.data;
         dispatch({ type: INIT, data: initData });
-<<<<<<< HEAD
       })
       .catch(err => console.log('에러났는디?', err));
-=======
       });
->>>>>>> 3ee298380f13687f10e2dd9dc2036e7429ee74d2
     dispatch({ type: INIT, data: dummydata });
   }
 
