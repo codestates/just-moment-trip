@@ -38,6 +38,11 @@ function Navbar() {
           Mypage
         </Link>
       </div>
+      <div className="Navbar_5">
+        <Link style={{ textDecoration: 'none', color: 'black' }} to="/aboutUs">
+          AboutUs
+        </Link>
+      </div>
     </NavbarBox>
   );
 }
