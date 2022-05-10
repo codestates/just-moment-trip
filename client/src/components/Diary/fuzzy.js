@@ -1,4 +1,4 @@
-// const _ = require("lodash");
+const _ = require('lodash');
 
 function chageUnicode(ch) {
   const offset = 44032; /* '가'의 코드 */
@@ -34,10 +34,9 @@ function chageUnicode(ch) {
     return `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`;
   }
   // 그 외엔 그대로 내보냄
-  return ch;
-  // return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
+  return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
 }
-exports.createFuzzyMatcher = input => {
+createFuzzyMatcher = input => {
   if (input === undefined) return '.';
   const pattern = input
     .split('')
@@ -45,4 +44,21 @@ exports.createFuzzyMatcher = input => {
     .map(pattern => '(' + pattern + ')')
     .join('.*?');
   return new RegExp(pattern);
+};
+
+exports.chageRed = (data, search) => {
+  const regex = createFuzzyMatcher(search);
+  const resultData = data.replace(regex, (match, ...groups) => {
+    const letters = groups.slice(0, search.length);
+    let lastIndex = 0;
+    let redColor = [];
+    for (let i = 0, l = letters.length; i < l; i++) {
+      const idx = match.indexOf(letters[i], lastIndex);
+      redColor.push(match.substring(lastIndex, idx));
+      redColor.push(`<span style="color: red">${letters[i]}</span>`);
+      lastIndex = idx + 1;
+    }
+    return redColor.join('');
+  });
+  return resultData;
 };

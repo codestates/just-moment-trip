@@ -48,3 +48,5 @@ const resultData = cityNames
     });
   });
 
+console.log('resultData', resultData);
+console.log('rrr', resultData.join('\n'));
