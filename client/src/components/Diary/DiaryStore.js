@@ -80,7 +80,7 @@ function DiaryStore() {
         dispatch({ type: INIT, data: initData });
       })
       .catch(err => console.log('에러났는디?', err));
-      });
+
     dispatch({ type: INIT, data: dummydata });
   }
 

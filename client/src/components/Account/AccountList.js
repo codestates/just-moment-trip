@@ -6,7 +6,7 @@ import AccountWriteUp from './AccountWriteUp';
 import dummydata from './dummydata';
 
 function AccountList({ AccountList, onEdit, onRemove, onCreate }) {
-  const a = new Date().toLocaleString();
+  // const a = new Date().toLocaleString();
   return (
     <div className="AccountList">
       <div className="AccountListSpanBox">
