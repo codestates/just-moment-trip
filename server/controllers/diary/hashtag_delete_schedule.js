@@ -1,4 +1,4 @@
-const { diary, hashtag, diary_hashtag } = require("../../models");
+const { hashtag, diary_hashtag } = require("../../models");
 const cron = require("node-cron");
 
 schedule = cron.schedule(

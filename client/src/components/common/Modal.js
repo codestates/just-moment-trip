@@ -14,7 +14,8 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  height: 15rem;
+  height: 15px;
+  /* height: 15rem; */
   text-align: center;
   margin: 120px auto;
 `;
@@ -33,9 +34,9 @@ const ModalView = styled.div.attrs(props => ({
   role: 'dialog',
 }))`
   border-radius: 10px;
-  background-color: red;
-  width: 300px;
-  height: 100px;
+  background-color: whitesmoke;
+  width: 90%;
+  height: 80%;
 
   > span.close-btn {
     margin-top: 5px;

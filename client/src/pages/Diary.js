@@ -8,6 +8,8 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   border: 10px solid red;
+  height: 100vw;
+  /* overflow: auto; */
 `;
 
 function Diary() {
@@ -15,9 +17,7 @@ function Diary() {
     <>
       <Navbar />
       <Box>
-        <DiaryStore>
-          <DiaryList />
-        </DiaryStore>
+        <DiaryStore />
       </Box>
     </>
   );

@@ -1,11 +1,18 @@
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import DiaryList from './DiaryList';
+import dummydata from './dummydata';
+import axios from 'axios';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
-// const ONCKLICKED = 'ONCKLICKED';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,22 +45,6 @@ const reducer = (state, action) => {
           : it,
       );
     }
-    //   case FILTER: {
-    //     return state.filter(it => {
-    //       let test = false;
-    //       it.hashtags.forEach(element => {
-    //         if (element === action.selectHashtags) test = true;
-    //       });
-    //       return test;
-    //     });
-    //   }
-    // case ONCKLICKED: {
-    //   return state.map(it => {
-    //     if (it.hashtags === action.selectHashtags)
-    //       console.log('범인?', it.hashtags);
-    //     return it;
-    //   });
-    // }
     default:
       return state;
   }
@@ -62,31 +53,40 @@ const reducer = (state, action) => {
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
+  const [search, setSearch] = React.useState('');
 
-  const getData = async () => {
-    const res = await fetch(
-      'https://jsonplaceholder.typicode.com/comments',
-    ).then(res => res.json());
-
-    const initData = res.slice(0, 5).map(it => {
-      return {
-        title: it.email,
-        content: it.body,
-        hashtags: [it.name],
-        // emotion: Math.floor(Math.random() * 5) + 1,
-        write_date: new Date().getTime() + 1,
-        id: dataId.current++,
-      };
-    });
-
-    dispatch({ type: 'INIT', data: initData });
+  const changeInput = e => {
+    if (e.key === 'Enter') {
+      setSearch(e.target.value);
+    }
   };
 
+  function getData() {
+    let accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjA3OTM2MywiZXhwIjoxNjUyMTg3MzYzfQ.xbjdPPuQNiFpNQuVShyQbC302BMuLlMAQJOMu3Vtk40';
+    let url = 'http://localhost:8080/diary?trip_id=1';
+
+    if (search) url += `&search=${search}`;
+    axios
+      .get(url, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(data => {
+        if (data.data.accessToken) accessToken = data.data.accessToken;
+        const initData = data.data.data;
+        dispatch({ type: INIT, data: initData });
+      })
+      .catch(err => console.log('에러났는디?', err));
+
+    dispatch({ type: INIT, data: dummydata });
+  }
+
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1500);
-  }, []);
+    getData();
+  }, [search]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
@@ -106,7 +106,6 @@ function DiaryStore() {
     console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
-
   const onEdit = useCallback(
     (targetId, new_content, new_title, new_hashtags) => {
       dispatch({
@@ -123,21 +122,16 @@ function DiaryStore() {
     [],
   );
 
-  // const onClicked = useCallback(selectHashtags => {
-  //   dispatch({ type: ONCKLICKED, selectHashtags });
-  //   console.log('-------- Store의 selectHashtags :', selectHashtags);
-  // }, []);
-
   return (
     <div className="DiaryStore">
       <div>전체 일기 : {data.length}</div>
       <DiaryList
+        changeInput={changeInput}
         diaryList={data}
         onCreate={onCreate}
         onRemove={onRemove}
         onEdit={onEdit}
-        // onClicked={onClicked}
-        // onFilter={onFilter}
+        search={search}
       />
     </div>
   );
