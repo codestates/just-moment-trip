@@ -4,10 +4,9 @@ import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
-import dummydata from './dummydata';
 
 function AccountList({
-  AccountList,
+  data,
   onEdit,
   onRemove,
   onCreate,
@@ -24,11 +23,11 @@ function AccountList({
           <AccountWriteUp onCreate={onCreate} />
         </Modal>
         <Modal>
-          <AccountPieChart data={dummydata} />
+          <AccountPieChart data={data} />
         </Modal>
       </div>
       <div>
-        {AccountList.map(it => (
+        {data.map(it => (
           <AccountEditor
             key={it.id}
             {...it}
