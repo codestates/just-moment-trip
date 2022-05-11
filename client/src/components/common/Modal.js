@@ -14,10 +14,12 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalContainer = styled.div`
+  align-items: center;
+  justify-content: center;
   height: 15px;
   /* height: 15rem; */
   text-align: center;
-  margin: 120px auto;
+  margin: 0px 10px 100px 10px;
 `;
 
 const ModalBtn = styled.button`
@@ -59,23 +61,25 @@ function Modal({ children, name }) {
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
-      <ModalContainer>
-        <ModalBtn onClick={openModalHandler}>
-          {isOpen === false ? name : name}
-        </ModalBtn>
-        {isOpen === true ? (
-          <ModalBackdrop onClick={openModalHandler}>
-            <ModalView onClick={e => e.stopPropagation()}>
-              <span onClick={openModalHandler} className="close-btn">
-                &times;
-              </span>
-              <div className="desc">
-                {React.cloneElement(children, { openModalHandler })}
-              </div>
-            </ModalView>
-          </ModalBackdrop>
-        ) : null}
-      </ModalContainer>
+      <div style={{ display: 'flex' }}>
+        <ModalContainer>
+          <ModalBtn onClick={openModalHandler}>
+            {isOpen === false ? name : name}
+          </ModalBtn>
+          {isOpen === true ? (
+            <ModalBackdrop onClick={openModalHandler}>
+              <ModalView onClick={e => e.stopPropagation()}>
+                <span onClick={openModalHandler} className="close-btn">
+                  &times;
+                </span>
+                <div className="desc">
+                  {React.cloneElement(children, { openModalHandler })}
+                </div>
+              </ModalView>
+            </ModalBackdrop>
+          ) : null}
+        </ModalContainer>
+      </div>
     </>
   );
 }

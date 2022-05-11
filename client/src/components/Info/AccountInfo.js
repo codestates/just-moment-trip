@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountItem from '../Account/AccountEditor';
 import Swal from 'sweetalert2';
+import Container from './Container';
 
 function AccountInfo() {
   const dummyData = {
@@ -20,7 +21,15 @@ function AccountInfo() {
     memo: '구경할께 많았다',
     write_date: '2022-07-01',
   };
-  return <AccountItem {...dummyData} />;
+  return (
+    <Container direction={'row'}>
+      <AccountItem {...dummyData} />
+      <div className="message">
+        여행을 다니며 간단하게 가계부를 작성하여 {<br />}
+        지출내역을 효율적으로 관리하며
+      </div>
+    </Container>
+  );
 }
 
 export default AccountInfo;

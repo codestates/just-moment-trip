@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DiaryEditor from '../Diary/DiaryEditor';
+import Container from './Container';
 
 function DiaryInfo() {
   const dummyData = {
@@ -17,7 +18,12 @@ function DiaryInfo() {
     hashtags: ['꿀잼', '허니잼', '맛집'],
     search: '',
   };
-  return <DiaryEditor {...dummyData} />;
+  return (
+    <Container direction={'row'}>
+      <div className="message">즐거웠던 하루의 일들에 대해 일기도 작성하고</div>
+      <DiaryEditor {...dummyData} />
+    </Container>
+  );
 }
 
 export default DiaryInfo;
