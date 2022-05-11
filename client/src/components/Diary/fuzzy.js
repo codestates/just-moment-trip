@@ -47,6 +47,7 @@ createFuzzyMatcher = input => {
 };
 
 exports.chageRed = (data, search) => {
+  // 정규식 이용한 fuzzy검색결과 색 바꿈
   const regex = createFuzzyMatcher(search);
   const resultData = data.replace(regex, (match, ...groups) => {
     const letters = groups.slice(0, search.length);
@@ -58,13 +59,27 @@ exports.chageRed = (data, search) => {
       redColor.push(`<span style="color: red">${letters[i]}</span>`);
       lastIndex = idx + 1;
     }
-    console.log(match);
-    console.log(groups);
     return redColor.join('');
   });
-  return resultData;
+  if (resultData !== data) return resultData;
+  // 리벤슈타인거리 이용한 검색 결과 색 바꿈
+  else {
+    let redColor = [];
+    let index = 0;
+    if (search === undefined) return;
+    for (let i = 0; i < data.length; i++) {
+      if (search.indexOf(data[i], index) === -1) {
+        redColor.push(data[i]);
+        // data = data.slice(i);
+      } else {
+        redColor.push(`<span style="color: red">${data[i]}</span>`);
+        index++;
+      }
+    }
+    return redColor.join('');
+  }
 };
-console.log(this.chageRed('안녕하세요', '안녕'));
+
 exports.sort = (data, search) => {
   const regex = createFuzzyMatcher(search);
   const resultData = data.map(ele => {
