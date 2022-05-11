@@ -23,6 +23,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.content-center {
+  text-align: center;
+}
+
 #master {
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 60px;
@@ -52,7 +56,7 @@ a:hover {
   -ms-flex-pack: center;
   justify-content: center;
   height: 60vmin;
-  min-height: 0;
+  min-height: 94%;
   max-height: 100%;
 }
 
@@ -70,8 +74,8 @@ a:hover {
       cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
   }
 }
-
-@media screen and (max-width: 615px) {
+/* 디스플레이 사이즈에 따른 글자크기 변화*/
+@media screen and (max-width: 115px) {
   #master {
     font-size: 40px;
     font-line: 1.2;
@@ -145,8 +149,8 @@ a:hover {
 #master-container-scroller .master-container-scroller_item:nth-child(10) a {
   color: #e65f48;
 }
-
-@media screen and (max-width: 615px) {
+/* 디스플레이 사이즈에 따른 글자크기 변화*/
+@media screen and (max-width: 115px) {
   #master-container-scroller {
     height: 48px;
     line-height: 1.2;
@@ -314,7 +318,7 @@ a:hover {
   position: relative;
 }
 
-#master-container-grid .master-container-grid_item .grid_item-overlay {
+/* #master-container-grid .master-container-grid_item .grid_item-overlay {
   position: absolute;
   top: 0;
   right: 0;
@@ -335,7 +339,7 @@ a:hover {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   text-decoration: none;
-}
+} */
 
 #master-container-grid .master-container-grid_item .grid_item-overlay:hover {
   opacity: 1;

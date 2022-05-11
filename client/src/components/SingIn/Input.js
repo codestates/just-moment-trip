@@ -11,6 +11,7 @@ import { KAKAO_AUTH_URL } from '../../routers/index';
 
 const Container = styled.div`
   text-align: center;
+  margin-top: 100px;
 `;
 
 const HeadTag = styled.h1`

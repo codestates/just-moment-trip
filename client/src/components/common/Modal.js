@@ -24,6 +24,7 @@ const ModalBtn = styled.button`
   background-color: white;
   text-decoration: none;
   border: none;
+  font-family: SsurroundFont;
   font-size: 30px;
   padding: 20px;
   color: black;
