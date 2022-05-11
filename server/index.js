@@ -17,7 +17,7 @@ hashtag_delete_schedule.cron();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:9000",
+    origin: "https://www.just-moment-trip.ml",
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
