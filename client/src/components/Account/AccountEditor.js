@@ -13,35 +13,36 @@ const AccountItemBox = styled.div`
 const AccountItemBtnBox = styled.div`
   display: flex;
   margin-left: 300px;
-
   text-align: center;
-  background-color: rgb(245, 214, 228);
   bottom: 20px;
 `;
 
 const EditBtn = styled.button`
-  font-family: SsurroundFont;
-  font-size: 15px;
-  background-color: none;
+  font-family: ManfuMedium;
+  font-size: 18px;
+  color: rgb(210, 206, 221);
+  background-color: transparent;
   border: none;
+  outline: 0;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
 `;
 
 const InfoFirstSecondBox = styled.div`
   display: flex;
   justify-content: center;
-  background-color: pink;
 `;
 
 const Container = styled.div`
   text-align: center;
-  background-color: orange;
 `;
 
 const ContainerItem = styled.div`
   width: 400px;
   height: 300px;
   top: 0;
-  background-color: rgb(124, 152, 138);
 `;
 
 function AccountItem({
@@ -256,58 +257,78 @@ function AccountItem({
             <>
               <InfoFirstSecondBox>
                 <ContainerItem>
-                  <div style={{ backgroundColor: 'red', height: '260px' }}>
-                    <div className="AccountItemContentBoxText1">
-                      <p>{item_name}</p>
-                    </div>
-                    <div className="AccountItemContentBox">
-                      <div className="AccountItemContentBoxText2">
-                        <p>{target_currency}</p>
+                  <div style={{ height: '300px' }}>
+                    <div
+                      className=" AccountCategoryBox"
+                      style={{
+                        marginTop: '30px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        fontSize: '1em',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '1.2em',
+                          marginLeft: '40px',
+                        }}
+                      >
+                        {category}
+                      </div>
+                      <div
+                        className="AccountItemContentBoxText2"
+                        style={{ fontSize: '0.7em', marginRight: '20px' }}
+                      >
+                        <div className="date">
+                          {String(write_date).slice(0, 16)}
+                        </div>
+                        <div>{spent_person}</div>
                       </div>
                     </div>
-                    <div className=" AccountCategoryBox">{category}</div>
-                    <div className="dateBox">
-                      <span className="date">
-                        {String(write_date).slice(0, 16)}
-                      </span>
-                    </div>
-                    <div className="AccountItemContentBox">
-                      <div className="AccountItemContentBoxText1"></div>
+
+                    <div
+                      className="AccountItemContentBox"
+                      style={{
+                        fontSize: '30px',
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <div className="AccountItemContentBoxText1">
+                        <p style={{ fontSize: '1em' }}>{item_name}</p>
+                      </div>
                       <div className="AccountItemContentBoxText2">
-                        <p>{spent_person}</p>
+                        <p style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
+                          {price}
+                        </p>
+                      </div>
+                      <div className="AccountItemContentBoxText2">
+                        <p style={{ fontSize: '0.5em' }}>{target_currency}</p>
                       </div>
                     </div>
-                    <div className="AccountItemContentBox">
-                      <div className="AccountItemContentBoxText1"></div>
-                      <div className="AccountItemContentBoxText2">
-                        <p>{memo}</p>
-                      </div>
+                    <div className="AccountItemContentBoxText2">
+                      <p>{memo}</p>
                     </div>
-                    <div className="AccountItemContentBox">
-                      <div className="AccountItemContentBoxText1"></div>
-                      <div className="AccountItemContentBoxText2">
-                        <p>{price}</p>
+                    <AccountItemBtnBox>
+                      <div className="AccountItemRemoteBox">
+                        <EditBtn
+                          className="AccountItemRemoteBtn"
+                          onClick={handleRemove}
+                        >
+                          삭제
+                        </EditBtn>
                       </div>
-                    </div>{' '}
+                      <div className="AccountItemEditBox">
+                        <EditBtn
+                          className="AccountItemEditBtn"
+                          onClick={toggleIsEdit}
+                        >
+                          수정
+                        </EditBtn>
+                      </div>
+                    </AccountItemBtnBox>
                   </div>
-                  <AccountItemBtnBox>
-                    <div className="AccountItemRemoteBox">
-                      <EditBtn
-                        className="AccountItemRemoteBtn"
-                        onClick={handleRemove}
-                      >
-                        삭제
-                      </EditBtn>
-                    </div>
-                    <div className="AccountItemEditBox">
-                      <EditBtn
-                        className="AccountItemEditBtn"
-                        onClick={toggleIsEdit}
-                      >
-                        수정
-                      </EditBtn>
-                    </div>
-                  </AccountItemBtnBox>
                 </ContainerItem>
               </InfoFirstSecondBox>
             </>
