@@ -65,7 +65,7 @@ function DiaryList({
       ) : (
         <>
           <div>
-            <Modal>
+            <Modal name={'이건 버튼'}>
               <DiaryWriteUp onCreate={onCreate} />
             </Modal>
           </div>
