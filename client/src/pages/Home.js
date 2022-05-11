@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Navbar from '../components/common/Navbar';
 import './Home.css';
 
 function Home() {
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
+  const isLoggedIn = useSelector(state => state.sign.isLoggedIn);
   return (
     <>
       <Navbar />
@@ -81,12 +73,20 @@ function Home() {
         </div>
         <div className="SignLinkBox">
           <div className="SigninLinkBox">
-            <Link to="/sign-up">
-              <span>함께하기</span>
-            </Link>
-            <Link to="/sign-in">
-              <span>Start</span>
-            </Link>
+            {isLoggedIn ? (
+              <Link to="/trip">
+                <span>Start</span>
+              </Link>
+            ) : (
+              <>
+                <Link to="/sign-up">
+                  <span>함께하기</span>
+                </Link>
+                <Link to="/sign-in">
+                  <span>Start</span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

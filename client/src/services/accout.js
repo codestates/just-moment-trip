@@ -1,6 +1,7 @@
 import axios from 'axios';
 import tokenHeader from './headers';
 let endpoint = 'https://www.just-moment-trip.tk';
+
 //tk : 서버배포
 //ml : 클라배포
 // 서로 따로 실행하니 당연히 주소도 다르겠지 후후
