@@ -18,7 +18,7 @@ const EDIT = 'EDIT';
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data.reverse();
+      return action.data;
     }
     case CREATE: {
       const create_date = new Date().getTime();
