@@ -1,8 +1,9 @@
-import { set } from 'lodash';
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 const fuzzy = require('./fuzzy');
+
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
@@ -72,6 +73,12 @@ const DiaryEditorBox = styled.div`
   border: 5px solid rgb(124, 152, 188);
 `;
 
+const DiaryBtn = styled.button`
+  background-color: none;
+  border: none;
+  font-size: 20px;
+`;
+
 function DiaryEditor({
   diaryList,
   onRemove,
@@ -104,10 +111,33 @@ function DiaryEditor({
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit);
   const handleClickRemove = () => {
-    if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
-      onRemove(id);
-      console.log('check ID :', id);
-    }
+    Swal.fire({
+      title: `기록을 삭제할까요?`,
+      text: '💁‍♂️ 삭제시 기록을 복구할 수 없어요',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/720ac6c1-4a12-4010-873c-4f54464ff586/image.gif")
+      left bottom
+      no-repeat
+    `,
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: '삭제 완료!',
+          text: `선택하신 기록을 삭제했어요`,
+          confirmButtonText: '알겠어요',
+        });
+
+        onRemove(id);
+      }
+    });
   };
 
   const handleQuitEdit = () => {
@@ -128,15 +158,44 @@ function DiaryEditor({
       return;
     }
 
-    if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent, localTitle, localHashtags);
-      toggleIsEdit();
-      console.log(
-        '------------- 수정시 localHashtags는 어떻게 되나요 ? :',
-        localHashtags,
-      );
-      console.log('------------- 수정시 id는 어떻게 되나요 ? :', hashtags);
-    }
+    Swal.fire({
+      title: `기록을 수정할까요?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/da278e0b-6a49-407e-8517-4b4e3621de27/image.gif")
+      right bottom
+      no-repeat
+    `,
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: '수정 완료!',
+          text: `선택하신 기록을 수정했어요`,
+          confirmButtonText: '알겠어요',
+        });
+        onEdit(id, localContent, localTitle, localHashtags);
+        toggleIsEdit();
+        console.log(
+          '------------- 수정시 localHashtags는 어떻게 되나요 ? :',
+          localHashtags,
+        );
+        console.log('------------- 수정시 id는 어떻게 되나요 ? :', hashtags);
+      } else if (result.isDismissed) {
+        Swal.fire({
+          icon: 'info',
+          text: `수정을 취소했어요`,
+          confirmButtonText: '알겠어요',
+        });
+        handleQuitEdit();
+      }
+    });
   };
 
   const addTags = event => {

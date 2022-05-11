@@ -9,7 +9,7 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   border: 10px solid #312352;
-  font-family: SBFont;
+  font-family: SsurroundFont;
 `;
 
 function Account() {

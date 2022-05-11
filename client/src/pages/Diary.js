@@ -11,6 +11,7 @@ const Box = styled.div`
   justify-content: center;
   border: 10px solid red;
   height: 100vw;
+  font-family: SsurroundFont;
   /* overflow: auto; */
 `;
 

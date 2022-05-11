@@ -1,6 +1,7 @@
 import { doc } from 'prettier';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
@@ -109,19 +110,45 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       contentInput.current.focus();
       return;
     }
-    onCreate(
-      state.title,
-      state.content,
-      (state.write_date = new Date().getTime()),
-      tags,
-    );
-    alert('저장성공!');
-    setState({
-      title: '',
-      content: '',
-      write_date: '',
+
+    Swal.fire({
+      title: `기록을 저장할까요 ?`,
+      icon: 'question',
+      background: '#fff ',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/c0eac2d9-7c86-4dfa-9583-e526e4746dce/image.gif")
+      left top
+      no-repeat
+    `,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: '저장 완료!',
+          text: `작성하신 기록을 저장했어요`,
+          confirmButtonText: '알겠어요',
+        });
+        onCreate(
+          state.title,
+          state.content,
+          (state.write_date = new Date().getTime()),
+          tags,
+        );
+
+        setState({
+          title: '',
+          content: '',
+          write_date: '',
+        });
+        openModalHandler(false);
+      }
     });
-    openModalHandler(false);
   };
 
   return (
@@ -130,8 +157,14 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
         <h2>오늘의 일기</h2>
       </div>
       <div className="DiaryEditorBox">
-        <div className="DiaryEditorInputBox">
+        <div className="DiaryEditorInputBox" style={{ padding: '0 0 20px 0' }}>
           <input
+            style={{
+              fontFamily: 'SsurroundFont',
+              width: '400px',
+              height: '50px',
+              fontSize: '20px',
+            }}
             className="DiaryEditorInput"
             placeholder="다녀온 장소를 적어요"
             ref={titleInput}
@@ -142,6 +175,12 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
         </div>
         <div>
           <textarea
+            style={{
+              fontFamily: 'SsurroundFont',
+              height: '150px',
+              width: '450px',
+              fontSize: '20px',
+            }}
             className="DiaryEditorTextarea"
             placeholder="일기를 적어요"
             ref={contentInput}
