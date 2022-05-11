@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import AccountItem from '../Account/AccountEditor';
+import Swal from 'sweetalert2';
 
 function AccountInfo() {
   const dummyData = {
     onEdit: () => {
-      alert('Account에서 체험하세요');
+      Swal.fire('로그인후 Account에서 체험하세요');
     },
     onRemove: () => {
-      alert('Account에서 체험하세요');
+      Swal.fire('로그인후 Account에서 체험하세요');
     },
     id: 1000000,
     item_name: '구미 디즈니랜드 티켓',

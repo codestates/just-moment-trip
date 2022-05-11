@@ -41,7 +41,7 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
         textAnchor="middle"
         dominantBaseline="central"
         style={{
-          fontSize: '32px',
+          fontSize: '1.5vw',
           fontWeight: '600',
         }}
       >
@@ -61,8 +61,7 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
   return (
     <>
       {mySpecialValue === 0 ? (
-        (openModalHandler(false),
-        Swal.fire({
+        (Swal.fire({
           title: 'Are you sure?',
           text: "You won't be able to revert this!",
           icon: 'warning',
@@ -73,9 +72,10 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
         }).then(result => {
           if (result.isConfirmed) {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            openModalHandler(false);
           }
         }),
-        (<></>))
+        '')
       ) : (
         <ResponsivePie
           data={finalData}
