@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../modules/Reducers/userReducer';
 import TextField from '../SignUp/TextField';
 import kakaoImg from '../../Assets/kakao_login_medium_wide.png';
@@ -22,6 +23,7 @@ const KakaoBtn = styled.button``;
 
 function SignInput() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
 
   const validate = Yup.object({
@@ -50,6 +52,8 @@ function SignInput() {
       .then(res => {
         console.log(res);
         alert('Success');
+        navigate('/');
+        window.location.reload();
       })
       .catch(err => {
         if (err) {
