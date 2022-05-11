@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const Message = styled.div`
-  font-size: 50px;
-  margin-top: 100px;
-`;
-
-const LoginMessage = () => {
+function LoginMessage() {
   const navigate = useNavigate();
   const goHome = () => {
-    alert('로그인부터 하십시요');
-    navigate('/');
+    Swal.fire({ icon: 'warning', title: '🤷‍♂️ 로그인이 필요합니다' }).then(
+      result => {
+        if (result.isConfirmed) {
+          navigate('/');
+        }
+      },
+    );
   };
 
   useEffect(() => {
@@ -19,6 +20,6 @@ const LoginMessage = () => {
   }, []);
 
   return <></>;
-};
+}
 
 export default LoginMessage;
