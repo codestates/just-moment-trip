@@ -6,7 +6,7 @@ import LoginMessage from '../components/common/LoginMessage';
 import { useSelector } from 'react-redux';
 
 function MyPage() {
-  const isLogin = useSelector(state => state.isLoggedIn);
+  const isLogin = useSelector(state => state.sign.isLoggedIn);
   return isLogin ? (
     <>
       <Navbar />

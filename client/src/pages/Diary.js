@@ -15,7 +15,7 @@ const Box = styled.div`
 `;
 
 function Diary() {
-  const isLogin = useSelector(state => state.isLoggedIn);
+  const isLogin = useSelector(state => state.sign.isLoggedIn);
 
   return isLogin ? (
     <>
