@@ -14,6 +14,7 @@ const Box = styled.div`
 
 function Account() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
+
   return isLogin ? (
     <>
       <Navbar />

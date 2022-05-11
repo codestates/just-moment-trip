@@ -19,11 +19,10 @@ function Home() {
     <>
       <Navbar />
       <div className="Home">
-        <div className="HomeH1">{/* <h1>Remember Trip</h1> */}</div>
         <div className="somediv">
           <section className="section">
             <div className="masthead-image" id="master-container">
-              <div className="content center">
+              <div className="content-center">
                 <h1 id="master">
                   <div>JUST</div>
                   <div id="master-container-scroller">
