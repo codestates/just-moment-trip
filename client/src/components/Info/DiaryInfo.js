@@ -2,6 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import DiaryEditor from '../Diary/DiaryEditor';
 
+const Container = styled.div`
+  margin: 100px;
+  display: flex;
+  justify-content: space-around;
+`;
+
 function DiaryInfo() {
   const dummyData = {
     onEdit: () => {
@@ -17,7 +23,12 @@ function DiaryInfo() {
     hashtags: ['꿀잼', '허니잼', '맛집'],
     search: '',
   };
-  return <DiaryEditor {...dummyData} />;
+  return (
+    <Container>
+      즐거웠던 하루의 일들에 대해 일기도 작성하고
+      <DiaryEditor {...dummyData} />
+    </Container>
+  );
 }
 
 export default DiaryInfo;
