@@ -7,9 +7,8 @@ import SignIn from '../pages/SignIn';
 import KakaoSignIn from '../components/Aouth/Kakao';
 import Account from '../pages/Account';
 import MyPage from '../pages/Mypage';
-
-import Trip from '../components/Trip/trip';
 import AboutUs from '../pages/AboutUs';
+import TripPage from '../pages/Trip';
 
 const CLIENT_ID = '9d053bcc19948f007841a6c49f8f0964';
 export const REDIRECT_URI = 'http://localhost:9000/oauth/callback/kakao';
@@ -27,7 +26,7 @@ export default function Routers() {
         <Route path="/oauth/callback/kakao" element={<KakaoSignIn />} />
         <Route path="/account" element={<Account />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/trip" element={<Trip />} />
+        <Route path="/trip" element={<TripPage />} />
         <Route path="/aboutUs" element={<AboutUs />} />
       </Routes>
     </Router>

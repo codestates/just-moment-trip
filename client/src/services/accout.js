@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tokenHeader from './headers';
-let endpoint = 'http://localhost:8080';
+let endpoint = 'https://www.just-moment-trip.tk';
 
 export function accountGet(trip_id) {
   console.log('어카운트 겟요청 됨');
