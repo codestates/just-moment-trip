@@ -1,5 +1,5 @@
 const axios = require('../../services/diary');
-let trip_id = 4;
+let trip_id = 1;
 import React, {
   useCallback,
   useEffect,
@@ -56,15 +56,18 @@ function DiaryStore() {
   const [isTrue, setIsTrue] = useState(true);
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
+  const [searchType, setSearchType] = React.useState('');
 
   const changeInput = e => {
     if (e.key === 'Enter') {
       setSearch(e.target.value);
     }
   };
-
+  const getSearchType = e => {
+    setSearchType(e.target.value);
+  };
   useEffect(() => {
-    axios.diaryGet(trip_id, search).then(data => {
+    axios.diaryGet(trip_id, search, searchType).then(data => {
       if (data.data.accessToken) accessToken = data.data.accessToken;
       const initData = data.data.data;
       dispatch({ type: INIT, data: initData });
@@ -150,6 +153,8 @@ function DiaryStore() {
         onRemove={onRemove}
         onEdit={onEdit}
         search={search}
+        getSearchType={getSearchType}
+        searchType={searchType}
       />
     </div>
   );

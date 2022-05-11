@@ -32,4 +32,6 @@ exports.levenshteinDistance = (str, search) => {
   }
   return matrix[aLen][bLen];
 };
-// console.log(this.levenshteinDistance("가나다라", "하나다라하"));
+
+console.log(this.levenshteinDistance("가나다라", "가나다라마"));
+console.log(this.levenshteinDistance("가나다라", "가나다"));

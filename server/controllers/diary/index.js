@@ -8,10 +8,11 @@ const levenshteinDistance = require("./levenshtein-distance");
 
 module.exports = {
   get: async (req, res) => {
+    console.log("겟요청임이이이");
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
-        const { trip_id, search } = req.query;
+        const { trip_id, search, searchType } = req.query;
         const data = await diary.findAll({
           // where: {
           //   trip_id,
@@ -54,11 +55,8 @@ module.exports = {
           //!원래
           where: {
             trip_id,
-            // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
           },
-          //!
         });
-
         // data.forEach((ele) => console.log(ele.title));
         const hashtagsInfo = await diary.findAll({
           include: [
@@ -67,13 +65,9 @@ module.exports = {
               attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
             },
           ],
-          // where: sequelize.where(sequelize.fn("char_length", sequelize.col("title")), 2),
-          //!원래
           where: {
             trip_id,
-            // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
           },
-          //!
         });
         hashtagsInfo.forEach((ele, index) => {
           let hashtags = [];
@@ -82,21 +76,27 @@ module.exports = {
           });
           data[index].dataValues.hashtags = hashtags;
         });
-        //!시작
-        const fuzzyData = data.filter((ele) => {
-          return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.title);
-        });
-        console.log(fuzzyData);
-        const levenshteinData = data.filter((ele) => {
-          return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
-        });
-
-        //sort  과일먹자  과자   새우깡은과자다
-        fuzzy.sort(fuzzyData, search);
-        console.log(
-          "-------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-----------"
-        );
-        console.log(fuzzyData);
+        console.log("searchType");
+        console.log(searchType);
+        let fuzzyData = [];
+        let levenshteinData = [];
+        if (searchType === "title" || searchType === undefined) {
+          fuzzyData = data.filter((ele) => {
+            return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.title);
+          });
+          fuzzy.sort(fuzzyData, search);
+          levenshteinData = data.filter((ele) => {
+            return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
+          });
+        } else if (searchType === "content") {
+          fuzzyData = data.filter((ele) => {
+            return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.content);
+          });
+          fuzzy.sort(fuzzyData, search);
+          levenshteinData = data.filter((ele) => {
+            return levenshteinDistance.levenshteinDistance(ele.dataValues.content, search) <= 1;
+          });
+        }
         let resultData = fuzzyData.slice();
 
         for (let i = 0; i < levenshteinData.length; i++) {
@@ -106,9 +106,6 @@ module.exports = {
             resultData.push(levenshteinData[i]);
           }
         }
-        // 과일먹자   새우깡은과자 마자          퍼지 과자      과일먹자  새우깡은과자     거리  과자   마자 새우깡은과자
-
-        //!
 
         let data_slack_id = "";
         data.forEach((ele) => {
