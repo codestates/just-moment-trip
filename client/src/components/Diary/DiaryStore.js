@@ -63,8 +63,8 @@ function DiaryStore() {
 
   function getData() {
     let accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-    let url = 'https://www.just-moment-trip.tk/diary?trip_id=1';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjE4NzY0NywiZXhwIjoxNjUyMjk1NjQ3fQ.v7GPuSUN4QesK_ZX5Na0Kl1Rju_geXQAS7E17ILlHss';
+    let url = 'http://localhost:8080/diary?trip_id=1';
 
     if (search) url += `&search=${search}`;
     axios

@@ -1,9 +1,11 @@
-const { diary, hashtag, diary_hashtag } = require("../../models");
+const { diary, hashtag, diary_hashtag, Sequelize } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const fuzzy = require("./fuzzy");
+const levenshteinDistance = require("./levenshtein-distance");
+
 module.exports = {
   get: async (req, res) => {
     try {
@@ -11,12 +13,56 @@ module.exports = {
       if (validity) {
         const { trip_id, search } = req.query;
         const data = await diary.findAll({
+          // where: {
+          //   trip_id,
+          //   // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
+          //   [Op.or]: [
+          //     //false면 다 검색 if문말고 삼항연산자쓰기
+          //     { title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) } },
+          //     {
+          //       title: sequelize.where(
+          //         levenshteinDistance.levenshteinDistance(search, Sequelize.col("diary.title"))
+          //       ),
+          //     },
+          //   ],Col { col: 'title' } 오오오오
+          // },
+          //!
+          // where: {
+          //   trip_id,
+          //   [Op.or]: [
+          //     sequelize.where(sequelize.fn("char_length", sequelize.col("title")), 2),
+          //     (a = sequelize.where(sequelize.col("title"))),
+          //     sequelize.where(
+          //       sequelize.fn(
+          //         levenshteinDistance.levenshteinDistance(
+          //           a,
+          //           await diary.findAll({
+          //             where: {
+          //               title: a,
+          //             },
+          //           })
+          //         )
+          //       )
+          //     ),
+          //     sequelize.where(levenshteinDistance.levenshteinDistance("a", sequelize.col("title"))),
+          //   ],
+          // },
+          //!
+
+          // where: {
+          //   title: sequelize.fn(aa(1, this.diary.sequelize.col("title"))),
+          // },
+          // "b"
+
+          //!원래
           where: {
             trip_id,
-            title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
+            // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
           },
+          //!
         });
-        data.forEach((ele) => console.log(ele.title));
+
+        // data.forEach((ele) => console.log(ele.title));
         const hashtagsInfo = await diary.findAll({
           include: [
             {
@@ -24,12 +70,14 @@ module.exports = {
               attributes: ["hashtag"], //select 뒤에 오는거 뭐 찾을지 없으면 all
             },
           ],
+          // where: sequelize.where(sequelize.fn("char_length", sequelize.col("title")), 2),
+          //!원래
           where: {
             trip_id,
-            title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
+            // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
           },
+          //!
         });
-
         hashtagsInfo.forEach((ele, index) => {
           let hashtags = [];
           ele.hashtags.forEach((ele) => {
@@ -37,6 +85,28 @@ module.exports = {
           });
           data[index].dataValues.hashtags = hashtags;
         });
+        //!시작
+        const fuzzyData = data.filter((ele) => {
+          return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.title);
+        });
+        console.log(fuzzyData);
+        // const levenshteinData = data.filter((ele) => {
+        //   return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
+        // });
+
+        // let resultData = fuzzyData.slice();
+
+        // for (let i = 0; i < levenshteinData.length; i++) {
+        //   if (
+        //     !resultData.map((ele) => ele.dataValues.id).includes(levenshteinData[i].dataValues.id)
+        //   ) {
+        //     resultData.push(levenshteinData[i]);
+        //   }
+        // }
+        // 과일먹자   새우깡은과자 마자          퍼지 과자      과일먹자  새우깡은과자     거리  과자   마자 새우깡은과자
+
+        //!
+
         let data_slack_id = "";
         data.forEach((ele) => {
           data_slack_id += `${ele.dataValues.id}, `;
