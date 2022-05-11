@@ -1,5 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
+
+const AccountItemBox = styled.div`
+  border: 5px solid rgb(124, 152, 188);
+`;
 
 function AccountItem({
   onEdit,
@@ -34,13 +39,14 @@ function AccountItem({
 
   const handleRemove = () => {
     Swal.fire({
-      title: `${id + 1}번째 기록을 삭제할까요?`,
-      text: '삭제시 기록을 복구할 수 없어요',
+      title: `기록을 삭제할까요?`,
+      text: '💁‍♂️ 삭제시 기록을 복구할 수 없어요',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
       url("https://velog.velcdn.com/images/do66i/post/3361f525-3743-4954-9d15-4318619713e1/image.gif")
@@ -49,7 +55,12 @@ function AccountItem({
     `,
     }).then(result => {
       if (result.isConfirmed) {
-        Swal.fire('삭제 완료!', `${id + 1}번째 기록을 삭제했어요`, 'success');
+        Swal.fire({
+          icon: 'success',
+          title: '삭제 완료!',
+          text: `선택하신 기록을 삭제했어요`,
+          confirmButtonText: '알겠어요',
+        });
         onRemove(id);
       }
     });
@@ -87,12 +98,13 @@ function AccountItem({
       editTarget_currencyInput.current.focus();
     }
     Swal.fire({
-      title: `${id + 1}번째 기록을 수정할까요?`,
+      title: `기록을 수정할까요?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
       url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
@@ -101,7 +113,12 @@ function AccountItem({
     `,
     }).then(result => {
       if (result.isConfirmed) {
-        Swal.fire('수정 완료!', `${id + 1}번째 기록을 수정했어요`, 'success');
+        Swal.fire({
+          icon: 'success',
+          title: '수정 완료!',
+          text: `선택하신 기록을 수정했어요`,
+          confirmButtonText: '알겠어요',
+        });
         onEdit(
           id,
           editPrice,
@@ -112,12 +129,19 @@ function AccountItem({
           editCategory,
         );
         toggleIsEdit();
+      } else if (result.isDismissed) {
+        Swal.fire({
+          icon: 'info',
+          text: `수정을 취소했어요`,
+          confirmButtonText: '알겠어요',
+        });
+        handleQuitEdit();
       }
     });
   };
 
   return (
-    <div className="AccountItem">
+    <AccountItemBox>
       <div className="infoFirstSecondBox">
         {isEdit ? (
           <>
@@ -265,7 +289,7 @@ function AccountItem({
           </div>
         </div>
       )}
-    </div>
+    </AccountItemBox>
   );
 }
 export default AccountItem;

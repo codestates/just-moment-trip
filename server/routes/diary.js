@@ -8,5 +8,4 @@ router.post("/", diaryController.post);
 router.delete("/:diary_id", diaryController.delete);
 router.patch("/:diary_id", diaryController.patch);
 
-// router.get("/fuzzy", fuzzy.get);
 module.exports = router;

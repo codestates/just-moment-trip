@@ -2,9 +2,10 @@ import axios from 'axios';
 import tokenHeader from './headers';
 let endpoint = 'http://localhost:8080';
 
-export function diaryGet(trip_id, search) {
+export function diaryGet(trip_id, search, searchType) {
   let url = `${endpoint}/diary?trip_id=${trip_id}`;
   if (search) url += `&search=${search}`;
+  if (searchType) url += `&searchType=${searchType}`;
   return axios.get(url, {
     headers: tokenHeader(),
     'Content-Type': 'application/json',
@@ -13,8 +14,6 @@ export function diaryGet(trip_id, search) {
 
 export function diaryPost(trip_id, title, content, write_date, hashtags) {
   let url = `${endpoint}/diary`;
-  console.log('확인하자', trip_id, title, content, write_date, hashtags);
-  //   write_date = '2022. 5. 11.';
   return axios.post(
     url,
     {

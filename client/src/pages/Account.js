@@ -9,11 +9,13 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   border: 10px solid #312352;
-  font-family: SBFont;
+  height: 100vw;
+  font-family: SsurroundFont;
 `;
 
 function Account() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
+
   return isLogin ? (
     <>
       <Navbar />

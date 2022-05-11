@@ -9,9 +9,10 @@ function DiaryList({
   onEdit,
   onRemove,
   diaryList,
-
   changeInput,
   search,
+  getSearchType,
+  searchType,
 }) {
   const DiaryListBox = styled.div`
     text-align: center;
@@ -50,6 +51,7 @@ function DiaryList({
               onRemove={onRemove}
               toggleClicked={toggleClicked}
               search={search}
+              searchType={searchType}
             />
           ))}
           <button
@@ -74,8 +76,20 @@ function DiaryList({
               placeholder="입력하지마라"
               onKeyPress={changeInput}
             />
-            {/* <input type="radio" name="fruit" value="apple" /> title
-              <input type="radio" name="fruit" value="banana" /> content */}
+            <input
+              type="radio"
+              name="searchType"
+              value="title"
+              onClick={getSearchType}
+            />
+            title
+            <input
+              type="radio"
+              name="searchType"
+              value="content"
+              onClick={getSearchType}
+            />
+            content
           </div>
           <h2>일기 리스트</h2>
           <h4>{diaryList.length}개의 일기가 있습니다.</h4>
@@ -90,6 +104,7 @@ function DiaryList({
                 onRemove={onRemove}
                 toggleClicked={toggleClicked}
                 search={search}
+                searchType={searchType}
               />
             ))}
           </div>
