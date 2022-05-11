@@ -1,3 +1,5 @@
+const axios = require('../axios/index');
+let trip_id = 1;
 import React, {
   useState,
   useCallback,
@@ -8,7 +10,6 @@ import React, {
 } from 'react';
 
 import AccountList from './AccountList';
-import axios from 'axios';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -18,7 +19,7 @@ const EDIT = 'EDIT';
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data.reverse();
+      return action.data;
     }
     case CREATE: {
       const create_date = new Date().getTime();
@@ -56,29 +57,15 @@ const reducer = (state, action) => {
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
-
-  const getData = () => {
-    let accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-    let url = 'https://www.just-moment-trip.tk/account?trip_id=2';
-    axios
-      .get(url, {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(data => {
-        if (data.data.accessToken) accessToken = data.data.accessToken;
-        const initData = data.data.data;
-        dispatch({ type: INIT, data: initData });
-      });
-  };
-
   const dataId = useRef(0);
 
   useEffect(() => {
-    getData();
+    axios.accountGet(trip_id).then(data => {
+      if (data.data.accessToken) accessToken = data.data.accessToken;
+      const initData = data.data.data;
+      dispatch({ type: INIT, data: initData });
+    });
+
     console.log('setTimeout 확인용');
     console.log('--------------- useEffect', isTrue);
   }, [isTrue]);
@@ -110,32 +97,21 @@ function AccountStore() {
       dataId.current += 1;
       console.log('AccountStore dataId 확인 :', dataId.current);
 
-      let accessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-      let url = 'https://www.just-moment-trip.tk/account';
-
       axios
-        .post(
-          url,
-          {
-            trip_id: 2,
-            item_name,
-            price,
-            category,
-            target_currency,
-            spent_person,
-            memo,
-            write_date,
-          },
-          {
-            headers: {
-              authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-          },
+        .accountPost(
+          trip_id,
+          item_name,
+          price,
+          category,
+          target_currency,
+          spent_person,
+          memo,
+          write_date,
         )
         .then(res => {
-          setIsTrue(currentIsTrue => !currentIsTrue);
+          setIsTrue(currentIsTrue => {
+            return !currentIsTrue;
+          });
           console.log('--------------- onCreate', isTrue);
           console.log(res.data);
           console.log(res.status);
@@ -151,20 +127,8 @@ function AccountStore() {
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
 
-    let accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-    let url = `https://www.just-moment-trip.tk/account/${targetId}`;
-
     axios
-      .delete(url, {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        data: {
-          id: targetId,
-        },
-      })
+      .accountRemove(targetId)
       .then(res => {
         console.log('--------------- 삭제시', isTrue);
         console.log(res.data);
@@ -176,17 +140,8 @@ function AccountStore() {
       });
   }, []);
 
-  const onEdit = (
-    targetId,
-    new_price,
-    new_memo,
-    new_spent_person,
-    new_item_name,
-    new_target_currency,
-    new_category,
-  ) => {
-    dispatch({
-      type: EDIT,
+  const onEdit = useCallback(
+    (
       targetId,
       new_price,
       new_memo,
@@ -194,40 +149,39 @@ function AccountStore() {
       new_item_name,
       new_target_currency,
       new_category,
-    });
+    ) => {
+      dispatch({
+        type: EDIT,
+        targetId,
+        new_price,
+        new_memo,
+        new_spent_person,
+        new_item_name,
+        new_target_currency,
+        new_category,
+      });
 
-    let accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NTIxNjA5MDQsImV4cCI6MTY1MjI2ODkwNH0.5sQondqGTQ5OdOhfxyEZfL8rZz06cDC6z8Iuxt-6Wlk';
-    let url = `https://www.just-moment-trip.tk/account/${targetId}`;
-
-    axios
-      .patch(
-        url,
-        {
+      axios
+        .accountPatch(
+          targetId,
           new_price,
           new_memo,
           new_spent_person,
           new_item_name,
           new_target_currency,
           new_category,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(res => {
-        console.log(res.data);
-        console.log(res.status);
-      })
-      .catch(err => {
-        console.log(err);
-        console.log('루저ㅋ', err.status);
-      }),
-      [];
-  };
+        )
+        .then(res => {
+          console.log(res.data);
+          console.log(res.status);
+        })
+        .catch(err => {
+          console.log(err);
+          console.log('루저ㅋ', err.status);
+        });
+    },
+    [],
+  );
 
   let totalPrice = 10000000; // 총금액 (서버에서 요청받아함)
   let totalPriceString = 0; // 총금액

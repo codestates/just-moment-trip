@@ -5,7 +5,7 @@ import InfoButton from '../components/MyPage/InfoButton';
 import LoginMessage from '../components/common/LoginMessage';
 
 function MyPage() {
-  const isLogin = false;
+  const isLogin = true;
   return isLogin ? (
     <>
       <Navbar />
