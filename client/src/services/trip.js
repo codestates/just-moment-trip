@@ -2,16 +2,16 @@ import axios from 'axios';
 import tokenHeader from './headers';
 
 const tripCustomApi = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'https://www.just-moment-trip.tk/',
   headers: tokenHeader(),
   'Content-Type': 'application/json',
+  withCredentials: true,
 });
 
-export const requestTripList = () => {
-  tripCustomApi.get('trip').then(res => {
-    console.log(res.data);
-    return res.data;
-  });
+export const requestTripList = async () => {
+  const result = await tripCustomApi.get('trip');
+  console.log(result);
+  return result;
 };
 
 export const requestTripPost = (
