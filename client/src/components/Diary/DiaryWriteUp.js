@@ -112,11 +112,9 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     onCreate(
       state.title,
       state.content,
-      (state.write_date = new Date().toLocaleString()),
+      (state.write_date = new Date().getTime()),
       tags,
     );
-    console.log('일기작성여부확인 :', state);
-    console.log('handleSubmit시 tags :', tags);
     alert('저장성공!');
     setState({
       title: '',

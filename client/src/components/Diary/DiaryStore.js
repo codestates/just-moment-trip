@@ -1,3 +1,5 @@
+const axios = require('../../services/diary');
+let trip_id = 1;
 import React, {
   useCallback,
   useEffect,
@@ -7,7 +9,6 @@ import React, {
 } from 'react';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
-import axios from 'axios';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -52,6 +53,7 @@ const reducer = (state, action) => {
 
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [isTrue, setIsTrue] = useState(true);
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
 
@@ -61,29 +63,13 @@ function DiaryStore() {
     }
   };
 
-  function getData() {
-    let accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYW5zZW9uQG5hdmVyLmNvbSIsImlhdCI6MTY1MjE4NzY0NywiZXhwIjoxNjUyMjk1NjQ3fQ.v7GPuSUN4QesK_ZX5Na0Kl1Rju_geXQAS7E17ILlHss';
-    let url = 'http://localhost:8080/diary?trip_id=1';
-
-    if (search) url += `&search=${search}`;
-    axios
-      .get(url, {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(data => {
-        if (data.data.accessToken) accessToken = data.data.accessToken;
-        const initData = data.data.data;
-        dispatch({ type: INIT, data: initData });
-      });
-  }
-
   useEffect(() => {
-    getData();
-  }, [search]);
+    axios.diaryGet(trip_id, search).then(data => {
+      if (data.data.accessToken) accessToken = data.data.accessToken;
+      const initData = data.data.data;
+      dispatch({ type: INIT, data: initData });
+    });
+  }, [search, isTrue]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
@@ -95,14 +81,39 @@ function DiaryStore() {
     // console.log('--------🦭 Store의 Hashtags-------- :', hashtags);
     dataId.current += 1;
     console.log('DiaryStore dataId 확인 :', dataId.current);
+    axios
+      .diaryPost(trip_id, title, content, write_date, hashtags)
+      .then(res => {
+        console.log(res);
+        console.log('312114');
+        setIsTrue(currentIsTrue => !currentIsTrue);
+        console.log('--------------- onCreate', isTrue);
+        console.log(res.data);
+        console.log(res.status);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('루저ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ', err.status);
+      });
   });
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
-
-    console.log('--------🚨 Store의 data-------- :', data);
+    axios
+      .diaryRemove(targetId)
+      .then(res => {
+        console.log('--------------- 삭제시', isTrue);
+        console.log(res.data);
+        console.log(res.status);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('루저ㅋ', err.status);
+      })
+      .console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
   }, []);
+
   const onEdit = useCallback(
     (targetId, new_content, new_title, new_hashtags) => {
       dispatch({
@@ -113,6 +124,16 @@ function DiaryStore() {
         new_hashtags,
       });
 
+      axios
+        .diaryPatch(targetId, new_content, new_title, new_hashtags)
+        .then(res => {
+          console.log(res.data);
+          console.log(res.status);
+        })
+        .catch(err => {
+          console.log(err);
+          console.log('루저ㅋ', err.status);
+        });
       console.log('Store의 new_content :', new_content);
       console.log('Store의 new_hashtags :', new_hashtags);
     },

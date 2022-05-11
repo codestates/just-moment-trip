@@ -20,13 +20,12 @@ function UpdateModal({ userPatchHandler }) {
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
-    newpassword: '',
+    new_password: '',
     newpasswordCheck: '',
   });
 
   const onChange = e => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
-    console.log(`${value} + ${name}`);
     setInputs({
       ...inputs, // 기존의 input 객체를 복사한 뒤
       [name]: value, // name 키를 가진 값을 value 로 설정
@@ -38,19 +37,13 @@ function UpdateModal({ userPatchHandler }) {
       <div>회원정보 수정</div>
       <input type="email" placeholder="Email" name="email" />
       <input type="password" placeholder="Current Password" name="password" />
-      <input type="password" placeholder="New Password" name="newpassword" />
+      <input type="password" placeholder="New Password" name="new_password" />
       <input
         type="password"
         placeholder="Check New Password"
         name="newpasswordCheck"
       />
-      <button
-        onClick={(email, password, newpassword, newpasswordCheck) =>
-          userPatchHandler(email, password, newpassword, newpasswordCheck)
-        }
-      >
-        수정
-      </button>
+      <button onClick={() => userPatchHandler(inputs)}>수정</button>
     </Container>
   );
 }
