@@ -8,7 +8,6 @@ import KakaoSignIn from '../components/Aouth/Kakao';
 import Account from '../pages/Account';
 import MyPage from '../pages/Mypage';
 import Info from '../pages/Info';
-
 import Trip from '../components/Trip/trip';
 import AboutUs from '../pages/AboutUs';
 
