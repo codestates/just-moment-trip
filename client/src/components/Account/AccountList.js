@@ -4,13 +4,35 @@ import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faChartPie } from '@fortawesome/free-solid-svg-icons';
 
-const penIcon = <FontAwesomeIcon icon={faPen} />;
-const ChartPieIcon = <FontAwesomeIcon icon={faChartPie} />;
+let AccountModalBtnAnimation = keyframes`
+  50% {top: 0; opacity: 1}
+  100% {top: -300px; opacity: 0}
+  `;
+
+const IconBtn = styled.div`
+  animation-name: ${AccountModalBtnAnimation};
+  animation-duration: 0.5s;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+`;
+
+const penIcon = (
+  <IconBtn>
+    <FontAwesomeIcon icon={faPen} />
+  </IconBtn>
+);
+const ChartPieIcon = (
+  <IconBtn>
+    <FontAwesomeIcon icon={faChartPie} />
+  </IconBtn>
+);
 
 const ModalBox = styled.div`
   display: flex;
@@ -23,7 +45,6 @@ const AccountListBox = styled.div`
   text-align: center;
   height: 100%;
   width: 100%;
-  background-color: green;
 `;
 
 function AccountList({

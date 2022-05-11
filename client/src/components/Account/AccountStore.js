@@ -211,7 +211,6 @@ function AccountStore() {
         width: '93%',
         height: '100%',
         padding: '70px 0 0 0',
-        backgroundColor: 'red',
       }}
     >
       <div className="AccountHead">
