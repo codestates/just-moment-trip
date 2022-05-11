@@ -10,7 +10,7 @@ const NavbarBox = styled.div`
   left: 0;
   right: 0;
   font-size: 20px;
-  font-family: SBFont;
+  font-family: ManfuMedium;
   padding: 20px 0px;
   width: 100%;
   background-color: #b39bf2;
@@ -19,29 +19,29 @@ const NavbarBox = styled.div`
 function Navbar() {
   return (
     <NavbarBox>
-      <div className="Navbar_1">
+      <div className="Navbar_1" style={{ padding: '0 5px' }}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/">
-          Home
+          HOME
         </Link>
       </div>
-      <div className="Navbar_2">
+      <div className="Navbar_2" style={{ padding: '0 5px' }}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/diary">
-          Diary
+          DIARY
         </Link>
       </div>
-      <div className="Navbar_3">
+      <div className="Navbar_3" style={{ padding: '0 5px' }}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/account">
-          Account
+          ACCOUNT
         </Link>
       </div>{' '}
-      <div className="Navbar_4">
+      <div className="Navbar_4" style={{ padding: '0 5px' }}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/mypage">
-          Mypage
+          MYPAGE
         </Link>
       </div>
-      <div className="Navbar_5">
+      <div className="Navbar_5" style={{ padding: '0 5px' }}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/aboutUs">
-          AboutUs
+          ABOUTUS
         </Link>
       </div>
     </NavbarBox>

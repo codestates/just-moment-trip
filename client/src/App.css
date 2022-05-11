@@ -19,7 +19,22 @@
 }
 
 @font-face {
-  font-family: 'SBFont';
+  font-family: 'SBFontLight';
   font-weight: bold;
-  src: url('./font/SB\ 어그로\ L.ttf');
+  src: url('./font/SBFontLight.ttf');
+}
+
+@font-face {
+  font-family: 'SBFontBold';
+  src: url('./font/SBFontBold.ttf');
+}
+
+@font-face {
+  font-family: 'ManfuBold';
+  src: url('./font/esamanru\ Bold.ttf');
+}
+
+@font-face {
+  font-family: 'ManfuMedium';
+  src: url('./font/esamanru\ Medium.ttf');
 }
