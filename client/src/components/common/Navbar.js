@@ -29,11 +29,16 @@ function Navbar() {
       </div>
       <div style={{ display: 'flex' }}>
         <div className="Navbar_2" style={{ padding: '0 5px' }}>
+          <Link style={{ textDecoration: 'none', color: 'black' }} to="/trip">
+            TRIP
+          </Link>
+        </div>
+        <div className="Navbar_3" style={{ padding: '0 5px' }}>
           <Link style={{ textDecoration: 'none', color: 'black' }} to="/diary">
             DIARY
           </Link>
         </div>
-        <div className="Navbar_3" style={{ padding: '0 5px' }}>
+        <div className="Navbar_4" style={{ padding: '0 5px' }}>
           <Link
             style={{ textDecoration: 'none', color: 'black' }}
             to="/account"
@@ -41,12 +46,12 @@ function Navbar() {
             ACCOUNT
           </Link>
         </div>{' '}
-        <div className="Navbar_4" style={{ padding: '0 5px' }}>
+        <div className="Navbar_5" style={{ padding: '0 5px' }}>
           <Link style={{ textDecoration: 'none', color: 'black' }} to="/mypage">
             MYPAGE
           </Link>
         </div>
-        <div className="Navbar_5" style={{ padding: '0 5px' }}>
+        <div className="Navbar_6" style={{ padding: '0 5px' }}>
           <Link
             style={{ textDecoration: 'none', color: 'black' }}
             to="/aboutUs"
