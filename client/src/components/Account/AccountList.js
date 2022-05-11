@@ -33,12 +33,11 @@ function AccountList({
     <div className="AccountList">
       <div className="AccountListSpanBox">
         <h4>{AccountList.length}개의 기록이 있어요 !</h4>
-        {some}
         <ModalBox>
-          <Modal>
+          <Modal name={some}>
             <AccountWriteUp onCreate={onCreate} />
           </Modal>
-          <Modal>
+          <Modal name={some}>
             <AccountPieChart data={data} />
           </Modal>
         </ModalBox>
