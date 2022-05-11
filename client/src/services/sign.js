@@ -40,7 +40,7 @@ export const signOutApi = () => {
 export const kakaoSign = code => {
   axios({
     method: 'GET',
-    url: `http://localhost:8080/oauth/callback/kakao?code=${code}`,
+    url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   })
     .then(res => {
       console.log(res.data);

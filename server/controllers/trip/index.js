@@ -25,6 +25,7 @@ module.exports = {
   },
 
   post: async (req, res) => {
+    console.log(req.body);
     // const post1 = await trip.create({ title: "111" });
     // const post2 = await trip.create({ title: "222" });
     // // user.addtrips([post1, post2]);

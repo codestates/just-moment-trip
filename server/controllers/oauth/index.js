@@ -19,15 +19,12 @@ module.exports = {
 
       const token = requestKakaoToken.data.access_token;
 
-      const kakaoUserInfo = await axios.get(
-        "https://kapi.kakao.com/v2/user/me",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        }
-      );
+      const kakaoUserInfo = await axios.get("https://kapi.kakao.com/v2/user/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+      });
 
       const payload = {
         email: kakaoUserInfo.data.kakao_account.email,
@@ -40,14 +37,14 @@ module.exports = {
       });
 
       if (!kakaoInfo) {
-        await axios.post("http://localhost:8080/sign/up", payload, {
+        await axios.post("https://www.just-moment-trip.tk/sign/up", payload, {
           headers: {
             "Content-Type": "application/json",
           },
         });
       }
       const result = await axios.post(
-        "http://localhost:8080/sign/in",
+        "https://www.just-moment-trip.tk/sign/in",
         {
           email: payload.email,
           password: payload.password,

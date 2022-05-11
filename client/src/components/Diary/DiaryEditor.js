@@ -246,7 +246,9 @@ function DiaryEditor({
         )}
 
         <br />
-        <span className="date">작성 시간 :{write_date}</span>
+        <span className="date">
+          작성 시간 :{String(write_date).slice(0, 16)}
+        </span>
       </div>
 
       {isEdit ? (

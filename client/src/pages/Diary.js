@@ -4,6 +4,7 @@ import DiaryStore from '../components/Diary/DiaryStore';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
 import LoginMessage from '../components/common/LoginMessage';
+import { useSelector } from 'react-redux';
 
 const Box = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const Box = styled.div`
 `;
 
 function Diary() {
-  const isLogin = true; // 상태에서 받아와야함
+  const isLogin = useSelector(state => state.sign.isLoggedIn);
 
   return isLogin ? (
     <>

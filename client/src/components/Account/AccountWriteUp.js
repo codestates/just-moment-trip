@@ -94,7 +94,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           state.spent_person,
           state.memo,
           // state.new Date
-          (state.write_date = new Date().toLocaleDateString()),
+          (state.write_date = new Date().getTime()),
         );
 
         setState({
