@@ -15,16 +15,15 @@ module.exports = {
         const data = await diary.findAll({
           // where: {
           //   trip_id,
-          //   // title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) },
           //   [Op.or]: [
-          //     //false면 다 검색 if문말고 삼항연산자쓰기
           //     { title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) } },
           //     {
-          //       title: sequelize.where(
-          //         levenshteinDistance.levenshteinDistance(search, Sequelize.col("diary.title"))
-          //       ),
+          //       title:
+          //         levenshteinDistance.levenshteinDistance(search, Sequelize.col("diary.title")) <= 1
+          //           ? false
+          //           : true,
           //     },
-          //   ],Col { col: 'title' } 오오오오
+          //   ],
           // },
           //!
           // where: {
@@ -48,12 +47,10 @@ module.exports = {
           //   ],
           // },
           //!
-
           // where: {
           //   title: sequelize.fn(aa(1, this.diary.sequelize.col("title"))),
           // },
           // "b"
-
           //!원래
           where: {
             trip_id,
@@ -90,19 +87,25 @@ module.exports = {
           return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.title);
         });
         console.log(fuzzyData);
-        // const levenshteinData = data.filter((ele) => {
-        //   return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
-        // });
+        const levenshteinData = data.filter((ele) => {
+          return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
+        });
 
-        // let resultData = fuzzyData.slice();
+        //sort  과일먹자  과자   새우깡은과자다
+        fuzzy.sort(fuzzyData, search);
+        console.log(
+          "-------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-----------"
+        );
+        console.log(fuzzyData);
+        let resultData = fuzzyData.slice();
 
-        // for (let i = 0; i < levenshteinData.length; i++) {
-        //   if (
-        //     !resultData.map((ele) => ele.dataValues.id).includes(levenshteinData[i].dataValues.id)
-        //   ) {
-        //     resultData.push(levenshteinData[i]);
-        //   }
-        // }
+        for (let i = 0; i < levenshteinData.length; i++) {
+          if (
+            !resultData.map((ele) => ele.dataValues.id).includes(levenshteinData[i].dataValues.id)
+          ) {
+            resultData.push(levenshteinData[i]);
+          }
+        }
         // 과일먹자   새우깡은과자 마자          퍼지 과자      과일먹자  새우깡은과자     거리  과자   마자 새우깡은과자
 
         //!
@@ -112,7 +115,7 @@ module.exports = {
           data_slack_id += `${ele.dataValues.id}, `;
         });
         await slack.slack("Diary Get 200", `id : ${data_slack_id}`);
-        res.status(200).send({ data: data, accessToken: validity.accessToken });
+        res.status(200).send({ data: resultData, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Diary Get 501");

@@ -1,4 +1,3 @@
-import { doc } from 'prettier';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
