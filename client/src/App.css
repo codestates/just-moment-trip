@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'IMHyeminFont';
+  src: url('./font/IM_Hyemin-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'SsurroundFont';
+  src: url('./font/Cafe24SsurroundAir.ttf');
+}
+
+@font-face {
+  font-family: 'LeeSeoyonFont';
+  src: url('./font/LeeSeoyun.ttf');
+}
+
+@font-face {
+  font-family: 'NexonFont';
+  src: url('./font/NEXONLv1GothicRegular.ttf');
+}
+
+@font-face {
+  font-family: 'SBFont';
+  font-weight: bold;
+  src: url('./font/SB\ 어그로\ L.ttf');
+}
