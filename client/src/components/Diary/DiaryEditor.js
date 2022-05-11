@@ -87,13 +87,13 @@ function DiaryEditor({
   const titleInput = useRef();
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
-    titleInput.current.innerHTML = titleInput.current.innerHTML
-      .replace(/<span style="color: red">/g, '')
-      .replace(/<\/span>/g, '');
-    titleInput.current.innerHTML = fuzzy.chageRed(
-      titleInput.current.innerHTML,
-      search,
-    );
+    // titleInput.current.innerHTML = titleInput.current.innerHTML
+    //   .replace(/<span style="color: red">/g, '')
+    //   .replace(/<\/span>/g, '');
+    // titleInput.current.innerHTML = fuzzy.chageRed(
+    //   titleInput.current.innerHTML,
+    //   search,
+    // );
   }, [search]);
 
   const localContentInput = useRef();

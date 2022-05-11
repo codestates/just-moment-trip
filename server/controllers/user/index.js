@@ -1,9 +1,9 @@
-const { user } = require("../../models");
+const { user, trip } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-const trip = require("../trip");
+const sequelize = require("sequelize");
 
 module.exports = {
   get: async (req, res) => {
@@ -11,14 +11,11 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req);
       if (validity) {
         const { id, email, accessToken } = validity;
-        const userInfo = await user.findeOne({
+        const userInfo = await user.findOne({
+          include: { model: trip, attributes: ["user_id"] },
           where: { id, email },
         });
-        const trips = await trip.findAll({
-          where: { user_id: id },
-        });
-        const num_trips = trips.length;
-
+        const num_trips = userInfo.trips.length;
         const data = {
           email,
           nickname: userInfo.nickname,
@@ -67,7 +64,6 @@ module.exports = {
         await user.destroy({
           where: { id: validity.id },
         });
-        console.log(22222222);
         await slack.slack("User Delete 200", `id : ${validity.id}`);
         res.status(200).send({ data: validity.id });
       }

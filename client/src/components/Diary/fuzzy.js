@@ -58,10 +58,13 @@ exports.chageRed = (data, search) => {
       redColor.push(`<span style="color: red">${letters[i]}</span>`);
       lastIndex = idx + 1;
     }
+    console.log(match);
+    console.log(groups);
     return redColor.join('');
   });
   return resultData;
 };
+console.log(this.chageRed('안녕하세요', '안녕'));
 exports.sort = (data, search) => {
   const regex = createFuzzyMatcher(search);
   const resultData = data.map(ele => {

@@ -35,8 +35,9 @@ function chageUnicode(ch) {
   return _.escapeRegExp(ch); // 정규식에서 의미있는 와일드카드들을 문자열로 바꿔주는거
 }
 exports.createFuzzyMatcher = (input) => {
-  if (input === undefined) return ".";
+  if (input === undefined) return new RegExp(".");
   const pattern = input.split("").map(chageUnicode).join(".*?");
-  console.log(pattern);
-  return pattern;
+  // console.log(pattern);
+  return new RegExp(pattern);
 };
+// console.log(this.createFuzzyMatcher("과자"));
