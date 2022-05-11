@@ -1,17 +1,16 @@
-const { user } = require("../../models");
+const { user, trip } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-const trip = require("../trip");
 
 module.exports = {
   get: async (req, res) => {
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const { id, email, accessToken } = validity;
-        const userInfo = await user.findeOne({
+        const userInfo = await user.findOne({
           where: { id, email },
         });
         const trips = await trip.findAll({
@@ -35,7 +34,7 @@ module.exports = {
   patch: async (req, res) => {
     //patch 하나만 바꾸는거고 put은 모든거 지정(지정안한거 null됨)
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const userInfo = await user.findOne({
           where: {
@@ -61,7 +60,7 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       console.log(validity);
       if (validity) {
         await user.destroy({
