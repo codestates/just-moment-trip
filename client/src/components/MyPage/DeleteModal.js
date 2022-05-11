@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -11,7 +11,7 @@ const Container = styled.div`
   }
 `;
 
-const DeleteModal = ({ userDeleteHandler }) => {
+function DeleteModal({ userDeleteHandler }) {
   return (
     <Container>
       <div>회원 탈퇴</div>
@@ -23,6 +23,6 @@ const DeleteModal = ({ userDeleteHandler }) => {
       </div>
     </Container>
   );
-};
+}
 
 export default DeleteModal;

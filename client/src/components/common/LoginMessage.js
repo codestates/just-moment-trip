@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Message = styled.div`
   font-size: 50px;
@@ -7,7 +8,17 @@ const Message = styled.div`
 `;
 
 const LoginMessage = () => {
-  return <Message>로그인 해주세요</Message>;
+  const navigate = useNavigate();
+  const goHome = () => {
+    alert('로그인부터 하십시요');
+    navigate('/');
+  };
+
+  useEffect(() => {
+    goHome();
+  }, []);
+
+  return <></>;
 };
 
 export default LoginMessage;

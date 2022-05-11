@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountStore from '../components/Account/AccountStore';
 import Navbar from '../components/common/Navbar';
+import LoginMessage from '../components/common/LoginMessage';
 
 const Box = styled.div`
   display: flex;
@@ -11,12 +12,18 @@ const Box = styled.div`
 `;
 
 function Account() {
-  return (
+  const isLogin = false; //상태에서 받아와야함
+  return isLogin ? (
     <>
       <Navbar />
       <Box>
         <AccountStore />
       </Box>
+    </>
+  ) : (
+    <>
+      <Navbar />
+      <LoginMessage />
     </>
   );
 }

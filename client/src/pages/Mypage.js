@@ -5,7 +5,7 @@ import InfoButton from '../components/MyPage/InfoButton';
 import LoginMessage from '../components/common/LoginMessage';
 
 function MyPage() {
-  const isLogin = true;
+  const isLogin = false;
   return isLogin ? (
     <>
       <Navbar />
@@ -14,7 +14,7 @@ function MyPage() {
   ) : (
     <>
       <Navbar />
-      <LoginMessage>로그인먼저 해주세요</LoginMessage>
+      <LoginMessage />
     </>
   );
 }

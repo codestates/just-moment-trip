@@ -20,7 +20,7 @@ function InfoButton() {
   const options = {
     headers: {
       authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjaGxndXNhbHMzQGdtYWlsLmNvbSIsImlhdCI6MTY1MjIzNjY5MSwiZXhwIjoxNjUyMzQ0NjkxfQ.a7CvmrXNsMzDLSR7U8e_7x2_eZ9hCg9719Mv6Uhye34',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJ0ZXN0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTY1MjI0MTQ3OSwiZXhwIjoxNjUyMzQ5NDc5fQ.eaRBKrWOrJEIr6-IWe-UGzwC3BhUgoxiQwZG6jRocIU',
       'Content-Type': 'application/json',
     },
   };
@@ -43,10 +43,20 @@ function InfoButton() {
     setUserInfo({ picture: pic.data.message, ...user.data.data });
   };
 
+  const userDeleteHandler = async () => {
+    await axios.delete(url, options);
+    //로그인 했는지 안했는지 상태관리 하는게 있다면 false 로 바꿔주기
+    navigate('/');
+  };
+
   return (
     <>
       <UserInfo {...userInfo} />
-      <ButtonHandler />
+      <ButtonHandler
+        userPatchHandler={userPatchHandler}
+        userDeleteHandler={userDeleteHandler}
+        signoutHandler={signoutHandler}
+      />
     </>
   );
 }
