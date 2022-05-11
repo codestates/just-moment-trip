@@ -1,12 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DiaryEditor from '../Diary/DiaryEditor';
-
-const Container = styled.div`
-  margin: 100px;
-  display: flex;
-  justify-content: space-around;
-`;
+import Container from './Container';
 
 function DiaryInfo() {
   const dummyData = {
@@ -24,8 +19,8 @@ function DiaryInfo() {
     search: '',
   };
   return (
-    <Container>
-      즐거웠던 하루의 일들에 대해 일기도 작성하고
+    <Container direction={'row'}>
+      <div className="message">즐거웠던 하루의 일들에 대해 일기도 작성하고</div>
       <DiaryEditor {...dummyData} />
     </Container>
   );
