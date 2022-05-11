@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const signCustomApi = axios.create({
-  baseURL: 'http://localhost:8080/sign/',
+  baseURL: 'https://www.just-moment-trip.tk/sign/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -40,7 +40,7 @@ export const signOutApi = () => {
 export const kakaoSign = code => {
   axios({
     method: 'GET',
-    url: `http://localhost:8080/oauth/callback/kakao?code=${code}`,
+    url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   })
     .then(res => {
       console.log(res.data);
