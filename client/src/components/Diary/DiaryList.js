@@ -25,9 +25,7 @@ function DiaryList({
     console.log('------------- clicked?', clicked);
     console.log('------------- clickedHashtag', clickedHashtag);
   };
-  console.log('diaryList', diaryList);
-  // console.log(fuzzy.sort(diaryList, search));
-  console.log('diaryList', diaryList);
+
   function filterDiary() {
     return diaryList.filter(it => {
       let test = false;
@@ -76,6 +74,8 @@ function DiaryList({
               placeholder="입력하지마라"
               onKeyPress={changeInput}
             />
+            {/* <input type="radio" name="fruit" value="apple" /> title
+              <input type="radio" name="fruit" value="banana" /> content */}
           </div>
           <h2>일기 리스트</h2>
           <h4>{diaryList.length}개의 일기가 있습니다.</h4>
