@@ -9,7 +9,6 @@ function DiaryList({
   onEdit,
   onRemove,
   diaryList,
-
   changeInput,
   search,
 }) {

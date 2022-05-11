@@ -1,5 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
+
+const AccountItemBox = styled.div`
+  border: 5px solid rgb(124, 152, 188);
+`;
 
 function AccountItem({
   onEdit,
@@ -136,7 +141,7 @@ function AccountItem({
   };
 
   return (
-    <div className="AccountItem">
+    <AccountItemBox>
       <div className="infoFirstSecondBox">
         {isEdit ? (
           <>
@@ -284,7 +289,7 @@ function AccountItem({
           </div>
         </div>
       )}
-    </div>
+    </AccountItemBox>
   );
 }
 export default AccountItem;
