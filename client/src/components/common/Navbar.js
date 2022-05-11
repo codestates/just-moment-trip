@@ -10,6 +10,7 @@ const NavbarBox = styled.div`
   left: 0;
   right: 0;
   font-size: 20px;
+  font-family: SBFont;
   padding: 20px 0px;
   width: 100%;
   background-color: #b39bf2;

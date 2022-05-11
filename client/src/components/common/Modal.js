@@ -21,11 +21,12 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBtn = styled.button`
-  background-color: cadetblue;
+  background-color: white;
   text-decoration: none;
   border: none;
+  font-size: 30px;
   padding: 20px;
-  color: white;
+  color: black;
   border-radius: 30px;
   cursor: grab;
 `;
