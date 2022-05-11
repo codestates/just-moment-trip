@@ -9,9 +9,9 @@ import { useSelector } from 'react-redux';
 const Box = styled.div`
   display: flex;
   justify-content: center;
-  border: 10px solid red;
+  border: 10px solid #312352;
   height: 100vw;
-  /* overflow: auto; */
+  font-family: SsurroundFont;
 `;
 
 function Diary() {

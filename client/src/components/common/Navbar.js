@@ -59,6 +59,11 @@ function Navbar() {
             ABOUTUS
           </Link>
         </div>
+        <div className="Navbar_6" style={{ padding: '0 5px' }}>
+          <Link style={{ textDecoration: 'none', color: 'black' }} to="/info">
+            INFO
+          </Link>
+        </div>
       </div>
     </NavbarBox>
   );

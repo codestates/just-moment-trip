@@ -1,9 +1,9 @@
 const axios = require('../../services/accout');
+
 import React, {
   useState,
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   useRef,
 } from 'react';
@@ -208,7 +208,10 @@ function AccountStore() {
     <div
       className="Account"
       style={{
-        padding: '70px 0',
+        width: '93%',
+        height: '100%',
+        padding: '70px 0 0 0',
+        backgroundColor: 'red',
       }}
     >
       <div className="AccountHead">
