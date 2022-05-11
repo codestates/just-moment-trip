@@ -7,9 +7,10 @@ import AccountWriteUp from './AccountWriteUp';
 import styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faChartPie } from '@fortawesome/free-solid-svg-icons';
 
-const some = <FontAwesomeIcon icon={faPen} />;
+const penIcon = <FontAwesomeIcon icon={faPen} />;
+const ChartPieIcon = <FontAwesomeIcon icon={faChartPie} />;
 
 const ModalBox = styled.div`
   display: flex;
@@ -34,10 +35,10 @@ function AccountList({
       <div className="AccountListSpanBox">
         <h4>{AccountList.length}개의 기록이 있어요 !</h4>
         <ModalBox>
-          <Modal name={some}>
+          <Modal name={penIcon}>
             <AccountWriteUp onCreate={onCreate} />
           </Modal>
-          <Modal name={some}>
+          <Modal name={ChartPieIcon}>
             <AccountPieChart data={data} />
           </Modal>
         </ModalBox>
