@@ -5,7 +5,7 @@ const slack = require("../slack");
 module.exports = {
   get: async (req, res) => {
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const { trip_id } = req.query;
         const data = await account.findAll({ where: { trip_id } });
@@ -24,13 +24,22 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { trip_id, category, item_name, price, spent_person, target_currency, gps, memo, write_date } =
-        req.body;
+      const {
+        trip_id,
+        category,
+        item_name,
+        price,
+        spent_person,
+        target_currency,
+        gps,
+        memo,
+        write_date,
+      } = req.body;
       if (!category || !item_name || !price || !spent_person || !target_currency || !write_date) {
         await slack.slack("Account Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const payload = {
           trip_id,
@@ -54,7 +63,7 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const id = req.params.account_id;
         const accountInfo = await account.findOne({
@@ -83,7 +92,7 @@ module.exports = {
   patch: async (req, res) => {
     //patch 하나만 바꾸는거고 put은 모든거 지정(지정안한거 null됨)
     try {
-      const validity = await tokenHandler.accessTokenVerify(req);
+      const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const id = req.params.account_id;
         const {
