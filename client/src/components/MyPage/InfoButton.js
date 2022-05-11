@@ -3,6 +3,7 @@ import axios from 'axios';
 import UserInfo from './UserInfo';
 import ButtonHandler from './ButtonHandler';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -15,12 +16,12 @@ function InfoButton() {
     getUserInfo();
   }, []);
 
+  const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
   const url = 'https://www.just-moment-trip.tk/user';
   const options = {
     headers: {
-      authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJ0ZXN0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTY1MjI0MTQ3OSwiZXhwIjoxNjUyMzQ5NDc5fQ.eaRBKrWOrJEIr6-IWe-UGzwC3BhUgoxiQwZG6jRocIU',
+      authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
   };
