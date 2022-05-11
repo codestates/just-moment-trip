@@ -37,12 +37,12 @@ function Cards() {
       <Container>
         <div>
           {front.map(member => (
-            <InfoCard {...member} />
+            <InfoCard key={member.id} {...member} />
           ))}
         </div>
         <div>
           {back.map(member => (
-            <InfoCard {...member} />
+            <InfoCard key={member.id} {...member} />
           ))}
         </div>
       </Container>

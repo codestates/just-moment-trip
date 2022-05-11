@@ -12,7 +12,7 @@ function AccountInfo() {
     onRemove: () => {
       Swal.fire('로그인후 Account에서 체험하세요');
     },
-    id: 1000000,
+    id: 1000,
     item_name: '구미 디즈니랜드 티켓',
     price: 135000,
     category: '티켓',

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import CustomButton from './CustomButton';
 
 const Container = styled.div`
   text-align: center;
@@ -19,7 +20,7 @@ function DeleteModal({ userDeleteHandler }) {
         🚨탈퇴를 누르시면 모든 회원 정보가 삭제됩니다
       </div>
       <div>
-        <button onClick={userDeleteHandler}>탈퇴</button>
+        <CustomButton handler={userDeleteHandler} name={'탈퇴'} />
       </div>
     </Container>
   );
