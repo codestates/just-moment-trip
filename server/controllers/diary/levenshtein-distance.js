@@ -1,10 +1,10 @@
-exports.levenshteinDistance = (a, b) => {
-  console.log("a : ", a);
-  console.log("b : ", b);
-  console.log(b);
-  if (a === b) return 0;
-  let aLen = a.length;
-  let bLen = b.length;
+exports.levenshteinDistance = (str, search) => {
+  //   console.log("str : ", str);
+  //   console.log("search : ", search);
+  if (search === undefined) return 0;
+  if (str === search) return 0;
+  let aLen = str.length;
+  let bLen = search.length;
   if (aLen === 0) return bLen;
   if (bLen === 0) return aLen;
 
@@ -18,9 +18,9 @@ exports.levenshteinDistance = (a, b) => {
   }
 
   for (let i = 1; i < aLen + 1; i++) {
-    let aCh = a[i - 1];
+    let aCh = str[i - 1];
     for (j = 1; j < bLen + 1; j++) {
-      let bCh = b[j - 1];
+      let bCh = search[j - 1];
       if (aCh === bCh) cost = 0;
       else cost = 1;
       matrix[i][j] = Math.min(
@@ -30,7 +30,6 @@ exports.levenshteinDistance = (a, b) => {
       );
     }
   }
-  console.log(matrix);
   return matrix[aLen][bLen];
 };
-// console.log(this.levenshteinDistance("왈나다라", "가마바라"));
+// console.log(this.levenshteinDistance("가나다라", "하나다라하"));

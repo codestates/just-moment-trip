@@ -36,8 +36,40 @@ function chageUnicode(ch) {
 }
 exports.createFuzzyMatcher = (input) => {
   if (input === undefined) return new RegExp(".");
-  const pattern = input.split("").map(chageUnicode).join(".*?");
-  // console.log(pattern);
+  const pattern = input
+    .split("")
+    .map(chageUnicode)
+    .map((pattern) => "(" + pattern + ")")
+    .join(".*?");
   return new RegExp(pattern);
 };
-// console.log(this.createFuzzyMatcher("과자"));
+
+exports.sort = (data, search) => {
+  if (search === undefined) return;
+  const regex = this.createFuzzyMatcher(search);
+  const resultData = data.map((ele) => {
+    let totalDistance = 0;
+    const title = ele.title.replace(regex, (match, ...groups) => {
+      const letters = groups.slice(0, search.length);
+      let lastIndex = 0;
+      let redColor = [];
+      for (let i = 0, l = letters.length; i < l; i++) {
+        const idx = match.indexOf(letters[i], lastIndex);
+        redColor.push(match.substring(lastIndex, idx));
+        redColor.push(`${letters[i]}`);
+        if (lastIndex > 0) {
+          totalDistance += idx - lastIndex;
+        }
+        lastIndex = idx + 1;
+      }
+      return redColor.join("");
+    });
+    return { title, totalDistance };
+  });
+  resultData.sort((a, b) => {
+    return a.totalDistance - b.totalDistance;
+  });
+  for (let i = 0; i < data.length; i++) {
+    data[i].title = resultData[i].title;
+  }
+};

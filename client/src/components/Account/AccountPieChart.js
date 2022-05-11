@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import { ResponsivePie } from '@nivo/pie';
 import Swal from 'sweetalert2';
@@ -41,7 +42,7 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
         textAnchor="middle"
         dominantBaseline="central"
         style={{
-          fontSize: '32px',
+          fontSize: '1.5vw',
           fontWeight: '600',
         }}
       >
@@ -61,21 +62,18 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
   return (
     <>
       {mySpecialValue === 0 ? (
-        (openModalHandler(false),
-        Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
+        (Swal.fire({
+          icon: 'error',
+          title: '🙅‍♂️ 그래프를 그릴 수 없어요!',
+          text: '가계부를 먼저 작성해주세요',
+          confirmButtonText: '알겠어요',
+          allowOutsideClick: false,
         }).then(result => {
           if (result.isConfirmed) {
-            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            openModalHandler(false);
           }
         }),
-        (<></>))
+        '')
       ) : (
         <ResponsivePie
           data={finalData}
