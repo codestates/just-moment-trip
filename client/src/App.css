@@ -38,3 +38,8 @@
   font-family: 'ManfuMedium';
   src: url('./font/esamanru\ Medium.ttf');
 }
+
+@media (max-width: 580px) {
+  #root {
+  }
+}
