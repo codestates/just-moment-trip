@@ -2,6 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountPieChart from '../Account/AccountPieChart';
 
+const Container = styled.div`
+  margin: 100px;
+  display: flex;
+  height: 80%;
+  justify-content: space-around;
+`;
+
 function GraphInfo() {
   const dummyData = [
     {
@@ -30,7 +37,12 @@ function GraphInfo() {
     },
   ];
 
-  return <AccountPieChart data={dummyData} />;
+  return (
+    <Container>
+      <AccountPieChart data={dummyData} />
+      지출내역을 한눈에 확인해 보세요
+    </Container>
+  );
 }
 
 export default GraphInfo;

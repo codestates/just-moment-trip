@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import AccountItem from '../Account/AccountEditor';
 import Swal from 'sweetalert2';
 
+const Container = styled.div`
+  margin: 100px;
+  display: flex;
+  justify-content: space-around;
+`;
+
 function AccountInfo() {
   const dummyData = {
     onEdit: () => {
@@ -20,7 +26,12 @@ function AccountInfo() {
     memo: '구경할께 많았다',
     write_date: '2022-07-01',
   };
-  return <AccountItem {...dummyData} />;
+  return (
+    <Container>
+      <AccountItem {...dummyData} />
+      여행을 다니며 간단하게 가계부를 작성하여 지출내역을 효율적으로 관리하세요
+    </Container>
+  );
 }
 
 export default AccountInfo;
