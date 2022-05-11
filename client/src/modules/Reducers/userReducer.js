@@ -82,5 +82,5 @@ const signSlice = createSlice({
     },
   },
 });
-const { reducer } = signSlice;
-export default reducer;
+
+export default signSlice.reducer;

@@ -8,5 +8,26 @@ const tripCustomApi = axios.create({
 });
 
 export const requestTripList = () => {
-  tripCustomApi.get('trip');
+  tripCustomApi.get('trip').then(res => {
+    console.log(res.data);
+    return res.data;
+  });
+};
+
+export const requestTripPost = (
+  title,
+  country,
+  total_price,
+  base_currency,
+  start_date,
+  end_date,
+) => {
+  tripCustomApi.post('trip', {
+    title,
+    country,
+    total_price,
+    base_currency,
+    start_date,
+    end_date,
+  });
 };
