@@ -4,10 +4,23 @@ import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
-import dummydata from './dummydata';
+import styled from 'styled-components';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+
+const some = <FontAwesomeIcon icon={faPen} />;
+
+const ModalBox = styled.div`
+  display: flex;
+`;
+
+const AccountListBox = styled.div`
+  text-align: center;
+`;
 
 function AccountList({
-  AccountList,
+  data,
   onEdit,
   onRemove,
   onCreate,
@@ -20,15 +33,17 @@ function AccountList({
     <div className="AccountList">
       <div className="AccountListSpanBox">
         <h4>{AccountList.length}개의 기록이 있어요 !</h4>
-        <Modal>
-          <AccountWriteUp onCreate={onCreate} />
-        </Modal>
-        <Modal>
-          <AccountPieChart data={dummydata} />
-        </Modal>
+        <ModalBox>
+          <Modal name={some}>
+            <AccountWriteUp onCreate={onCreate} />
+          </Modal>
+          <Modal name={some}>
+            <AccountPieChart data={data} />
+          </Modal>
+        </ModalBox>
       </div>
-      <div>
-        {AccountList.map(it => (
+      <AccountListBox>
+        {data.map(it => (
           <AccountEditor
             key={it.id}
             {...it}
@@ -38,7 +53,7 @@ function AccountList({
             AccountList={AccountList}
           />
         ))}
-      </div>
+      </AccountListBox>
       <Footer
         totalSpentString={totalSpentString}
         remainingString={remainingString}

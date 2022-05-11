@@ -1,4 +1,24 @@
 import React, { useRef, useState } from 'react';
+import Swal from 'sweetalert2';
+import styled from 'styled-components';
+
+const PriceInputBox = styled.input`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+const AccountWriteUpBox = styled.div`
+  padding: 40px;
+  font-size: 20px;
+  align-items: center;
+  text-align: center;
+`;
 
 function AccountWriteUp({ onCreate, openModalHandler }) {
   const item_nameInput = useRef();
@@ -6,18 +26,6 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
   const spent_personInput = useRef();
   const target_currencyInput = useRef();
   const memoInput = useRef();
-
-  // const startDate = context.state.tripList[0].start_date.split('/');
-  // startDate[0] = Number(startDate[0]);
-  // startDate[1] = Number(startDate[1]);
-  // startDate[2] = Number(startDate[2]);
-  // const newDate = new Date();
-  // let nowTime = [
-  //   newDate.getFullYear(),
-  //   newDate.getMonth() + 1,
-  //   newDate.getDate(),
-  // ];
-  // const dateDiff = moment(nowTime).diff(moment(startDate), 'days');
 
   const [state, setState] = useState({
     write_date: '',
@@ -60,33 +68,52 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       memoInput.current.focus();
       return;
     }
-    // write_date = 1;
-    onCreate(
-      state.item_name,
-      state.price,
-      state.category,
-      state.target_currency,
-      state.spent_person,
-      state.memo,
-      // state.new Date
-      (state.write_date = new Date().toLocaleString()),
-    );
-    alert('저장성공!');
-    setState({
-      write_date: '',
-      item_name: '',
-      target_currency: '',
-      paid_person: '',
-      price: '',
-      memo: '',
-      category: '교통비',
+
+    Swal.fire({
+      title: `기록을 저장할까요 ?`,
+      icon: 'question',
+      background: '#fff ',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/ef963bb5-b512-4259-bb51-dbde97ca457a/image.gif")
+      left top
+      no-repeat
+    `,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire('저장 완료!', 'success');
+        onCreate(
+          state.item_name,
+          state.price,
+          state.category,
+          state.target_currency,
+          state.spent_person,
+          state.memo,
+          // state.new Date
+          (state.write_date = new Date().toLocaleDateString()),
+        );
+
+        setState({
+          write_date: '',
+          item_name: '',
+          target_currency: '',
+          paid_person: '',
+          price: '',
+          memo: '',
+          category: '교통비',
+        });
+        console.log('AccountWriteUp', state);
+        openModalHandler(false);
+      }
     });
-    console.log('AccountWriteUp', state);
-    openModalHandler(false);
   };
 
   return (
-    <div className="AccountWriteUp">
+    <AccountWriteUpBox>
       <div className="AccountEditorH2Box">
         <h2 className="AccountEditorH2">가계부를 기록해요</h2>
       </div>
@@ -108,13 +135,14 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
         </div>
         <div className="InputSecondArea">
           <span>
-            <input
+            <PriceInputBox
+              type="number"
               className="priceInput"
               ref={priceInput}
               value={state.price || ''}
               name="price"
               onChange={handleChangeState}
-            ></input>
+            ></PriceInputBox>
             원 사용!
           </span>
         </div>
@@ -180,7 +208,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           ✏️
         </button>
       </div>
-    </div>
+    </AccountWriteUpBox>
   );
 }
 

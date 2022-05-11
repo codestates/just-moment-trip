@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 
 function AccountItem({
   onEdit,
@@ -32,9 +33,26 @@ function AccountItem({
   const editCategoryInput = useRef();
 
   const handleRemove = () => {
-    if (window.confirm(`${id + 1}번째 기록을 삭제할까요?`)) {
-      onRemove(id);
-    }
+    Swal.fire({
+      title: `${id + 1}번째 기록을 삭제할까요?`,
+      text: '삭제시 기록을 복구할 수 없어요',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/3361f525-3743-4954-9d15-4318619713e1/image.gif")
+      left bottom
+      no-repeat
+    `,
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire('삭제 완료!', `${id + 1}번째 기록을 삭제했어요`, 'success');
+        onRemove(id);
+      }
+    });
   };
 
   const handleQuitEdit = () => {
@@ -68,21 +86,36 @@ function AccountItem({
     if (editTarget_currency.length < 1) {
       editTarget_currencyInput.current.focus();
     }
-
-    if (window.confirm(`${id + 1}번째 가계부를 수정할까요 ?`)) {
-      onEdit(
-        id,
-        editPrice,
-        editMemo,
-        editSpent_person,
-        editItem_name,
-        editTarget_currency,
-        editCategory,
-      );
-      toggleIsEdit();
-    }
-    console.log('id :', id);
+    Swal.fire({
+      title: `${id + 1}번째 기록을 수정할까요?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
+      right bottom
+      no-repeat
+    `,
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire('수정 완료!', `${id + 1}번째 기록을 수정했어요`, 'success');
+        onEdit(
+          id,
+          editPrice,
+          editMemo,
+          editSpent_person,
+          editItem_name,
+          editTarget_currency,
+          editCategory,
+        );
+        toggleIsEdit();
+      }
+    });
   };
+
   return (
     <div className="AccountItem">
       <div className="infoFirstSecondBox">
@@ -176,7 +209,7 @@ function AccountItem({
             </div>
             <div className=" AccountCategoryBox">카테고리 : {category}</div>
             <div className="dateBox">
-              <span className="date">{write_date}</span>
+              <span className="date">{write_date.split(' ')[0]}</span>
             </div>
             <div className="AccountItemContentBox">
               <div className="AccountItemContentBoxText1">
