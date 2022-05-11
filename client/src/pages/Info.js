@@ -8,8 +8,8 @@ function Info() {
   return (
     <>
       <Navbar />
-      <AccountInfo />
       <DiaryInfo />
+      <AccountInfo />
       <GraphInfo />
     </>
   );

@@ -1,13 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import AccountPieChart from '../Account/AccountPieChart';
-
-const Container = styled.div`
-  margin: 100px;
-  display: flex;
-  height: 80%;
-  justify-content: space-around;
-`;
+import Container from './Container';
 
 function GraphInfo() {
   const dummyData = [
@@ -38,9 +32,9 @@ function GraphInfo() {
   ];
 
   return (
-    <Container>
+    <Container height={'80%'} direction={'column'}>
       <AccountPieChart data={dummyData} />
-      지출내역을 한눈에 확인해 보세요
+      <div className="message">쉽게 한눈에 통계를 확인해 보세요</div>
     </Container>
   );
 }
