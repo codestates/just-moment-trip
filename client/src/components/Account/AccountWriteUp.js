@@ -3,6 +3,11 @@ import Swal from 'sweetalert2';
 import styled from 'styled-components';
 
 const PriceInputBox = styled.input`
+  font-family: SsurroundFont;
+  width: 250px;
+  height: 40px;
+  font-size: 20px;
+
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
@@ -82,10 +87,16 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
     }).then(result => {
       if (result.isConfirmed) {
-        Swal.fire('저장 완료!', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: '저장 완료!',
+          text: `작성하신 기록을 저장했어요`,
+          confirmButtonText: '알겠어요',
+        });
         onCreate(
           state.item_name,
           state.price,
@@ -124,6 +135,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           <br />
           <span className="item_nameSpan">
             <input
+              style={{
+                fontFamily: 'SsurroundFont',
+                width: '250px',
+                height: '40px',
+                fontSize: '20px',
+              }}
               className="item_nameInput"
               ref={item_nameInput}
               value={state.item_name || ''}
@@ -150,6 +167,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           <span>
             돈 쓴 사람
             <input
+              style={{
+                fontFamily: 'SsurroundFont',
+                width: '250px',
+                height: '40px',
+                fontSize: '20px',
+              }}
               className="spent_personInput"
               ref={spent_personInput}
               value={state.spent_person || ''}
@@ -162,6 +185,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           <span>
             통화
             <input
+              style={{
+                fontFamily: 'SsurroundFont',
+                width: '250px',
+                height: '40px',
+                fontSize: '20px',
+              }}
               className="target_currencyInput"
               ref={target_currencyInput}
               value={state.target_currency}
@@ -174,6 +203,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           <span>
             멤모
             <textarea
+              style={{
+                fontFamily: 'SsurroundFont',
+                height: '150px',
+                width: '450px',
+                fontSize: '20px',
+              }}
               className="memoInput"
               ref={memoInput}
               value={state.memo}
@@ -189,6 +224,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
         <label className="InputFifthAreaLabel">소비 항목을 선택해요 : </label>
         <span className="selectSpan">
           <select
+            style={{
+              fontFamily: 'SsurroundFont',
+              height: '50px',
+              width: '150px',
+              fontSize: '20px',
+            }}
             className="select"
             name="category"
             value={state.category}
