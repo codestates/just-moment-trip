@@ -14,7 +14,7 @@ const Box = styled.div`
 `;
 
 function Diary() {
-  const isLogin = false; // 상태에서 받아와야함
+  const isLogin = true; // 상태에서 받아와야함
 
   return isLogin ? (
     <>

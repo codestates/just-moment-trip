@@ -123,7 +123,7 @@ module.exports = {
   post: async (req, res) => {
     try {
       const { trip_id, title, picture, gps, content, write_date, hashtags } = req.body;
-      if (!title || !picture || !content || !write_date) {
+      if (!title || !content || !write_date) {
         await slack.slack("Diary Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
