@@ -1,5 +1,24 @@
 import React, { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
+
+const PriceInputBox = styled.input`
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+const AccountWriteUpBox = styled.div`
+  padding: 40px;
+  font-size: 20px;
+  align-items: center;
+  text-align: center;
+`;
 
 function AccountWriteUp({ onCreate, openModalHandler }) {
   const item_nameInput = useRef();
@@ -94,7 +113,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
   };
 
   return (
-    <div className="AccountWriteUp">
+    <AccountWriteUpBox>
       <div className="AccountEditorH2Box">
         <h2 className="AccountEditorH2">가계부를 기록해요</h2>
       </div>
@@ -116,13 +135,14 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
         </div>
         <div className="InputSecondArea">
           <span>
-            <input
+            <PriceInputBox
+              type="number"
               className="priceInput"
               ref={priceInput}
               value={state.price || ''}
               name="price"
               onChange={handleChangeState}
-            ></input>
+            ></PriceInputBox>
             원 사용!
           </span>
         </div>
@@ -188,7 +208,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           ✏️
         </button>
       </div>
-    </div>
+    </AccountWriteUpBox>
   );
 }
 
