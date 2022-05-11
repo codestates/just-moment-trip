@@ -14,10 +14,16 @@ const ChartPieIcon = <FontAwesomeIcon icon={faChartPie} />;
 
 const ModalBox = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 const AccountListBox = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   text-align: center;
+  height: 100%;
+  width: 100%;
+  background-color: green;
 `;
 
 function AccountList({

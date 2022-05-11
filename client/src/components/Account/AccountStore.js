@@ -1,5 +1,5 @@
 const axios = require('../../services/accout');
-let trip_id = 0;
+let trip_id = 4;
 import React, {
   useState,
   useCallback,
@@ -204,7 +204,10 @@ function AccountStore() {
     <div
       className="Account"
       style={{
-        padding: '70px 0',
+        width: '93%',
+        height: '100%',
+        padding: '70px 0 0 0',
+        backgroundColor: 'red',
       }}
     >
       <div className="AccountHead">

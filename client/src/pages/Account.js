@@ -9,7 +9,8 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   border: 10px solid #312352;
-  height: 100vw;
+  width: 100%;
+  height: 100%;
   font-family: SsurroundFont;
 `;
 
