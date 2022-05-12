@@ -19,13 +19,22 @@ const ModalBtn = styled.button`
   padding: 20px;
   color: black;
   border-radius: 30px;
+  -webkit-transition: background-color 2s ease-out;
+  -moz-transition: background-color 2s ease-out;
+  -o-transition: background-color 2s ease-out;
+  transition: background-color 2s ease-out;
   cursor: grab;
+  :hover {
+    background-color: ${props => props.color};
+  }
 `;
 
-function CustomButton({ handler, name }) {
+function CustomButton({ handler, name, color }) {
   return (
     <ModalContainer>
-      <ModalBtn onClick={handler}>{name}</ModalBtn>
+      <ModalBtn onClick={handler} color={color}>
+        {name}
+      </ModalBtn>
     </ModalContainer>
   );
 }
