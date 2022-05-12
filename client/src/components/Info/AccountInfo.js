@@ -22,7 +22,7 @@ function AccountInfo() {
     write_date: '2022-07-01',
   };
   return (
-    <Container direction={'row'}>
+    <Container direction={'row'} back={' rgba(0, 0, 255, .4)'}>
       <AccountItem {...dummyData} />
       <div className="message">
         여행을 다니며 간단하게 가계부를 작성하여 {<br />}

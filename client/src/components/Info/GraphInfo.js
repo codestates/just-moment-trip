@@ -32,7 +32,7 @@ function GraphInfo() {
   ];
 
   return (
-    <Container height={'80%'} direction={'column'}>
+    <Container direction={'column'} back={' rgba(100, 100, 100, .4)'}>
       <AccountPieChart data={dummyData} />
       <div className="message">쉽게 한눈에 통계를 확인해 보세요</div>
     </Container>

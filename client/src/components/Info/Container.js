@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Cont = styled.div`
-  margin: 100px;
   display: flex;
-  height: ${props => props.height};
+  height: 100vh;
   flex-direction: ${props => props.direction};
+  background: ${props => props.back};
   justify-content: space-around;
+  overflow-y: auto;
   align-items: center;
   font-family: SsurroundFont;
+
+  > .inner {
+    height: 100vh;
+  }
 
   > .message {
     font-size: 30px;
@@ -20,9 +25,9 @@ const Cont = styled.div`
   }
 `;
 
-function Container({ direction, height, children }) {
+function Container({ direction, back, children }) {
   return (
-    <Cont direction={direction} height={height}>
+    <Cont direction={direction} back={back}>
       {children}
     </Cont>
   );
