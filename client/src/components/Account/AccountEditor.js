@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
@@ -174,6 +176,11 @@ function AccountItem({
   const editTarget_currencyInput = useRef();
   const editCategoryInput = useRef();
 
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   const handleRemove = () => {
     Swal.fire({
       title: `기록을 삭제할까요?`,
@@ -278,7 +285,7 @@ function AccountItem({
   };
 
   return (
-    <Container>
+    <Container data-aos="fade-up">
       <AccountItemBox>
         <div>
           {isEdit ? (
