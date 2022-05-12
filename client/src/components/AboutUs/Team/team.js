@@ -3,7 +3,16 @@ import CMS from './CMS.png';
 import MYM from './MYM.png';
 import YKH from './YKH.png';
 
-export const front = [
+export const team = [
+  {
+    id: 8,
+  },
+  {
+    id: 7,
+  },
+  {
+    id: 6,
+  },
   {
     id: 0,
     picture: MYM,
@@ -20,9 +29,6 @@ export const front = [
     link: 'https://github.com/Yquick',
     position: 'Front-End',
   },
-];
-
-export const back = [
   {
     id: 2,
     picture: CHM,

@@ -1,52 +1,53 @@
 import React from 'react';
-import { front, back } from './Team/team';
+import { team } from './Team/team';
 import InfoCard from './InfoCard';
 import styled from 'styled-components';
 import JMT from './Team/JMT.png';
 import JMTL from './Team/JMTL.png';
 
 const Container = styled.div`
+  background: pr;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  height: 70%; //바꿔야함
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 80%; //바꿔야함
   display: flex;
-  justify-content: space-around;
-  width: 100vw;
-  height: 50vh;
-  margin-top: 100px;
-`;
-const Desc = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100vw;
-  height: 100px;
-  margin-top: 100px;
-  font-size: 56px;
 
-  > img {
-    width: 300;
-    height: 300;
+  ::after {
+    background: linear-gradient(
+      to right,
+      white 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    content: '';
+    height: 100px;
+    position: absolute;
+    width: 200px;
+    z-index: 2;
+  }
+
+  ::after {
+    right: 0;
+    top: 0;
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+  }
+
+  ::before {
+    left: 0;
+    top: 0;
   }
 `;
 
 function Cards() {
   return (
-    <>
-      <Desc>
-        <img src={JMT} />
-        개발자들
-        <img src={JMTL} />
-      </Desc>
-      <Container>
-        <div>
-          {front.map(member => (
-            <InfoCard key={member.id} {...member} />
-          ))}
-        </div>
-        <div>
-          {back.map(member => (
-            <InfoCard key={member.id} {...member} />
-          ))}
-        </div>
-      </Container>
-    </>
+    <Container>
+      {team.map(member => (
+        <InfoCard key={member.id} {...member} />
+      ))}
+    </Container>
   );
 }
 
