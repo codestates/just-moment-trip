@@ -5,7 +5,7 @@ import Cards from '../components/AboutUs/Cards';
 
 const Body = styled.div`
   align-items: center;
-  background: #e3e3e3;
+  background: white;
   display: flex;
   height: 100vh;
   justify-content: center;
