@@ -8,20 +8,54 @@ import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../modules/Reducers/userReducer';
 import TextField from '../SignUp/TextField';
 import kakaoImg from '../../Assets/kakao_login_medium_wide.png';
+import jmt from '../../Assets/JMT_logo.png';
 import { KAKAO_AUTH_URL } from '../../routers/index';
 
+const StyledWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100vh;
+`;
+
 const Container = styled.div`
+  position: relative;
+  background-color: #ffffff;
   text-align: center;
-  margin-top: 100px;
+  width: 400px;
+  height: 500px;
+  margin: 1rem auto;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+
+  & > form {
+    padding-top: 20px;
+  }
+  @media (max-width: 600px) {
+    .Container {
+      border-radius: 0px;
+    }
+  }
 `;
 
-const HeadTag = styled.h1`
+const Btn = styled.button`
+  cursor: pointer;
+  border-radius: 2em;
+  color: #fff;
+  background: linear-gradient(to right, #9c27b0, #e040fb);
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 15px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
   text-align: center;
 `;
 
-const Btn = styled.button``;
-
-const KakaoBtn = styled.button``;
+const KakaoImg = styled.img`
+  cursor: pointer;
+`;
 
 function SignInput() {
   const dispatch = useDispatch();
@@ -76,17 +110,17 @@ function SignInput() {
       onSubmit={signInRequest}
     >
       {() => (
-        <Container>
-          <HeadTag>Sign-In</HeadTag>
-          <Form>
-            <TextField label="Email" name="email" type="email" />
-            <TextField label="Password" name="password" type="password" />
-            <Btn type="submit">SignIn</Btn>
-          </Form>
-          <KakaoBtn onClick={handleClick}>
-            <img src={kakaoImg} alt="" />
-          </KakaoBtn>
-        </Container>
+        <StyledWrapper>
+          <Container>
+            <img src={jmt} alt="JMT" />
+            <Form>
+              <TextField label="Email" name="email" type="email" />
+              <TextField label="Password" name="password" type="password" />
+              <Btn type="submit">Sign In</Btn>
+            </Form>
+            <KakaoImg src={kakaoImg} alt="" onClick={handleClick} />
+          </Container>
+        </StyledWrapper>
       )}
     </Formik>
   );

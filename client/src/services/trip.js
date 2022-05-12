@@ -30,3 +30,15 @@ export const requestTripPost = (
     end_date,
   });
 };
+
+export const requestTripDelete = id => {
+  tripCustomApi
+    .delete(`trip/${id}`)
+    .then(res => {
+      console.log(res);
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
