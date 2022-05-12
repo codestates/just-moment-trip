@@ -25,7 +25,7 @@ const tripSlice = createSlice({
   initialState,
   extraReducers: {
     [getTrip.fulfilled]: (state, action) => {
-      state.push(action.payload);
+      return [...action.payload];
     },
     [getTrip.rejected]: state => {
       state.value = null;

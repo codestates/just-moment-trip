@@ -1,15 +1,18 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import ClockLoader from 'react-spinners/ClockLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const override = css`
-  display: block;
+  display: flex;
   margin: 0 auto;
-  border-color: red;
+  border-color: #9c27b0;
+  border-width: 10px;
 `;
 
+const color = '#9c27b0';
+
 function LoadingSpinner() {
-  return <ClockLoader css={override} size={150} />;
+  return <ClipLoader color={color} css={override} size={50} />;
 }
 
 export default LoadingSpinner;
