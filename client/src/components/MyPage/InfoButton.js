@@ -73,7 +73,7 @@ function InfoButton() {
     setUserInfo({ picture: pic.data.message, ...user.data.data });
   };
 
-  const userDeleteHandler = async () => {
+  const userDeleteHandler = () => {
     Swal.fire({
       title: '정말 삭제하시겠습니까?',
       text: '다시 되돌릴수없습니다!',
@@ -85,12 +85,10 @@ function InfoButton() {
       cancelButtonText: '취소',
     }).then(async result => {
       if (result.isConfirmed) {
-        await axios.delete(url, options);
-        navigate('/');
-        Swal.fire(
-          '더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다.',
-        ).then(result => {
-          //로그아웃 호출
+        axios.delete(url, options).then(() => {
+          navigate('/');
+          dispatch(signOut());
+          Swal.fire('더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다.');
         });
       }
     });
