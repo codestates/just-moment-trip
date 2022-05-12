@@ -33,7 +33,6 @@ const AccountEditInputBox = styled.input`
     z-index: 1;
     transition: all 0.2s linear;
     transform: scale(1.2);
-    position: absolute;
   }
   :focus {
     transition: all 0.4s ease-in;
@@ -54,7 +53,6 @@ const AccountEditTextBox = styled.input`
   height: 70;
   resize: none;
   outline: none;
-  fontfamily: SsurroundFont;
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
