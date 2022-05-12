@@ -22,7 +22,7 @@ function Info() {
   return (
     <>
       <Navbar />
-      <Box data-aos="slid-left">
+      <Box data-aos="fade-up">
         <TripInfo />
       </Box>
       <Box data-aos="slide-right">
