@@ -47,6 +47,8 @@ function DiaryList({
   diaryList,
   changeInput,
   search,
+  getSearchType,
+  searchType,
 }) {
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
@@ -72,6 +74,7 @@ function DiaryList({
       {clicked ? (
         <>
           {console.log('공사중')}
+
           <DiaryListBox>
             {filterDiary().map(it => (
               <DiaryEditor
@@ -83,6 +86,7 @@ function DiaryList({
                 onRemove={onRemove}
                 toggleClicked={toggleClicked}
                 search={search}
+                searchType={searchType}
               />
             ))}
             <button
