@@ -34,7 +34,7 @@ function InfoButton() {
       !input.email ||
       !input.password ||
       !input.new_password ||
-      input.newpasswordCheck
+      !input.newpasswordCheck
     ) {
       return Swal.fire('모든 필드들을 작성해주세요');
     }
