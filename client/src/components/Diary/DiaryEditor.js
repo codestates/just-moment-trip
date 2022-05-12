@@ -198,7 +198,7 @@ function DiaryEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/720ac6c1-4a12-4010-873c-4f54464ff586/image.gif")
+      url("https://velog.velcdn.com/images/do66i/post/da3c93a4-65e4-45f9-99e3-19190d53d158/image.gif")
       left bottom
       no-repeat
     `,
@@ -209,6 +209,12 @@ function DiaryEditor({
           title: '삭제 완료!',
           text: `선택하신 기록을 삭제했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/e814e626-b1e7-40f2-acaa-f9120dac139f/image.gif")
+          left bottom
+          no-repeat
+        `,
         });
 
         onRemove(id);
@@ -255,6 +261,12 @@ function DiaryEditor({
           title: '수정 완료!',
           text: `선택하신 기록을 수정했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/da278e0b-6a49-407e-8517-4b4e3621de27/image.gif")
+          right bottom
+          no-repeat
+        `,
         });
         onEdit(id, localContent, localTitle, localHashtags);
         toggleIsEdit();
@@ -268,6 +280,12 @@ function DiaryEditor({
           icon: 'info',
           text: `수정을 취소했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/e814e626-b1e7-40f2-acaa-f9120dac139f/image.gif")
+          right bottom
+          no-repeat
+        `,
         });
         handleQuitEdit();
       }
