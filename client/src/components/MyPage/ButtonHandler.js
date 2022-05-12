@@ -27,7 +27,7 @@ function ButtonHandler({
       <CustomButton
         handler={signoutHandler}
         name={'로그아웃'}
-        color={'white'}
+        color={'yellow'}
       />
     </ButtonContainer>
   );

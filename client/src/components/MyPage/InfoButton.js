@@ -30,6 +30,14 @@ function InfoButton() {
   };
 
   const userPatchHandler = input => {
+    if (
+      !input.email ||
+      !input.password ||
+      !input.new_password ||
+      input.newpasswordCheck
+    ) {
+      return Swal.fire('모든 필드들을 작성해주세요');
+    }
     if (input.new_password !== input.newpasswordCheck) {
       return Swal.fire('새비밀번호를 다시 확인해주세요');
     }
@@ -63,8 +71,6 @@ function InfoButton() {
   const signoutHandler = () => {
     Swal.fire('로그아웃 하겠습니까?').then(result => {
       if (result.isConfirmed) {
-        //로그인 했는지 안했는지 상태관리 하는게 있다면 false로 바꿔주기
-        //토큰 빈 문자열로 바꿔주기
         dispatch(signOut());
         navigate('/');
         Swal.fire('다음에 또 뵙겠습니다').then(result => {
@@ -101,8 +107,6 @@ function InfoButton() {
         });
       }
     });
-    //로그인 했는지 안했는지 상태관리 하는게 있다면 false 로 바꿔주기
-    //토큰 빈 문자열로 바꿔주기
   };
 
   return (
