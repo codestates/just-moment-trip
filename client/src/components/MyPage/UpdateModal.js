@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import CustomButton from './CustomButton';
 
 const Container = styled.div`
   display: flex;
@@ -8,12 +9,17 @@ const Container = styled.div`
   text-align: center;
   font-size: 50px;
   color: black;
+`;
 
-  > input {
-    width: 50%;
-    margin: 20px;
-    text-align: center;
-  }
+const Input = styled.input`
+  border: none;
+  border-bottom: 3px solid black;
+  background-color: inherit;
+  width: 50%;
+  margin: 20px;
+  padding: 10px;
+  font-size: 25px;
+  text-align: center;
 `;
 
 function UpdateModal({ userPatchHandler }) {
@@ -35,15 +41,19 @@ function UpdateModal({ userPatchHandler }) {
   return (
     <Container onChange={onChange}>
       <div>회원정보 수정</div>
-      <input type="email" placeholder="Email" name="email" />
-      <input type="password" placeholder="Current Password" name="password" />
-      <input type="password" placeholder="New Password" name="new_password" />
-      <input
+      <Input type="email" placeholder="Email" name="email" />
+      <Input type="password" placeholder="Current Password" name="password" />
+      <Input type="password" placeholder="New Password" name="new_password" />
+      <Input
         type="password"
         placeholder="Check New Password"
         name="newpasswordCheck"
       />
-      <button onClick={() => userPatchHandler(inputs)}>수정</button>
+      <CustomButton
+        handler={() => userPatchHandler(inputs)}
+        name={'수정'}
+        color={'orange'}
+      />
     </Container>
   );
 }

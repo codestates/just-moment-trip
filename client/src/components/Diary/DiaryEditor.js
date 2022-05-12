@@ -1,16 +1,63 @@
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFishFins } from '@fortawesome/free-solid-svg-icons';
 const fuzzy = require('./fuzzy');
+
+const Slide = keyframes`
+  0% {    
+    transform: scaleX(-1);
+    left: calc(30px);
+  }
+  49.99% {
+    transform: scaleX(-1);
+    left: 0%;
+  }
+  50% {
+    transform: scaleX(1);
+    left: 0%;
+  }
+  99.99% {
+    transform: scaleX(1);
+    left: calc(30px);
+  }
+  100% {
+    transform: scaleX(-1);
+    left: calc(30px);
+  }
+`;
+
+const ManFishIcon = styled.div`
+  width: 26.2vw;
+  position: relative;
+  animation-name: ${Slide};
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+`;
+
+const ManFishArea = styled.div`
+  width: 100%;
+  height: 30px;
+`;
+
+const faFishFinsIcon = (
+  <ManFishArea>
+    <ManFishIcon>
+      <FontAwesomeIcon icon={faFishFins} />
+    </ManFishIcon>
+  </ManFishArea>
+);
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   min-height: 48px;
-  width: 480px;
+  width: 90%;
   padding: 0 8px;
   border: 10px solid rgb(93, 176, 198);
   border-radius: 6px;
@@ -70,7 +117,15 @@ const TagsInput = styled.div`
 `;
 
 const DiaryEditorBox = styled.div`
-  border: 5px solid rgb(124, 152, 188);
+  width: 28.5vw;
+  height: 300px;
+  margin: 10px;
+  border-radius: 20px;
+  border: 3px solid rgb(124, 152, 188);
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
 `;
 
 const DiaryBtn = styled.button`
@@ -284,6 +339,7 @@ function DiaryEditor({
           </>
         ) : (
           <>
+            {faFishFinsIcon}
             <div className="title" ref={titleInput}>
               {title}
             </div>

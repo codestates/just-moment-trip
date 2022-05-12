@@ -10,8 +10,7 @@ const tripCustomApi = axios.create({
 
 export const requestTripList = async () => {
   const result = await tripCustomApi.get('trip');
-  console.log(result);
-  return result;
+  return result.data.data;
 };
 
 export const requestTripPost = (

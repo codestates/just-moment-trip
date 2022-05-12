@@ -7,9 +7,8 @@ import { useSelector } from 'react-redux';
 
 const Box = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
-  border: 10px solid #312352;
-  height: 100vw;
   font-family: SsurroundFont;
 `;
 
