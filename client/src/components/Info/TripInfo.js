@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import LogoSrc from '../../Assets/COVID-19_travel_banner-2021.png';
+import Container from './Container';
 
 const Background = styled.div`
   background-image: url(${LogoSrc});
@@ -19,14 +20,13 @@ const Background = styled.div`
 const Message = styled.div`
   font-size: 30px;
   text-align: center;
-  margin-top: 100px;
+  margin-top: 150px;
   font-family: SsurroundFont;
 `;
 
 function TripInfo() {
   return (
-    <>
-      <Message>다녀올 여행지에 대한 정보를 입력하여</Message>
+    <Container direction={'row'} back={' rgba(225, 0, 0, .3)'}>
       <Background>
         <div>{0}</div>
         <br />
@@ -42,7 +42,8 @@ function TripInfo() {
           {'2022-05-01'} ~ {'2022-05-10'}
         </div>
       </Background>
-    </>
+      <Message>다녀올 여행지에 대한 정보를 입력하여</Message>
+    </Container>
   );
 }
 
