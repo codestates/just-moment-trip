@@ -151,7 +151,6 @@ function DiaryStore() {
         padding: '90px 0 70px 0',
       }}
     >
-      <div>전체 일기 : {data.length}</div>
       <DiaryList
         changeInput={changeInput}
         diaryList={data}

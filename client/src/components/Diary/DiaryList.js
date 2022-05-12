@@ -21,6 +21,22 @@ const IconBtn = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  padding: 30px 0;
+  display: flex;
+
+  font-size: 2em;
+`;
+
+const Wrapper2 = styled.div`
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 0;
+  display: flex;
+  font-size: 2em;
+`;
+
 const doveIcon = (
   <IconBtn>
     <FontAwesomeIcon icon={faDove} />
@@ -31,7 +47,7 @@ const DiaryListBox = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
   text-align: center;
-  background-color: red;
+  background-color: white;
 `;
 
 const DiaryBox = styled.div`
@@ -85,14 +101,14 @@ function DiaryList({
                 search={search}
               />
             ))}
-            <button
-              onClick={() => {
-                setClicked(false);
-              }}
-            >
-              태초마을로 가기 🌱 특징 : 야매임 🌱
-            </button>
           </DiaryListBox>
+          <button
+            onClick={() => {
+              setClicked(false);
+            }}
+          >
+            태초마을로 가기 🌱 특징 : 야매임 🌱
+          </button>
         </>
       ) : (
         <>
@@ -113,8 +129,22 @@ function DiaryList({
               <input type="radio" name="fruit" value="banana" /> content */}
             </div>
           </DiaryBox>
-          <h2>일기 리스트</h2>
-          <h4>{diaryList.length}개의 일기가 있습니다.</h4>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div style={{ display: 'flex' }}>
+              <Wrapper>기록들</Wrapper>
+            </div>
+            <Wrapper2>
+              <p style={{ fontSize: '50px' }}>{diaryList.length}</p>
+              <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
+            </Wrapper2>
+          </div>
           <div>
             <DiaryListBox>
               {diaryList.map(it => (

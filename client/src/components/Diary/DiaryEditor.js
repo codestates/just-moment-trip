@@ -4,6 +4,8 @@ import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFishFins } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const fuzzy = require('./fuzzy');
 
 const Slide = keyframes`
@@ -164,6 +166,12 @@ function DiaryEditor({
   const [localTitle, setLocalTitle] = useState(title);
   const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   const toggleIsEdit = () => setIsEdit(!isEdit);
   const handleClickRemove = () => {
     Swal.fire({
@@ -281,7 +289,16 @@ function DiaryEditor({
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
   return (
-    <DiaryEditorBox>
+    <DiaryEditorBox
+      data-aos="fade-up"
+      data-aos-offset="-400"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-mirror="true"
+      data-aos-once="firse"
+      data-aos-anchor-placement="top-center"
+    >
       <div className="info">
         {isEdit ? (
           <>
