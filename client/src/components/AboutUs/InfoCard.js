@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SlideTrack = styled.div`
-  -webkit-animation: scroll 10 linear infinite;
+  -webkit-animation: scroll 10s linear infinite;
   animation: scroll 10s linear infinite;
+
   display: flex;
-  width: calc(250px * 14);
+  width: calc(960px * 14);
 `;
 
 const EmptyDiv = styled.div`
@@ -21,6 +22,8 @@ const CardDiv = styled.div`
   margin: 30px;
   padding: 30px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: IMHyeminFont;
+  font-weight: bold;
 
   > img {
     width: 100%;

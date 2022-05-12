@@ -8,11 +8,11 @@ import JMTL from './Team/JMTL.png';
 const Container = styled.div`
   background: pr;
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
-  height: 70%; //바꿔야함
+  height: 70%;
   margin: auto;
   overflow: hidden;
   position: relative;
-  width: 80%; //바꿔야함
+  width: 80%;
   display: flex;
 
   ::after {
