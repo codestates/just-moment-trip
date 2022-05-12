@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterBox = styled.div`
+  font-size: 12px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: rgb(211, 226, 244);
-  padding: 20px;
-  height: 20px;
+  padding: 1px;
   width: 100%;
 `;
 
@@ -19,7 +19,9 @@ function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
+          alignItems: 'center',
           padding: '0 20px',
+          zIndex: '2',
         }}
       >
         <div>

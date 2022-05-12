@@ -40,8 +40,6 @@ function InfoButton() {
             navigate('/');
           }
         });
-        //로그인 off
-        //토큰 삭제
       })
       .catch(err => {
         Swal.fire('입력정보다름').then(result => {

@@ -212,37 +212,45 @@ function AccountStore() {
   )}%`;
 
   return (
-    <div
-      className="Account"
-      style={{
-        width: '93%',
-        height: '100%',
-        padding: '70px 0 0 0',
-      }}
-    >
-      <div className="AccountHead">
-        <div className="AccountHeadSpan">
-          <div className="AccountHeadTotalMoney">
-            {/* {`${getName(country)}에`} */}
-            {`${title}에`}
-            <br />
-            {`총 ${totalPriceString}을 들고갔어요`}
-          </div>
-          <div className="AccountHeadpaidMoney">
+    <>
+      <div
+        className="Account"
+        style={{
+          width: '93%',
+          height: '100%',
+          padding: '90px 0 70px 0',
+        }}
+      >
+        <div>
+          <div
+            className="AccountHeadpaidMoney"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <div className="AccountHeadTotalMoney">
+              {`${title}에`}
+              <br />
+              {`총 ${totalPriceString}을 들고갔어요`}
+            </div>
             {`✅ 사용한돈${totalSpentString}/남은돈${remainingString}`}
           </div>
         </div>
+
+        <AccountList
+          onCreate={onCreate}
+          onEdit={onEdit}
+          onRemove={onRemove}
+          data={data}
+          totalSpentString={totalSpentString}
+          remainingString={remainingString}
+          PercentageOfAmountUsed={PercentageOfAmountUsed}
+        />
       </div>
-      <AccountList
-        onCreate={onCreate}
-        onEdit={onEdit}
-        onRemove={onRemove}
-        data={data}
-        totalSpentString={totalSpentString}
-        remainingString={remainingString}
-        PercentageOfAmountUsed={PercentageOfAmountUsed}
-      />
-    </div>
+    </>
   );
 }
 export default AccountStore;
