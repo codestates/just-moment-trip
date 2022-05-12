@@ -23,7 +23,9 @@ function AccountInfo() {
   };
   return (
     <Container direction={'row'} back={' rgba(0, 0, 255, .4)'}>
-      <AccountItem {...dummyData} />
+      <span>
+        <AccountItem {...dummyData} />
+      </span>
       <div className="message">
         여행을 다니며 간단하게 가계부를 작성하여 {<br />}
         지출내역을 효율적으로 관리하며
