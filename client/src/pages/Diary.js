@@ -10,7 +10,7 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   border: 10px solid #312352;
-  height: 100vw;
+  background-color: red;
   font-family: SsurroundFont;
 `;
 
