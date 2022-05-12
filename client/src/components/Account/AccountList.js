@@ -14,16 +14,6 @@ let AccountModalBtnAnimation = keyframes`
   100% {top: -300px; opacity: 0}
   `;
 
-const boxFade = keyframes`
-  0% {
-    transform: translateY(100%);
-    width:100%
-  }
-  100% {
-    transform: translateY(0);
-    width:100%
-  }
-`;
 
 const IconBtn = styled.div`
   animation-name: ${AccountModalBtnAnimation};
@@ -54,8 +44,6 @@ const AccountListBox = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
   text-align: center;
-  /* animation-name: ${boxFade};
-  animation-duration: 1.5s; */
 `;
 
 function AccountList({
