@@ -74,6 +74,7 @@ function Info() {
     outerDivRefCurrent.addEventListener('wheel', wheelHandler);
     return () => {
       outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      body.style.cssText -= 'overflow-y:hidden;';
     };
   }, []);
   return (
