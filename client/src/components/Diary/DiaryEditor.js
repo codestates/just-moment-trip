@@ -147,17 +147,30 @@ function DiaryEditor({
   write_date,
   hashtags,
   search,
+  searchType,
 }) {
   const titleInput = useRef();
+  const contentInput = useRef();
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
-    titleInput.current.innerHTML = titleInput.current.innerHTML
-      .replace(/<span style="color: red">/g, '')
-      .replace(/<\/span>/g, '');
-    titleInput.current.innerHTML = fuzzy.chageRed(
-      titleInput.current.innerHTML,
-      search,
-    );
+    if (searchType === 'title') {
+      titleInput.current.innerHTML = titleInput.current.innerHTML
+        .replace(/<span style="color: red">/g, '')
+        .replace(/<\/span>/g, '');
+      titleInput.current.innerHTML = fuzzy.chageRed(
+        titleInput.current.innerHTML,
+        search,
+      );
+    }
+    if (searchType === 'content') {
+      contentInput.current.innerHTML = contentInput.current.innerHTML
+        .replace(/<span style="color: red">/g, '')
+        .replace(/<\/span>/g, '');
+      contentInput.current.innerHTML = fuzzy.chageRed(
+        contentInput.current.innerHTML,
+        search,
+      );
+    }
   }, [search]);
 
   const localContentInput = useRef();
@@ -347,7 +360,9 @@ function DiaryEditor({
             <div className="title" ref={titleInput}>
               {title}
             </div>
-            <div className="content">{content}</div>
+            <div className="content" ref={contentInput}>
+              {content}
+            </div>
             <div className="hashtags">
               {localHashtags.length === 0 ? (
                 <TagsInput display="none" />

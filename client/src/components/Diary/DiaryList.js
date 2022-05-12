@@ -43,19 +43,6 @@ const doveIcon = (
   </IconBtn>
 );
 
-const DiaryListBox = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
-  text-align: center;
-  background-color: white;
-`;
-
-const DiaryBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 function DiaryList({
   onCreate,
   onEdit,
@@ -63,7 +50,21 @@ function DiaryList({
   diaryList,
   changeInput,
   search,
+  getSearchType,
+  searchType,
 }) {
+  const DiaryListBox = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+    text-align: center;
+    background-color: white;
+  `;
+
+  const DiaryBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
 
@@ -88,6 +89,7 @@ function DiaryList({
       {clicked ? (
         <>
           {console.log('공사중')}
+
           <DiaryListBox>
             {filterDiary().map(it => (
               <DiaryEditor
@@ -99,6 +101,7 @@ function DiaryList({
                 onRemove={onRemove}
                 toggleClicked={toggleClicked}
                 search={search}
+                searchType={searchType}
               />
             ))}
           </DiaryListBox>
@@ -125,8 +128,20 @@ function DiaryList({
                 placeholder="입력하지마라"
                 onKeyPress={changeInput}
               />
-              {/* <input type="radio" name="fruit" value="apple" /> title
-              <input type="radio" name="fruit" value="banana" /> content */}
+              <input
+                type="radio"
+                name="searchType"
+                value="title"
+                onClick={getSearchType}
+              />{' '}
+              title
+              <input
+                type="radio"
+                name="searchType"
+                value="content"
+                onClick={getSearchType}
+              />{' '}
+              content
             </div>
           </DiaryBox>
           <div
@@ -157,6 +172,7 @@ function DiaryList({
                   onRemove={onRemove}
                   toggleClicked={toggleClicked}
                   search={search}
+                  searchType={searchType}
                 />
               ))}
             </DiaryListBox>
