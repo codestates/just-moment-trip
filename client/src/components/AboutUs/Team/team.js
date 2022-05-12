@@ -5,6 +5,7 @@ import YKH from './YKH.png';
 
 export const front = [
   {
+    id: 0,
     picture: MYM,
     name: '문윤미',
     gitId: 'do66i',
@@ -12,6 +13,7 @@ export const front = [
     position: 'Front-End',
   },
   {
+    id: 1,
     picture: YKH,
     name: '윤기혁',
     gitId: 'Yquick',
@@ -22,6 +24,7 @@ export const front = [
 
 export const back = [
   {
+    id: 2,
     picture: CHM,
     name: '최현민',
     gitId: 'HyunminChoi1997',
@@ -29,6 +32,7 @@ export const back = [
     position: 'Back-End',
   },
   {
+    id: 3,
     picture: CMS,
     name: '최만선',
     gitId: 'full-fish',

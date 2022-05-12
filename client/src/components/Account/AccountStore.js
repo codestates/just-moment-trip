@@ -1,5 +1,5 @@
 const axios = require('../../services/accout');
-let trip_id = 4;
+
 import React, {
   useState,
   useCallback,
@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 
 import AccountList from './AccountList';
+import { useSelector } from 'react-redux';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -57,11 +58,15 @@ function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
+  const { trip_id } = useSelector(state => state.tripId);
+
+  console.log('--------------------', trip_id);
 
   useEffect(() => {
-    axios.accountGet(trip_id).then(data => {
-      if (data.data.accessToken) accessToken = data.data.accessToken;
-      const initData = data.data.data;
+    axios.accountGet(trip_id).then(res => {
+      console.log(res);
+      if (res.data.accessToken) accessToken = res.data.accessToken;
+      const initData = res.data.data;
       dispatch({ type: INIT, data: initData });
     });
 

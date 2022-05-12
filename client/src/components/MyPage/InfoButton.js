@@ -4,6 +4,8 @@ import UserInfo from './UserInfo';
 import ButtonHandler from './ButtonHandler';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { signOutApi } from '../../services/sign';
+import Swal from 'sweetalert2';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -30,22 +32,38 @@ function InfoButton() {
     axios
       .patch(url, input, options)
       .then(res => {
-        alert('회원정보 변경 완료 다시 로그인 해주세요');
-        navigate('/');
-        //로그인 off
-        //토큰 삭제
+        Swal.fire(
+          '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
+        ).then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+          }
+        });
       })
       .catch(err => {
-        alert('입력정보 다름');
+        Swal.fire('입력정보다름').then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+          }
+        });
       });
     delete options.data;
   };
 
-  const signoutHandler = async () => {
-    await axios.post('https://www.just-moment-trip.tk/sign/out', options);
-    //로그인 했는지 안했는지 상태관리 하는게 있다면 false로 바꿔주기
-    //토큰 빈 문자열로 바꿔주기
-    navigate('/');
+  const signoutHandler = () => {
+    Swal.fire('로그아웃 하겠습니까?').then(result => {
+      if (result.isConfirmed) {
+        //로그인 했는지 안했는지 상태관리 하는게 있다면 false로 바꿔주기
+        //토큰 빈 문자열로 바꿔주기
+        signOutApi();
+        navigate('/');
+        Swal.fire('다음에 또 뵙겠습니다').then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+          }
+        });
+      }
+    });
   };
 
   const getUserInfo = async () => {
