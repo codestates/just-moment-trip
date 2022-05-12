@@ -54,19 +54,22 @@
 }
 
 @media (max-width: 898px) {
-  #root {
+  #appScreen {
     display: none;
   }
   #screen {
     height: 93%;
   }
   #screen2 {
+    font-family: LeeSeoyonFont;
+    font-size: 25px;
     align-items: center;
     padding: 260px 360px;
   }
   #screen1 {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   #screen3 {
@@ -74,8 +77,11 @@
   }
 }
 
-@media (max-width: 730px) {
-  #root {
+@media (max-width: 700px) {
+  #appScreen {
+    display: none;
+  }
+  #screen {
     display: none;
   }
   #screen2 {
@@ -90,7 +96,7 @@
     justify-content: center;
     align-items: center;
     height: 95%;
-    font-size: 75px;
+    font-size: 3em;
     font-family: NexonFont;
     color: rgb(179, 155, 242);
   }
