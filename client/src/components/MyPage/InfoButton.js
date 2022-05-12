@@ -73,10 +73,28 @@ function InfoButton() {
   };
 
   const userDeleteHandler = async () => {
-    await axios.delete(url, options);
+    Swal.fire({
+      title: '정말 삭제하시겠습니까?',
+      text: '다시 되돌릴수없습니다!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '삭제!',
+      cancelButtonText: '취소',
+    }).then(async result => {
+      if (result.isConfirmed) {
+        await axios.delete(url, options);
+        navigate('/');
+        Swal.fire(
+          '더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다.',
+        ).then(result => {
+          //로그아웃 호출
+        });
+      }
+    });
     //로그인 했는지 안했는지 상태관리 하는게 있다면 false 로 바꿔주기
     //토큰 빈 문자열로 바꿔주기
-    navigate('/');
   };
 
   return (
