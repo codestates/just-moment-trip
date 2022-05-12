@@ -1,9 +1,45 @@
 import React, { useState } from 'react';
 import DiaryEditor from './DiaryEditor';
 import DiaryWriteUp from './DiaryWriteUp';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Modal from '../common/Modal';
 const fuzzy = require('./fuzzy');
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDove } from '@fortawesome/free-solid-svg-icons';
+
+let DiaryModalBtnAnimation = keyframes`
+  50% {top: 0; opacity: 1}
+  100% {top: -300px; opacity: 0}
+  `;
+
+const IconBtn = styled.div`
+  animation-name: ${DiaryModalBtnAnimation};
+  animation-duration: 0.5s;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+`;
+
+const doveIcon = (
+  <IconBtn>
+    <FontAwesomeIcon icon={faDove} />
+  </IconBtn>
+);
+
+const DiaryListBox = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+  text-align: center;
+  background-color: red;
+`;
+
+const DiaryBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 function DiaryList({
   onCreate,
   onEdit,
@@ -12,9 +48,6 @@ function DiaryList({
   changeInput,
   search,
 }) {
-  const DiaryListBox = styled.div`
-    text-align: center;
-  `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
 
@@ -35,51 +68,12 @@ function DiaryList({
     });
   }
   return (
-    <DiaryListBox>
+    <>
       {clicked ? (
         <>
           {console.log('공사중')}
-          {filterDiary().map(it => (
-            <DiaryEditor
-              key={it.id}
-              {...it}
-              diaryList={diaryList}
-              onCreate={onCreate}
-              onEdit={onEdit}
-              onRemove={onRemove}
-              toggleClicked={toggleClicked}
-              search={search}
-            />
-          ))}
-          <button
-            onClick={() => {
-              setClicked(false);
-            }}
-          >
-            태초마을로 가기 🌱 특징 : 야매임 🌱
-          </button>
-        </>
-      ) : (
-        <>
-          <div>
-            <Modal name={'이건 버튼'}>
-              <DiaryWriteUp onCreate={onCreate} />
-            </Modal>
-          </div>
-          <div>
-            <input
-              style={{ width: '70%', height: '50px' }}
-              type="text"
-              placeholder="입력하지마라"
-              onKeyPress={changeInput}
-            />
-            {/* <input type="radio" name="fruit" value="apple" /> title
-              <input type="radio" name="fruit" value="banana" /> content */}
-          </div>
-          <h2>일기 리스트</h2>
-          <h4>{diaryList.length}개의 일기가 있습니다.</h4>
-          <div>
-            {diaryList.map(it => (
+          <DiaryListBox>
+            {filterDiary().map(it => (
               <DiaryEditor
                 key={it.id}
                 {...it}
@@ -91,10 +85,55 @@ function DiaryList({
                 search={search}
               />
             ))}
+            <button
+              onClick={() => {
+                setClicked(false);
+              }}
+            >
+              태초마을로 가기 🌱 특징 : 야매임 🌱
+            </button>
+          </DiaryListBox>
+        </>
+      ) : (
+        <>
+          <DiaryBox>
+            <div>
+              <Modal name={doveIcon}>
+                <DiaryWriteUp onCreate={onCreate} />
+              </Modal>
+            </div>
+            <div>
+              <input
+                style={{ width: '50vw', height: '50px' }}
+                type="text"
+                placeholder="입력하지마라"
+                onKeyPress={changeInput}
+              />
+              {/* <input type="radio" name="fruit" value="apple" /> title
+              <input type="radio" name="fruit" value="banana" /> content */}
+            </div>
+          </DiaryBox>
+          <h2>일기 리스트</h2>
+          <h4>{diaryList.length}개의 일기가 있습니다.</h4>
+          <div>
+            <DiaryListBox>
+              {diaryList.map(it => (
+                <DiaryEditor
+                  key={it.id}
+                  {...it}
+                  diaryList={diaryList}
+                  onCreate={onCreate}
+                  onEdit={onEdit}
+                  onRemove={onRemove}
+                  toggleClicked={toggleClicked}
+                  search={search}
+                />
+              ))}
+            </DiaryListBox>
           </div>
         </>
       )}
-    </DiaryListBox>
+    </>
   );
 }
 

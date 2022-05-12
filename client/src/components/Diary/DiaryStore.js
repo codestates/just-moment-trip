@@ -143,7 +143,14 @@ function DiaryStore() {
   );
 
   return (
-    <div className="DiaryStore">
+    <div
+      className="DiaryStore"
+      style={{
+        width: '93%',
+        height: '100%',
+        padding: '90px 0 70px 0',
+      }}
+    >
       <div>전체 일기 : {data.length}</div>
       <DiaryList
         changeInput={changeInput}
