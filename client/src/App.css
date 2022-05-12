@@ -43,3 +43,55 @@
   #root {
   }
 }
+
+@media (min-width: 899px) {
+  #screen {
+    display: none;
+  }
+  #screen3 {
+    display: none;
+  }
+}
+
+@media (max-width: 898px) {
+  #root {
+    display: none;
+  }
+  #screen {
+    height: 93%;
+  }
+  #screen2 {
+    align-items: center;
+    padding: 260px 360px;
+  }
+  #screen1 {
+    display: flex;
+    justify-content: center;
+  }
+
+  #screen3 {
+    display: none;
+  }
+}
+
+@media (max-width: 730px) {
+  #root {
+    display: none;
+  }
+  #screen2 {
+    display: none;
+  }
+
+  #screen1 {
+    display: none;
+  }
+  #screen3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    font-size: 75px;
+    font-family: NexonFont;
+    color: rgb(179, 155, 242);
+  }
+}

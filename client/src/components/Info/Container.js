@@ -9,7 +9,7 @@ const Cont = styled.div`
   justify-content: space-around;
   overflow-y: auto;
   align-items: center;
-  font-family: SsurroundFont;
+  font-family: SBFontBold;
 
   > span {
     background-color: white;
