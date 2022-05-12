@@ -11,8 +11,8 @@ const Cont = styled.div`
   align-items: center;
   font-family: SsurroundFont;
 
-  > .inner {
-    height: 100vh;
+  > span {
+    background-color: white;
   }
 
   > .message {
