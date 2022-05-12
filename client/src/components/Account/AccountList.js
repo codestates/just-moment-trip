@@ -78,8 +78,8 @@ function AccountList({
           }}
         >
           <p style={{ fontSize: '20px' }}>
-            <span style={{ fontSize: '40px' }}>{AccountList.length}</span>개의
-            기록이 있어요 !
+            <span style={{ fontSize: '40px' }}>{data.length}</span>개의 기록이
+            있어요 !
           </p>
           <ModalBox>
             <Modal name={penIcon}>
