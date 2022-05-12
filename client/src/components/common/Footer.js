@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterBox = styled.div`
-  font-size: 12px;
+  color: whitesmoke;
+  font-size: 13px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgb(211, 226, 244);
+  background-color: rgba(72, 56, 137, 0.689);
   padding: 1px;
   width: 100%;
 `;
@@ -25,7 +26,7 @@ function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
         }}
       >
         <div>
-          <p>{PercentageOfAmountUsed}</p>
+          <p>📎 {PercentageOfAmountUsed}</p>
         </div>
         <div>
           <div>{totalSpentString}</div>

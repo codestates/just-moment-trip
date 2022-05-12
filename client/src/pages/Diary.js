@@ -10,7 +10,6 @@ const Box = styled.div`
   padding-top: 150px;
   display: flex;
   justify-content: center;
-  border: 10px solid #312352;
   background-color: rgb(211, 226, 244);
   font-family: SsurroundFont;
 `;
