@@ -5,6 +5,7 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const fuzzy = require("./fuzzy");
 const levenshteinDistance = require("./levenshtein-distance");
+const nGram = require("./nGram");
 
 module.exports = {
   get: async (req, res) => {
@@ -76,10 +77,9 @@ module.exports = {
           });
           data[index].dataValues.hashtags = hashtags;
         });
-        console.log("searchType");
-        console.log(searchType);
         let fuzzyData = [];
         let levenshteinData = [];
+        let nGramData = [];
         if (searchType === "title" || searchType === undefined) {
           fuzzyData = data.filter((ele) => {
             return fuzzy.createFuzzyMatcher(search).test(ele.dataValues.title);
@@ -87,6 +87,13 @@ module.exports = {
           fuzzy.sort(fuzzyData, search);
           levenshteinData = data.filter((ele) => {
             return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search) <= 1;
+          });
+          nGramData = data.filter((ele) => {
+            if (
+              nGram.diff_ngram(ele.dataValues.title, search, 2) >= 0.25 ||
+              nGram.diff_ngram(ele.dataValues.content, search, 1) === 1
+            )
+              return true;
           });
         } else if (searchType === "content") {
           fuzzyData = data.filter((ele) => {
@@ -96,9 +103,15 @@ module.exports = {
           levenshteinData = data.filter((ele) => {
             return levenshteinDistance.levenshteinDistance(ele.dataValues.content, search) <= 1;
           });
+          nGramData = data.filter((ele) => {
+            if (
+              nGram.diff_ngram(ele.dataValues.content, search, 2) >= 0.25 ||
+              nGram.diff_ngram(ele.dataValues.content, search, 1) === 1
+            )
+              return true;
+          });
         }
         let resultData = fuzzyData.slice();
-
         for (let i = 0; i < levenshteinData.length; i++) {
           if (
             !resultData.map((ele) => ele.dataValues.id).includes(levenshteinData[i].dataValues.id)
@@ -106,7 +119,11 @@ module.exports = {
             resultData.push(levenshteinData[i]);
           }
         }
-
+        for (let i = 0; i < nGramData.length; i++) {
+          if (!resultData.map((ele) => ele.dataValues.id).includes(nGramData[i].dataValues.id)) {
+            resultData.push(nGramData[i]);
+          }
+        }
         let data_slack_id = "";
         data.forEach((ele) => {
           data_slack_id += `${ele.dataValues.id}, `;

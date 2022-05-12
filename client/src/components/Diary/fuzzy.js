@@ -47,6 +47,18 @@ createFuzzyMatcher = input => {
 };
 
 exports.chageRed = (data, search) => {
+  // 완벽일치시 그것 먼저 색 바꿈
+  if (data.indexOf(search) !== -1) {
+    let redColor = [];
+    let count = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (i >= data.indexOf(search) && count !== search.length) {
+        redColor.push(`<span style="color: red">${data[i]}</span>`);
+        count++;
+      } else redColor.push(data[i]);
+    }
+    return redColor.join('');
+  }
   // 정규식 이용한 fuzzy검색결과 색 바꿈
   const regex = createFuzzyMatcher(search);
   const resultData = data.replace(regex, (match, ...groups) => {
@@ -65,15 +77,12 @@ exports.chageRed = (data, search) => {
   // 리벤슈타인거리 이용한 검색 결과 색 바꿈
   else {
     let redColor = [];
-    let index = 0;
     if (search === undefined) return;
     for (let i = 0; i < data.length; i++) {
-      if (search.indexOf(data[i], index) === -1) {
+      if (search.indexOf(data[i]) === -1) {
         redColor.push(data[i]);
-        // data = data.slice(i);
       } else {
         redColor.push(`<span style="color: red">${data[i]}</span>`);
-        index++;
       }
     }
     return redColor.join('');
