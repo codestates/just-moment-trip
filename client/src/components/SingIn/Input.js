@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../modules/Reducers/userReducer';
@@ -47,19 +48,20 @@ function SignInput() {
 
   const signInRequest = (values, actions) => {
     const { email, password } = values;
-    console.log(values);
     dispatch(signIn({ email, password }))
       .unwrap()
-      .then(res => {
-        console.log(res);
-        alert('Success');
-        navigate('/');
-        window.location.reload();
+      .then(() => {
+        Swal.fire('로그인 성공 !').then(res => {
+          if (res.isConfirmed) {
+            navigate('/');
+          }
+        });
       })
       .catch(err => {
         if (err) {
-          actions.resetForm();
-          alert(`Email or Password is worng`);
+          Swal.fire('이메일 또는 비밀번호가 다릅니다').then(res => {
+            if (res.isConfirmed) actions.resetForm();
+          });
         }
       });
   };

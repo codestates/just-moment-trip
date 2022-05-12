@@ -26,7 +26,6 @@ export const signIn = createAsyncThunk(
   async ({ email, password }) => {
     try {
       const data = await signInApi(email, password);
-      console.log(data);
       return { user: data };
     } catch (err) {
       console.log(err);
@@ -36,10 +35,9 @@ export const signIn = createAsyncThunk(
 
 export const kakaoLogIn = createAsyncThunk(
   'oauth/callback/kakao',
-  async (code, thunkAPI) => {
+  async code => {
     try {
       const result = await kakaoSign(code);
-      console.log(result);
       return { user: result };
     } catch (err) {
       console.log(err);

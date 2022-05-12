@@ -4,7 +4,6 @@ import { requestTripList } from '../../services/trip';
 export const getTrip = createAsyncThunk('trip/get', async () => {
   try {
     const response = await requestTripList();
-
     return response;
   } catch (err) {
     console.log(err);
@@ -26,11 +25,10 @@ const tripSlice = createSlice({
   initialState,
   extraReducers: {
     [getTrip.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.push(action.payload);
     },
     [getTrip.rejected]: state => {
-      state.title = null;
+      state.value = null;
     },
   },
 });

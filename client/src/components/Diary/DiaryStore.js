@@ -1,5 +1,5 @@
 const axios = require('../../services/diary');
-let trip_id = 4;
+
 import React, {
   useCallback,
   useEffect,
@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useSelector } from 'react-redux';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 
@@ -56,6 +57,7 @@ function DiaryStore() {
   const [isTrue, setIsTrue] = useState(true);
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
+  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
 
   const changeInput = e => {
     if (e.key === 'Enter') {
