@@ -341,7 +341,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
             <option value={'숙박비'}>숙박비</option>
             <option value={'티켓'}>티켓</option>
             <option value={'기념품'}>기념품</option>
-            <option value={'기타항목'}>기타항목</option>
+            <option value={'기타'}>기타</option>
           </AccountSelectBox>
         </div>
       </div>
