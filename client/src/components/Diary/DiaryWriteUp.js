@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 const HrEdit = styled.hr`
-  border: 1px solid gray;
+  border: 0.5px solid gray;
   width: 60%;
 `;
 
@@ -87,6 +87,7 @@ const DiaryEditorBox = styled.div`
 `;
 
 const DiaryBox = styled.div`
+  color: rgb(89, 72, 135);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

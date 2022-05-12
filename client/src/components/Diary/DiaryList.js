@@ -14,21 +14,21 @@ import {
 
 const AnimationBox = keyframes`
 50% {
-    border-top-color: #6bb4fe;
-    border-right-color: #6bb4fe;
+    border-top-color: rgb(201, 199, 237);
+    border-right-color: rgb(201, 199, 237);
     -webkit-transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
     transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
   }
   99% {
-    border-bottom-color: #6bb4fe;
-    border-left-color: #6bb4fe;
+    border-bottom-color: rgb(201, 199, 237);
+    border-left-color: rgb(201, 199, 237);
     -webkit-transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
       height 0.25s ease-out 0.75s;
     transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
       height 0.25s ease-out 0.75s;
   }
   100% {
-    border-color: #6bb4fe;
+    border-color: rgb(201, 199, 237);
   }
 `;
 
@@ -80,6 +80,21 @@ const PBox = styled.p`
   animation-timing-function: initial;
 `;
 
+const FilterBtn = styled.button`
+  outline: none;
+  border: none;
+  background-color: transparent;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
 const HelpBtnBox = styled.button`
   outline: none;
   border: none;
@@ -109,12 +124,13 @@ function DiaryList({
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
     text-align: center;
-    background-color: rgb(211, 226, 244);
   `;
 
   const DiaryBox = styled.div`
     display: flex;
     flex-direction: column;
+    background-color: rgb(211, 226, 244);
+    padding-bottom: 120px;
     align-items: center;
   `;
   const [clickedHashtag, setClickedHashtag] = useState('');
@@ -198,13 +214,13 @@ function DiaryList({
               />
             ))}
           </DiaryListBox>
-          <button
+          <FilterBtn
             onClick={() => {
               setClicked(false);
             }}
           >
-            태초마을로 가기 🌱 특징 : 야매임 🌱
-          </button>
+            태초마을로 가기 🌱
+          </FilterBtn>
         </>
       ) : (
         <>
