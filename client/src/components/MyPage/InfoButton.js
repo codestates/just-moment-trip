@@ -30,6 +30,17 @@ function InfoButton() {
   };
 
   const userPatchHandler = input => {
+    if (input.new_password !== input.newpasswordCheck) {
+      return Swal.fire('새비밀번호를 다시 확인해주세요');
+    }
+
+    if (
+      input.password === input.new_password &&
+      input.new_password === input.newpasswordCheck
+    ) {
+      return Swal.fire('똑같은 비밀번호로 변경하실수 없습니다');
+    }
+
     axios
       .patch(url, input, options)
       .then(res => {
@@ -38,15 +49,13 @@ function InfoButton() {
         ).then(result => {
           if (result.isConfirmed) {
             navigate('/');
+            dispatch(signOut());
           }
         });
       })
       .catch(err => {
-        Swal.fire('입력정보다름').then(result => {
-          if (result.isConfirmed) {
-            navigate('/');
-          }
-        });
+        delete options.data;
+        Swal.fire('기존 이메일 비밀번호를 확인해주세요').then(result => {});
       });
     delete options.data;
   };
