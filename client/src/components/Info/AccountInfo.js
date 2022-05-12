@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import AccountItem from '../Account/AccountEditor';
+import AccountEditor from '../Account/AccountEditor';
 import Swal from 'sweetalert2';
 import Container from './Container';
+import pic from './account.png';
 
 function AccountInfo() {
   const dummyData = {
@@ -24,7 +25,7 @@ function AccountInfo() {
   return (
     <Container direction={'row'} back={' rgba(0, 0, 255, .4)'}>
       <span>
-        <AccountItem {...dummyData} />
+        <img src={pic} />
       </span>
       <div className="message">
         여행을 다니며 간단하게 가계부를 작성하여 {<br />}
