@@ -26,7 +26,20 @@ export default function App() {
           />
         </div>
       </div>
-      <div id="screen3">화면 줄이면 지상렬</div>
+      <div id="screen3">
+        <div>
+          우리사이트에는
+          <br /> 총 몇마리의 <br />
+          앵무가 출몰할까요?
+        </div>
+        <div>
+          <img
+            src="https://velog.velcdn.com/images/do66i/post/fb6895ff-5249-4f39-b0f2-a7fc842352cb/image.gif"
+            width="300"
+            height="300"
+          />
+        </div>
+      </div>
     </>
   );
 }
