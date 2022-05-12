@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import AccountEditor from '../Account/AccountEditor';
 import Swal from 'sweetalert2';
@@ -22,6 +22,7 @@ function AccountInfo() {
     memo: '구경할께 많았다',
     write_date: '2022-07-01',
   };
+
   return (
     <Container direction={'row'} back={' rgba(0, 0, 255, .4)'}>
       <span>
