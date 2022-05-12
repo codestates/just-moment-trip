@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountPieChart from '../Account/AccountPieChart';
 import Container from './Container';
+import Modal from '../common/Modal';
 
 function GraphInfo() {
   const dummyData = [
@@ -33,7 +34,9 @@ function GraphInfo() {
 
   return (
     <Container direction={'column'} back={' rgba(100, 100, 100, .4)'}>
-      <AccountPieChart data={dummyData} />
+      <Modal name={'그래프보시려면클릭하세요'}>
+        <AccountPieChart data={dummyData} />
+      </Modal>
       <div className="message">쉽게 한눈에 통계를 확인해 보세요</div>
     </Container>
   );
