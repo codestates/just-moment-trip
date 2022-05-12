@@ -60,7 +60,10 @@ function AccountStore() {
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
   const trip_id = JSON.parse(localStorage.getItem('trip_id'));
-  const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
+  // const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
+  const newTotalPrice = newTotalPrice // 아무 데이터 없을때 에러 피하기 위함
+    ? JSON.parse(localStorage.getItem('trip_id'))
+    : 0;
   const title = JSON.parse(localStorage.getItem('title'));
   const total = useSelector(state => state.trip);
   const newTotal = total.flat();
