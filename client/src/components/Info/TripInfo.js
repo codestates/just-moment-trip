@@ -5,14 +5,12 @@ import Container from './Container';
 
 const Background = styled.div`
   background-image: url(${LogoSrc});
-  opacity: 0.5;
   font-size: 30px;
   margin-top: 30px;
 
   > div {
     display: inline;
     background-color: white;
-    opacity: 0.9;
     color: black;
   }
 `;
