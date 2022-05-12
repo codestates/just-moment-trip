@@ -8,6 +8,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 const fuzzy = require('./fuzzy');
 
+const HrEdit = styled.hr`
+  border: 0.5px solid gray;
+  width: 60%;
+`;
+
 const Slide = keyframes`
   0% {    
     transform: scaleX(-1);
@@ -107,9 +112,10 @@ const TagsInput = styled.div`
     flex: 1;
     border-radius: none;
     text-align: center;
+    background-color: transparent;
     border: none;
-    height: 10vh;
-    width: 25vh;
+    height: 3vh;
+    width: 20vw;
     font-size: 0.8em;
     padding: 4px 0 0 0;
     :focus {
@@ -117,10 +123,9 @@ const TagsInput = styled.div`
     }
   }
 
-  &:focus-within {
-    border-radius: none;
+  &:focus-within + ${HrEdit} {
     transition: all 0.4s ease-in;
-    border-bottom: 2px solid pink;
+    border-color: rgb(67, 45, 127);
   }
 `;
 
@@ -134,7 +139,7 @@ const DiaryEditorBox = styled.div`
   margin: 10px;
   padding: 10px 0;
   border-radius: 20px;
-  border: 3px solid rgb(124, 152, 188);
+  border: 3px solid rgb(179, 175, 237);
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
@@ -356,8 +361,8 @@ function DiaryEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/e814e626-b1e7-40f2-acaa-f9120dac139f/image.gif")
-          right bottom
+          url("https://velog.velcdn.com/images/do66i/post/407e2a74-f65b-473b-b43f-9a48fc984943/image.gif")
+          top
           no-repeat
         `,
         });
@@ -409,6 +414,7 @@ function DiaryEditor({
           <>
             <div className="title_edit">
               <DiaryEditInputBox
+                maxlength="20"
                 className="title_info"
                 ref={lacalTitleInput}
                 value={localTitle}
@@ -419,6 +425,7 @@ function DiaryEditor({
               <DiaryEditTextareaBox
                 ref={localContentInput}
                 value={localContent}
+                maxlength="100"
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
@@ -446,6 +453,7 @@ function DiaryEditor({
                 placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
+            <HrEdit></HrEdit>
           </>
         ) : (
           <>

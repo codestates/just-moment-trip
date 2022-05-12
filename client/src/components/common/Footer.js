@@ -8,7 +8,7 @@ const FooterBox = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(72, 56, 137, 0.689);
+  background-color: rgb(37, 45, 132);
   padding: 1px;
   width: 100%;
 `;

@@ -202,6 +202,12 @@ function AccountItem({
           title: '삭제 완료!',
           text: `선택하신 기록을 삭제했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/4d770be4-31e1-4a3b-88a1-4510714893cb/image.gif")
+          right top
+          no-repeat
+        `,
         });
         onRemove(id);
       }
