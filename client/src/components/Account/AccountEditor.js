@@ -280,6 +280,7 @@ function AccountItem({
           confirmButtonText: '알겠어요',
         });
         handleQuitEdit();
+        console.log('브랜치 생성용');
       }
     });
   };
