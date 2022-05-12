@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import { getName } from 'country-list';
 import LogoSrc from '../../Assets/COVID-19_travel_banner-2021.png';
 import { getTrip } from '../../modules/Reducers/tripReducer';
-import LoadingSpinner from '../Spinner/index';
 import { postTripId } from '../../modules/Reducers/tripid';
 
 const Background = styled.div`
@@ -12,8 +13,6 @@ const Background = styled.div`
   font-size: 30px;
   color: white;
 `;
-
-const { getName } = require('country-list');
 
 function TripList() {
   const dispatch = useDispatch();
@@ -26,8 +25,11 @@ function TripList() {
       .catch(err => console.log(err));
   }, []);
 
-  const handleRequest = id => {
+  const handleRequest = (id, total, title) => {
     dispatch(postTripId(id));
+    localStorage.setItem('trip_id', JSON.stringify(id));
+    localStorage.setItem('total_price', JSON.stringify(total));
+    localStorage.setItem('title', JSON.stringify(title));
     navigate('/account');
   };
 
@@ -36,14 +38,14 @@ function TripList() {
   const newTripList = triptext.flat();
 
   const tripList = newTripList.map((el, index) => (
-    <Background onClick={() => handleRequest(el.id)}>
-      <div>{el.id}</div>
+    <Background onClick={() => handleRequest(el.id, el.total_price, el.title)}>
       <div>{el.title}</div>
-      <div>{el.total_price}</div>
       <div>{el.base_currency}</div>
-      <div>{el.country}</div>
+      <div>{el.total_price.toLocaleString('ko-KR')}</div>
+      <div>{getName(el.country)}</div>
       <div>
-        {el.start_date} ~ {el.end_date}
+        {moment(el.start_date).format('YYYY-MM-DD')} ~
+        {moment(el.end_date).format('YYYY-MM-DD')}
       </div>
     </Background>
   ));

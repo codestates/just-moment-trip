@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import TextField from './TextField';
 import { signUp } from '../../modules/Reducers/userReducer';
@@ -18,6 +20,7 @@ const Btn = styled.button``;
 
 function SignUpInput() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
 
   const validate = Yup.object({
@@ -49,19 +52,20 @@ function SignUpInput() {
     const { email, nickname, password } = values;
     dispatch(signUp({ email, nickname, password }))
       .unwrap()
-      .then(res => {
-        console.log(res);
-        // actions.setSubmittings(false);
-        alert('Thanks');
+      .then(() => {
+        Swal.fire('회원가입 성공 !').then(res => {
+          if (res.isConfirmed) navigate('/');
+        });
       })
       .catch(err => {
-        console.log(err);
         if (err) {
-          actions.resetForm();
-          alert(`Email elready exist`);
+          Swal.fire('이미 사용중인 이메일 입니다').then(res => {
+            if (res.isConfirmed) actions.resetForm();
+          });
         } else {
-          actions.resetForm();
-          alert(`Failed to sign up please try again`);
+          Swal.fire('회원가입에 실패 하셨습니다').then(res => {
+            if (res.isConfirmed) actions.resetForm();
+          });
         }
       });
   };

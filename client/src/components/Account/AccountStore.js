@@ -10,6 +10,7 @@ import React, {
 
 import AccountList from './AccountList';
 import { useSelector } from 'react-redux';
+import { getName } from 'country-list';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -58,9 +59,13 @@ function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
-  const { trip_id } = useSelector(state => state.tripId);
+  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
+  const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
+  const title = JSON.parse(localStorage.getItem('title'));
+  const total = useSelector(state => state.trip);
+  const newTotal = total.flat();
 
-  console.log('--------------------', trip_id);
+  console.log(newTotal);
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
@@ -187,13 +192,12 @@ function AccountStore() {
     [],
   );
 
-  let totalPrice = 10000000; // 총금액 (서버에서 요청받아함)
   let totalPriceString = 0; // 총금액
   let totalSpentString = 0; // 사용금액
   let remainingString = 0; // 남은금액
   let PercentageOfAmountUsed = 0; // 사용금액백분율
 
-  totalPriceString = `${totalPrice.toLocaleString()}원`;
+  totalPriceString = `${newTotalPrice.toLocaleString()}원`;
   let totalSpent = 0;
   if (data.length > 0) {
     totalSpent = data
@@ -201,9 +205,11 @@ function AccountStore() {
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString()}원`;
-  remainingString = `${(totalPrice - totalSpent).toLocaleString()}원`;
-  PercentageOfAmountUsed = `${((totalSpent / totalPrice) * 100).toFixed(2)}%`;
+  totalSpentString = `${totalSpent.toLocaleString('ko-KR')}원`;
+  remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
+  PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
+    2,
+  )}%`;
 
   return (
     <>
@@ -226,7 +232,7 @@ function AccountStore() {
             }}
           >
             <div className="AccountHeadTotalMoney">
-              미국에
+              {`${title}에`}
               <br />
               {`총 ${totalPriceString}을 들고갔어요`}
             </div>
