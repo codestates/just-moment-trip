@@ -28,8 +28,10 @@ const AccountEditInputBox = styled.input`
   border: none;
   font-size: 1.05em;
   :hover {
+    z-index: 1;
     transition: all 0.2s linear;
     transform: scale(1.2);
+    position: absolute;
   }
   :focus {
     transition: all 0.4s ease-in;

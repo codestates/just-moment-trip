@@ -43,8 +43,6 @@ const AccountListBox = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   text-align: center;
-  height: 100%;
-  width: 100%;
 `;
 
 function AccountList({
@@ -59,8 +57,16 @@ function AccountList({
   // const a = new Date().toLocaleString();
   return (
     <div className="AccountList">
-      <div className="AccountListSpanBox">
-        <h4>{AccountList.length}개의 기록이 있어요 !</h4>
+      <div
+        className="AccountListSpanBox"
+        style={{
+          textAlign: 'center',
+        }}
+      >
+        <p style={{ fontSize: '20px' }}>
+          <span style={{ fontSize: '40px' }}>{AccountList.length}</span>개의
+          기록이 있어요 !
+        </p>
         <ModalBox>
           <Modal name={penIcon}>
             <AccountWriteUp onCreate={onCreate} />
@@ -70,6 +76,7 @@ function AccountList({
           </Modal>
         </ModalBox>
       </div>
+      {/* <div style={{ backgroundColor: 'red',}}> */}
       <AccountListBox>
         {data.map(it => (
           <AccountEditor
@@ -82,6 +89,8 @@ function AccountList({
           />
         ))}
       </AccountListBox>
+      {/* </div> */}
+
       <Footer
         totalSpentString={totalSpentString}
         remainingString={remainingString}
