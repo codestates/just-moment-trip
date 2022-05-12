@@ -59,13 +59,14 @@ function AccountStore() {
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
   const { trip_id } = useSelector(state => state.tripId);
+
   console.log('--------------------', trip_id);
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
       console.log(res);
-      if (data.data.accessToken) accessToken = data.data.accessToken;
-      const initData = data.data.data;
+      if (res.data.accessToken) accessToken = res.data.accessToken;
+      const initData = res.data.data;
       dispatch({ type: INIT, data: initData });
     });
 
