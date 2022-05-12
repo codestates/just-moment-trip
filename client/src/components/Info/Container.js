@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const Cont = styled.div`
   display: flex;
@@ -9,7 +9,8 @@ const Cont = styled.div`
   justify-content: space-around;
   overflow-y: auto;
   align-items: center;
-  font-family: SsurroundFont;
+  font-family: IMHyeminFont;
+  font-weight: bold;
 
   > span {
     background-color: white;
