@@ -2,14 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CardDiv = styled.div`
-  background-color: white;
+  background-color: rgba(0, 0, 255, 0.5);
   text-align: center;
+  width: 30%;
   border-radius: 50px;
-  margin: auto;
-  margin-top: 100px;
+  margin: 70px auto;
   padding: 30px;
-  width: 50%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: SsurroundFont;
+  font-size: 25px;
 
   > img {
     width: 100%;
