@@ -109,7 +109,7 @@ function DiaryList({
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
     text-align: center;
-    background-color: white;
+    background-color: rgb(211, 226, 244);
   `;
 
   const DiaryBox = styled.div`
