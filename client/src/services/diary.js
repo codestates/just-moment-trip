@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tokenHeader from './headers';
-let endpoint = 'http://localhost:8080';
+let endpoint = 'https://just-moment-trip.tk';
 
 export function diaryGet(trip_id, search, searchType) {
   let url = `${endpoint}/diary?trip_id=${trip_id}`;
