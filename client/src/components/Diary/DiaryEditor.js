@@ -59,9 +59,8 @@ const TagsInput = styled.div`
   align-items: center;
   flex-wrap: wrap;
   min-height: 48px;
-  width: 90%;
-  padding: 0 8px;
-  border: 10px solid rgb(93, 176, 198);
+  width: 98%;
+  border: none;
   border-radius: 6px;
   > ul {
     display: flex;
@@ -74,17 +73,19 @@ const TagsInput = styled.div`
       height: 32px;
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
       color: #efefef;
       padding: 0 8px;
-      font-size: 14px;
+      font-size: 0.8em;
       list-style: none;
       border-radius: 6px;
-      margin: 0 8px 8px 0;
-      background: green;
+      margin: 2px 2px;
+      background: rgb(70, 125, 196);
       :hover {
-        transition: all 0.2s linear;
-        transform: scale(1.05);
+        cursor: pointer;
+        transition: all 0.5s linear;
+        transform: scale(1.1);
       }
       > .tag-close-icon {
         display: block;
@@ -104,9 +105,12 @@ const TagsInput = styled.div`
 
   > input {
     flex: 1;
+    border-radius: none;
+    text-align: center;
     border: none;
-    height: 46px;
-    font-size: 14px;
+    height: 10vh;
+    width: 25vh;
+    font-size: 0.8em;
     padding: 4px 0 0 0;
     :focus {
       outline: transparent;
@@ -114,14 +118,21 @@ const TagsInput = styled.div`
   }
 
   &:focus-within {
-    border: 5px solid palegreen;
+    border-radius: none;
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
   }
 `;
 
 const DiaryEditorBox = styled.div`
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 28.5vw;
   height: 300px;
   margin: 10px;
+  padding: 10px 0;
   border-radius: 20px;
   border: 3px solid rgb(124, 152, 188);
   :hover {
@@ -130,10 +141,67 @@ const DiaryEditorBox = styled.div`
   }
 `;
 
-const DiaryBtn = styled.button`
-  background-color: none;
+const InfoBox = styled.div`
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: break-all;
+  height: 25vh;
+`;
+
+const DiaryEditInputBox = styled.input`
+  font-size: 0.8em;
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
   border: none;
-  font-size: 20px;
+  padding: 5px;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
+const DiaryEditTextareaBox = styled.textarea`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  resize: none;
+  padding: 5px;
+  width: 23.5vw;
+  height: 8vw;
+  font-size: 0.8em;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.08);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
+const DiaryBtn = styled.button`
+  background-color: transparent;
+  outline: none;
+  font-family: SsurroundFont;
+  border: none;
+  font-size: 8px;
+  :hover {
+    cursor: pointer;
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
 `;
 
 function DiaryEditor({
@@ -221,6 +289,12 @@ function DiaryEditor({
       }
     });
   };
+
+  function handleOnInput(el, maxlength) {
+    if (el.value.length > maxlength) {
+      el.value = el.value.substr(0, maxlength);
+    }
+  }
 
   const handleQuitEdit = () => {
     setIsEdit(false);
@@ -330,11 +404,11 @@ function DiaryEditor({
       data-aos-once="firse"
       data-aos-anchor-placement="top-center"
     >
-      <div className="info">
+      <div>
         {isEdit ? (
           <>
             <div className="title_edit">
-              <input
+              <DiaryEditInputBox
                 className="title_info"
                 ref={lacalTitleInput}
                 value={localTitle}
@@ -342,7 +416,7 @@ function DiaryEditor({
               />
             </div>
             <div className="content_edit">
-              <textarea
+              <DiaryEditTextareaBox
                 ref={localContentInput}
                 value={localContent}
                 onChange={e => setLocalContent(e.target.value)}
@@ -368,63 +442,74 @@ function DiaryEditor({
                 onKeyUp={event =>
                   event.key === 'Enter' ? addTags(event) : null
                 }
-                placeholder="입력할테면해보시지"
+                maxlength="12"
+                placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
           </>
         ) : (
           <>
             {faFishFinsIcon}
-            <div className="title" ref={titleInput}>
-              {title}
-            </div>
-            <div className="content" ref={contentInput}>
-              {content}
-            </div>
-            <div className="hashtags">
-              {localHashtags.length === 0 ? (
-                <TagsInput display="none" />
-              ) : (
-                <TagsInput display="flex">
-                  <ul id="tags">
-                    {localHashtags.map((tag, index) => (
-                      <li key={index} className="tag">
-                        <span
-                          className="tag-title"
-                          onClick={event => {
-                            console.log(
-                              '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
-                              event.target.innerText,
-                            );
-                            handleHashtags(event);
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </TagsInput>
-              )}
-            </div>
+            <InfoBox>
+              <div className="title" ref={titleInput}>
+                <span className="date">{String(write_date).slice(0, 16)}</span>
+                <div style={{ padding: '5px 0 0 0' }}>
+                  <span>{title}</span>
+                </div>
+              </div>
+              <div
+                className="content"
+                style={{ width: '28.5vw', padding: '% 0' }}
+                ref={contentInput}
+              >
+                {content}
+              </div>
+              <div className="hashtags" style={{ width: '28.5vw' }}>
+                {localHashtags.length === 0 ? (
+                  <TagsInput display="none" />
+                ) : (
+                  <TagsInput display="flex">
+                    <ul id="tags">
+                      {localHashtags.map((tag, index) => (
+                        <li key={index} className="tag">
+                          <span
+                            className="tag-title"
+                            onClick={event => {
+                              console.log(
+                                '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
+                                event.target.innerText,
+                              );
+                              handleHashtags(event);
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </TagsInput>
+                )}
+              </div>
+            </InfoBox>
           </>
         )}
 
         <br />
-        <span className="date">
-          작성 시간 :{String(write_date).slice(0, 16)}
-        </span>
       </div>
 
       {isEdit ? (
         <>
-          <button onClick={handleQuitEdit}>수정 취소</button>
-          <button onClick={handleEdit}>수정 완료</button>
+          <div>
+            <DiaryBtn onClick={handleQuitEdit}>수정 취소</DiaryBtn>
+            <DiaryBtn onClick={handleEdit}>수정 완료</DiaryBtn>
+          </div>
         </>
       ) : (
         <>
-          <button onClick={handleClickRemove}>삭제하기</button>
-          <button onClick={toggleIsEdit}>수정하기</button>
+          <div>
+            <DiaryBtn onClick={handleClickRemove}>삭제하기</DiaryBtn>
+            <DiaryBtn onClick={toggleIsEdit}>수정하기</DiaryBtn>
+          </div>
         </>
       )}
     </DiaryEditorBox>

@@ -6,7 +6,11 @@ import Modal from '../common/Modal';
 import Swal from 'sweetalert2';
 const fuzzy = require('./fuzzy');
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDove } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDove,
+  faCircleQuestion,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 const AnimationBox = keyframes`
 50% {
@@ -76,9 +80,18 @@ const PBox = styled.p`
   animation-timing-function: initial;
 `;
 
+const HelpBtnBox = styled.button`
+  outline: none;
+  border: none;
+  size: 50px;
+  padding: 20px;
+  background-color: transparent;
+  font-size: 20px;
+`;
+
 const doveIcon = (
   <IconBtn>
-    <FontAwesomeIcon icon={faDove} />
+    <FontAwesomeIcon icon={faDove} style={{ fontSize: '60px' }} />
   </IconBtn>
 );
 
@@ -135,7 +148,7 @@ function DiaryList({
       제목/내용을 검색할 수 있어요 🐟
 
       🥔 해시태그를 누르면 무슨일이 일어날까요?`,
-      html: 'I will close in <b></b> milliseconds.',
+      html: '<b></b>초 후 자동으로 사라져요 !',
       timer: 2000,
       timerProgressBar: true,
       backdrop: `
@@ -201,7 +214,7 @@ function DiaryList({
                 <DiaryWriteUp onCreate={onCreate} />
               </Modal>
             </div>
-            <div>
+            <div style={{ padding: '20px 0' }}>
               <input
                 style={{ width: '50vw', height: '50px' }}
                 type="text"
@@ -240,8 +253,20 @@ function DiaryList({
               <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
             </Wrapper2>
           </div>
-          <div>
-            <button onClick={helpBtnFx}>버튼</button>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HelpBtnBox onClick={helpBtnFx}>
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: '60px' }}
+              />
+            </HelpBtnBox>
           </div>
           <div>
             <DiaryListBox>

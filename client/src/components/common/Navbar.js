@@ -15,7 +15,7 @@ const NavbarBox = styled.div`
   padding: 20px 0px;
   width: 100%;
   background-color: #b39bf2;
-  z-index: 2;
+  z-index: 100;
 `;
 
 function Navbar() {
