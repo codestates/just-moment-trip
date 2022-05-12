@@ -43,3 +43,64 @@
   #root {
   }
 }
+
+@media (min-width: 899px) {
+  #screen {
+    display: none;
+  }
+  #screen3 {
+    display: none;
+  }
+}
+
+@media (max-width: 898px) {
+  #appScreen {
+    display: none;
+  }
+  #screen {
+    height: 93%;
+  }
+  #screen2 {
+    display: flex;
+    justify-content: center;
+    font-family: LeeSeoyonFont;
+    font-size: 22px;
+    align-items: center;
+    padding: 260px 40%;
+  }
+  #screen1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #screen3 {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  #appScreen {
+    display: none;
+  }
+  #screen {
+    display: none;
+  }
+  #screen2 {
+    display: none;
+  }
+
+  #screen1 {
+    display: none;
+  }
+  #screen3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    font-size: 3em;
+    font-family: NexonFont;
+    color: rgb(179, 155, 242);
+  }
+}

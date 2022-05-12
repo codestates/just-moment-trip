@@ -1,9 +1,146 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+const faMoneyBillsIcon = (
+  <FontAwesomeIcon
+    icon={faMoneyBills}
+    style={{ width: '30px', height: '30px', paddingLeft: '70px' }}
+  />
+);
+
+const AccountEditBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px 0;
+  height: 245px;
+  font-size: 1em;
+`;
+
+const AccountEditInputBox = styled.input`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  font-size: 1.05em;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
+const AccountItemInputBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const AccountEditTextBox = styled.input`
+  text-align: center;
+  border: none;
+  font-family: SsurroundFont;
+  width: 300;
+  height: 70;
+  resize: none;
+  outline: none;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
 
 const AccountItemBox = styled.div`
-  border: 5px solid rgb(124, 152, 188);
+  width: 400px;
+  height: 300px;
+  margin: 10px;
+  border-radius: 20px;
+  border: 3px solid rgb(124, 152, 188);
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+`;
+
+const AccountMemoBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 380px;
+  height: 80px;
+  font-size: 0.8em;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+    border-top: 1px solid rgb(211, 226, 244);
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid rgb(211, 226, 244);
+  }
+`;
+
+const AccountItemSecondBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 140px;
+  font-size: 1em;
+`;
+
+const AccountItemBtnBox = styled.div`
+  display: flex;
+  margin-left: 300px;
+  text-align: center;
+  bottom: 20px;
+`;
+
+const EditBtn = styled.button`
+  font-family: ManfuMedium;
+  font-size: 18px;
+  color: rgb(210, 206, 221);
+  background-color: transparent;
+  border: none;
+  outline: 0;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+`;
+
+const AccountItemOptionBtnBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-left: 230px;
+`;
+
+const InfoFirstSecondBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const Container = styled.div`
+  text-align: center;
+`;
+
+const ContainerItem = styled.div`
+  width: 400px;
+  height: 300px;
+  top: 0;
 `;
 
 function AccountItem({
@@ -36,6 +173,11 @@ function AccountItem({
   const editItem_nameInput = useRef();
   const editTarget_currencyInput = useRef();
   const editCategoryInput = useRef();
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
 
   const handleRemove = () => {
     Swal.fire({
@@ -136,160 +278,215 @@ function AccountItem({
           confirmButtonText: '알겠어요',
         });
         handleQuitEdit();
+        console.log('브랜치 생성용');
       }
     });
   };
 
   return (
-    <AccountItemBox>
-      <div className="infoFirstSecondBox">
+    <Container data-aos="fade-up">
+      <AccountItemBox>
+        <div>
+          {isEdit ? (
+            <>
+              <AccountEditBox>
+                <AccountItemInputBox>
+                  구입한 것 :
+                  <AccountEditInputBox
+                    placeholder="무엇을 구입했나요 ?"
+                    className="AccountItemInput"
+                    ref={editItem_nameInput}
+                    value={editItem_name}
+                    onChange={e => setEditItem_name(e.target.value)}
+                  />
+                </AccountItemInputBox>
+                <AccountItemInputBox>
+                  사용한 통화 :
+                  <AccountEditInputBox
+                    placeholder="어느나라돈을 사용했나요 ?"
+                    className="AccountItemInput"
+                    ref={editTarget_currencyInput}
+                    value={editTarget_currency}
+                    onChange={e => setEditTarget_currency(e.target.value)}
+                  />
+                </AccountItemInputBox>
+                <AccountItemInputBox>
+                  구입한 사람 :
+                  <AccountEditInputBox
+                    placeholder="돈 쓴 사람을 입력해요"
+                    className="AccountItemInput"
+                    ref={editSpent_personInput}
+                    value={editSpent_person}
+                    onChange={e => setEditSpent_person(e.target.value)}
+                  />
+                </AccountItemInputBox>
+                <div>
+                  <div>메모</div>
+                  <AccountEditTextBox
+                    placeholder="메모를 입력해요"
+                    className="AccountItemInput"
+                    ref={editMemoInput}
+                    value={editMemo}
+                    onChange={e => setEditMemo(e.target.value)}
+                  />
+                </div>
+                <div>
+                  사용금액 :
+                  <AccountEditInputBox
+                    placeholder="사용금액을 입력해요"
+                    className="AccountItemInput"
+                    ref={editPriceInput}
+                    value={editPrice}
+                    onChange={e => setEditPrice(e.target.value)}
+                  />
+                  <span className="selectSpan" style={{ paddingLeft: '20px' }}>
+                    <select
+                      className="select"
+                      name="category"
+                      ref={editCategoryInput}
+                      value={editCategory}
+                      // value={state.category}
+                      onChange={e => setEditCategory(e.target.value)}
+                    >
+                      <option value={'식비'}>식비</option>
+                      <option value={'교통비'}>교통비</option>
+                      <option value={'숙박비'}>숙박비</option>
+                      <option value={'티켓'}>티켓</option>
+                      <option value={'기념품'}>기념품</option>
+                      <option value={'기타'}>기타</option>
+                    </select>
+                  </span>
+                </div>
+              </AccountEditBox>
+            </>
+          ) : (
+            <>
+              <InfoFirstSecondBox>
+                <ContainerItem>
+                  <div
+                    style={{
+                      display: 'flex',
+                      height: '300px',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '1.5em',
+                          marginLeft: '25px',
+                          marginTop: '10px',
+                        }}
+                      >
+                        {category}
+                      </div>
+                      <div>{faMoneyBillsIcon}</div>
+                      <div
+                        className="AccountItemContentBoxText2"
+                        style={{
+                          fontSize: '0.7em',
+                          marginRight: '10px',
+                          marginTop: '10px',
+                        }}
+                      >
+                        <div className="date">
+                          {String(write_date).slice(0, 16)}
+                        </div>
+                        <div>{spent_person}</div>
+                      </div>
+                    </div>
+                    <AccountItemSecondBox>
+                      <div
+                        className="AccountItemContentBoxText1"
+                        style={{
+                          fontSize: '1em',
+                          marginTop: '10px',
+                          width: '80px',
+                          height: '35px',
+                        }}
+                      >
+                        {item_name}
+                      </div>
+                      <div
+                        className="AccountItemContentBoxText2"
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: '2.2em',
+                          width: '180px',
+                          height: '35px',
+                        }}
+                      >
+                        {price}
+                      </div>
+                      <div className="AccountItemContentBoxText3">
+                        <p
+                          style={{
+                            fontSize: '1em',
+                            width: '80px',
+                            height: '15px',
+                          }}
+                        >
+                          {target_currency}
+                        </p>
+                      </div>
+                    </AccountItemSecondBox>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <AccountMemoBox>{memo}</AccountMemoBox>
+                    </div>
+                    <AccountItemBtnBox>
+                      <div className="AccountItemRemoteBox">
+                        <EditBtn
+                          className="AccountItemRemoteBtn"
+                          onClick={handleRemove}
+                        >
+                          삭제
+                        </EditBtn>
+                      </div>
+                      <div className="AccountItemEditBox">
+                        <EditBtn
+                          className="AccountItemEditBtn"
+                          onClick={toggleIsEdit}
+                        >
+                          수정
+                        </EditBtn>
+                      </div>
+                    </AccountItemBtnBox>
+                  </div>
+                </ContainerItem>
+              </InfoFirstSecondBox>
+            </>
+          )}
+        </div>
         {isEdit ? (
-          <>
-            <div className="AccountItemInputBox">
-              뭐샀누 ?
-              <input
-                placeholder="무엇을 구입했나요 ?"
-                className="AccountItemInput"
-                ref={editItem_nameInput}
-                value={editItem_name}
-                onChange={e => setEditItem_name(e.target.value)}
-              />
-            </div>
-            <div className="AccountItemInputBox">
-              통화 ?
-              <input
-                placeholder="어느나라돈을 사용했나요 ?"
-                className="AccountItemInput"
-                ref={editTarget_currencyInput}
-                value={editTarget_currency}
-                onChange={e => setEditTarget_currency(e.target.value)}
-              />
-            </div>
-            <div className="AccountItemInputBox">
-              돈 쓴 사람 ?
-              <input
-                placeholder="돈 쓴 사람을 입력해요"
-                className="AccountItemInput"
-                ref={editSpent_personInput}
-                value={editSpent_person}
-                onChange={e => setEditSpent_person(e.target.value)}
-              />
-            </div>
-            멤모 ?
-            <div className="AccountItemInputBox">
-              <input
-                placeholder="메모를 입력해요"
-                className="AccountItemInput"
-                ref={editMemoInput}
-                value={editMemo}
-                onChange={e => setEditMemo(e.target.value)}
-              />
-            </div>
-            얼마씀 ?
-            <div className="AccountItemInputBox">
-              <input
-                placeholder="사용금액을 입력해요"
-                className="AccountItemInput"
-                ref={editPriceInput}
-                value={editPrice}
-                onChange={e => setEditPrice(e.target.value)}
-              />
-            </div>
-            <span className="selectSpan">
-              <select
-                className="select"
-                name="category"
-                ref={editCategoryInput}
-                value={editCategory}
-                // value={state.category}
-                onChange={e => setEditCategory(e.target.value)}
+          <AccountItemOptionBtnBox>
+            <div className="AccountItemQuitEditBox">
+              <EditBtn
+                className="AccountItemQuitEditBtn"
+                onClick={handleQuitEdit}
               >
-                <option value={'식비'}>식비</option>
-                <option value={'교통비'}>교통비</option>
-                <option value={'숙박비'}>숙박비</option>
-                <option value={'티켓'}>티켓</option>
-                <option value={'기념품'}>기념품</option>
-                <option value={'기타항목'}>기타항목</option>
-              </select>
-            </span>
-          </>
+                수정 취소
+              </EditBtn>
+            </div>
+            <div className="AccountItemEditSubmitBox">
+              <EditBtn
+                className="AccountItemEditSubmitBtn"
+                onClick={handleEdit}
+              >
+                수정 완료
+              </EditBtn>
+            </div>
+          </AccountItemOptionBtnBox>
         ) : (
-          <>
-            <div className="AccountItemContentBox">
-              <div className="AccountItemContentBoxText1">
-                <p>올 때 기념품 🧦</p>
-              </div>
-              <div className="AccountItemContentBoxText2">
-                <p>{item_name}</p>
-              </div>
-            </div>
-            <div className="AccountItemContentBox">
-              <div className="AccountItemContentBoxText1">
-                <p>통화화통통화화통 ?</p>
-              </div>
-              <div className="AccountItemContentBoxText2">
-                <p>{target_currency}</p>
-              </div>
-            </div>
-            <div className=" AccountCategoryBox">카테고리 : {category}</div>
-            <div className="dateBox">
-              <span className="date">{String(write_date).slice(0, 16)}</span>
-            </div>
-            <div className="AccountItemContentBox">
-              <div className="AccountItemContentBoxText1">
-                <p>돈 쓴 사람 ?</p>
-              </div>
-              <div className="AccountItemContentBoxText2">
-                <p>{spent_person}</p>
-              </div>
-            </div>
-            <div className="AccountItemContentBox">
-              <div className="AccountItemContentBoxText1">
-                <p>멤모 ?</p>
-              </div>
-              <div className="AccountItemContentBoxText2">
-                <p>{memo}</p>
-              </div>
-            </div>
-            <div className="AccountItemContentBox">
-              <div className="AccountItemContentBoxText1">
-                <p>💸</p>
-              </div>
-              <div className="AccountItemContentBoxText2">
-                <p>{price}</p>
-              </div>
-            </div>
-          </>
+          ''
         )}
-      </div>
-      {isEdit ? (
-        <div className="AccountItemOptionBtnBox">
-          <div className="AccountItemQuitEditBox">
-            <button className="AccountItemQuitEditBtn" onClick={handleQuitEdit}>
-              수정 취소
-            </button>
-          </div>
-          <div className="AccountItemEditSubmitBox">
-            <button className="AccountItemEditSubmitBtn" onClick={handleEdit}>
-              수정 완료
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="AccountItemBtnBox">
-          <div className="AccountItemRemoteBox">
-            <button className="AccountItemRemoteBtn" onClick={handleRemove}>
-              삭제
-            </button>
-          </div>
-          <div className="AccountItemEditBox">
-            <button className="AccountItemEditBtn" onClick={toggleIsEdit}>
-              수정
-            </button>
-          </div>
-        </div>
-      )}
-    </AccountItemBox>
+      </AccountItemBox>
+    </Container>
   );
 }
 export default AccountItem;

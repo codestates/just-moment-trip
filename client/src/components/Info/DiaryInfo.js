@@ -1,12 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useRef } from 'react';
 import DiaryEditor from '../Diary/DiaryEditor';
-
-const Container = styled.div`
-  margin: 100px;
-  display: flex;
-  justify-content: space-around;
-`;
+import Container from './Container';
 
 function DiaryInfo() {
   const dummyData = {
@@ -23,10 +17,13 @@ function DiaryInfo() {
     hashtags: ['꿀잼', '허니잼', '맛집'],
     search: '',
   };
+
   return (
-    <Container>
-      즐거웠던 하루의 일들에 대해 일기도 작성하고
-      <DiaryEditor {...dummyData} />
+    <Container direction={'row'} back={' rgba(0, 255, 0, .4)'}>
+      <div className="message">즐거웠던 하루의 일들에 대해 일기도 작성하고</div>
+      <span>
+        <DiaryEditor {...dummyData} />
+      </span>
     </Container>
   );
 }

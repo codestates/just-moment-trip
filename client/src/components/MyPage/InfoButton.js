@@ -3,7 +3,9 @@ import axios from 'axios';
 import UserInfo from './UserInfo';
 import ButtonHandler from './ButtonHandler';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '../../modules/Reducers/userReducer';
+import Swal from 'sweetalert2';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -18,6 +20,7 @@ function InfoButton() {
 
   const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const url = 'https://www.just-moment-trip.tk/user';
   const options = {
     headers: {
@@ -27,25 +30,50 @@ function InfoButton() {
   };
 
   const userPatchHandler = input => {
+    if (input.new_password !== input.newpasswordCheck) {
+      return Swal.fire('새비밀번호를 다시 확인해주세요');
+    }
+
+    if (
+      input.password === input.new_password &&
+      input.new_password === input.newpasswordCheck
+    ) {
+      return Swal.fire('똑같은 비밀번호로 변경하실수 없습니다');
+    }
+
     axios
       .patch(url, input, options)
       .then(res => {
-        alert('회원정보 변경 완료 다시 로그인 해주세요');
-        navigate('/');
-        //로그인 off
-        //토큰 삭제
+        Swal.fire(
+          '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
+        ).then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+            dispatch(signOut());
+          }
+        });
       })
       .catch(err => {
-        alert('입력정보 다름');
+        delete options.data;
+        Swal.fire('기존 이메일 비밀번호를 확인해주세요').then(result => {});
       });
     delete options.data;
   };
 
-  const signoutHandler = async () => {
-    await axios.post('https://www.just-moment-trip.tk/sign/out', options);
-    //로그인 했는지 안했는지 상태관리 하는게 있다면 false로 바꿔주기
-    //토큰 빈 문자열로 바꿔주기
-    navigate('/');
+  const signoutHandler = () => {
+    Swal.fire('로그아웃 하겠습니까?').then(result => {
+      if (result.isConfirmed) {
+        //로그인 했는지 안했는지 상태관리 하는게 있다면 false로 바꿔주기
+        //토큰 빈 문자열로 바꿔주기
+        dispatch(signOut());
+        navigate('/');
+        Swal.fire('다음에 또 뵙겠습니다').then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+          }
+        });
+      }
+    });
   };
 
   const getUserInfo = async () => {
@@ -54,11 +82,27 @@ function InfoButton() {
     setUserInfo({ picture: pic.data.message, ...user.data.data });
   };
 
-  const userDeleteHandler = async () => {
-    await axios.delete(url, options);
+  const userDeleteHandler = () => {
+    Swal.fire({
+      title: '정말 삭제하시겠습니까?',
+      text: '다시 되돌릴수없습니다!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '삭제!',
+      cancelButtonText: '취소',
+    }).then(async result => {
+      if (result.isConfirmed) {
+        axios.delete(url, options).then(() => {
+          navigate('/');
+          dispatch(signOut());
+          Swal.fire('더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다.');
+        });
+      }
+    });
     //로그인 했는지 안했는지 상태관리 하는게 있다면 false 로 바꿔주기
     //토큰 빈 문자열로 바꿔주기
-    navigate('/');
   };
 
   return (

@@ -1,5 +1,4 @@
 const axios = require('../../services/diary');
-let trip_id = 1;
 import React, {
   useCallback,
   useEffect,
@@ -7,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useSelector } from 'react-redux';
 import DiaryList from './DiaryList';
 import dummydata from './dummydata';
 
@@ -57,6 +57,7 @@ function DiaryStore() {
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
   const [searchType, setSearchType] = React.useState('');
+  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
 
   const changeInput = e => {
     if (e.key === 'Enter') {
@@ -144,7 +145,14 @@ function DiaryStore() {
   );
 
   return (
-    <div className="DiaryStore">
+    <div
+      className="DiaryStore"
+      style={{
+        width: '93%',
+        height: '100%',
+        padding: '90px 0 70px 0',
+      }}
+    >
       <div>전체 일기 : {data.length}</div>
       <DiaryList
         changeInput={changeInput}

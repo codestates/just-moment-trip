@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactFlagsSelect from 'react-flags-select';
 import DatePicker from 'react-datepicker';
+import Swal from 'sweetalert2';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form, Field } from 'formik';
 import { requestTripPost } from '../../services/trip';
@@ -19,8 +20,9 @@ function TripModal() {
       base_currency,
       startDate,
       endDate,
-    ).then(res => {
-      console.log(res);
+    );
+    Swal.fire('성공 !').then(res => {
+      if (res.isConfirmed) window.location.reload();
     });
   };
   return (
