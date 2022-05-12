@@ -82,6 +82,30 @@ const AccountEditInputBox = styled.input`
   }
 `;
 
+const Test = styled.textarea`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  padding-top: 15px;
+  height: 80px;
+  width: 90%;
+  resize: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid gray;
+  font-size: 0.8em;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
 const PriceInputBox = styled.input`
   text-align: center;
   font-family: SsurroundFont;
@@ -115,7 +139,7 @@ const AccountWriteUpBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 40px;
+  padding: 30px;
   height: 80%;
   font-size: 20px;
   align-items: center;
@@ -280,16 +304,16 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           </AccountSpanBox>
         </div>
         <div className="InputFifthArea">
-          <span>
-            메모
-            <AccountEditInputBox
+          <div>메모</div>
+          <div>
+            <Test
               className="memoInput"
               ref={memoInput}
               value={state.memo}
               name="memo"
               onChange={handleChangeState}
-            ></AccountEditInputBox>
-          </span>
+            ></Test>
+          </div>
         </div>
       </div>
       <div
