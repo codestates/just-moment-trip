@@ -10,10 +10,7 @@ const Container = styled.div`
   > .warning {
     color: red;
     font-size: 30px;
-  }
-
-  * {
-    margin: 60px;
+    margin: 30px;
   }
 `;
 

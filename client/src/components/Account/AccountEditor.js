@@ -202,6 +202,12 @@ function AccountItem({
           title: '삭제 완료!',
           text: `선택하신 기록을 삭제했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/4d770be4-31e1-4a3b-88a1-4510714893cb/image.gif")
+          right top
+          no-repeat
+        `,
         });
         onRemove(id);
       }
@@ -250,7 +256,7 @@ function AccountItem({
       backdrop: `
       rgba(0,0,110,0.5)
       url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
-      right bottom
+      left top
       no-repeat
     `,
     }).then(result => {
@@ -260,6 +266,12 @@ function AccountItem({
           title: '수정 완료!',
           text: `선택하신 기록을 수정했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/a9e8a13f-c871-4b88-a3e0-f33008008e28/image.gif")
+          bottom
+          no-repeat
+        `,
         });
         onEdit(
           id,
@@ -276,6 +288,12 @@ function AccountItem({
           icon: 'info',
           text: `수정을 취소했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url("https://velog.velcdn.com/images/do66i/post/62225b88-c939-4716-b242-52c7da9e64fd/image.gif")
+          top
+          no-repeat
+        `,
         });
         handleQuitEdit();
         console.log('브랜치 생성용');

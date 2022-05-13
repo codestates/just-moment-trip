@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
 import Navbar from '../components/common/Navbar';
 import './Home.css';
 

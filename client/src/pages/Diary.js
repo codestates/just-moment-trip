@@ -7,10 +7,9 @@ import LoginMessage from '../components/common/LoginMessage';
 import { useSelector } from 'react-redux';
 
 const Box = styled.div`
-  margin-top: 100px;
+  padding-top: 150px;
   display: flex;
   justify-content: center;
-  border: 10px solid #312352;
   background-color: rgb(211, 226, 244);
   font-family: SsurroundFont;
 `;

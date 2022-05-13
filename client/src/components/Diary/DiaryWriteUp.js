@@ -1,18 +1,60 @@
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFeatherPointed } from '@fortawesome/free-solid-svg-icons';
+
+const FeatherPointedIcon = (
+  <FontAwesomeIcon
+    icon={faFeatherPointed}
+    style={{ width: '40px', height: '40px' }}
+  />
+);
+
+const Shake = keyframes`
+  0%,
+  80% {
+    transform: rotate(0deg);
+  }
+  5%,
+  15%,
+  25%,
+  35%,
+  45% {
+    transform: rotate(4deg);
+  }
+  10%,
+  40%,
+  30%,
+  40% {
+    transform: rotate(-2deg);}
+`;
+
+const DiaryWriteBtn = styled.button`
+  outline: none;
+  background-color: transparent;
+  border: none;
+
+  :hover {
+    animation: ${Shake} 4s infinite;
+  }
+`;
+
+const HrEdit = styled.hr`
+  border: 0.5px solid gray;
+  width: 60%;
+`;
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
-  display: flex;
-  align-items: flex-start;
+  display: ${props => props.display};
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   min-height: 48px;
-  width: 480px;
-  padding: 0 8px;
-  border: 10px solid rgb(214, 216, 218);
+  width: 98%;
+  border: none;
   border-radius: 6px;
-
   > ul {
     display: flex;
     flex-wrap: wrap;
@@ -24,17 +66,19 @@ const TagsInput = styled.div`
       height: 32px;
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
       color: #efefef;
       padding: 0 8px;
-      font-size: 14px;
+      font-size: 0.8em;
       list-style: none;
       border-radius: 6px;
-      margin: 0 8px 8px 0;
-      background: green;
+      margin: 2px 2px;
+      background: rgb(70, 125, 196);
       :hover {
-        transition: all 0.2s linear;
-        transform: scale(1.05);
+        cursor: pointer;
+        transition: all 0.5s linear;
+        transform: scale(1.1);
       }
       > .tag-close-icon {
         display: block;
@@ -54,17 +98,84 @@ const TagsInput = styled.div`
 
   > input {
     flex: 1;
+    border-radius: none;
+    text-align: center;
+    background-color: transparent;
     border: none;
-    height: 46px;
-    font-size: 14px;
+    height: 5vw;
+    width: 20vw;
+    font-size: 0.8em;
     padding: 4px 0 0 0;
     :focus {
       outline: transparent;
     }
   }
 
-  &:focus-within {
-    border: 5px solid palegreen;
+  &:focus-within + ${HrEdit} {
+    transition: all 0.4s ease-in;
+    border-color: rgb(67, 45, 127);
+  }
+`;
+
+const DiaryEditorBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+`;
+
+const DiaryBox = styled.div`
+  color: rgb(89, 72, 135);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+`;
+
+const DiaryWriteInputBox = styled.input`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  width: 32vw;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  font-size: 1.05em;
+  :hover {
+    border-bottom: 2px solid pink;
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border: 1px solid pink;
+  }
+`;
+
+const DiaryWriteTextareaBox = styled.textarea`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  padding-top: 15px;
+  height: 80px;
+  width: 40vw;
+  resize: none;
+  font-size: 0.8em;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  :hover {
+    border-bottom: 2px solid pink;
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border: 1px solid pink;
   }
 `;
 
@@ -151,21 +262,16 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   };
 
   return (
-    <div className="DiaryEditor">
+    <DiaryBox>
       <div className="DiaryEditorH2Box">
         <h2>오늘의 일기</h2>
       </div>
-      <div className="DiaryEditorBox">
+      <DiaryEditorBox>
         <div className="DiaryEditorInputBox" style={{ padding: '0 0 20px 0' }}>
-          <input
-            style={{
-              fontFamily: 'SsurroundFont',
-              width: '400px',
-              height: '50px',
-              fontSize: '20px',
-            }}
+          <DiaryWriteInputBox
             className="DiaryEditorInput"
-            placeholder="다녀온 장소를 적어요"
+            placeholder="제목을 적어요"
+            maxlength="20"
             ref={titleInput}
             value={state.title}
             name="title"
@@ -173,7 +279,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
           />
         </div>
         <div>
-          <textarea
+          <DiaryWriteTextareaBox
             style={{
               fontFamily: 'SsurroundFont',
               height: '150px',
@@ -181,7 +287,8 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
               fontSize: '20px',
             }}
             className="DiaryEditorTextarea"
-            placeholder="일기를 적어요"
+            placeholder="오늘은 어땠나요 ?"
+            maxlength="100"
             ref={contentInput}
             value={state.content}
             name="content"
@@ -190,12 +297,25 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
         </div>
         <div>
           <TagsInput>
-            <ul id="tags">
+            <ul
+              id="tags"
+              style={{ justifyContent: 'center', textAlign: 'center' }}
+            >
               {tags.map((tag, index) => (
-                <li key={index} className="tag">
+                <li
+                  style={{ justifyContent: 'center', textAlign: 'center' }}
+                  key={index}
+                  className="tag"
+                >
                   <span className="tag-title">{tag}</span>
                   <span
                     className="tag-close-icon"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
                     onClick={() => removeTags(index)}
                   >
                     &times;
@@ -207,17 +327,22 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
               className="tag-input"
               type="text"
               onKeyUp={event => (event.key === 'Enter' ? addTags(event) : null)}
-              placeholder="입력할테면해보시지"
+              maxlength="12"
+              placeholder="최대 12자를 입력 할 수 있어요 🪐"
             />
           </TagsInput>
+          <HrEdit />
         </div>
-      </div>
+      </DiaryEditorBox>
       <div>
-        <button className="DiaryWriteUpBtn" onClick={handleSubmit}>
+        <DiaryWriteBtn onClick={handleSubmit}>
+          {FeatherPointedIcon}
+        </DiaryWriteBtn>
+        {/* <button className="DiaryWriteUpBtn" onClick={handleSubmit}>
           ✏️
-        </button>
+        </button> */}
       </div>
-    </div>
+    </DiaryBox>
   );
 }
 

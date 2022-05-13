@@ -3,7 +3,24 @@ html {
   height: 100%;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(163, 163, 163);
+}
+
+::-webkit-scrollbar-track:hover {
+  width: 5px;
+}
+
 body {
+  overflow: none;
   margin: 0px;
   padding: 0;
   border: 0;
