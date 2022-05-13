@@ -144,12 +144,13 @@ const DiaryWriteInputBox = styled.input`
   border-bottom: 1px solid gray;
   font-size: 1.05em;
   :hover {
+    border-bottom: 2px solid pink;
     transition: all 0.2s linear;
     transform: scale(1.05);
   }
   :focus {
     transition: all 0.4s ease-in;
-    border-bottom: 1px solid pink;
+    border: 1px solid pink;
   }
 `;
 
@@ -309,6 +310,12 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
                   <span className="tag-title">{tag}</span>
                   <span
                     className="tag-close-icon"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
                     onClick={() => removeTags(index)}
                   >
                     &times;
