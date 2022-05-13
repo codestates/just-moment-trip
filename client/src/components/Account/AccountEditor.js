@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Helmet } from 'react-helmet';
+import Map from './Map';
+import Modal from '../common/Modal';
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
     icon={faMoneyBills}
@@ -381,6 +382,9 @@ function AccountItem({
             <>
               <InfoFirstSecondBox>
                 <ContainerItem>
+                  <Modal name={'이거 맵임'}>
+                    <Map />
+                  </Modal>
                   <div
                     style={{
                       display: 'flex',

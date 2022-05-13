@@ -15,7 +15,6 @@ let AccountModalBtnAnimation = keyframes`
   100% {top: -300px; opacity: 0}
   `;
 
-
 const IconBtn = styled.div`
   animation-name: ${AccountModalBtnAnimation};
   animation-duration: 0.5s;
@@ -77,7 +76,7 @@ function AccountList({
             <Modal name={ChartPieIcon}>
               <AccountPieChart data={data} />
             </Modal>
-            <Modal name={'aaa'}>
+            <Modal name={'이거 맵임'}>
               <Map />
             </Modal>
           </ModalBox>
