@@ -17,6 +17,28 @@ const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
 
+function getLocation() {
+  if (navigator.geolocation) {
+    // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        sessionStorage.setItem('latitude', position.coords.latitude);
+        sessionStorage.setItem('longitude', position.coords.longitude);
+      },
+      function (error) {
+        console.error(error);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity,
+      },
+    );
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -213,6 +235,8 @@ function AccountStore() {
 
   return (
     <>
+      {console.log('살햐햐햐햐향ㄷ함 오커윤투 숱ㅎ라')}
+      {getLocation()}
       <div
         className="Account"
         style={{

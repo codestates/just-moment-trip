@@ -118,14 +118,14 @@ function DiaryList({
                 value="title"
                 onClick={getSearchType}
               />{' '}
-              title
+              제목
               <input
                 type="radio"
                 name="searchType"
                 value="content"
                 onClick={getSearchType}
               />{' '}
-              content
+              내용
             </div>
           </DiaryBox>
           <h2>일기 리스트</h2>

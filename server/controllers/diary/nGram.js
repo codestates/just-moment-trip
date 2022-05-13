@@ -11,18 +11,21 @@ const ngram = (str, num) => {
 };
 
 exports.diff_ngram = (data, search, num) => {
-  console.log("data", data);
-  console.log("search", search);
-  console.log("num", num);
-  console.log("-------");
+  //   console.log("data", data);
+  //   console.log("search", search);
+  //   console.log("num", num);
+  //   console.log("-------");
   if (search === undefined) return 0;
   let splitArrA = ngram(data, num);
   let splitArrB = ngram(search, num);
+  //   console.log(splitArrA);
+  //   console.log(splitArrB);
   arr = [];
   let count = 0;
   for (let i = 0; i < splitArrA.length; i++) {
     for (let j = 0; j < splitArrB.length; j++) {
       if (splitArrA[i] === splitArrB[j]) {
+        // console.log(console.log(splitArrA[i]));
         count++;
         arr.push(splitArrA[i]);
         break;
@@ -49,28 +52,29 @@ let a4 = "새우깡";
 let b4 = "깡우새";
 let a5 = "새우깡임";
 let b5 = "새우깡은 과자다";
-// console.log("___________________1");
-// console.log(this.diff_ngram(a, b, 1));
-// console.log(this.diff_ngram(a, b, 2));
-// console.log(this.diff_ngram(a, b, 3));
-// console.log("___________________2");
-// console.log(this.diff_ngram(a2, b2, 1));
-// console.log(this.diff_ngram(a2, b2, 2));
-// console.log(this.diff_ngram(a2, b2, 3));
-// console.log("___________________3");
+console.log("___________________1");
+console.log(this.diff_ngram(a, b, 1));
+console.log(this.diff_ngram(a, b, 2));
+console.log(this.diff_ngram(a, b, 3));
+console.log("___________________2");
+console.log(this.diff_ngram(a2, b2, 1));
+console.log(this.diff_ngram(a2, b2, 2));
+console.log(this.diff_ngram(a2, b2, 3));
+console.log("___________________3");
 
-// console.log(this.diff_ngram(a3, b3, 1));
-// console.log(this.diff_ngram(a3, b3, 2));
-// console.log(this.diff_ngram(a3, b3, 3));
-// console.log("___________________4");
-// console.log(this.diff_ngram(a4, b4, 1));
-// console.log(this.diff_ngram(a4, b4, 2));
-// console.log(this.diff_ngram(a4, b4, 3));
-// console.log("___________________5");
-// console.log(this.diff_ngram(a5, b5, 1));
-// console.log(this.diff_ngram(a5, b5, 2));
-// console.log(this.diff_ngram(a5, b5, 3));
-// console.log("___________________6");
-// console.log(this.diff_ngram(b5, a5, 1)); //새우깡은 과자다    새우깡
-// console.log(this.diff_ngram(b5, a5, 2));
-// console.log(this.diff_ngram(b5, a5, 3));
+console.log(this.diff_ngram(a3, b3, 1));
+console.log(this.diff_ngram(a3, b3, 2));
+console.log(this.diff_ngram(a3, b3, 3));
+console.log("___________________4");
+console.log(this.diff_ngram(a4, b4, 1));
+console.log(this.diff_ngram(a4, b4, 2));
+console.log(this.diff_ngram(a4, b4, 3));
+console.log("___________________5");
+console.log(this.diff_ngram(a5, b5, 1));
+console.log(this.diff_ngram(a5, b5, 2));
+console.log(this.diff_ngram(a5, b5, 3));
+console.log("___________________6");
+console.log(this.diff_ngram(b5, a5, 1)); //새우깡은 과자다    새우깡
+console.log(this.diff_ngram(b5, a5, 2));
+console.log(this.diff_ngram(b5, a5, 3));
+// 서울에서 맛있는 요리를 먹었다

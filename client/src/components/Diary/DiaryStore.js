@@ -73,7 +73,7 @@ function DiaryStore() {
       const initData = data.data.data;
       dispatch({ type: INIT, data: initData });
     });
-  }, [search, isTrue]);
+  }, [search, isTrue, searchType]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
@@ -89,7 +89,6 @@ function DiaryStore() {
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
         console.log(res);
-        console.log('312114');
         setIsTrue(currentIsTrue => !currentIsTrue);
         console.log('--------------- onCreate', isTrue);
         console.log(res.data);
@@ -153,7 +152,6 @@ function DiaryStore() {
         padding: '90px 0 70px 0',
       }}
     >
-      <div>전체 일기 : {data.length}</div>
       <DiaryList
         changeInput={changeInput}
         diaryList={data}
