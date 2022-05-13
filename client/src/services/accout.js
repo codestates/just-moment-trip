@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tokenHeader from './headers';
-let endpoint = 'http://localhost:8080';
+let endpoint = 'https://just';
 
 //tk : 서버배포
 //ml : 클라배포
