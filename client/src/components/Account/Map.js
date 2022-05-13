@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 function Map() {
   return (
     <>
-      <div id="googleMap" style={{ width: '100%', height: '100%' }}></div>
+      <div id="googleMap" style={{ width: '50vw', height: '25vw' }}></div>
       <Helmet>
         <script>
           {`function myMap() {

@@ -6,13 +6,23 @@ import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Map from './Map';
-import Modal from '../common/Modal';
+import Modal1 from '../common/Modal';
+import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
+import Button from 'react-bootstrap/Button';
+
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
     icon={faMoneyBills}
     style={{ width: '30px', height: '30px', paddingLeft: '70px' }}
   />
 );
+
+const Mapbtn = styled.button`
+  background-color: red;
+  display: block;
+  left: 35px;
+  position: fixed;
+`;
 
 const AccountEditBox = styled.div`
   display: flex;
@@ -73,6 +83,11 @@ const AccountItemBox = styled.div`
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
+  }
+  &:hover ${Mapbtn} {
+    transition: all 0.2s linear;
+    transform: translate(2em, 1em);
+    display: block;
   }
 `;
 
@@ -144,7 +159,7 @@ const ContainerItem = styled.div`
   top: 0;
 `;
 
-function AccountItem({
+function AccountEditor({
   onEdit,
   onRemove,
   id,
@@ -167,6 +182,8 @@ function AccountItem({
   const [editTarget_currency, setEditTarget_currency] =
     useState(target_currency);
   const [editCategory, setEditCategory] = useState(category);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const editPriceInput = useRef();
   const editMemoInput = useRef();
@@ -223,6 +240,14 @@ function AccountItem({
     setEditItem_name(item_name);
     setEditTarget_currency(target_currency);
     setEditCategory(category);
+  };
+
+  const test = () => {
+    Swal.fire({
+      width: 800,
+      height: 2800,
+      html: '<h1>asdfasdf</h1> + <h2>asdfasdfas</h2> <script src="map.js"></script>',
+    });
   };
 
   const handleEdit = () => {
@@ -382,9 +407,6 @@ function AccountItem({
             <>
               <InfoFirstSecondBox>
                 <ContainerItem>
-                  <Modal name={'이거 맵임'}>
-                    <Map />
-                  </Modal>
                   <div
                     style={{
                       display: 'flex',
@@ -462,6 +484,19 @@ function AccountItem({
                       <AccountMemoBox>{memo}</AccountMemoBox>
                     </div>
                     <AccountItemBtnBox>
+                      <div>
+                        <Mapbtn
+                          variant="primary"
+                          onClick={() => setModalShow(true)}
+                        >
+                          지도
+                        </Mapbtn>
+
+                        <MyVerticallyCenteredModal
+                          show={modalShow}
+                          onHide={() => setModalShow(false)}
+                        />
+                      </div>
                       <div className="AccountItemRemoteBox">
                         <EditBtn
                           className="AccountItemRemoteBtn"
@@ -511,4 +546,4 @@ function AccountItem({
     </Container>
   );
 }
-export default AccountItem;
+export default AccountEditor;
