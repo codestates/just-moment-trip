@@ -80,6 +80,31 @@ const PBox = styled.p`
   animation-timing-function: initial;
 `;
 
+const SearchInput = styled.input`
+  border-bottom: 0.8px solid rgb(201, 199, 237);
+  width: 50vw;
+  height: 50px;
+  align-items: center;
+  text-align: center;
+  font-family: SsurroundFont;
+  font-size: 1em;
+  background-color: transparent;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
 const FilterBtn = styled.button`
   outline: none;
   border: none;
@@ -231,8 +256,7 @@ function DiaryList({
               </Modal>
             </div>
             <div style={{ padding: '20px 0' }}>
-              <input
-                style={{ width: '50vw', height: '50px' }}
+              <SearchInput
                 type="text"
                 placeholder="입력하지마라"
                 onKeyPress={changeInput}
@@ -243,14 +267,14 @@ function DiaryList({
                 value="title"
                 onClick={getSearchType}
               />{' '}
-              title
+              제목
               <input
                 type="radio"
                 name="searchType"
                 value="content"
                 onClick={getSearchType}
               />{' '}
-              content
+              기록{' '}
             </div>
           </DiaryBox>
           <div

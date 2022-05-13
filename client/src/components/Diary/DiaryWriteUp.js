@@ -1,6 +1,44 @@
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFeatherPointed } from '@fortawesome/free-solid-svg-icons';
+
+const FeatherPointedIcon = (
+  <FontAwesomeIcon
+    icon={faFeatherPointed}
+    style={{ width: '40px', height: '40px' }}
+  />
+);
+
+const Shake = keyframes`
+  0%,
+  80% {
+    transform: rotate(0deg);
+  }
+  5%,
+  15%,
+  25%,
+  35%,
+  45% {
+    transform: rotate(4deg);
+  }
+  10%,
+  40%,
+  30%,
+  40% {
+    transform: rotate(-2deg);}
+`;
+
+const DiaryWriteBtn = styled.button`
+  outline: none;
+  background-color: transparent;
+  border: none;
+
+  :hover {
+    animation: ${Shake} 4s infinite;
+  }
+`;
 
 const HrEdit = styled.hr`
   border: 0.5px solid gray;
@@ -290,9 +328,12 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
         </div>
       </DiaryEditorBox>
       <div>
-        <button className="DiaryWriteUpBtn" onClick={handleSubmit}>
+        <DiaryWriteBtn onClick={handleSubmit}>
+          {FeatherPointedIcon}
+        </DiaryWriteBtn>
+        {/* <button className="DiaryWriteUpBtn" onClick={handleSubmit}>
           ✏️
-        </button>
+        </button> */}
       </div>
     </DiaryBox>
   );
