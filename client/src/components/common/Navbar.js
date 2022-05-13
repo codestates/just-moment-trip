@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import Socket2 from '../Account/Soket2';
 const NavbarBox = styled.div`
   display: flex;
   position: fixed;
@@ -60,6 +60,9 @@ function Navbar() {
           >
             MYPAGE
           </Link>
+        </div>
+        <div>
+          <a href="http://localhost:8080">채팅</a>
         </div>
         <div className="Navbar_6" style={{ padding: '0 5px' }}>
           <Link

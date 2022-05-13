@@ -1,6 +1,6 @@
 import axios from 'axios';
 import tokenHeader from './headers';
-let endpoint = 'https://www.just-moment-trip.tk';
+let endpoint = 'http://localhost:8080';
 
 //tk : 서버배포
 //ml : 클라배포
@@ -24,6 +24,7 @@ export function accountPost(
   spent_person,
   memo,
   write_date,
+  gps,
 ) {
   let url = `${endpoint}/account`;
   return axios.post(
@@ -37,6 +38,7 @@ export function accountPost(
       spent_person,
       memo,
       write_date,
+      gps,
     },
     {
       headers: tokenHeader(),

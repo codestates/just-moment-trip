@@ -97,6 +97,7 @@ function AccountStore() {
       console.log(res);
       if (res.data.accessToken) accessToken = res.data.accessToken;
       const initData = res.data.data;
+
       dispatch({ type: INIT, data: initData });
     });
 
@@ -113,6 +114,7 @@ function AccountStore() {
       spent_person,
       memo,
       write_date,
+      gps,
     ) => {
       dispatch({
         type: CREATE,
@@ -124,6 +126,7 @@ function AccountStore() {
           spent_person,
           memo,
           write_date,
+          gps,
           id: dataId.current,
         },
       });
@@ -141,6 +144,7 @@ function AccountStore() {
           spent_person,
           memo,
           write_date,
+          gps,
         )
         .then(res => {
           setIsTrue(currentIsTrue => {

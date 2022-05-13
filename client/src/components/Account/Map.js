@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import React, { useRef, useState, useEffect } from 'react';
-function Map() {
+function Map(data) {
   return (
     <>
       <div id="googleMap" style={{ width: '100%', height: '100%' }}></div>
@@ -9,8 +9,7 @@ function Map() {
           {`function myMap() {
         var mapOptions = {
           center: new google.maps.LatLng(
-            ${sessionStorage.getItem('latitude')},
-            ${sessionStorage.getItem('longitude')}
+            ${data.gps}
           ),
           zoom: 17,
         };

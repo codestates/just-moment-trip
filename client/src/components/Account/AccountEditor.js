@@ -6,6 +6,7 @@ import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Map from './Map';
+import Socket2 from './Soket2';
 import Modal from '../common/Modal';
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
@@ -144,7 +145,7 @@ const ContainerItem = styled.div`
   top: 0;
 `;
 
-function AccountItem({
+function AccountEditor({
   onEdit,
   onRemove,
   id,
@@ -155,6 +156,7 @@ function AccountItem({
   spent_person,
   memo,
   write_date,
+  gps,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -382,9 +384,6 @@ function AccountItem({
             <>
               <InfoFirstSecondBox>
                 <ContainerItem>
-                  <Modal name={'이거 맵임'}>
-                    <Map />
-                  </Modal>
                   <div
                     style={{
                       display: 'flex',
@@ -406,7 +405,10 @@ function AccountItem({
                           marginTop: '10px',
                         }}
                       >
-                        {category}
+                        {category}{' '}
+                        <div>
+                          <a href="http://localhost:8080">채팅</a>
+                        </div>
                       </div>
                       <div>{faMoneyBillsIcon}</div>
                       <div
@@ -511,4 +513,4 @@ function AccountItem({
     </Container>
   );
 }
-export default AccountItem;
+export default AccountEditor;
