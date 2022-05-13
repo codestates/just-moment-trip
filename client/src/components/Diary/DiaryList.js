@@ -274,7 +274,7 @@ function DiaryList({
                 value="content"
                 onClick={getSearchType}
               />{' '}
-              기록{' '}
+              기록
             </div>
           </DiaryBox>
           <div
