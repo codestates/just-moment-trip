@@ -166,7 +166,7 @@ const DiaryEditInputBox = styled.input`
   :hover {
     z-index: 1;
     transition: all 0.2s linear;
-    transform: scale(1.2);
+    transform: scale(1.08);
   }
   :focus {
     transition: all 0.4s ease-in;
