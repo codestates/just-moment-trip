@@ -51,21 +51,21 @@ const Pic = ({ picName, picUploadHandler }) => {
     }),
   });
 
-  const deleteHandler = async name => {
-    if (name === 'profile.jpeg') {
+  const deleteHandler = name => {
+    if (picName === 'profile.jpeg') {
       return;
     }
 
     var s3 = new AWS.S3();
     var params = { Bucket: 'jmtpictures', Key: name };
-    await s3.deleteObject(params).promise();
+    s3.deleteObject(params).promise();
   };
 
   const handleFileInput = async e => {
     // input 태그를 통해 선택한 파일 객체
     const file = e.target.files[0];
 
-    await deleteHandler(file.name);
+    deleteHandler(file.name);
 
     // S3 SDK에 내장된 업로드 함수
     const upload = new AWS.S3.ManagedUpload({
@@ -76,22 +76,14 @@ const Pic = ({ picName, picUploadHandler }) => {
       },
     });
 
-    if (picName === file.name) {
-      return Swal.fire({
-        backdrop: ` rgba(0,0,110,0.5)`,
-        text: '같은 파일을 사용할수없습니다. 파일명을 바꿔주세요',
-      });
-    }
-
     const promise = upload.promise();
 
     promise.then(
       function (data) {
+        picUploadHandler(file.name);
         Swal.fire({
           backdrop: ` rgba(0,0,110,0.5)`,
-          text: '이미지 업로드에 성공했습니다, 5초만 기다려주시면 바뀝니다',
-        }).then(() => {
-          picUploadHandler(file.name);
+          text: '이미지 업로드에 성공했습니다',
         });
       },
       function (err) {

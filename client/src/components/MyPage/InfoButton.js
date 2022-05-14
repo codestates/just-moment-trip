@@ -18,7 +18,7 @@ function InfoButton() {
 
   useEffect(() => {
     getUserInfo();
-  }, [userInfo]);
+  }, [userInfo.picture]);
 
   const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
@@ -31,10 +31,11 @@ function InfoButton() {
     },
   };
 
-  const picUploadHandler = async pic => {
-    await axios.patch(url, { picture: pic }, options);
-    const newObj = Object.assign({}, userInfo, { picture: pic });
-    setUserInfo(newObj);
+  const picUploadHandler = async pic => { //서버 재업 하고서 catch문 빼기
+    axios.patch(url, { picture: pic }, options).catch(() => {
+      const newObj = Object.assign({}, userInfo, { picture: pic });
+      setUserInfo(newObj);
+    });
   };
 
   const userPatchHandler = input => {
