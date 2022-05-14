@@ -12,12 +12,13 @@ function InfoButton() {
   const [userInfo, setUserInfo] = useState({
     email: '',
     nickname: '',
+    picture: '',
     num_trips: 0,
   });
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  }, [userInfo]);
 
   const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
@@ -28,6 +29,12 @@ function InfoButton() {
       authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
+  };
+
+  const picUploadHandler = async pic => {
+    await axios.patch(url, { picture: pic }, options);
+    const newObj = Object.assign({}, userInfo, { picture: pic });
+    setUserInfo(newObj);
   };
 
   const userPatchHandler = input => {
@@ -77,12 +84,10 @@ function InfoButton() {
         Swal.fire({
           backdrop: ` rgba(0,0,110,0.5)`,
           text: '기존 이메일 비밀번호를 확인해주세요',
-        }).then(result => {});
+        });
       });
     delete options.data;
   };
-
-  const pictureUploadPatch = picName => {};
 
   const signoutHandler = () => {
     Swal.fire({
@@ -136,9 +141,13 @@ function InfoButton() {
 
   return (
     <>
-      {/* <span style={{margin-top:'100px'}}>{'프로필사진 추가'}</span> */}
-      <Pic handler={pictureUploadPatch} />
-      <UserInfo {...userInfo} />
+      <Pic picName={userInfo.picture} picUploadHandler={picUploadHandler} />
+      <UserInfo
+        email={userInfo.email}
+        nickname={userInfo.nickname}
+        picture={userInfo.picture}
+        num_trips={userInfo.num_trips}
+      />
       <ButtonHandler
         userPatchHandler={userPatchHandler}
         userDeleteHandler={userDeleteHandler}

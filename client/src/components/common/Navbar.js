@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Socket2 from '../Account/Soket2';
 const NavbarBox = styled.div`
   display: flex;
   position: fixed;
