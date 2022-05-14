@@ -52,6 +52,7 @@ function TripList() {
   const deleteRequest = id => {
     Swal.fire({
       title: '정말 삭제 하시겠습니까?',
+      backdrop: ` rgba(0,0,110,0.5)`,
       text: '기록을 삭제하면 복구할 수 없습니다!',
       icon: 'warning',
       showCancelButton: true,
@@ -61,7 +62,10 @@ function TripList() {
       cancelButtonText: '취소',
     }).then(res => {
       if (res.isConfirmed) {
-        Swal.fire('완료!', '기록이 삭제 되었습니다!', '성공').then(result => {
+        Swal.fire({
+          backdrop: ` rgba(0,0,110,0.5)`,
+          text: '완료! 기록이 삭제 되었습니다! 성공',
+        }).then(result => {
           if (result.isConfirmed) {
             requestTripDelete(id);
           }
