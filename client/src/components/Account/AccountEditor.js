@@ -8,7 +8,11 @@ import 'aos/dist/aos.css';
 import Map from './Map';
 import Modal1 from '../common/Modal';
 import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
-import Button from 'react-bootstrap/Button';
+import parrot12 from '../../Assets/parrot12.gif';
+import catzzal4 from '../../Assets/catzzal4.gif';
+import parrot11 from '../../Assets/parrot11.gif';
+import parrot10 from '../../Assets/parrot10.gif';
+import dogeparrot from '../../Assets/dogeparrot.gif';
 
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
@@ -209,7 +213,7 @@ function AccountEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/3361f525-3743-4954-9d15-4318619713e1/image.gif")
+      url(${parrot12})
       left bottom
       no-repeat
     `,
@@ -222,7 +226,7 @@ function AccountEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/4d770be4-31e1-4a3b-88a1-4510714893cb/image.gif")
+          url(${dogeparrot})
           right top
           no-repeat
         `,
@@ -240,14 +244,6 @@ function AccountEditor({
     setEditItem_name(item_name);
     setEditTarget_currency(target_currency);
     setEditCategory(category);
-  };
-
-  const test = () => {
-    Swal.fire({
-      width: 800,
-      height: 2800,
-      html: '<h1>asdfasdf</h1> + <h2>asdfasdfas</h2> <script src="map.js"></script>',
-    });
   };
 
   const handleEdit = () => {
@@ -281,7 +277,7 @@ function AccountEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
+      url(${catzzal4})
       left top
       no-repeat
     `,
@@ -294,7 +290,7 @@ function AccountEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/a9e8a13f-c871-4b88-a3e0-f33008008e28/image.gif")
+          url(${parrot11})
           bottom
           no-repeat
         `,
@@ -316,7 +312,7 @@ function AccountEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/62225b88-c939-4716-b242-52c7da9e64fd/image.gif")
+          url(${parrot10})
           top
           no-repeat
         `,
