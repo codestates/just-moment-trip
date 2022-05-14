@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Map from './Map';
+import Modal1 from '../common/Modal';
+import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
+import parrot12 from '../../Assets/parrot12.gif';
+import catzzal4 from '../../Assets/catzzal4.gif';
+import parrot11 from '../../Assets/parrot11.gif';
+import parrot10 from '../../Assets/parrot10.gif';
+import dogeparrot from '../../Assets/dogeparrot.gif';
 
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
@@ -12,6 +20,13 @@ const faMoneyBillsIcon = (
     style={{ width: '30px', height: '30px', paddingLeft: '70px' }}
   />
 );
+
+const Mapbtn = styled.button`
+  background-color: red;
+  display: block;
+  left: 35px;
+  position: fixed;
+`;
 
 const AccountEditBox = styled.div`
   display: flex;
@@ -72,6 +87,11 @@ const AccountItemBox = styled.div`
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
+  }
+  &:hover ${Mapbtn} {
+    transition: all 0.2s linear;
+    transform: translate(2em, 1em);
+    display: block;
   }
 `;
 
@@ -143,7 +163,7 @@ const ContainerItem = styled.div`
   top: 0;
 `;
 
-function AccountItem({
+function AccountEditor({
   onEdit,
   onRemove,
   id,
@@ -154,6 +174,7 @@ function AccountItem({
   spent_person,
   memo,
   write_date,
+  gps,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -166,6 +187,8 @@ function AccountItem({
   const [editTarget_currency, setEditTarget_currency] =
     useState(target_currency);
   const [editCategory, setEditCategory] = useState(category);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const editPriceInput = useRef();
   const editMemoInput = useRef();
@@ -191,7 +214,7 @@ function AccountItem({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/3361f525-3743-4954-9d15-4318619713e1/image.gif")
+      url(${parrot12})
       left bottom
       no-repeat
     `,
@@ -204,7 +227,7 @@ function AccountItem({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/4d770be4-31e1-4a3b-88a1-4510714893cb/image.gif")
+          url(${dogeparrot})
           right top
           no-repeat
         `,
@@ -255,7 +278,7 @@ function AccountItem({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
+      url(${catzzal4})
       left top
       no-repeat
     `,
@@ -268,7 +291,7 @@ function AccountItem({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/a9e8a13f-c871-4b88-a3e0-f33008008e28/image.gif")
+          url(${parrot11})
           bottom
           no-repeat
         `,
@@ -290,7 +313,7 @@ function AccountItem({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/62225b88-c939-4716-b242-52c7da9e64fd/image.gif")
+          url(${parrot10})
           top
           no-repeat
         `,
@@ -402,7 +425,10 @@ function AccountItem({
                           marginTop: '10px',
                         }}
                       >
-                        {category}
+                        {category}{' '}
+                        <div>
+                          <a href="http://localhost:8080">채팅</a>
+                        </div>
                       </div>
                       <div>{faMoneyBillsIcon}</div>
                       <div
@@ -458,6 +484,19 @@ function AccountItem({
                       <AccountMemoBox>{memo}</AccountMemoBox>
                     </div>
                     <AccountItemBtnBox>
+                      <div>
+                        <Mapbtn
+                          variant="primary"
+                          onClick={() => setModalShow(true)}
+                        >
+                          지도
+                        </Mapbtn>
+
+                        <MyVerticallyCenteredModal
+                          show={modalShow}
+                          onHide={() => setModalShow(false)}
+                        />
+                      </div>
                       <div className="AccountItemRemoteBox">
                         <EditBtn
                           className="AccountItemRemoteBtn"
@@ -507,4 +546,4 @@ function AccountItem({
     </Container>
   );
 }
-export default AccountItem;
+export default AccountEditor;

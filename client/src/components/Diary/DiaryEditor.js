@@ -6,6 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFishFins } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import nyanparrot from '../../Assets/nyanparrot.gif';
+import duckzzal from '../../Assets/duckzzal.gif';
+import gumiparrot from '../../Assets/gumiparrot.gif';
+import partyannoyedbird from '../../Assets/partyannoyedbird.gif';
+import vibepartycat from '../../Assets/vibepartycat.gif';
+
 const fuzzy = require('./fuzzy');
 
 const HrEdit = styled.hr`
@@ -166,7 +172,7 @@ const DiaryEditInputBox = styled.input`
   :hover {
     z-index: 1;
     transition: all 0.2s linear;
-    transform: scale(1.2);
+    transform: scale(1.08);
   }
   :focus {
     transition: all 0.4s ease-in;
@@ -210,7 +216,6 @@ const DiaryBtn = styled.button`
 `;
 
 function DiaryEditor({
-  diaryList,
   onRemove,
   onEdit,
   toggleClicked,
@@ -271,7 +276,7 @@ function DiaryEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/da3c93a4-65e4-45f9-99e3-19190d53d158/image.gif")
+      url(${nyanparrot})
       left bottom
       no-repeat
     `,
@@ -284,7 +289,7 @@ function DiaryEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/e814e626-b1e7-40f2-acaa-f9120dac139f/image.gif")
+          url(${duckzzal})
           left bottom
           no-repeat
         `,
@@ -329,7 +334,7 @@ function DiaryEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/da278e0b-6a49-407e-8517-4b4e3621de27/image.gif")
+      url(${gumiparrot})
       right bottom
       no-repeat
     `,
@@ -342,7 +347,7 @@ function DiaryEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/da278e0b-6a49-407e-8517-4b4e3621de27/image.gif")
+          url(${partyannoyedbird})
           right bottom
           no-repeat
         `,
@@ -361,7 +366,7 @@ function DiaryEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url("https://velog.velcdn.com/images/do66i/post/407e2a74-f65b-473b-b43f-9a48fc984943/image.gif")
+          url(${vibepartycat})
           top
           no-repeat
         `,

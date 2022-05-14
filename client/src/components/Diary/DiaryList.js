@@ -11,6 +11,7 @@ import {
   faCircleQuestion,
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import parrot9 from '../../Assets/parrot9.gif';
 
 const AnimationBox = keyframes`
 50% {
@@ -129,6 +130,10 @@ const HelpBtnBox = styled.button`
   font-size: 20px;
 `;
 
+const DiarySplitBox = styled.div`
+  display: flex;
+`;
+
 const doveIcon = (
   <IconBtn>
     <FontAwesomeIcon icon={faDove} style={{ fontSize: '60px' }} />
@@ -194,7 +199,7 @@ function DiaryList({
       timerProgressBar: true,
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/cfcf01ce-7fde-4b6d-b0d2-3571219ef062/image.gif")
+      url(${parrot9})
       top
       no-repeat
     `,
@@ -274,7 +279,7 @@ function DiaryList({
                 value="content"
                 onClick={getSearchType}
               />{' '}
-              기록{' '}
+              기록
             </div>
           </DiaryBox>
           <div
@@ -309,12 +314,12 @@ function DiaryList({
             </HelpBtnBox>
           </div>
           <div>
+            {/* <DiarySplitBox> */}
             <DiaryListBox>
               {diaryList.map(it => (
                 <DiaryEditor
                   key={it.id}
                   {...it}
-                  diaryList={diaryList}
                   onCreate={onCreate}
                   onEdit={onEdit}
                   onRemove={onRemove}
@@ -324,6 +329,8 @@ function DiaryList({
                 />
               ))}
             </DiaryListBox>
+
+            {/* </DiarySplitBox> */}
           </div>
         </>
       )}

@@ -9,7 +9,6 @@ const nGram = require("./nGram");
 
 module.exports = {
   get: async (req, res) => {
-    console.log("겟요청임이이이");
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {

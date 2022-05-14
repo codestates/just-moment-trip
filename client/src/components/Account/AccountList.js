@@ -4,6 +4,7 @@ import Footer from '../common/Footer';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
+import Map from './Map';
 import AccountWriteUp from './AccountWriteUp';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,6 @@ let AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
   100% {top: -300px; opacity: 0}
   `;
-
 
 const IconBtn = styled.div`
   animation-name: ${AccountModalBtnAnimation};
@@ -75,6 +75,9 @@ function AccountList({
             </Modal>
             <Modal name={ChartPieIcon}>
               <AccountPieChart data={data} />
+            </Modal>
+            <Modal name={'이거 맵임'}>
+              <Map />
             </Modal>
           </ModalBox>
         </div>

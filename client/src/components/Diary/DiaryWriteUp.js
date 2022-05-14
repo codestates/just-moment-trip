@@ -3,6 +3,8 @@ import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFeatherPointed } from '@fortawesome/free-solid-svg-icons';
+import partyblobcat from '../../Assets/partyblobcat.gif';
+import partymoogle from '../../Assets/partymoogle.gif';
 
 const FeatherPointedIcon = (
   <FontAwesomeIcon
@@ -144,12 +146,13 @@ const DiaryWriteInputBox = styled.input`
   border-bottom: 1px solid gray;
   font-size: 1.05em;
   :hover {
+    border-bottom: 2px solid pink;
     transition: all 0.2s linear;
     transform: scale(1.05);
   }
   :focus {
     transition: all 0.4s ease-in;
-    border-bottom: 1px solid pink;
+    border: 1px solid pink;
   }
 `;
 
@@ -226,7 +229,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       background: '#fff ',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/c0eac2d9-7c86-4dfa-9583-e526e4746dce/image.gif")
+      url(${partyblobcat})
       left top
       no-repeat
     `,
@@ -242,6 +245,12 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
           title: '저장 완료!',
           text: `작성하신 기록을 저장했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${partymoogle})
+          left top
+          no-repeat
+        `,
         });
         onCreate(
           state.title,
@@ -309,6 +318,12 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
                   <span className="tag-title">{tag}</span>
                   <span
                     className="tag-close-icon"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
                     onClick={() => removeTags(index)}
                   >
                     &times;

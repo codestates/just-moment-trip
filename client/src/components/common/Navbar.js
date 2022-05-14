@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import Socket2 from '../Account/Soket2';
 const NavbarBox = styled.div`
   display: flex;
   position: fixed;
@@ -52,7 +52,7 @@ function Navbar() {
           >
             ACCOUNT
           </Link>
-        </div>{' '}
+        </div>
         <div className="Navbar_5" style={{ padding: '0 5px' }}>
           <Link
             style={{ textDecoration: 'none', color: 'whitesmoke' }}
