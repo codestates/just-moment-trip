@@ -86,17 +86,26 @@ function SignUpInput() {
     dispatch(signUp({ email, nickname, password }))
       .unwrap()
       .then(() => {
-        Swal.fire('회원가입 성공 !').then(res => {
+        Swal.fire({
+          backdrop: ` rgba(0,0,110,0.5)`,
+          text: '회원가입 성공 !',
+        }).then(res => {
           if (res.isConfirmed) navigate('/');
         });
       })
       .catch(err => {
         if (err) {
-          Swal.fire('이미 사용중인 이메일 입니다').then(res => {
+          Swal.fire({
+            backdrop: ` rgba(0,0,110,0.5)`,
+            text: '이미 사용중인 이메일 입니다',
+          }).then(res => {
             if (res.isConfirmed) actions.resetForm();
           });
         } else {
-          Swal.fire('회원가입에 실패 하셨습니다').then(res => {
+          Swal.fire({
+            backdrop: ` rgba(0,0,110,0.5)`,
+            text: '회원가입에 실패 하셨습니다',
+          }).then(res => {
             if (res.isConfirmed) actions.resetForm();
           });
         }

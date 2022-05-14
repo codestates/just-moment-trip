@@ -22,6 +22,11 @@ module.exports = {
           allowNull: false,
           type: Sequelize.STRING,
         },
+        picture: {
+          defaultValue: "profile.jpeg",
+          allowNull: true,
+          type: Sequelize.STRING,
+        },
         createdAt: {
           allowNull: false,
           defaultValue: Sequelize.fn("now"),

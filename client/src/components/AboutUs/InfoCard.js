@@ -13,11 +13,6 @@ const SlideTrack = styled.div`
   width: calc(960px * 14);
 `;
 
-const EmptyDiv = styled.div`
-  background-color: white;
-  width: 450px;
-`;
-
 const CardDiv = styled.div`
   background-color: white;
   text-align: center;
@@ -26,7 +21,7 @@ const CardDiv = styled.div`
   margin: 30px;
   padding: 30px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  font-size: 40px;
+  font-size: 33px;
   font-family: IMHyeminFont;
   font-weight: bold;
 
@@ -38,11 +33,7 @@ const CardDiv = styled.div`
   }
 `;
 function InfoCard({ picture, name, gitId, link, position }) {
-  return name === undefined ? (
-    <SlideTrack>
-      <EmptyDiv></EmptyDiv>
-    </SlideTrack>
-  ) : (
+  return (
     <SlideTrack>
       <CardDiv>
         <img src={picture} />

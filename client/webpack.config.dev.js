@@ -44,6 +44,9 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+    fallback: {
+      util: require.resolve('util/'),
+    },
   },
 
   devServer: {
