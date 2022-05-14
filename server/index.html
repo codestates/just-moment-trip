@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Socket.io Chat Example</title>
+    <title>채팅방</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="container">
-      <h3>Socket.io Chat Example</h3>
+      <h3>채팅방</h3>
       <form class="form-inline">
         <div class="form-group">
           <label for="msgForm">Message: </label>
@@ -18,7 +18,6 @@
         <button type="submit" class="btn btn-primary">Send</button>
       </form>
       <div id="chatLogs"></div>
-      <div id="abc"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -36,13 +35,19 @@
 
         // 서버로부터의 메시지가 수신되면
         socket.on("login", function (data) {
-          $("#chatLogs").append("<div><strong>" + data + "</strong> has joined</div>");
+          $("#chatLogs").append("<div><strong>" + data + "</strong>님이 로그인 하셨습니다.</div>");
         });
 
         // 서버로부터의 메시지가 수신되면
         socket.on("s2c chat", function (data) {
-          $("#abc").append(
-            "<div>" + data.msg + " : from <strong>" + data.from.name + "</strong></div>"
+          $("#chatLogs").append(
+            "<div>" + data.from.name + " : <strong>" + data.msg + "</strong></div>"
+          );
+        });
+
+        socket.on("disconnect", function (data) {
+          $("#chatLogs").append(
+            "<div><strong>" + "data" + "</strong>님이 로그아웃 하셨습니다.</div>"
           );
         });
 

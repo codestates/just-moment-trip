@@ -13,7 +13,7 @@ const account = require("./routes/account");
 const diary = require("./routes/diary");
 
 hashtag_delete_schedule.cron();
-
+//!
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
 app.get("/", function (req, res) {
@@ -64,15 +64,16 @@ io.on("connection", function (socket) {
     socket.disconnect();
   });
 
-  socket.on("disconnect", function () {
-    console.log("user disconnected: " + socket.name);
-  });
+  socket.on("disconnect", function (data) {});
 });
-//!
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://www.just-moment-trip.ml", "http://localhost:9000"],
+    origin: [
+      "https://www.just-moment-trip.ml",
+      "https://just-moment-trip.ml",
+      "http://localhost:9000",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
