@@ -487,7 +487,7 @@ function AccountEditor({
                         >
                           지도
                         </Mapbtn>
-
+                        {console.log('git')}
                         <MyVerticallyCenteredModal
                           show={modalShow}
                           onHide={() => setModalShow(false)}
