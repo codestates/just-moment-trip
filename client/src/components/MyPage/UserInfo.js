@@ -1,6 +1,6 @@
-import React from 'react';
+import { get } from 'lodash';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import dummy from './profile.jpeg';
 
 const CardDiv = styled.div`
   background-color: rgba(0, 0, 255, 0.3);
@@ -19,10 +19,13 @@ const CardDiv = styled.div`
     border-radius: inherit;
   }
 `;
+
 function UserInfo({ picture, nickname, email, num_trips }) {
+  const picUrl = `https://jmtpictures.s3.ap-northeast-2.amazonaws.com/${picture}`;
+
   return (
     <CardDiv>
-      <img src={dummy} />
+      <img src={picUrl} />
       <div>{`닉네임 : ${nickname}`}</div>
       <div>{`이메일 : ${email}`}</div>
       <div>{`총 여행 횟수는 ${num_trips}회 입니다`}</div>
