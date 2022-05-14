@@ -85,6 +85,9 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
           text: '가계부를 먼저 작성해주세요',
           confirmButtonText: '알겠어요',
           allowOutsideClick: false,
+          backdrop: `
+          rgba(0,0,110,0.5)
+        `,
         }).then(result => {
           if (result.isConfirmed) {
             openModalHandler(false);

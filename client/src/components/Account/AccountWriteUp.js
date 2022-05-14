@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import catzzal6 from '../../Assets/catzzal6.gif';
+import dogzzal from '../../Assets/dogzzal.gif';
 
 const FilePenIcon = (
   <FontAwesomeIcon icon={faFilePen} style={{ width: '40px', height: '40px' }} />
@@ -205,7 +207,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       background: '#fff ',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/ef963bb5-b512-4259-bb51-dbde97ca457a/image.gif")
+      url(${catzzal6})
       left top
       no-repeat
     `,
@@ -221,6 +223,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           title: '저장 완료!',
           text: `작성하신 기록을 저장했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${dogzzal})
+          left top
+          no-repeat
+        `,
         });
         onCreate(
           state.item_name,
