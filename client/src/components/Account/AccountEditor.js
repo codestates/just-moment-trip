@@ -170,6 +170,7 @@ function AccountEditor({
   spent_person,
   memo,
   write_date,
+  gps,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -428,7 +429,10 @@ function AccountEditor({
                           marginTop: '10px',
                         }}
                       >
-                        {category}
+                        {category}{' '}
+                        <div>
+                          <a href="http://localhost:8080">채팅</a>
+                        </div>
                       </div>
                       <div>{faMoneyBillsIcon}</div>
                       <div

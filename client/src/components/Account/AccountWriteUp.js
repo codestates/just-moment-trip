@@ -162,10 +162,13 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
     price: '',
     memo: '',
     category: '식비',
+    gps: '',
   });
-
+  let gps = `${sessionStorage.getItem('latitude')},${sessionStorage.getItem(
+    'longitude',
+  )}`;
   const handleChangeState = e => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setState({ ...state, gps: gps, [e.target.name]: e.target.value });
     // name : value
     //ex) input에 입력시 author(input name): e.target.value(onchange동작)
   };
@@ -228,6 +231,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           state.memo,
           // state.new Date
           (state.write_date = new Date().getTime()),
+          state.gps,
         );
 
         setState({
@@ -238,6 +242,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           price: '',
           memo: '',
           category: '교통비',
+          gps: '',
         });
         console.log('AccountWriteUp', state);
         openModalHandler(false);
