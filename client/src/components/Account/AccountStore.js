@@ -242,7 +242,6 @@ function AccountStore() {
 
   return (
     <>
-      {console.log('살햐햐햐햐향ㄷ함 오커윤투 숱ㅎ라')}
       {getLocation()}
       <div
         className="Account"
@@ -263,11 +262,17 @@ function AccountStore() {
             }}
           >
             <div className="AccountHeadTotalMoney">
-              {`${title}에`}
-              <br />
-              {`총 ${totalPriceString}을 들고갔어요`}
+              <span style={{ fontSize: '2em' }}>{`${title}`}</span>
+              에
+              <br />총
+              <span
+                style={{ fontSize: '3em', fontWeight: 'bold' }}
+              >{`${totalPriceString}`}</span>
+              을 들고갔어요
             </div>
-            {`✅ 사용한돈${totalSpentString}/남은돈${remainingString}`}
+            <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>
+              {`💸 사용한돈 ${totalSpentString}/💰 남은돈 ${remainingString}`}
+            </span>
           </div>
         </div>
 

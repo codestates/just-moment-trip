@@ -266,7 +266,6 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       <div className="AccountEditorReturnDiv">
         <div className="InputFirstArea">
           {/* <span>여정 {dateDiff} 일차 !</span> */}
-          <span>여정 !여기 여행 날짜수 입력해야함!일차 !</span>
           <br />
           <AccountSpanBox>
             <AccountEditInputBox
