@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Pic from '../Picture/Pic';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 const CardDiv = styled.div`
   background-color: rgba(0, 0, 255, 0.3);

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
-import Pic from '../Picture/Pic';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
