@@ -60,6 +60,7 @@ const AccountSelectBox = styled.select`
 
 const AccountSpanBox = styled.span`
   display: flex;
+  font-size: 1em;
   justify-content: space-between;
   padding: 8px 20px;
 `;

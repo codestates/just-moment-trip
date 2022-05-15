@@ -73,17 +73,11 @@ function Home() {
         <div className="SignLinkBox">
           <div className="SigninLinkBox">
             {isLoggedIn ? (
-              <Link to="/trip">
-                <span>Start</span>
-              </Link>
+              <Link to="/trip">Start</Link>
             ) : (
               <>
-                <Link to="/sign-up">
-                  <span>함께하기</span>
-                </Link>
-                <Link to="/sign-in">
-                  <span>Start</span>
-                </Link>
+                <Link to="/sign-up">함께하기</Link>
+                <Link to="/sign-in">Start</Link>
               </>
             )}
           </div>

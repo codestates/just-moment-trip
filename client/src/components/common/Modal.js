@@ -26,6 +26,7 @@ const ModalContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 15px;
+  font-size: 1em;
   /* height: 15rem; */
   text-align: center;
   margin: 0px 10px 100px 10px;
@@ -60,7 +61,7 @@ const ModalView = styled.div.attrs(props => ({
 
   > div.desc {
     margin-top: 25px;
-    color: green;
+    color: black;
   }
 `;
 

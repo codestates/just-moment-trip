@@ -344,7 +344,6 @@ function AccountEditor({
         `,
         });
         handleQuitEdit();
-        console.log('브랜치 생성용');
       }
     });
   };
