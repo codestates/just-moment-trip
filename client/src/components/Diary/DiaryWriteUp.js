@@ -152,10 +152,10 @@ const DiaryWriteTextareaBox = styled.textarea`
   font-family: SsurroundFont;
   background-color: transparent;
   outline: none;
-  padding: 10vh 15vw;
-  width: 80vw;
+  padding: 10px;
+  width: 400px;
   resize: none;
-  font-size: 0.8em;
+  font-size: 10px;
   border-top: none;
   border-right: none;
   border-left: none;
