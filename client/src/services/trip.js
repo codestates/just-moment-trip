@@ -2,8 +2,8 @@ import axios from 'axios';
 import tokenHeader from './headers';
 
 const tripCustomApi = axios.create({
-  baseURL: 'http://localhost:8080/',
-  // baseURL: 'https://just-moment-trip/',
+  // baseURL: 'http://localhost:8080/',
+  baseURL: 'https://just-moment-trip/',
   headers: tokenHeader(),
   'Content-Type': 'application/json',
   withCredentials: true,
