@@ -14,9 +14,9 @@ const ModalBtn = styled.button`
   background-color: white;
   text-decoration: none;
   border: none;
-  font-family: SsurroundFont;
+  font-family: ${props => props.font};
   font-size: 30px;
-  padding: 20px;
+  padding: 10px;
   color: black;
   border-radius: 30px;
   -webkit-transition: background-color 2s ease-out;
@@ -29,10 +29,10 @@ const ModalBtn = styled.button`
   }
 `;
 
-function CustomButton({ handler, name, color }) {
+function CustomButton({ handler, name, color, font }) {
   return (
     <ModalContainer>
-      <ModalBtn onClick={handler} color={color}>
+      <ModalBtn onClick={handler} color={color} font={font}>
         {name}
       </ModalBtn>
     </ModalContainer>
