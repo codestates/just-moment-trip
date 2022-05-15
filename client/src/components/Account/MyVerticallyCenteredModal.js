@@ -14,10 +14,10 @@ function MyVerticallyCenteredModal(props) {
     >
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
-        <Map />
+        <Map gps={props.gps} />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button>Close</Button>
       </Modal.Footer>
     </Modal>
   );

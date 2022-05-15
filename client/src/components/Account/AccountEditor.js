@@ -495,6 +495,7 @@ function AccountEditor({
                         <MyVerticallyCenteredModal
                           show={modalShow}
                           onHide={() => setModalShow(false)}
+                          gps={gps}
                         />
                       </div>
                       <div className="AccountItemRemoteBox">

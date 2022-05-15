@@ -134,13 +134,18 @@ const DiarySplitBox = styled.div`
   display: flex;
 `;
 
+//? ------------------------------------- 현민 작업 히스토리 리스트
 const HistoryList = styled.div`
   border-top: solid red 2px;
+  display: grid;
+  grid-template-columns: repeat(minmax(25vw, 1fr));
+  text-align: center;
 
   > .Date {
     font-size: 40px;
   }
 `;
+//? ------------------------------------- 현민 작업 히스토리 리스트
 
 const doveIcon = (
   <IconBtn>
@@ -231,6 +236,7 @@ function DiaryList({
   };
   //!-----------
 
+  //? ------------------------------------- 현민 작업 2차원배열 만들기
   const dateArray = [
     '2022-05-10',
     '2022-05-11',
@@ -250,8 +256,8 @@ function DiaryList({
     });
     newArr.push(filtered);
   });
+  //? ------------------------------------- 현민 작업
 
-  console.log(newArr);
   return (
     <>
       {clicked ? (
