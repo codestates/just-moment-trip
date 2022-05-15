@@ -11,8 +11,8 @@ const Container = styled.div`
 `;
 
 const Upload = styled.input`
-  width: 50px !important;
-  height: 50px !important;
+  width: 10px !important;
+  height: 10px !important;
   font-size: 100px;
   text-align: right;
   min-width: 0 !important;
@@ -29,8 +29,8 @@ const Upload = styled.input`
 
 const Label = styled.label`
   position: inherit;
-  width: 55px !important;
-  height: 55px !important;
+  width: 40px !important;
+  height: 40px !important;
   font-size: 30px;
   min-width: 0 !important;
   outline: none;

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SlideTrack = styled.div`
-  -webkit-animation: scroll 10s linear infinite;
-  animation: scroll 10s linear infinite;
+  -webkit-animation: scroll 5s linear infinite;
+  animation: scroll 5s linear infinite;
 
   :hover {
     animation-play-state: paused;
