@@ -21,7 +21,10 @@ function TripModal() {
       startDate,
       endDate,
     );
-    Swal.fire('성공 !').then(res => {
+    Swal.fire({
+      backdrop: ` rgba(0,0,110,0.5)`,
+      text: '성공 !',
+    }).then(res => {
       if (res.isConfirmed) window.location.reload();
     });
   };

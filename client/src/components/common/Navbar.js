@@ -51,7 +51,7 @@ function Navbar() {
           >
             ACCOUNT
           </Link>
-        </div>{' '}
+        </div>
         <div className="Navbar_5" style={{ padding: '0 5px' }}>
           <Link
             style={{ textDecoration: 'none', color: 'whitesmoke' }}

@@ -1,6 +1,9 @@
 import { Helmet } from 'react-helmet';
 import React, { useRef, useState, useEffect } from 'react';
-function Map(data) {
+function Map({ gps }) {
+  const gpsArray = gps.split(',');
+  const latitude = gpsArray[0];
+  const longitude = gpsArray[1];
   return (
     <>
       <div id="googleMap" style={{ width: '50vw', height: '25vw' }}></div>
@@ -9,7 +12,8 @@ function Map(data) {
           {`function myMap() {
         var mapOptions = {
           center: new google.maps.LatLng(
-            ${data.gps}
+            ${latitude},
+            ${longitude},
           ),
           zoom: 17,
         };

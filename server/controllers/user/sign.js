@@ -48,7 +48,6 @@ module.exports = {
   in: {
     post: async (req, res) => {
       console.log(req.body);
-      res.header("Access-Control-Allow-Origin", "*");
       try {
         const { email, password } = req.body;
         if (!email || !password) {

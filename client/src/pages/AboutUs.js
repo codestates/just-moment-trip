@@ -36,6 +36,7 @@ const Intro = styled.div`
   font-size: 50px;
   margin-top: 100px;
   text-align: center;
+  font-family: ManfuBold;
 `;
 
 function AboutUs() {

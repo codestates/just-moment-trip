@@ -6,17 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
+import Pic from '../Picture/Pic';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
     email: '',
     nickname: '',
+    picture: '',
     num_trips: 0,
   });
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  }, [userInfo.picture]);
 
   const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
@@ -29,6 +31,14 @@ function InfoButton() {
     },
   };
 
+  const picUploadHandler = async pic => {
+    //서버 재업 하고서 catch문 빼기
+    axios.patch(url, { picture: pic }, options).catch(() => {
+      const newObj = Object.assign({}, userInfo, { picture: pic });
+      setUserInfo(newObj);
+    });
+  };
+
   const userPatchHandler = input => {
     if (
       !input.email ||
@@ -36,25 +46,35 @@ function InfoButton() {
       !input.new_password ||
       !input.newpasswordCheck
     ) {
-      return Swal.fire('모든 필드들을 작성해주세요');
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '모든 필드들을 작성해주세요',
+      });
     }
     if (input.new_password !== input.newpasswordCheck) {
-      return Swal.fire('새비밀번호를 다시 확인해주세요');
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '새비밀번호를 다시 확인해주세요',
+      });
     }
 
     if (
       input.password === input.new_password &&
       input.new_password === input.newpasswordCheck
     ) {
-      return Swal.fire('똑같은 비밀번호로 변경하실수 없습니다');
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '똑같은 비밀번호로 변경하실수 없습니다',
+      });
     }
 
     axios
       .patch(url, input, options)
       .then(res => {
-        Swal.fire(
-          '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
-        ).then(result => {
+        Swal.fire({
+          backdrop: ` rgba(0,0,110,0.5)`,
+          text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
+        }).then(result => {
           if (result.isConfirmed) {
             navigate('/');
             dispatch(signOut());
@@ -63,17 +83,26 @@ function InfoButton() {
       })
       .catch(err => {
         delete options.data;
-        Swal.fire('기존 이메일 비밀번호를 확인해주세요').then(result => {});
+        Swal.fire({
+          backdrop: ` rgba(0,0,110,0.5)`,
+          text: '기존 이메일 비밀번호를 확인해주세요',
+        });
       });
     delete options.data;
   };
 
   const signoutHandler = () => {
-    Swal.fire('로그아웃 하겠습니까?').then(result => {
+    Swal.fire({
+      backdrop: ` rgba(0,0,110,0.5)`,
+      text: '로그아웃 하겠습니까?',
+    }).then(result => {
       if (result.isConfirmed) {
         dispatch(signOut());
         navigate('/');
-        Swal.fire('다음에 또 뵙겠습니다').then(result => {
+        Swal.fire({
+          backdrop: ` rgba(0,0,110,0.5)`,
+          text: '다음에 또 뵙겠습니다',
+        }).then(result => {
           if (result.isConfirmed) {
             navigate('/');
           }
@@ -84,8 +113,7 @@ function InfoButton() {
 
   const getUserInfo = async () => {
     const user = await axios.get(url, options);
-    const pic = await axios.get('https://dog.ceo/api/breeds/image/random');
-    setUserInfo({ picture: pic.data.message, ...user.data.data });
+    setUserInfo({ ...user.data.data });
   };
 
   const userDeleteHandler = () => {
@@ -98,12 +126,16 @@ function InfoButton() {
       cancelButtonColor: '#d33',
       confirmButtonText: '삭제!',
       cancelButtonText: '취소',
+      backdrop: ` rgba(0,0,110,0.5)`,
     }).then(async result => {
       if (result.isConfirmed) {
         axios.delete(url, options).then(() => {
           navigate('/');
           dispatch(signOut());
-          Swal.fire('더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다.');
+          Swal.fire({
+            backdrop: ` rgba(0,0,110,0.5)`,
+            text: '더 좋은 서비스가 될수있도록 노력하겠습니다. 감사합니다',
+          });
         });
       }
     });
@@ -111,7 +143,14 @@ function InfoButton() {
 
   return (
     <>
-      <UserInfo {...userInfo} />
+      <UserInfo
+        email={userInfo.email}
+        nickname={userInfo.nickname}
+        picture={userInfo.picture}
+        num_trips={userInfo.num_trips}
+        picName={userInfo.picture}
+        picUploadHandler={picUploadHandler}
+      />
       <ButtonHandler
         userPatchHandler={userPatchHandler}
         userDeleteHandler={userDeleteHandler}

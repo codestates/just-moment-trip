@@ -11,6 +11,10 @@ import {
   faCircleQuestion,
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import parrot9 from '../../Assets/parrot9.gif';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { createEntityAdapter } from '@reduxjs/toolkit';
 
 const AnimationBox = keyframes`
 50% {
@@ -129,6 +133,30 @@ const HelpBtnBox = styled.button`
   font-size: 20px;
 `;
 
+const DiarySplitBox = styled.div`
+  display: flex;
+`;
+
+//? ------------------------------------- 현민 작업 히스토리 리스트
+const HistoryList = styled.div`
+  display: flex;
+  display: grid;
+  grid-template-columns: repeat(minmax(25vw, 1fr));
+  text-align: center;
+
+  > .Date {
+    margin: 25px 0;
+    font-size: 40px;
+  }
+`;
+
+const HistoryListBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+//? ------------------------------------- 현민 작업 히스토리 리스트
+
 const doveIcon = (
   <IconBtn>
     <FontAwesomeIcon icon={faDove} style={{ fontSize: '60px' }} />
@@ -147,7 +175,15 @@ function DiaryList({
 }) {
   const DiaryListBox = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+    grid-template-columns: repeat(minmax(25vw, 1fr));
+    text-align: center;
+  `;
+
+  const FillterListBox = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     text-align: center;
   `;
 
@@ -178,7 +214,7 @@ function DiaryList({
     });
   }
 
-  //!-----------
+  //!-----------------
   const helpBtnFx = () => {
     let timerInterval;
     Swal.fire({
@@ -194,7 +230,7 @@ function DiaryList({
       timerProgressBar: true,
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/cfcf01ce-7fde-4b6d-b0d2-3571219ef062/image.gif")
+      url(${parrot9})
       top
       no-repeat
     `,
@@ -218,13 +254,34 @@ function DiaryList({
   };
   //!-----------
 
+  //? ------------------------------------- 현민 작업 2차원배열 만들기
+  const dateArray = [
+    '2022-05-10',
+    '2022-05-11',
+    '2022-05-12',
+    '2022-05-13',
+    '2022-05-14',
+    '2022-05-15',
+    '2022-05-16',
+  ];
+
+  var newArr = [];
+
+  dateArray.forEach(date => {
+    const filtered = diaryList.filter(diary => {
+      const filteredDate = diary.write_date.split(' ')[0];
+      return filteredDate === date;
+    });
+    newArr.push(filtered);
+  });
+  //? ------------------------------------- 현민 작업
+
   return (
     <>
       {clicked ? (
         <>
           {console.log('공사중')}
-
-          <DiaryListBox>
+          <FillterListBox>
             {filterDiary().map(it => (
               <DiaryEditor
                 key={it.id}
@@ -238,7 +295,7 @@ function DiaryList({
                 searchType={searchType}
               />
             ))}
-          </DiaryListBox>
+          </FillterListBox>
           <FilterBtn
             onClick={() => {
               setClicked(false);
@@ -309,12 +366,51 @@ function DiaryList({
             </HelpBtnBox>
           </div>
           <div>
+            {/* <DiarySplitBox> */}
             <DiaryListBox>
-              {diaryList.map(it => (
+              {newArr.map(dateFiltered => {
+                return (
+                  <HistoryList
+                    data-aos="fade-up"
+                    data-aos-offset="-400"
+                    data-aos-delay="50"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    data-aos-once="firse"
+                    data-aos-anchor-placement="top-center"
+                  >
+                    {dateFiltered.length > 0 ? (
+                      <div
+                        className="Date"
+                        style={{
+                          fontFamily: 'ManfuMedium',
+                        }}
+                      >
+                        {dateFiltered[0].write_date.split(' ')[0]}
+                      </div>
+                    ) : null}
+                    <HistoryListBox>
+                      {dateFiltered.map(diary => (
+                        <DiaryEditor
+                          key={diary.id}
+                          {...diary}
+                          onCreate={onCreate}
+                          onEdit={onEdit}
+                          onRemove={onRemove}
+                          toggleClicked={toggleClicked}
+                          search={search}
+                          searchType={searchType}
+                        />
+                      ))}
+                    </HistoryListBox>
+                  </HistoryList>
+                );
+              })}
+              {/* {diaryList.map(it => (
                 <DiaryEditor
                   key={it.id}
                   {...it}
-                  diaryList={diaryList}
                   onCreate={onCreate}
                   onEdit={onEdit}
                   onRemove={onRemove}
@@ -322,8 +418,10 @@ function DiaryList({
                   search={search}
                   searchType={searchType}
                 />
-              ))}
+              ))} */}
             </DiaryListBox>
+
+            {/* </DiarySplitBox> */}
           </div>
         </>
       )}

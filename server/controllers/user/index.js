@@ -17,6 +17,7 @@ module.exports = {
         const num_trips = userInfo.trips.length;
         const data = {
           email,
+          picture: userInfo.picture,
           nickname: userInfo.nickname,
           num_trips,
         };
@@ -33,6 +34,17 @@ module.exports = {
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
+        if (req.body.picture && !req.body.email) {
+          const userInfo = await user.findOne({
+            where: { id: validity.id, email: validity.email },
+          });
+          userInfo.picture = req.body.picture;
+          await userInfo.save();
+          return res
+            .status(200)
+            .send({ data: { id: userInfo.id }, accessToken: validity.accessToken });
+        }
+
         const userInfo = await user.findOne({
           where: {
             email: req.body.email,
