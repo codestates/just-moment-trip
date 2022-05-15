@@ -269,6 +269,12 @@ function DiaryList({
 
   dateArray.forEach(date => {
     const filtered = diaryList.filter(diary => {
+      console.log('다이어리!!');
+      console.log(diary);
+      console.log('diary.write_date');
+      console.log(diary.write_date);
+      // diary.write_date = new Date(diary.write_date);
+      console.log(diary.write_date);
       const filteredDate = diary.write_date.split(' ')[0];
       return filteredDate === date;
     });
@@ -315,7 +321,7 @@ function DiaryList({
             <div style={{ padding: '20px 0' }}>
               <SearchInput
                 type="text"
-                placeholder="입력하지마라"
+                placeholder="검색하세요"
                 onKeyPress={changeInput}
               />
               <input

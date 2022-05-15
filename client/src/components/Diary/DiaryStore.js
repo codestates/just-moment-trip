@@ -96,7 +96,6 @@ function DiaryStore() {
       })
       .catch(err => {
         console.log(err);
-        console.log('루저ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ', err.status);
       });
   });
 
@@ -111,7 +110,6 @@ function DiaryStore() {
       })
       .catch(err => {
         console.log(err);
-        console.log('루저ㅋ', err.status);
       })
       .console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
@@ -135,7 +133,6 @@ function DiaryStore() {
         })
         .catch(err => {
           console.log(err);
-          console.log('루저ㅋ', err.status);
         });
       console.log('Store의 new_content :', new_content);
       console.log('Store의 new_hashtags :', new_hashtags);

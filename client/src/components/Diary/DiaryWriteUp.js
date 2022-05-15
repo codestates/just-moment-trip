@@ -182,7 +182,7 @@ const DiaryWriteTextareaBox = styled.textarea`
 `;
 
 function DiaryWriteUp({ onCreate, openModalHandler }) {
-  const initialTags = ['연습용데이터', '도토도토도토잠보'];
+  const initialTags = [];
   const [tags, setTags] = useState(initialTags);
   const removeTags = indexToRemove => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
@@ -213,6 +213,19 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
   };
 
   const handleSubmit = e => {
+    let newDate = new Date();
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth();
+    let date = newDate.getDate();
+    let hour = newDate.getHours();
+    let minute = newDate.getMinutes();
+    let second = newDate.getSeconds();
+    let resultDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(
+      date,
+    ).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(
+      minute,
+    ).padStart(2, '0')}:${String(second).padStart(2, '0')} GMT+0900`;
+
     if (state.title.length < 1) {
       titleInput.current.focus();
       return;
@@ -255,7 +268,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
         onCreate(
           state.title,
           state.content,
-          (state.write_date = new Date().getTime()),
+          (state.write_date = resultDate),
           tags,
         );
 
@@ -279,7 +292,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
           <DiaryWriteInputBox
             className="DiaryEditorInput"
             placeholder="제목을 적어요"
-            maxlength="20"
+            maxLength="20"
             ref={titleInput}
             value={state.title}
             name="title"
