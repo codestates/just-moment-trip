@@ -33,19 +33,18 @@ const StartText = styled.div`
 function Trip() {
   const [images, setImages] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://api.unsplash.com/photos/random', {
-  //       params: {
-  //         client_id: 'WsSyzWat1M0u7oNlzCR5GS4xDlDsyh7YGG7gFeb7yGY',
-  //         count: 20,
-  //       },
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       setImages([...images, ...res.data.map(el => el.urls.thumb)]);
-  //     });
-  // });
+  useEffect(() => {
+    axios
+      .get('https://api.unsplash.com/photos/random', {
+        params: {
+          client_id: 'WsSyzWat1M0u7oNlzCR5GS4xDlDsyh7YGG7gFeb7yGY',
+          count: 20,
+        },
+      })
+      .then(res => {
+        setImages([...images, ...res.data.map(el => el.urls.small)]);
+      });
+  }, []);
 
   return (
     <>

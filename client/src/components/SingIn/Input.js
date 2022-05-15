@@ -86,8 +86,8 @@ function SignInput() {
       .unwrap()
       .then(() => {
         Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '로그인 성공 !',
+          icon: 'success',
+          title: '로그인 성공 !',
         }).then(res => {
           if (res.isConfirmed) {
             navigate('/');
@@ -97,7 +97,7 @@ function SignInput() {
       .catch(err => {
         if (err) {
           Swal.fire({
-            backdrop: ` rgba(0,0,110,0.5)`,
+            icon: 'error',
             text: '이메일 또는 비밀번호가 다릅니다',
           }).then(res => {
             if (res.isConfirmed) actions.resetForm();
