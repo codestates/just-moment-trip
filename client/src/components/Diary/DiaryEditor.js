@@ -136,12 +136,12 @@ const TagsInput = styled.div`
 `;
 
 const DiaryEditorBox = styled.div`
+  //! 내용 박스들
   flex-direction: column;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 28.5vw;
-  height: 300px;
   margin: 10px;
   padding: 10px 0;
   border-radius: 20px;

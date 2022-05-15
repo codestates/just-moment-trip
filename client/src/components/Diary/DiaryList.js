@@ -10,6 +10,7 @@ import {
   faDove,
   faCircleQuestion,
   faQuestionCircle,
+  faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 import AOS from 'aos';
@@ -318,20 +319,22 @@ function DiaryList({
                 placeholder="입력하지마라"
                 onKeyPress={changeInput}
               />
-              <input
-                type="radio"
-                name="searchType"
-                value="title"
-                onClick={getSearchType}
-              />{' '}
-              제목
-              <input
-                type="radio"
-                name="searchType"
-                value="content"
-                onClick={getSearchType}
-              />{' '}
-              기록
+              <div>
+                <input
+                  type="radio"
+                  name="searchType"
+                  value="title"
+                  onClick={getSearchType}
+                />{' '}
+                제목
+                <input
+                  type="radio"
+                  name="searchType"
+                  value="content"
+                  onClick={getSearchType}
+                />{' '}
+                기록
+              </div>
             </div>
           </DiaryBox>
           <div
