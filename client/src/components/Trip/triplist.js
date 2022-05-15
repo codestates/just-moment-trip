@@ -9,12 +9,29 @@ import LogoSrc from '../../Assets/COVID-19_travel_banner-2021.png';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
 import { requestTripDelete } from '../../services/trip';
+import noData from '../../Assets/No_data.png';
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
+`;
 
 const Background = styled.div`
-  background-image: url(${LogoSrc});
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(${LogoSrc});
   text-align: center;
   font-size: 30px;
   color: white;
+  width: 400px;
+  margin: 10px;
+  border-radius: 20px;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
 `;
 
 const DeleteBtn = styled.button`
@@ -30,7 +47,35 @@ const DeleteBtn = styled.button`
   }
 `;
 
-function TripList() {
+const StartBtn = styled.button`
+  font-family: ManfuMedium;
+  font-size: 18px;
+  color: #ff6670;
+  background-color: transparent;
+  border: none;
+  outline: 0;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+`;
+
+const TripListBox = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+  text-align: center;
+`;
+
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 40px;
+`;
+
+const Dates = styled.div`
+  font-size: 15px;
+`;
+
+function TripList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -79,29 +124,37 @@ function TripList() {
   const newTripList = triptext.flat();
 
   const tripList = newTripList.map(el => (
-    <div>
-      <Background
-        onClick={() => handleRequest(el.id, el.total_price, el.title)}
-      >
-        <div>{el.title}</div>
-        <div>{el.base_currency}</div>
-        <div>{el.total_price.toLocaleString('ko-KR')}</div>
-        <div>{getName(el.country)}</div>
-        <div>
-          {moment(el.start_date).format('YYYY-MM-DD')} ~
-          {moment(el.end_date).format('YYYY-MM-DD')}
-        </div>
-      </Background>
+    <Background images={props.images}>
+      <Title>{el.title}</Title>
+      <div>{el.base_currency}</div>
+      <div>{el.total_price.toLocaleString('ko-KR')}</div>
+      <div>{getName(el.country)}</div>
+      <Dates>
+        {moment(el.start_date).format('YYYY-MM-DD')} ~
+        {moment(el.end_date).format('YYYY-MM-DD')}
+      </Dates>
       <DeleteBtn type="button" onClick={() => deleteRequest(el.id)}>
         삭제
       </DeleteBtn>
-    </div>
+      <StartBtn
+        type="button"
+        onClick={() => handleRequest(el.id, el.total_price, el.title)}
+      >
+        확인하기
+      </StartBtn>
+    </Background>
   ));
 
   if (tripList.length === 0) {
-    return <div>아직 기록이 없어요</div>;
+    return (
+      <StyledWrapper>
+        <img src={noData} alt="NO DATA" />
+        <div>아직 여행기록이 없어요 !</div>
+        <div>START 버튼을 눌러 여행을 시작하세요 !</div>
+      </StyledWrapper>
+    );
   }
-  return <div>{tripList}</div>;
+  return <TripListBox>{tripList}</TripListBox>;
 }
 
 export default TripList;
