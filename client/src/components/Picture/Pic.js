@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import AWS from 'aws-sdk';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
-  margin-top: 100px;
   display: flex;
   justify-content: center;
 `;
@@ -28,20 +29,20 @@ const Upload = styled.input`
 
 const Label = styled.label`
   position: inherit;
-  width: 50px !important;
-  height: 50px !important;
+  width: 55px !important;
+  height: 55px !important;
   font-size: 30px;
   min-width: 0 !important;
   outline: none;
-  background: rgb(255, 255, 255);
+  background: rgb(178, 178, 255);
   cursor: inherit;
   display: flex !important;
   justify-content: center;
   align-items: center;
   border-radius: 50% !important;
   cursor: pointer;
-  border: 2px solid grey;
 `;
+const icon = <FontAwesomeIcon icon={faImage} style={{ fontSize: '20px' }} />;
 
 const Pic = ({ picName, picUploadHandler }) => {
   AWS.config.update({
@@ -98,7 +99,7 @@ const Pic = ({ picName, picUploadHandler }) => {
     <Container>
       <Upload type="file" id="upload" onChange={handleFileInput} />
       <Label htmlFor="upload" className="image-upload-wrapper">
-        🖼
+        <span>{icon}</span>
       </Label>
     </Container>
   );

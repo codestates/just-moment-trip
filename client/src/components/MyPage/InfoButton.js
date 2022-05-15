@@ -31,7 +31,8 @@ function InfoButton() {
     },
   };
 
-  const picUploadHandler = async pic => { //서버 재업 하고서 catch문 빼기
+  const picUploadHandler = async pic => {
+    //서버 재업 하고서 catch문 빼기
     axios.patch(url, { picture: pic }, options).catch(() => {
       const newObj = Object.assign({}, userInfo, { picture: pic });
       setUserInfo(newObj);
@@ -142,12 +143,13 @@ function InfoButton() {
 
   return (
     <>
-      <Pic picName={userInfo.picture} picUploadHandler={picUploadHandler} />
       <UserInfo
         email={userInfo.email}
         nickname={userInfo.nickname}
         picture={userInfo.picture}
         num_trips={userInfo.num_trips}
+        picName={userInfo.picture}
+        picUploadHandler={picUploadHandler}
       />
       <ButtonHandler
         userPatchHandler={userPatchHandler}
