@@ -76,9 +76,6 @@ function AccountList({
             <Modal name={ChartPieIcon}>
               <AccountPieChart data={data} />
             </Modal>
-            <Modal name={'이거 맵임'}>
-              <Map />
-            </Modal>
           </ModalBox>
         </div>
         {/* <div style={{ backgroundColor: 'red',}}> */}

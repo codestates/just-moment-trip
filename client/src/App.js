@@ -12,9 +12,9 @@ export default function App() {
       <div id="appScreen">
         <Routers />
       </div>
-      {/* <div>
+      <div>
         <ChatTest dispaly="red"></ChatTest>
-      </div> */}
+      </div>
       <div id="screen">
         <div id="screen2">
           <p>멈춰 ✋</p>
