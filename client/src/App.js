@@ -5,16 +5,18 @@ import ChatTest from './ChatTest';
 import parrot5 from './Assets/parrot5.gif';
 import parrot4 from './Assets/parrot4.gif';
 import parrot3 from './Assets/parrot3.gif';
+import { Dropdown } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { faPersonBooth } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const personBoothIcon = (
+  <FontAwesomeIcon icon={faPersonBooth} style={{ fontSize: '35px' }} />
+);
 
 export default function App() {
   return (
     <>
-      <div id="appScreen">
-        <Routers />
-      </div>
-      <div>
-        <ChatTest dispaly="red"></ChatTest>
-      </div>
       <div id="screen">
         <div id="screen2">
           <p>멈춰 ✋</p>
@@ -34,6 +36,19 @@ export default function App() {
         <div>
           <img src={parrot5} width="300" height="300" />
         </div>
+      </div>
+      <div id="appScreen">
+        <Routers />
+
+        <Dropdown id="dropdownId" align="end">
+          <Dropdown.Toggle align="end" variant="success" id="dropdown-basic">
+            {personBoothIcon}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu align="end">
+            <ChatTest dispaly="red"></ChatTest>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     </>
   );

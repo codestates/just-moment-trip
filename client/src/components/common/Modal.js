@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const ModalAnimation = keyframes`
+  0% {
+    transform: translateY(70%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -41,6 +50,8 @@ const ModalView = styled.div.attrs(props => ({
   background-color: whitesmoke;
   width: 90%;
   height: 80%;
+  animation-name: ${ModalAnimation};
+  animation-duration: 0.5s;
 
   > span.close-btn {
     margin-top: 5px;

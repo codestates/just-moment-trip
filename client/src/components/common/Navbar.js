@@ -9,9 +9,9 @@ const NavbarBox = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  font-size: 20px;
+  font-size: 1em;
   font-family: ManfuMedium;
-  padding: 20px 0px;
+  padding: 1em 0px;
   width: 100%;
   background-color: rgb(72, 56, 137);
   z-index: 100;

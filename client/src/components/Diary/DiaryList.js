@@ -114,6 +114,8 @@ const FilterBtn = styled.button`
   outline: none;
   border: none;
   background-color: transparent;
+  font-family: ManfuMedium;
+  font-size: 1.5em;
   :hover {
     z-index: 1;
     transition: all 0.2s linear;
@@ -129,13 +131,9 @@ const HelpBtnBox = styled.button`
   outline: none;
   border: none;
   size: 50px;
-  padding: 20px;
+  padding: 5vw 5vh;
   background-color: transparent;
   font-size: 20px;
-`;
-
-const DiarySplitBox = styled.div`
-  display: flex;
 `;
 
 //? ------------------------------------- 현민 작업 히스토리 리스트
@@ -180,9 +178,10 @@ function DiaryList({
     text-align: center;
   `;
 
-  const FillterListBox = styled.div`
+  const FilterListBox = styled.div`
     display: flex;
     flex-wrap: wrap;
+    height: 100vh;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -226,7 +225,7 @@ function DiaryList({
       제목/내용을 검색할 수 있어요 🐟
 
       🥔 해시태그를 누르면 무슨일이 일어날까요?`,
-      html: '<b></b>초 후 자동으로 사라져요 !',
+      html: '사라지기까지 앞으로 <b></b>!',
       timer: 2000,
       timerProgressBar: true,
       backdrop: `
@@ -251,7 +250,6 @@ function DiaryList({
         console.log('I was closed by the timer');
       }
     });
-    return console.log('hi');
   };
   //!-----------
 
@@ -287,8 +285,10 @@ function DiaryList({
     <>
       {clicked ? (
         <>
-          {console.log('공사중')}
-          <FillterListBox>
+          <p
+            style={{ fontSize: '3em', fontFamily: 'ManfuMedium' }}
+          >{`#${clickedHashtag}`}</p>
+          <FilterListBox>
             {filterDiary().map(it => (
               <DiaryEditor
                 key={it.id}
@@ -302,7 +302,7 @@ function DiaryList({
                 searchType={searchType}
               />
             ))}
-          </FillterListBox>
+          </FilterListBox>
           <FilterBtn
             onClick={() => {
               setClicked(false);
@@ -351,9 +351,6 @@ function DiaryList({
               alignItems: 'center',
             }}
           >
-            <div style={{ display: 'flex' }}>
-              <Wrapper>기록들</Wrapper>
-            </div>
             <Wrapper2>
               <PBox>{diaryList.length}</PBox>
               <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>

@@ -5,6 +5,7 @@ const FooterBox = styled.div`
   color: whitesmoke;
   font-size: 13px;
   position: fixed;
+  font-family: ManfuMedium;
   bottom: 0;
   left: 0;
   right: 0;
@@ -21,12 +22,24 @@ function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          textAlign: 'center',
           padding: '0 20px',
           zIndex: '2',
         }}
       >
         <div>
-          <p>📎 {PercentageOfAmountUsed}</p>
+          <p
+            style={{
+              display: 'table-cell',
+              verticalAlign: 'middle',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              fontSize: '1.5em',
+            }}
+          >
+            📎 {PercentageOfAmountUsed}
+          </p>
         </div>
         <div>
           <div>{totalSpentString}</div>

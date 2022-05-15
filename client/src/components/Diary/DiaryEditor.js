@@ -145,11 +145,7 @@ const DiaryEditorBox = styled.div`
   margin: 10px;
   padding: 10px 0;
   border-radius: 20px;
-  border: 3px solid rgb(179, 175, 237);
-  :hover {
-    transition: all 0.2s linear;
-    transform: scale(1.05);
-  }
+  border: 2.5px solid rgb(109, 180, 232);
 `;
 
 const InfoBox = styled.div`
@@ -207,7 +203,7 @@ const DiaryBtn = styled.button`
   outline: none;
   font-family: SsurroundFont;
   border: none;
-  font-size: 8px;
+  font-size: 0.5em;
   :hover {
     cursor: pointer;
     transition: all 0.2s linear;
