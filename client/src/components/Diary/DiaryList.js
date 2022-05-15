@@ -12,6 +12,9 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { createEntityAdapter } from '@reduxjs/toolkit';
 
 const AnimationBox = keyframes`
 50% {
@@ -136,14 +139,21 @@ const DiarySplitBox = styled.div`
 
 //? ------------------------------------- 현민 작업 히스토리 리스트
 const HistoryList = styled.div`
-  border-top: solid red 2px;
+  display: flex;
   display: grid;
   grid-template-columns: repeat(minmax(25vw, 1fr));
   text-align: center;
 
   > .Date {
+    margin: 25px 0;
     font-size: 40px;
   }
+`;
+
+const HistoryListBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 //? ------------------------------------- 현민 작업 히스토리 리스트
 
@@ -166,6 +176,14 @@ function DiaryList({
   const DiaryListBox = styled.div`
     display: grid;
     grid-template-columns: repeat(minmax(25vw, 1fr));
+    text-align: center;
+  `;
+
+  const FillterListBox = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     text-align: center;
   `;
 
@@ -263,8 +281,7 @@ function DiaryList({
       {clicked ? (
         <>
           {console.log('공사중')}
-
-          <DiaryListBox>
+          <FillterListBox>
             {filterDiary().map(it => (
               <DiaryEditor
                 key={it.id}
@@ -278,7 +295,7 @@ function DiaryList({
                 searchType={searchType}
               />
             ))}
-          </DiaryListBox>
+          </FillterListBox>
           <FilterBtn
             onClick={() => {
               setClicked(false);
@@ -353,31 +370,27 @@ function DiaryList({
             <DiaryListBox>
               {newArr.map(dateFiltered => {
                 return (
-                  <HistoryList>
+                  <HistoryList
+                    data-aos="fade-up"
+                    data-aos-offset="-400"
+                    data-aos-delay="50"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    data-aos-once="firse"
+                    data-aos-anchor-placement="top-center"
+                  >
                     {dateFiltered.length > 0 ? (
-                      <div className="Date">
+                      <div
+                        className="Date"
+                        style={{
+                          fontFamily: 'ManfuMedium',
+                        }}
+                      >
                         {dateFiltered[0].write_date.split(' ')[0]}
                       </div>
                     ) : null}
-                    {dateFiltered.map(diary => (
-                      <DiaryEditor
-                        key={diary.id}
-                        {...diary}
-                        onCreate={onCreate}
-                        onEdit={onEdit}
-                        onRemove={onRemove}
-                        toggleClicked={toggleClicked}
-                        search={search}
-                        searchType={searchType}
-                      />
-                    ))}
-                  </HistoryList>
-                );
-              })}
-              {console.log(
-                newArr.map(dateFiltered => {
-                  return (
-                    <HistoryList>
+                    <HistoryListBox>
                       {dateFiltered.map(diary => (
                         <DiaryEditor
                           key={diary.id}
@@ -390,10 +403,10 @@ function DiaryList({
                           searchType={searchType}
                         />
                       ))}
-                    </HistoryList>
-                  );
-                }),
-              )}
+                    </HistoryListBox>
+                  </HistoryList>
+                );
+              })}
               {/* {diaryList.map(it => (
                 <DiaryEditor
                   key={it.id}
