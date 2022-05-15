@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMoneyBills,
+  faMapLocationDot,
+} from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Map from './Map';
@@ -21,12 +24,12 @@ const faMoneyBillsIcon = (
   />
 );
 
-const Mapbtn = styled.button`
-  background-color: red;
-  display: block;
-  left: 35px;
-  position: fixed;
-`;
+const mapIcont = (
+  <FontAwesomeIcon
+    icon={faMapLocationDot}
+    style={{ width: '30px', height: '30px' }}
+  />
+);
 
 const AccountEditBox = styled.div`
   display: flex;
@@ -78,6 +81,25 @@ const AccountEditTextBox = styled.input`
   }
 `;
 
+//!--------------------- Map Btn
+
+const fadeInUp = keyframes`
+  0% {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+      transform: translateZ(0);
+  }
+  `;
+
+const Mapbtn = styled.button`
+  visibility: hidden;
+  border: none;
+  background-color: transparent;
+  position: fixed;
+`;
+
 const AccountItemBox = styled.div`
   width: 400px;
   height: 300px;
@@ -89,11 +111,13 @@ const AccountItemBox = styled.div`
     transform: scale(1.05);
   }
   &:hover ${Mapbtn} {
-    transition: all 0.2s linear;
-    transform: translate(2em, 1em);
-    display: block;
+    visibility: visible;
+    animation: ${fadeInUp} 2s;
+    transition: all 0.3s;
   }
 `;
+
+//!--------------------- Map Btn
 
 const AccountMemoBox = styled.div`
   display: flex;
@@ -123,8 +147,9 @@ const AccountItemSecondBox = styled.div`
 
 const AccountItemBtnBox = styled.div`
   display: flex;
-  margin-left: 300px;
+  justify-content: space-between;
   text-align: center;
+  margin: 10px;
   bottom: 20px;
 `;
 
@@ -426,9 +451,6 @@ function AccountEditor({
                         }}
                       >
                         {category}{' '}
-                        <div>
-                          <a href="http://localhost:8080">채팅</a>
-                        </div>
                       </div>
                       <div>{faMoneyBillsIcon}</div>
                       <div
@@ -489,7 +511,7 @@ function AccountEditor({
                           variant="primary"
                           onClick={() => setModalShow(true)}
                         >
-                          지도
+                          {mapIcont}
                         </Mapbtn>
                         {console.log('git')}
                         <MyVerticallyCenteredModal
@@ -505,8 +527,6 @@ function AccountEditor({
                         >
                           삭제
                         </EditBtn>
-                      </div>
-                      <div className="AccountItemEditBox">
                         <EditBtn
                           className="AccountItemEditBtn"
                           onClick={toggleIsEdit}
