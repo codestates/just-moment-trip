@@ -8,17 +8,13 @@ function MyVerticallyCenteredModal(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Map gps={props.gps} />
       </Modal.Body>
-      <Modal.Footer>
-        <Button>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 }

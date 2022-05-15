@@ -6,7 +6,7 @@ function Map({ gps }) {
   const longitude = gpsArray[1];
   return (
     <>
-      <div id="googleMap" style={{ width: '50vw', height: '25vw' }}></div>
+      <div id="googleMap" style={{ width: '100%', height: '25vw' }}></div>
       <Helmet>
         <script>
           {`function myMap() {
