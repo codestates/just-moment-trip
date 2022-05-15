@@ -8,6 +8,10 @@ import TripInfo from '../components/Info/TripInfo';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+const Conatainer = styled.div`
+  overflow: hidden;
+`;
+
 const Box = styled.div`
   height: 100vh;
   width: 100vw;
@@ -20,7 +24,7 @@ function Info() {
   }, []);
 
   return (
-    <>
+    <Conatainer>
       <Navbar />
       <Box data-aos="fade-up">
         <TripInfo />
@@ -34,7 +38,7 @@ function Info() {
       <Box data-aos="fade-up">
         <GraphInfo />
       </Box>
-    </>
+    </Conatainer>
   );
 }
 
