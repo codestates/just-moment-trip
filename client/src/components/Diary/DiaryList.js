@@ -134,6 +134,14 @@ const DiarySplitBox = styled.div`
   display: flex;
 `;
 
+const HistoryList = styled.div`
+  border-top: solid red 2px;
+
+  > .Date {
+    font-size: 40px;
+  }
+`;
+
 const doveIcon = (
   <IconBtn>
     <FontAwesomeIcon icon={faDove} style={{ fontSize: '60px' }} />
@@ -152,7 +160,7 @@ function DiaryList({
 }) {
   const DiaryListBox = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+    grid-template-columns: repeat(minmax(25vw, 1fr));
     text-align: center;
   `;
 
@@ -223,6 +231,27 @@ function DiaryList({
   };
   //!-----------
 
+  const dateArray = [
+    '2022-05-10',
+    '2022-05-11',
+    '2022-05-12',
+    '2022-05-13',
+    '2022-05-14',
+    '2022-05-15',
+    '2022-05-16',
+  ];
+
+  var newArr = [];
+
+  dateArray.forEach(date => {
+    const filtered = diaryList.filter(diary => {
+      const filteredDate = diary.write_date.split(' ')[0];
+      return filteredDate === date;
+    });
+    newArr.push(filtered);
+  });
+
+  console.log(newArr);
   return (
     <>
       {clicked ? (
@@ -316,7 +345,50 @@ function DiaryList({
           <div>
             {/* <DiarySplitBox> */}
             <DiaryListBox>
-              {diaryList.map(it => (
+              {newArr.map(dateFiltered => {
+                return (
+                  <HistoryList>
+                    {dateFiltered.length > 0 ? (
+                      <div className="Date">
+                        {dateFiltered[0].write_date.split(' ')[0]}
+                      </div>
+                    ) : null}
+                    {dateFiltered.map(diary => (
+                      <DiaryEditor
+                        key={diary.id}
+                        {...diary}
+                        onCreate={onCreate}
+                        onEdit={onEdit}
+                        onRemove={onRemove}
+                        toggleClicked={toggleClicked}
+                        search={search}
+                        searchType={searchType}
+                      />
+                    ))}
+                  </HistoryList>
+                );
+              })}
+              {console.log(
+                newArr.map(dateFiltered => {
+                  return (
+                    <HistoryList>
+                      {dateFiltered.map(diary => (
+                        <DiaryEditor
+                          key={diary.id}
+                          {...diary}
+                          onCreate={onCreate}
+                          onEdit={onEdit}
+                          onRemove={onRemove}
+                          toggleClicked={toggleClicked}
+                          search={search}
+                          searchType={searchType}
+                        />
+                      ))}
+                    </HistoryList>
+                  );
+                }),
+              )}
+              {/* {diaryList.map(it => (
                 <DiaryEditor
                   key={it.id}
                   {...it}
@@ -327,7 +399,7 @@ function DiaryList({
                   search={search}
                   searchType={searchType}
                 />
-              ))}
+              ))} */}
             </DiaryListBox>
 
             {/* </DiarySplitBox> */}
