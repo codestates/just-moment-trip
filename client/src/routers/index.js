@@ -12,7 +12,8 @@ import AboutUs from '../pages/AboutUs';
 import TripPage from '../pages/Trip';
 
 const CLIENT_ID = '9d053bcc19948f007841a6c49f8f0964';
-export const REDIRECT_URI = 'http://localhost:9000/oauth/callback/kakao';
+export const REDIRECT_URI =
+  'https://www.just-moment-trip.ml/oauth/callback/kakao';
 
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 

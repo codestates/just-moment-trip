@@ -15,6 +15,10 @@ body {
   background: transparent;
 }
 
+span {
+  font-size: 50px;
+}
+
 a {
   margin: 0;
   padding: 0;

@@ -144,7 +144,6 @@ function DiaryStore() {
 
   return (
     <div className="DiaryStore">
-      <div>전체 일기 : {data.length}</div>
       <DiaryList
         changeInput={changeInput}
         diaryList={data}
