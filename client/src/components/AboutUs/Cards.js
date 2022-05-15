@@ -2,8 +2,6 @@ import React from 'react';
 import { team } from './Team/team';
 import InfoCard from './InfoCard';
 import styled from 'styled-components';
-import JMT from './Team/JMT.png';
-import JMTL from './Team/JMTL.png';
 
 const Container = styled.div`
   background: pr;

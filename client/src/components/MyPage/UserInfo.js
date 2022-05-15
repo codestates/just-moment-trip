@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Pic from '../Picture/Pic';
+import profile from './profile.jpeg';
 
 const CardDiv = styled.div`
   background-color: rgba(0, 0, 255, 0.3);
@@ -36,7 +37,7 @@ function UserInfo({
 
   return (
     <CardDiv>
-      <img src={picUrl} />
+      {picName ? <img src={picUrl} /> : <img src={profile} />}
       <Pic picName={picName} picUploadHandler={picUploadHandler} />
       <div>{`닉네임 : ${nickname}`}</div>
       <div>{`이메일 : ${email}`}</div>
