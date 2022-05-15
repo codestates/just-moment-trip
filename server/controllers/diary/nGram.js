@@ -1,3 +1,94 @@
+const chSplit = (ch) => {
+  const rCho = [
+    "ㄱ",
+    "ㄲ",
+    "ㄴ",
+    "ㄷ",
+    "ㄸ",
+    "ㄹ",
+    "ㅁ",
+    "ㅂ",
+    "ㅃ",
+    "ㅅ",
+    "ㅆ",
+    "ㅇ",
+    "ㅈ",
+    "ㅉ",
+    "ㅊ",
+    "ㅋ",
+    "ㅌ",
+    "ㅍ",
+    "ㅎ",
+  ];
+  const rJung = [
+    "ㅏ",
+    "ㅐ",
+    "ㅑ",
+    "ㅒ",
+    "ㅓ",
+    "ㅔ",
+    "ㅕ",
+    "ㅖ",
+    "ㅗ",
+    "ㅘ",
+    "ㅙ",
+    "ㅚ",
+    "ㅛ",
+    "ㅜ",
+    "ㅝ",
+    "ㅞ",
+    "ㅟ",
+    "ㅠ",
+    "ㅡ",
+    "ㅢ",
+    "ㅣ",
+  ];
+  const rJong = [
+    "",
+    "ㄱ",
+    "ㄲ",
+    "ㄳ",
+    "ㄴ",
+    "ㄵ",
+    "ㄶ",
+    "ㄷ",
+    "ㄹ",
+    "ㄺ",
+    "ㄻ",
+    "ㄼ",
+    "ㄽ",
+    "ㄾ",
+    "ㄿ",
+    "ㅀ",
+    "ㅁ",
+    "ㅂ",
+    "ㅄ",
+    "ㅅ",
+    "ㅆ",
+    "ㅇ",
+    "ㅈ",
+    "ㅊ",
+    "ㅋ",
+    "ㅌ",
+    "ㅍ",
+    "ㅎ",
+  ];
+  let resultStr = "";
+  for (let i = 0; i < ch.length; i++) {
+    if (/[가-힣]/.test(ch[i])) {
+      const nTmp = ch[i].charCodeAt(0) - 0xac00;
+      const jong = nTmp % 28; // 종성
+      const jung = ((nTmp - jong) / 28) % 21; // 중성
+      const cho = ((nTmp - jong) / 28 - jung) / 21; // 초성
+
+      resultStr += rCho[cho] + rJung[jung];
+      if (rJong[jong] !== "") resultStr += rJong[jong];
+    } else resultStr += ch[i];
+  }
+  //만약 ch가 자음이 아닌 한글 문자일때만 이거 해당
+  return resultStr;
+};
+
 const ngram = (str, num) => {
   let arr = [];
   const repeat = str.length - num + 1;
@@ -5,41 +96,40 @@ const ngram = (str, num) => {
     const split = str.slice(i, i + num);
     arr.push(split);
   }
-  //   console.log("arr");
-  //   console.log(arr);
   return arr;
 };
 
 exports.diff_ngram = (data, search, num) => {
-  //   console.log("data", data);
-  //   console.log("search", search);
-  //   console.log("num", num);
-  //   console.log("-------");
   if (search === undefined) return 0;
+  data = chSplit(data);
+  search = chSplit(search);
   let splitArrA = ngram(data, num);
   let splitArrB = ngram(search, num);
-  //   console.log(splitArrA);
-  //   console.log(splitArrB);
-  arr = [];
+  const splitArrBLength = splitArrB.length;
   let count = 0;
+  //   if (splitArrA.length > splitArrB.length) {
+  //     const tempArr = splitArrB.slice();
+  //     splitArrB = splitArrA.slice();
+  //     splitArrA = tempArr.slice();
+  //   }
+  //   console.log("splitArrA", splitArrA);
+  //   console.log("splitArrB", splitArrB);
   for (let i = 0; i < splitArrA.length; i++) {
     for (let j = 0; j < splitArrB.length; j++) {
       if (splitArrA[i] === splitArrB[j]) {
-        // console.log(console.log(splitArrA[i]));
+        // console.log("i : ", i);
+        // console.log("splitArrA[i] : ", splitArrA[i]);
+        // console.log("splitArrB[j] : ", splitArrB[j]);
         count++;
-        arr.push(splitArrA[i]);
+        splitArrB.splice(j, 1);
+
+        // console.log("splitArrB : ", splitArrB);
+        // console.log("-----------");
         break;
       }
     }
   }
-  //   console.log(splitArrA.length);
-  //   console.log(splitArrB.length);
-  //   console.log(count);
-  //   console.log(splitArrA.lengh);
-  //   return count / (splitArrA.length + splitArrB.length);
-  //   return count / splitArrA.length;
-
-  return count / (splitArrA.length + splitArrB.length - count);
+  return count / (splitArrA.length + splitArrBLength - count);
 };
 
 let a = "오늘 강남에서 맛있는 스파게티를 먹었다.";
@@ -77,4 +167,31 @@ console.log("___________________6");
 console.log(this.diff_ngram(b5, a5, 1)); //새우깡은 과자다    새우깡
 console.log(this.diff_ngram(b5, a5, 2));
 console.log(this.diff_ngram(b5, a5, 3));
+console.log("------------------");
+console.log(this.diff_ngram("고구마깡은 맛있나?", "저녁 뭐먹지?", 1));
+console.log(this.diff_ngram("고구마깡은 맛있나?", "저녁 뭐먹지?", 2));
+console.log(this.diff_ngram("고구마깡은 맛있나?", "저녁 뭐먹지?", 3));
+console.log("------------------");
+console.log(
+  this.diff_ngram(
+    "나는 새우깡을 먹고 있는데 너는 어떤 과자를 좋아하니?",
+    "나는 새우깡은 안좋아하고 다른 과자가 좋아",
+    1
+  )
+);
+console.log(
+  this.diff_ngram(
+    "나는 새우깡을 먹고 있는데 너는 어떤 과자를 좋아하니?",
+    "나는 새우깡은 안좋아하고 다른 과자가 좋아",
+    2
+  )
+);
+console.log(
+  this.diff_ngram(
+    "나는 새우깡을 먹고 있는데 너는 어떤 과자를 좋아하니?",
+    "나는 새우깡은 안좋아하고 다른 과자가 좋아",
+    3
+  )
+);
 // 서울에서 맛있는 요리를 먹었다
+// console.log(this.diff_ngram("가나가나가나가나가나가나가나", "가나가마라라라라라라라라", 2));

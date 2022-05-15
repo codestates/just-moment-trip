@@ -6,8 +6,7 @@ import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Map from './Map';
-import Socket2 from './Soket2';
-import Modal from '../common/Modal';
+
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
     icon={faMoneyBills}

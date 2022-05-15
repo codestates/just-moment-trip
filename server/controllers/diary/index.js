@@ -85,11 +85,13 @@ module.exports = {
           });
           fuzzy.sort(fuzzyData, search);
           levenshteinData = data.filter((ele) => {
-            return levenshteinDistance.levenshteinDistance(ele.dataValues.title, search, 1) <= 1;
+            return (
+              levenshteinDistance.levenshteinDistance_upgrade(ele.dataValues.title, search, 1) <= 1
+            );
           });
           nGramData = data.filter((ele) => {
             if (
-              nGram.diff_ngram(ele.dataValues.title, search, 2) >= 0.25 ||
+              nGram.diff_ngram(ele.dataValues.title, search, 3) >= 0.27 ||
               nGram.diff_ngram(ele.dataValues.title, search, 1) === 1
             )
               return true;
@@ -100,11 +102,14 @@ module.exports = {
           });
           fuzzy.sort(fuzzyData, search);
           levenshteinData = data.filter((ele) => {
-            return levenshteinDistance.levenshteinDistance(ele.dataValues.content, search, 1) <= 1;
+            return (
+              levenshteinDistance.levenshteinDistance_upgrade(ele.dataValues.content, search, 1) <=
+              1
+            );
           });
           nGramData = data.filter((ele) => {
             if (
-              nGram.diff_ngram(ele.dataValues.content, search, 2) >= 0.25 ||
+              nGram.diff_ngram(ele.dataValues.content, search, 3) >= 0.27 ||
               nGram.diff_ngram(ele.dataValues.content, search, 1) === 1
             )
               return true;

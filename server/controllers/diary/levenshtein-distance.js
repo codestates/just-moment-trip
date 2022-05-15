@@ -33,9 +33,7 @@ exports.levenshteinDistance = (str, search) => {
   return matrix[aLen][bLen];
 };
 
-//!
-
-exports.levenshteinDistance2 = (str, search, target) => {
+exports.levenshteinDistance_upgrade = (str, search, target) => {
   if (search === undefined) return 0;
   if (str === search) return 0;
   let aLen = str.length;
@@ -96,5 +94,5 @@ exports.levenshteinDistance2 = (str, search, target) => {
   return createAndInsert(1, 1, target);
 };
 
-// console.log(this.levenshteinDistance("얼마나 분석이 될까요", "유사도나 분석 할까요"));
-// console.log(this.levenshteinDistance2("얼마나 분석이 될까요", "유사도나 분석 할까요"));
+console.log(this.levenshteinDistance("얼마나 분석이 될까요", "유사도나 분석 할까요"));
+console.log(this.levenshteinDistance_upgrade("얼마나 분석이 될까요", "유사도나 분석 할까요"));
