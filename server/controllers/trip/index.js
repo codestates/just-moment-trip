@@ -4,7 +4,6 @@ const slack = require("../slack");
 // const user = require("../user");
 module.exports = {
   get: async (req, res) => {
-    console.log(req.headers);
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
@@ -25,12 +24,6 @@ module.exports = {
   },
 
   post: async (req, res) => {
-    console.log(req.body);
-    // const post1 = await trip.create({ title: "111" });
-    // const post2 = await trip.create({ title: "222" });
-    // // user.addtrips([post1, post2]);
-    // user.addtrip(post2);
-    //!
     try {
       const { title, country, total_price, base_currency, start_date, end_date } = req.body;
       if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
@@ -74,4 +67,3 @@ module.exports = {
     }
   },
 };
-//트립 삭제

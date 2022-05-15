@@ -14,50 +14,10 @@ module.exports = {
       if (validity) {
         const { trip_id, search, searchType } = req.query;
         const data = await diary.findAll({
-          // where: {
-          //   trip_id,
-          //   [Op.or]: [
-          //     { title: { [Op.regexp]: fuzzy.createFuzzyMatcher(search) } },
-          //     {
-          //       title:
-          //         levenshteinDistance.levenshteinDistance(search, Sequelize.col("diary.title")) <= 1
-          //           ? false
-          //           : true,
-          //     },
-          //   ],
-          // },
-          //!
-          // where: {
-          //   trip_id,
-          //   [Op.or]: [
-          //     sequelize.where(sequelize.fn("char_length", sequelize.col("title")), 2),
-          //     (a = sequelize.where(sequelize.col("title"))),
-          //     sequelize.where(
-          //       sequelize.fn(
-          //         levenshteinDistance.levenshteinDistance(
-          //           a,
-          //           await diary.findAll({
-          //             where: {
-          //               title: a,
-          //             },
-          //           })
-          //         )
-          //       )
-          //     ),
-          //     sequelize.where(levenshteinDistance.levenshteinDistance("a", sequelize.col("title"))),
-          //   ],
-          // },
-          //!
-          // where: {
-          //   title: sequelize.fn(aa(1, this.diary.sequelize.col("title"))),
-          // },
-          // "b"
-          //!원래
           where: {
             trip_id,
           },
         });
-        // data.forEach((ele) => console.log(ele.title));
         const hashtagsInfo = await diary.findAll({
           include: [
             {

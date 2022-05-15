@@ -94,5 +94,5 @@ exports.levenshteinDistance_upgrade = (str, search, target) => {
   return createAndInsert(1, 1, target);
 };
 
-console.log(this.levenshteinDistance("얼마나 분석이 될까요", "유사도나 분석 할까요"));
-console.log(this.levenshteinDistance_upgrade("얼마나 분석이 될까요", "유사도나 분석 할까요"));
+// console.log(this.levenshteinDistance("얼마나 분석이 될까요", "유사도나 분석 할까요"));
+// console.log(this.levenshteinDistance_upgrade("얼마나 분석이 될까요", "유사도나 분석 할까요"));
