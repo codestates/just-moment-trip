@@ -340,7 +340,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
               type="text"
               onKeyUp={event => (event.key === 'Enter' ? addTags(event) : null)}
               maxlength="12"
-              placeholder="최대 12자를 입력 할 수 있어요 🪐최대 12자를 입력 할 수 있어요 🪐"
+              placeholder="태그를 입력하세요🪐"
             />
           </TagsInput>
         </div>
