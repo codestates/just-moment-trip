@@ -42,7 +42,7 @@ export default function App() {
 
         <Dropdown id="dropdownId" align="end">
           <Dropdown.Toggle align="end" variant="success" id="dropdown-basic">
-            {personBoothIcon}
+            <div className="chatIconBox"> {personBoothIcon}</div>
           </Dropdown.Toggle>
 
           <Dropdown.Menu align="end">

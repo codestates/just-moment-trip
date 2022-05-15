@@ -124,6 +124,27 @@
     opacity: 0;
   }
 }
+
+@keyframes swing {
+  0%,
+  50% {
+    transform: rotate(0deg);
+  }
+  5%,
+  15%,
+  25%,
+  35%,
+  45% {
+    transform: rotate(8deg);
+  }
+  10%,
+  20%,
+  30%,
+  40% {
+    transform: rotate(-8deg);
+  }
+}
+
 /*   position: sticky; 사용해보기 */
 #dropdown-basic {
   position: fixed;
@@ -139,7 +160,7 @@
   background-color: transparent;
 }
 
-.dropdown-menu.show {
+.dropdown-menu.show.dropdown-menu-end {
   border: none;
   background-color: transparent;
   right: 0vw;
@@ -148,4 +169,9 @@
 
 #dropdown-basic.dropdown-toggle::after {
   display: none;
+}
+
+.chatIconBox:hover {
+  transform-origin: top;
+  animation: swing 4s infinite linear;
 }

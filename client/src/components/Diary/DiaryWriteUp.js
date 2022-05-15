@@ -37,7 +37,6 @@ const DiaryWriteBtn = styled.button`
   background-color: transparent;
   border: none;
   padding: 0 2vh;
-
   :hover {
     animation: ${Shake} 4s infinite;
   }
