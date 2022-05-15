@@ -1,15 +1,33 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBills } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMoneyBills,
+  faMapLocationDot,
+} from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Map from './Map';
+import Modal1 from '../common/Modal';
+import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
+import parrot12 from '../../Assets/parrot12.gif';
+import catzzal4 from '../../Assets/catzzal4.gif';
+import parrot11 from '../../Assets/parrot11.gif';
+import parrot10 from '../../Assets/parrot10.gif';
+import dogeparrot from '../../Assets/dogeparrot.gif';
 
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
     icon={faMoneyBills}
     style={{ width: '30px', height: '30px', paddingLeft: '70px' }}
+  />
+);
+
+const mapIcont = (
+  <FontAwesomeIcon
+    icon={faMapLocationDot}
+    style={{ width: '30px', height: '30px' }}
   />
 );
 
@@ -33,7 +51,6 @@ const AccountEditInputBox = styled.input`
     z-index: 1;
     transition: all 0.2s linear;
     transform: scale(1.2);
-    position: absolute;
   }
   :focus {
     transition: all 0.4s ease-in;
@@ -54,7 +71,6 @@ const AccountEditTextBox = styled.input`
   height: 70;
   resize: none;
   outline: none;
-  fontfamily: SsurroundFont;
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
@@ -63,6 +79,25 @@ const AccountEditTextBox = styled.input`
     transition: all 0.4s ease-in;
     border-bottom: 2px solid pink;
   }
+`;
+
+//!--------------------- Map Btn
+
+const fadeInUp = keyframes`
+  0% {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+      transform: translateZ(0);
+  }
+  `;
+
+const Mapbtn = styled.button`
+  visibility: hidden;
+  border: none;
+  background-color: transparent;
+  position: fixed;
 `;
 
 const AccountItemBox = styled.div`
@@ -75,7 +110,14 @@ const AccountItemBox = styled.div`
     transition: all 0.2s linear;
     transform: scale(1.05);
   }
+  &:hover ${Mapbtn} {
+    visibility: visible;
+    animation: ${fadeInUp} 2s;
+    transition: all 0.3s;
+  }
 `;
+
+//!--------------------- Map Btn
 
 const AccountMemoBox = styled.div`
   display: flex;
@@ -105,8 +147,9 @@ const AccountItemSecondBox = styled.div`
 
 const AccountItemBtnBox = styled.div`
   display: flex;
-  margin-left: 300px;
+  justify-content: space-between;
   text-align: center;
+  margin: 10px;
   bottom: 20px;
 `;
 
@@ -145,7 +188,7 @@ const ContainerItem = styled.div`
   top: 0;
 `;
 
-function AccountItem({
+function AccountEditor({
   onEdit,
   onRemove,
   id,
@@ -156,6 +199,7 @@ function AccountItem({
   spent_person,
   memo,
   write_date,
+  gps,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -168,6 +212,8 @@ function AccountItem({
   const [editTarget_currency, setEditTarget_currency] =
     useState(target_currency);
   const [editCategory, setEditCategory] = useState(category);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const editPriceInput = useRef();
   const editMemoInput = useRef();
@@ -193,7 +239,7 @@ function AccountItem({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/3361f525-3743-4954-9d15-4318619713e1/image.gif")
+      url(${parrot12})
       left bottom
       no-repeat
     `,
@@ -204,6 +250,12 @@ function AccountItem({
           title: '삭제 완료!',
           text: `선택하신 기록을 삭제했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${dogeparrot})
+          right top
+          no-repeat
+        `,
         });
         onRemove(id);
       }
@@ -251,8 +303,8 @@ function AccountItem({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/6e2b4f91-b6b9-4441-9d47-42e53cf65482/image.gif")
-      right bottom
+      url(${catzzal4})
+      left top
       no-repeat
     `,
     }).then(result => {
@@ -262,6 +314,12 @@ function AccountItem({
           title: '수정 완료!',
           text: `선택하신 기록을 수정했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${parrot11})
+          bottom
+          no-repeat
+        `,
         });
         onEdit(
           id,
@@ -278,6 +336,12 @@ function AccountItem({
           icon: 'info',
           text: `수정을 취소했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${parrot10})
+          top
+          no-repeat
+        `,
         });
         handleQuitEdit();
         console.log('브랜치 생성용');
@@ -386,7 +450,7 @@ function AccountItem({
                           marginTop: '10px',
                         }}
                       >
-                        {category}
+                        {category}{' '}
                       </div>
                       <div>{faMoneyBillsIcon}</div>
                       <div
@@ -442,6 +506,20 @@ function AccountItem({
                       <AccountMemoBox>{memo}</AccountMemoBox>
                     </div>
                     <AccountItemBtnBox>
+                      <div>
+                        <Mapbtn
+                          variant="primary"
+                          onClick={() => setModalShow(true)}
+                        >
+                          {mapIcont}
+                        </Mapbtn>
+                        {console.log('git')}
+                        <MyVerticallyCenteredModal
+                          show={modalShow}
+                          onHide={() => setModalShow(false)}
+                          gps={gps}
+                        />
+                      </div>
                       <div className="AccountItemRemoteBox">
                         <EditBtn
                           className="AccountItemRemoteBtn"
@@ -449,8 +527,6 @@ function AccountItem({
                         >
                           삭제
                         </EditBtn>
-                      </div>
-                      <div className="AccountItemEditBox">
                         <EditBtn
                           className="AccountItemEditBtn"
                           onClick={toggleIsEdit}
@@ -491,4 +567,4 @@ function AccountItem({
     </Container>
   );
 }
-export default AccountItem;
+export default AccountEditor;

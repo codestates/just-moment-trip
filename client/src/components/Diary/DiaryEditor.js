@@ -1,18 +1,77 @@
 import React from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFishFins } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import nyanparrot from '../../Assets/nyanparrot.gif';
+import duckzzal from '../../Assets/duckzzal.gif';
+import gumiparrot from '../../Assets/gumiparrot.gif';
+import partyannoyedbird from '../../Assets/partyannoyedbird.gif';
+import vibepartycat from '../../Assets/vibepartycat.gif';
+
 const fuzzy = require('./fuzzy');
+
+const HrEdit = styled.hr`
+  border: 0.5px solid gray;
+  width: 60%;
+`;
+
+const Slide = keyframes`
+  0% {    
+    transform: scaleX(-1);
+    left: calc(30px);
+  }
+  49.99% {
+    transform: scaleX(-1);
+    left: 0%;
+  }
+  50% {
+    transform: scaleX(1);
+    left: 0%;
+  }
+  99.99% {
+    transform: scaleX(1);
+    left: calc(30px);
+  }
+  100% {
+    transform: scaleX(-1);
+    left: calc(30px);
+  }
+`;
+
+const ManFishIcon = styled.div`
+  width: 26.2vw;
+  position: relative;
+  animation-name: ${Slide};
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+`;
+
+const ManFishArea = styled.div`
+  width: 100%;
+  height: 30px;
+`;
+
+const faFishFinsIcon = (
+  <ManFishArea>
+    <ManFishIcon>
+      <FontAwesomeIcon icon={faFishFins} />
+    </ManFishIcon>
+  </ManFishArea>
+);
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   min-height: 48px;
-  width: 480px;
-  padding: 0 8px;
-  border: 10px solid rgb(93, 176, 198);
+  width: 98%;
+  border: none;
   border-radius: 6px;
   > ul {
     display: flex;
@@ -25,17 +84,19 @@ const TagsInput = styled.div`
       height: 32px;
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
       color: #efefef;
       padding: 0 8px;
-      font-size: 14px;
+      font-size: 0.8em;
       list-style: none;
       border-radius: 6px;
-      margin: 0 8px 8px 0;
-      background: green;
+      margin: 2px 2px;
+      background: rgb(70, 125, 196);
       :hover {
-        transition: all 0.2s linear;
-        transform: scale(1.05);
+        cursor: pointer;
+        transition: all 0.5s linear;
+        transform: scale(1.1);
       }
       > .tag-close-icon {
         display: block;
@@ -55,32 +116,106 @@ const TagsInput = styled.div`
 
   > input {
     flex: 1;
+    border-radius: none;
+    text-align: center;
+    background-color: transparent;
     border: none;
-    height: 46px;
-    font-size: 14px;
+    height: 3vh;
+    width: 20vw;
+    font-size: 0.8em;
     padding: 4px 0 0 0;
     :focus {
       outline: transparent;
     }
   }
 
-  &:focus-within {
-    border: 5px solid palegreen;
+  &:focus-within + ${HrEdit} {
+    transition: all 0.4s ease-in;
+    border-color: rgb(67, 45, 127);
   }
 `;
 
 const DiaryEditorBox = styled.div`
-  border: 5px solid rgb(124, 152, 188);
+  //! 내용 박스들
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 28.5vw;
+  margin: 10px;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: 3px solid rgb(179, 175, 237);
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+`;
+
+const InfoBox = styled.div`
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: break-all;
+  height: 25vh;
+`;
+
+const DiaryEditInputBox = styled.input`
+  font-size: 0.8em;
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 5px;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.08);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
+`;
+
+const DiaryEditTextareaBox = styled.textarea`
+  text-align: center;
+  font-family: SsurroundFont;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  resize: none;
+  padding: 5px;
+  width: 23.5vw;
+  height: 8vw;
+  font-size: 0.8em;
+  :hover {
+    z-index: 1;
+    transition: all 0.2s linear;
+    transform: scale(1.08);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border-bottom: 2px solid pink;
+  }
 `;
 
 const DiaryBtn = styled.button`
-  background-color: none;
+  background-color: transparent;
+  outline: none;
+  font-family: SsurroundFont;
   border: none;
-  font-size: 20px;
+  font-size: 8px;
+  :hover {
+    cursor: pointer;
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
 `;
 
 function DiaryEditor({
-  diaryList,
   onRemove,
   onEdit,
   toggleClicked,
@@ -90,17 +225,30 @@ function DiaryEditor({
   write_date,
   hashtags,
   search,
+  searchType,
 }) {
   const titleInput = useRef();
+  const contentInput = useRef();
   useEffect(() => {
     console.log(`${id}번 일기아이템 렌더`);
-    titleInput.current.innerHTML = titleInput.current.innerHTML
-      .replace(/<span style="color: red">/g, '')
-      .replace(/<\/span>/g, '');
-    titleInput.current.innerHTML = fuzzy.chageRed(
-      titleInput.current.innerHTML,
-      search,
-    );
+    if (searchType === 'title') {
+      titleInput.current.innerHTML = titleInput.current.innerHTML
+        .replace(/<span style="color: red">/g, '')
+        .replace(/<\/span>/g, '');
+      titleInput.current.innerHTML = fuzzy.chageRed(
+        titleInput.current.innerHTML,
+        search,
+      );
+    }
+    if (searchType === 'content') {
+      contentInput.current.innerHTML = contentInput.current.innerHTML
+        .replace(/<span style="color: red">/g, '')
+        .replace(/<\/span>/g, '');
+      contentInput.current.innerHTML = fuzzy.chageRed(
+        contentInput.current.innerHTML,
+        search,
+      );
+    }
   }, [search]);
 
   const localContentInput = useRef();
@@ -109,6 +257,12 @@ function DiaryEditor({
   const [localTitle, setLocalTitle] = useState(title);
   const [localHashtags, setLocalHashtags] = useState(hashtags);
   const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   const toggleIsEdit = () => setIsEdit(!isEdit);
   const handleClickRemove = () => {
     Swal.fire({
@@ -122,7 +276,7 @@ function DiaryEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/720ac6c1-4a12-4010-873c-4f54464ff586/image.gif")
+      url(${nyanparrot})
       left bottom
       no-repeat
     `,
@@ -133,12 +287,24 @@ function DiaryEditor({
           title: '삭제 완료!',
           text: `선택하신 기록을 삭제했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${duckzzal})
+          left bottom
+          no-repeat
+        `,
         });
 
         onRemove(id);
       }
     });
   };
+
+  function handleOnInput(el, maxlength) {
+    if (el.value.length > maxlength) {
+      el.value = el.value.substr(0, maxlength);
+    }
+  }
 
   const handleQuitEdit = () => {
     setIsEdit(false);
@@ -168,7 +334,7 @@ function DiaryEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/da278e0b-6a49-407e-8517-4b4e3621de27/image.gif")
+      url(${gumiparrot})
       right bottom
       no-repeat
     `,
@@ -179,6 +345,12 @@ function DiaryEditor({
           title: '수정 완료!',
           text: `선택하신 기록을 수정했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${partyannoyedbird})
+          right bottom
+          no-repeat
+        `,
         });
         onEdit(id, localContent, localTitle, localHashtags);
         toggleIsEdit();
@@ -192,6 +364,12 @@ function DiaryEditor({
           icon: 'info',
           text: `수정을 취소했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${vibepartycat})
+          top
+          no-repeat
+        `,
         });
         handleQuitEdit();
       }
@@ -226,12 +404,22 @@ function DiaryEditor({
 
   /*<--------------------------------------------------------------------------------------------------------------------->*/
   return (
-    <DiaryEditorBox>
-      <div className="info">
+    <DiaryEditorBox
+      data-aos="fade-up"
+      data-aos-offset="-400"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-mirror="true"
+      data-aos-once="firse"
+      data-aos-anchor-placement="top-center"
+    >
+      <div>
         {isEdit ? (
           <>
             <div className="title_edit">
-              <input
+              <DiaryEditInputBox
+                maxlength="20"
                 className="title_info"
                 ref={lacalTitleInput}
                 value={localTitle}
@@ -239,9 +427,10 @@ function DiaryEditor({
               />
             </div>
             <div className="content_edit">
-              <textarea
+              <DiaryEditTextareaBox
                 ref={localContentInput}
                 value={localContent}
+                maxlength="100"
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
@@ -265,60 +454,75 @@ function DiaryEditor({
                 onKeyUp={event =>
                   event.key === 'Enter' ? addTags(event) : null
                 }
-                placeholder="입력할테면해보시지"
+                maxlength="12"
+                placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
+            <HrEdit></HrEdit>
           </>
         ) : (
           <>
-            <div className="title" ref={titleInput}>
-              {title}
-            </div>
-            <div className="content">{content}</div>
-            <div className="hashtags">
-              {localHashtags.length === 0 ? (
-                <TagsInput display="none" />
-              ) : (
-                <TagsInput display="flex">
-                  <ul id="tags">
-                    {localHashtags.map((tag, index) => (
-                      <li key={index} className="tag">
-                        <span
-                          className="tag-title"
-                          onClick={event => {
-                            console.log(
-                              '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
-                              event.target.innerText,
-                            );
-                            handleHashtags(event);
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </TagsInput>
-              )}
-            </div>
+            {faFishFinsIcon}
+            <InfoBox>
+              <div className="title" ref={titleInput}>
+                <span className="date">{String(write_date).slice(0, 16)}</span>
+                <div style={{ padding: '5px 0 0 0' }}>
+                  <span>{title}</span>
+                </div>
+              </div>
+              <div
+                className="content"
+                style={{ width: '28.5vw', padding: '% 0' }}
+                ref={contentInput}
+              >
+                {content}
+              </div>
+              <div className="hashtags" style={{ width: '28.5vw' }}>
+                {localHashtags.length === 0 ? (
+                  <TagsInput display="none" />
+                ) : (
+                  <TagsInput display="flex">
+                    <ul id="tags">
+                      {localHashtags.map((tag, index) => (
+                        <li key={index} className="tag">
+                          <span
+                            className="tag-title"
+                            onClick={event => {
+                              console.log(
+                                '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
+                                event.target.innerText,
+                              );
+                              handleHashtags(event);
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </TagsInput>
+                )}
+              </div>
+            </InfoBox>
           </>
         )}
 
         <br />
-        <span className="date">
-          작성 시간 :{String(write_date).slice(0, 16)}
-        </span>
       </div>
 
       {isEdit ? (
         <>
-          <button onClick={handleQuitEdit}>수정 취소</button>
-          <button onClick={handleEdit}>수정 완료</button>
+          <div>
+            <DiaryBtn onClick={handleQuitEdit}>수정 취소</DiaryBtn>
+            <DiaryBtn onClick={handleEdit}>수정 완료</DiaryBtn>
+          </div>
         </>
       ) : (
         <>
-          <button onClick={handleClickRemove}>삭제하기</button>
-          <button onClick={toggleIsEdit}>수정하기</button>
+          <div>
+            <DiaryBtn onClick={handleClickRemove}>삭제하기</DiaryBtn>
+            <DiaryBtn onClick={toggleIsEdit}>수정하기</DiaryBtn>
+          </div>
         </>
       )}
     </DiaryEditorBox>

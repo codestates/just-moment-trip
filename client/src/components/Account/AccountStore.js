@@ -17,6 +17,28 @@ const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
 
+function getLocation() {
+  if (navigator.geolocation) {
+    // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        sessionStorage.setItem('latitude', position.coords.latitude);
+        sessionStorage.setItem('longitude', position.coords.longitude);
+      },
+      function (error) {
+        console.error(error);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity,
+      },
+    );
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
@@ -60,7 +82,10 @@ function AccountStore() {
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
   const trip_id = JSON.parse(localStorage.getItem('trip_id'));
-  const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
+  // const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
+  const newTotalPrice = localStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
+    ? JSON.parse(localStorage.getItem('total_price'))
+    : 0;
   const title = JSON.parse(localStorage.getItem('title'));
   const total = useSelector(state => state.trip);
   const newTotal = total.flat();
@@ -72,6 +97,7 @@ function AccountStore() {
       console.log(res);
       if (res.data.accessToken) accessToken = res.data.accessToken;
       const initData = res.data.data;
+
       dispatch({ type: INIT, data: initData });
     });
 
@@ -88,6 +114,7 @@ function AccountStore() {
       spent_person,
       memo,
       write_date,
+      gps,
     ) => {
       dispatch({
         type: CREATE,
@@ -99,6 +126,7 @@ function AccountStore() {
           spent_person,
           memo,
           write_date,
+          gps,
           id: dataId.current,
         },
       });
@@ -116,6 +144,7 @@ function AccountStore() {
           spent_person,
           memo,
           write_date,
+          gps,
         )
         .then(res => {
           setIsTrue(currentIsTrue => {
@@ -213,6 +242,8 @@ function AccountStore() {
 
   return (
     <>
+      {console.log('살햐햐햐햐향ㄷ함 오커윤투 숱ㅎ라')}
+      {getLocation()}
       <div
         className="Account"
         style={{

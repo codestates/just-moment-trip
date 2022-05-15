@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import CustomButton from './CustomButton';
 
 const Container = styled.div`
   display: flex;
@@ -7,12 +8,33 @@ const Container = styled.div`
   flex-direction: column;
   text-align: center;
   font-size: 50px;
-  color: black;
+  color: rgb(89, 72, 135);
+  font-family: ManfuMedium;
 
-  > input {
-    width: 50%;
-    margin: 20px;
-    text-align: center;
+  > * {
+    margin: 10px;
+  }
+`;
+
+const Input = styled.input`
+  text-align: center;
+  font-family: ManfuMedium;
+  background-color: transparent;
+  width: 40vw;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  font-size: 0.8em;
+  :hover {
+    border-bottom: 2px solid rgb(89, 72, 135);
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border: 1px solid rgb(89, 72, 135);
   }
 `;
 
@@ -34,16 +56,21 @@ function UpdateModal({ userPatchHandler }) {
 
   return (
     <Container onChange={onChange}>
-      <div>회원정보 수정</div>
-      <input type="email" placeholder="Email" name="email" />
-      <input type="password" placeholder="Current Password" name="password" />
-      <input type="password" placeholder="New Password" name="new_password" />
-      <input
+      <h2>회원정보 수정</h2>
+      <Input type="email" placeholder="Email" name="email" />
+      <Input type="password" placeholder="Current Password" name="password" />
+      <Input type="password" placeholder="New Password" name="new_password" />
+      <Input
         type="password"
         placeholder="Check New Password"
         name="newpasswordCheck"
       />
-      <button onClick={() => userPatchHandler(inputs)}>수정</button>
+      <CustomButton
+        handler={() => userPatchHandler(inputs)}
+        name={'수정'}
+        color={'orange'}
+        font={'ManfuMedium'}
+      />
     </Container>
   );
 }

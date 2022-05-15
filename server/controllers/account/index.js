@@ -51,6 +51,7 @@ module.exports = {
           gps,
           memo,
           write_date,
+          gps,
         };
         const result = await account.create(payload);
         await slack.slack("Account Post 201", `id : ${result.id}`);

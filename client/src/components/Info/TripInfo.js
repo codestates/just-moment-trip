@@ -18,8 +18,8 @@ const Background = styled.div`
 const Message = styled.div`
   font-size: 30px;
   text-align: center;
-  margin-top: 150px;
-  font-family: SsurroundFont;
+  font-family: IMHyeminFont;
+  font-weight: bold;
 `;
 
 function TripInfo() {

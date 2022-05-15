@@ -24,7 +24,12 @@ function ButtonHandler({
       <Modal name={<div>정보수정</div>}>
         <UpdateModal userPatchHandler={userPatchHandler} />
       </Modal>
-      <CustomButton handler={signoutHandler} name={'로그아웃'} />
+      <CustomButton
+        handler={signoutHandler}
+        name={'로그아웃'}
+        color={'yellow'}
+        font={'SsurroundFont'}
+      />
     </ButtonContainer>
   );
 }

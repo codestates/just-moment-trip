@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen } from '@fortawesome/free-solid-svg-icons';
+import catzzal6 from '../../Assets/catzzal6.gif';
+import dogzzal from '../../Assets/dogzzal.gif';
 
 const FilePenIcon = (
   <FontAwesomeIcon icon={faFilePen} style={{ width: '40px', height: '40px' }} />
@@ -162,10 +164,13 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
     price: '',
     memo: '',
     category: '식비',
+    gps: '',
   });
-
+  let gps = `${sessionStorage.getItem('latitude')},${sessionStorage.getItem(
+    'longitude',
+  )}`;
   const handleChangeState = e => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setState({ ...state, gps: gps, [e.target.name]: e.target.value });
     // name : value
     //ex) input에 입력시 author(input name): e.target.value(onchange동작)
   };
@@ -202,7 +207,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       background: '#fff ',
       backdrop: `
       rgba(0,0,110,0.5)
-      url("https://velog.velcdn.com/images/do66i/post/ef963bb5-b512-4259-bb51-dbde97ca457a/image.gif")
+      url(${catzzal6})
       left top
       no-repeat
     `,
@@ -218,6 +223,12 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           title: '저장 완료!',
           text: `작성하신 기록을 저장했어요`,
           confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${dogzzal})
+          left top
+          no-repeat
+        `,
         });
         onCreate(
           state.item_name,
@@ -228,6 +239,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           state.memo,
           // state.new Date
           (state.write_date = new Date().getTime()),
+          state.gps,
         );
 
         setState({
@@ -238,6 +250,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           price: '',
           memo: '',
           category: '교통비',
+          gps: '',
         });
         console.log('AccountWriteUp', state);
         openModalHandler(false);
@@ -341,7 +354,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
             <option value={'숙박비'}>숙박비</option>
             <option value={'티켓'}>티켓</option>
             <option value={'기념품'}>기념품</option>
-            <option value={'기타항목'}>기타항목</option>
+            <option value={'기타'}>기타</option>
           </AccountSelectBox>
         </div>
       </div>

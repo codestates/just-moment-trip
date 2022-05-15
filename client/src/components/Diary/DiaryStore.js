@@ -1,5 +1,4 @@
 const axios = require('../../services/diary');
-
 import React, {
   useCallback,
   useEffect,
@@ -57,6 +56,7 @@ function DiaryStore() {
   const [isTrue, setIsTrue] = useState(true);
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
+  const [searchType, setSearchType] = React.useState('');
   const trip_id = JSON.parse(localStorage.getItem('trip_id'));
 
   const changeInput = e => {
@@ -64,14 +64,16 @@ function DiaryStore() {
       setSearch(e.target.value);
     }
   };
-
+  const getSearchType = e => {
+    setSearchType(e.target.value);
+  };
   useEffect(() => {
-    axios.diaryGet(trip_id, search).then(data => {
+    axios.diaryGet(trip_id, search, searchType).then(data => {
       if (data.data.accessToken) accessToken = data.data.accessToken;
       const initData = data.data.data;
       dispatch({ type: INIT, data: initData });
     });
-  }, [search, isTrue]);
+  }, [search, isTrue, searchType]);
 
   const onCreate = useCallback((title, content, write_date, hashtags) => {
     dispatch({
@@ -87,7 +89,6 @@ function DiaryStore() {
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
         console.log(res);
-        console.log('312114');
         setIsTrue(currentIsTrue => !currentIsTrue);
         console.log('--------------- onCreate', isTrue);
         console.log(res.data);
@@ -95,7 +96,6 @@ function DiaryStore() {
       })
       .catch(err => {
         console.log(err);
-        console.log('루저ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ ㅋ', err.status);
       });
   });
 
@@ -110,7 +110,6 @@ function DiaryStore() {
       })
       .catch(err => {
         console.log(err);
-        console.log('루저ㅋ', err.status);
       })
       .console.log('--------🚨 Store의 data-------- :', data);
     console.log('DiaryStore onRemove 확인 :', targetId);
@@ -134,7 +133,6 @@ function DiaryStore() {
         })
         .catch(err => {
           console.log(err);
-          console.log('루저ㅋ', err.status);
         });
       console.log('Store의 new_content :', new_content);
       console.log('Store의 new_hashtags :', new_hashtags);
@@ -143,7 +141,14 @@ function DiaryStore() {
   );
 
   return (
-    <div className="DiaryStore">
+    <div
+      className="DiaryStore"
+      style={{
+        width: '93%',
+        height: '100%',
+        padding: '90px 0 70px 0',
+      }}
+    >
       <DiaryList
         changeInput={changeInput}
         diaryList={data}
@@ -151,6 +156,8 @@ function DiaryStore() {
         onRemove={onRemove}
         onEdit={onEdit}
         search={search}
+        getSearchType={getSearchType}
+        searchType={searchType}
       />
     </div>
   );
