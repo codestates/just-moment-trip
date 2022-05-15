@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import ReactFlagsSelect from 'react-flags-select';
 import { DateRangeInput } from '@datepicker-react/styled';
 import Swal from 'sweetalert2';
-import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from 'date-fns/esm/locale';
+import TripTextField from './textfield';
 import { Formik, Form, Field } from 'formik';
 import { requestTripPost } from '../../services/trip';
 
@@ -12,14 +11,12 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 75vh;
   font-family: SsurroundFont;
 `;
 
 const StartBtn = styled.button`
   font-family: ManfuMedium;
-  font-size: 18px;
+  font-size: 25px;
   color: #ff6670;
   background-color: transparent;
   border: none;
@@ -28,6 +25,16 @@ const StartBtn = styled.button`
     transition: all 0.2s linear;
     transform: scale(1.2);
   }
+`;
+
+const TripTitle = styled.div`
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 70px;
+`;
+
+const TripDiv = styled.div`
+  margin-bottom: 30px;
 `;
 
 const initialState = {
@@ -75,43 +82,47 @@ function TripModal() {
     <Formik
       initialValues={{
         title: '',
-        total_price: 0,
+        total_price: '',
         base_currency: 'KRW',
       }}
       onSubmit={tripSubmit}
     >
       {props => (
         <StyledWrapper>
-          <h1>Make Trip</h1>
-
+          <TripTitle>여행정보 입력</TripTitle>
           <Form>
-            <Field name="title" value={props.values.title} />
-            <ReactFlagsSelect
-              className="ReactFlagsSelect"
-              selected={selected}
-              onSelect={data => {
-                setSelected(data);
-              }}
-              fullWidth={false}
-            />
-            <DateRangeInput
-              onDatesChange={data =>
-                dispatch({ type: 'dateChange', payload: data })
-              }
-              onFocusChange={focusedInput =>
-                dispatch({ type: 'focusChange', payload: focusedInput })
-              }
-              startDate={state.startDate} // Date or null
-              endDate={state.endDate} // Date or null
-              focusedInput={state.focusedInput} // START_DATE, END_DATE or null
-            />
+            <TripTextField label="여행이름" name="title" type="text" />
+            <TripDiv>
+              <TripDiv>
+                <ReactFlagsSelect
+                  className="ReactFlagsSelect"
+                  selected={selected}
+                  onSelect={data => {
+                    setSelected(data);
+                  }}
+                  fullWidth={false}
+                />
+              </TripDiv>
+              <DateRangeInput
+                onDatesChange={data =>
+                  dispatch({ type: 'dateChange', payload: data })
+                }
+                onFocusChange={focusedInput =>
+                  dispatch({ type: 'focusChange', payload: focusedInput })
+                }
+                startDate={state.startDate}
+                endDate={state.endDate}
+                focusedInput={state.focusedInput}
+                displayFormat={'yyyy/MM/dd'}
+              />
+            </TripDiv>
             {/* <DatePicker
               selected={endDate}
               onChange={date => {
                 setEndDate(date);
               }}
             /> */}
-            <Field name="total_price" value={props.values.total_price} />
+            <TripTextField label="여행경비" name="total_price" type="text" />
             <div>
               <StartBtn type="submit">START</StartBtn>
             </div>

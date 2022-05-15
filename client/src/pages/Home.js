@@ -1,9 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Navbar from '../components/common/Navbar';
 import './Home.css';
 
+const Box = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 40px;
+  font-family: SsurroundFont;
+  text-decoration: none;
+  margin-top: 40px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #ff6670;
+  :hover {
+    transition: all 0.2s linear;
+    transform: scale(1.2);
+  }
+`;
 function Home() {
   const isLoggedIn = useSelector(state => state.sign.isLoggedIn);
   return (
@@ -73,12 +91,20 @@ function Home() {
         <div className="SignLinkBox">
           <div className="SigninLinkBox">
             {isLoggedIn ? (
-              <Link to="/trip">Start</Link>
+              <Box>
+                <StyledLink to="/trip">
+                  <span>시작하기</span>
+                </StyledLink>
+              </Box>
             ) : (
-              <>
-                <Link to="/sign-up">함께하기</Link>
-                <Link to="/sign-in">Start</Link>
-              </>
+              <Box>
+                <StyledLink to="/sign-up">
+                  <span>함께하기</span>
+                </StyledLink>
+                <StyledLink to="/sign-in">
+                  <span>시작하기</span>
+                </StyledLink>
+              </Box>
             )}
           </div>
         </div>

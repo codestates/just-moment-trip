@@ -87,7 +87,7 @@ function SignUpInput() {
       .unwrap()
       .then(() => {
         Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
+          icon: 'success',
           text: '회원가입 성공 !',
         }).then(res => {
           if (res.isConfirmed) navigate('/');
@@ -96,14 +96,14 @@ function SignUpInput() {
       .catch(err => {
         if (err) {
           Swal.fire({
-            backdrop: ` rgba(0,0,110,0.5)`,
+            icon: 'error',
             text: '이미 사용중인 이메일 입니다',
           }).then(res => {
             if (res.isConfirmed) actions.resetForm();
           });
         } else {
           Swal.fire({
-            backdrop: ` rgba(0,0,110,0.5)`,
+            icon: 'error',
             text: '회원가입에 실패 하셨습니다',
           }).then(res => {
             if (res.isConfirmed) actions.resetForm();

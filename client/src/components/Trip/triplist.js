@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { getName } from 'country-list';
 import Swal from 'sweetalert2';
-import LogoSrc from '../../Assets/COVID-19_travel_banner-2021.png';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
 import { requestTripDelete } from '../../services/trip';
@@ -21,7 +20,10 @@ const StyledWrapper = styled.div`
 
 const Background = styled.div`
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${LogoSrc});
+    url(${props => props.images});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   text-align: center;
   font-size: 30px;
   color: white;
@@ -97,7 +99,6 @@ function TripList(props) {
   const deleteRequest = id => {
     Swal.fire({
       title: '정말 삭제 하시겠습니까?',
-      backdrop: ` rgba(0,0,110,0.5)`,
       text: '기록을 삭제하면 복구할 수 없습니다!',
       icon: 'warning',
       showCancelButton: true,
@@ -107,14 +108,13 @@ function TripList(props) {
       cancelButtonText: '취소',
     }).then(res => {
       if (res.isConfirmed) {
-        Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '완료! 기록이 삭제 되었습니다! 성공',
-        }).then(result => {
-          if (result.isConfirmed) {
-            requestTripDelete(id);
-          }
-        });
+        Swal.fire('삭제완료!', '기록이 삭제 되었습니다.', 'success').then(
+          result => {
+            if (result.isConfirmed) {
+              requestTripDelete(id);
+            }
+          },
+        );
       }
     });
   };
@@ -123,27 +123,30 @@ function TripList(props) {
 
   const newTripList = triptext.flat();
 
-  const tripList = newTripList.map(el => (
-    <Background images={props.images}>
-      <Title>{el.title}</Title>
-      <div>{el.base_currency}</div>
-      <div>{el.total_price.toLocaleString('ko-KR')}</div>
-      <div>{getName(el.country)}</div>
-      <Dates>
-        {moment(el.start_date).format('YYYY-MM-DD')} ~
-        {moment(el.end_date).format('YYYY-MM-DD')}
-      </Dates>
-      <DeleteBtn type="button" onClick={() => deleteRequest(el.id)}>
-        삭제
-      </DeleteBtn>
-      <StartBtn
-        type="button"
-        onClick={() => handleRequest(el.id, el.total_price, el.title)}
-      >
-        확인하기
-      </StartBtn>
-    </Background>
-  ));
+  const tripList = newTripList.map(el => {
+    const random = Math.floor(Math.random() * props.images.length) + 1;
+    return (
+      <Background images={props.images[random]}>
+        <Title>{el.title}</Title>
+        <div>{el.base_currency}</div>
+        <div>{el.total_price.toLocaleString('ko-KR')}</div>
+        <div>{getName(el.country)}</div>
+        <Dates>
+          {moment(el.start_date).format('YYYY-MM-DD')}~
+          {moment(el.end_date).format('YYYY-MM-DD')}
+        </Dates>
+        <DeleteBtn type="button" onClick={() => deleteRequest(el.id)}>
+          삭제
+        </DeleteBtn>
+        <StartBtn
+          type="button"
+          onClick={() => handleRequest(el.id, el.total_price, el.title)}
+        >
+          확인하기
+        </StartBtn>
+      </Background>
+    );
+  });
 
   if (tripList.length === 0) {
     return (
