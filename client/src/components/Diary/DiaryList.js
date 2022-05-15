@@ -256,31 +256,83 @@ function DiaryList({
   //!-----------
 
   //? ------------------------------------- 현민 작업 2차원배열 만들기
-  const dateArray = [
-    '2022-05-10',
-    '2022-05-11',
-    '2022-05-12',
-    '2022-05-13',
-    '2022-05-14',
-    '2022-05-15',
-    '2022-05-16',
-  ];
+  function addOneDay(date) {
+    const year = date.split('-')[0];
+    const month = date.split('-')[1];
+    const day = date.split('-')[2];
+
+    const newDate = new Date(Number(year), Number(month) - 1, Number(day) + 1);
+    const newYear = newDate.getFullYear();
+    const newMonth = newDate.getMonth() + 1;
+    const newDay = newDate.getDate();
+    return `${newYear}-${String(newMonth).padStart(2, '0')}-${String(
+      newDay,
+    ).padStart(2, '0')}`;
+  }
+
+  let minDate = '9999-99-99';
+  let maxDate = '0000-00-00';
+  const allDates = diaryList.map(diary => diary.write_date);
+  allDates.forEach(data => {
+    if (typeof data === 'object') {
+      data = `${data.getFullYear()}-${String(data.getMonth()).padStart(
+        2,
+        '0',
+      )}-${String(data.getDate()).padStart(2, '0')}`;
+    }
+    const ymd = data.split(' ')[0];
+    const year = ymd.split('-')[0];
+    const month = ymd.split('-')[1];
+    const day = ymd.split('-')[2];
+
+    const minYear = minDate.split('-')[0];
+    const minMonth = minDate.split('-')[1];
+    const minDay = minDate.split('-')[2];
+
+    const maxYear = maxDate.split('-')[0];
+    const maxMonth = maxDate.split('-')[1];
+    const maxDay = maxDate.split('-')[2];
+
+    if (Number(year) < Number(minYear)) {
+      minDate = ymd;
+    } else if (Number(month) < Number(minMonth)) {
+      minDate = ymd;
+    } else if (Number(day) < Number(minDay)) {
+      minDate = ymd;
+    }
+
+    if (Number(year) > Number(maxYear)) {
+      maxDate = ymd;
+    } else if (Number(month) > Number(maxMonth)) {
+      maxDate = ymd;
+    } else if (Number(day) > Number(maxDay)) {
+      maxDate = ymd;
+    }
+  });
+
+  var dateArray = [];
 
   var newArr = [];
 
-  dateArray.forEach(date => {
-    const filtered = diaryList.filter(diary => {
-      console.log('다이어리!!');
-      console.log(diary);
-      console.log('diary.write_date');
-      console.log(diary.write_date);
-      // diary.write_date = new Date(diary.write_date);
-      console.log(diary.write_date);
-      const filteredDate = diary.write_date.split(' ')[0];
-      return filteredDate === date;
+  if (minDate === '9999-99-99') {
+    newArr = [diaryList];
+  } else {
+    while (minDate !== maxDate) {
+      dateArray.push(minDate);
+      minDate = addOneDay(minDate);
+    }
+
+    dateArray.push(maxDate);
+
+    dateArray.forEach(date => {
+      const filtered = diaryList.filter(diary => {
+        const filteredDate = diary.write_date.split(' ')[0];
+        return filteredDate === date;
+      });
+      newArr.push(filtered);
     });
-    newArr.push(filtered);
-  });
+  }
+
   //? ------------------------------------- 현민 작업
 
   return (
