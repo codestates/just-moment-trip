@@ -274,6 +274,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               ref={item_nameInput}
               value={state.item_name || ''}
               name="item_name"
+              maxlength="10"
               onChange={handleChangeState}
             ></AccountEditInputBox>
             구입 !
@@ -287,6 +288,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               ref={priceInput}
               value={state.price || ''}
               name="price"
+              maxlength="10"
               onChange={handleChangeState}
             ></PriceInputBox>
             원 사용!
@@ -300,6 +302,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               ref={spent_personInput}
               value={state.spent_person || ''}
               name="spent_person"
+              maxlength="10"
               onChange={handleChangeState}
             ></AccountEditInputBox>
           </AccountSpanBox>
@@ -312,6 +315,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               ref={target_currencyInput}
               value={state.target_currency}
               name="target_currency"
+              maxlength="3"
               onChange={handleChangeState}
             ></AccountEditInputBox>
           </AccountSpanBox>
@@ -324,6 +328,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               ref={memoInput}
               value={state.memo}
               name="memo"
+              maxlength="50"
               onChange={handleChangeState}
             ></Test>
           </div>

@@ -16,10 +16,26 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 
-let AccountModalBtnAnimation = keyframes`
+const AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
   100% {top: -300px; opacity: 0}
   `;
+
+// const BingBing = `
+//   0%{transform:rotate(0deg);}
+//   100%{transform:rotate(360deg);}
+// `;
+
+const ChangeColor = keyframes`
+14% {color:red}
+28% {color:orange}
+42% {color:yellow}
+56% {color:green}
+70% {color:blue}
+84% {color:navy}
+98% {color:purple}
+
+`;
 
 const IconBtn = styled.div`
   animation-name: ${AccountModalBtnAnimation};
@@ -37,6 +53,11 @@ const HelpBtnBox = styled.button`
   padding: 20px;
   background-color: transparent;
   font-size: 20px;
+  :hover {
+    transition: all 0.2s linear;
+    transform-origin: 0% 100%;
+    animation: ${ChangeColor} 1.5s linear infinite;
+  }
 `;
 
 const penIcon = (

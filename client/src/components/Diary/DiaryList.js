@@ -21,14 +21,11 @@ const AnimationBox = keyframes`
 50% {
     border-top-color: rgb(201, 199, 237);
     border-right-color: rgb(201, 199, 237);
-    -webkit-transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
     transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
   }
   99% {
     border-bottom-color: rgb(201, 199, 237);
     border-left-color: rgb(201, 199, 237);
-    -webkit-transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
-      height 0.25s ease-out 0.75s;
     transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
       height 0.25s ease-out 0.75s;
   }
@@ -37,7 +34,18 @@ const AnimationBox = keyframes`
   }
 `;
 
-let DiaryModalBtnAnimation = keyframes`
+const ChangeColor = keyframes`
+14% {color:red}
+28% {color:orange}
+42% {color:yellow}
+56% {color:green}
+70% {color:blue}
+84% {color:navy}
+98% {color:purple}
+
+`;
+
+const DiaryModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
   100% {top: -300px; opacity: 0}
   `;
@@ -55,12 +63,6 @@ const Wrapper = styled.div`
   padding: 30px 0;
   display: flex;
   font-size: 2em;
-
-  /* :hover {
-    transition: all ease 1s;
-    transform: rotate(-45deg);
-    border-color: #7c98bc;
-  } */
 `;
 
 const Wrapper2 = styled.div`
@@ -134,6 +136,11 @@ const HelpBtnBox = styled.button`
   padding: 5vw 5vh;
   background-color: transparent;
   font-size: 20px;
+  :hover {
+    transition: all 0.2s linear;
+    transform-origin: 0% 100%;
+    animation: ${ChangeColor} 1.5s linear infinite;
+  }
 `;
 
 //? ------------------------------------- 현민 작업 히스토리 리스트
