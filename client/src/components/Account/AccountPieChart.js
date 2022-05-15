@@ -6,18 +6,18 @@ import styled, { keyframes } from 'styled-components';
 
 const PieAnimation = keyframes`
   0% {
-    transform: translateX(45%);
+    transform: translateY(45%);
     width:100%
   }
   100% {
-    transform: translateX(0);
+    transform: translateY(0);
     width:100%
   }
 `;
 
 const AccountPieChartBox = styled.div`
   animation-name: ${PieAnimation};
-  animation-duration: 1s;
+  animation-duration: 0.7s;
 `;
 
 function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
@@ -80,7 +80,7 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
     <>
       {mySpecialValue === 0 ? (
         (Swal.fire({
-          icon: 'error',
+          icon: 'warning',
           title: '🙅‍♂️ 그래프를 그릴 수 없어요!',
           text: '가계부를 먼저 작성해주세요',
           confirmButtonText: '알겠어요',

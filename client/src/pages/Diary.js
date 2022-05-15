@@ -11,6 +11,7 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   background-color: rgb(211, 226, 244);
+  height: auto;
   font-family: SsurroundFont;
 `;
 

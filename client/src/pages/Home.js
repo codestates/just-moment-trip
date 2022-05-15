@@ -93,7 +93,7 @@ function Home() {
             {isLoggedIn ? (
               <Box>
                 <StyledLink to="/trip">
-                  <span>Start</span>
+                  <span>시작하기</span>
                 </StyledLink>
               </Box>
             ) : (
@@ -102,7 +102,7 @@ function Home() {
                   <span>함께하기</span>
                 </StyledLink>
                 <StyledLink to="/sign-in">
-                  <span>Start</span>
+                  <span>시작하기</span>
                 </StyledLink>
               </Box>
             )}

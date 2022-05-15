@@ -9,7 +9,7 @@ import partymoogle from '../../Assets/partymoogle.gif';
 const FeatherPointedIcon = (
   <FontAwesomeIcon
     icon={faFeatherPointed}
-    style={{ width: '40px', height: '40px' }}
+    style={{ width: '5vw', height: '5vh' }}
   />
 );
 
@@ -36,15 +36,10 @@ const DiaryWriteBtn = styled.button`
   outline: none;
   background-color: transparent;
   border: none;
-
+  padding: 0 2vh;
   :hover {
     animation: ${Shake} 4s infinite;
   }
-`;
-
-const HrEdit = styled.hr`
-  border: 0.5px solid gray;
-  width: 60%;
 `;
 
 const TagsInput = styled.div`
@@ -53,7 +48,7 @@ const TagsInput = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  min-height: 48px;
+  height: 10vh;
   width: 98%;
   border: none;
   border-radius: 6px;
@@ -104,18 +99,12 @@ const TagsInput = styled.div`
     text-align: center;
     background-color: transparent;
     border: none;
-    height: 5vw;
-    width: 20vw;
+    padding: 5vh 0;
+    /* width: 20vw; */
     font-size: 0.8em;
-    padding: 4px 0 0 0;
     :focus {
       outline: transparent;
     }
-  }
-
-  &:focus-within + ${HrEdit} {
-    transition: all 0.4s ease-in;
-    border-color: rgb(67, 45, 127);
   }
 `;
 
@@ -123,7 +112,8 @@ const DiaryEditorBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 15px;
+  padding: 10vh 0;
+  height: 60vh;
 `;
 
 const DiaryBox = styled.div`
@@ -131,14 +121,14 @@ const DiaryBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 15px;
+  height: auto;
 `;
 
 const DiaryWriteInputBox = styled.input`
   text-align: center;
   font-family: SsurroundFont;
   background-color: transparent;
-  width: 32vw;
+  width: 30vw;
   outline: none;
   border-top: none;
   border-right: none;
@@ -161,11 +151,10 @@ const DiaryWriteTextareaBox = styled.textarea`
   font-family: SsurroundFont;
   background-color: transparent;
   outline: none;
-  padding-top: 15px;
-  height: 80px;
-  width: 40vw;
+  padding: 10px;
+  width: 400px;
   resize: none;
-  font-size: 0.8em;
+  font-size: 10px;
   border-top: none;
   border-right: none;
   border-left: none;
@@ -284,11 +273,11 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
 
   return (
     <DiaryBox>
-      <div className="DiaryEditorH2Box">
+      <div className="DiaryEditorH2Box" style={{ paddingTop: '2vh' }}>
         <h2>오늘의 일기</h2>
       </div>
       <DiaryEditorBox>
-        <div className="DiaryEditorInputBox" style={{ padding: '0 0 20px 0' }}>
+        <div className="DiaryEditorInputBox" style={{ padding: '5vh 0' }}>
           <DiaryWriteInputBox
             className="DiaryEditorInput"
             placeholder="제목을 적어요"
@@ -316,7 +305,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
             onChange={handleChangeState}
           />
         </div>
-        <div>
+        <div style={{ display: 'block', justifyContent: 'center' }}>
           <TagsInput>
             <ul
               id="tags"
@@ -345,23 +334,20 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
               ))}
             </ul>
             <input
+              style={{ width: '50vw', marginBottom: '10vh' }}
               className="tag-input"
               type="text"
               onKeyUp={event => (event.key === 'Enter' ? addTags(event) : null)}
               maxlength="12"
-              placeholder="최대 12자를 입력 할 수 있어요 🪐"
+              placeholder="태그를 입력하세요🪐"
             />
           </TagsInput>
-          <HrEdit />
         </div>
       </DiaryEditorBox>
-      <div>
+      <div style={{ width: 'auto', marginBottom: 'auto' }}>
         <DiaryWriteBtn onClick={handleSubmit}>
           {FeatherPointedIcon}
         </DiaryWriteBtn>
-        {/* <button className="DiaryWriteUpBtn" onClick={handleSubmit}>
-          ✏️
-        </button> */}
       </div>
     </DiaryBox>
   );

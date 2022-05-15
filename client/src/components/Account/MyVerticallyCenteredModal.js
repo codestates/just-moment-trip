@@ -11,6 +11,7 @@ function MyVerticallyCenteredModal(props) {
       size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      style={{ background: 'rgba(0,0,170,0.24)' }}
     >
       <Modal.Body>
         <Map gps={props.gps} />
