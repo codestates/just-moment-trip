@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SlideTrack = styled.div`
-  -webkit-animation: scroll 5s linear infinite;
-  animation: scroll 5s linear infinite;
+  -webkit-animation: scroll 15s linear infinite;
+  animation: scroll 15s linear infinite;
 
   :hover {
     animation-play-state: paused;
@@ -21,7 +21,7 @@ const CardDiv = styled.div`
   margin: 30px;
   padding: 30px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  font-size: 33px;
+  font-size: 1em;
   font-family: IMHyeminFont;
   font-weight: bold;
 
@@ -30,6 +30,10 @@ const CardDiv = styled.div`
     height: 70%;
     border-radius: inherit;
     margin-bottom: 30px;
+  }
+
+  > a {
+    text-decoration: none;
   }
 `;
 function InfoCard({ picture, name, gitId, link, position }) {

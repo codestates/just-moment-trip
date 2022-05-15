@@ -28,6 +28,7 @@ function ButtonHandler({
         handler={signoutHandler}
         name={'로그아웃'}
         color={'yellow'}
+        font={'SsurroundFont'}
       />
     </ButtonContainer>
   );

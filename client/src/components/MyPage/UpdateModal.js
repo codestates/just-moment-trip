@@ -8,18 +8,34 @@ const Container = styled.div`
   flex-direction: column;
   text-align: center;
   font-size: 50px;
-  color: black;
+  color: rgb(89, 72, 135);
+  font-family: ManfuMedium;
+
+  > * {
+    margin: 10px;
+  }
 `;
 
 const Input = styled.input`
-  border: none;
-  border-bottom: 3px solid black;
-  background-color: inherit;
-  width: 50%;
-  margin: 20px;
-  padding: 10px;
-  font-size: 25px;
   text-align: center;
+  font-family: ManfuMedium;
+  background-color: transparent;
+  width: 40vw;
+  outline: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid gray;
+  font-size: 0.8em;
+  :hover {
+    border-bottom: 2px solid rgb(89, 72, 135);
+    transition: all 0.2s linear;
+    transform: scale(1.05);
+  }
+  :focus {
+    transition: all 0.4s ease-in;
+    border: 1px solid rgb(89, 72, 135);
+  }
 `;
 
 function UpdateModal({ userPatchHandler }) {
@@ -40,7 +56,7 @@ function UpdateModal({ userPatchHandler }) {
 
   return (
     <Container onChange={onChange}>
-      <div>회원정보 수정</div>
+      <h2>회원정보 수정</h2>
       <Input type="email" placeholder="Email" name="email" />
       <Input type="password" placeholder="Current Password" name="password" />
       <Input type="password" placeholder="New Password" name="new_password" />
@@ -53,6 +69,7 @@ function UpdateModal({ userPatchHandler }) {
         handler={() => userPatchHandler(inputs)}
         name={'수정'}
         color={'orange'}
+        font={'ManfuMedium'}
       />
     </Container>
   );
