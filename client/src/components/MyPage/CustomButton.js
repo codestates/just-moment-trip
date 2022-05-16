@@ -11,7 +11,8 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBtn = styled.button`
-  background-color: white;
+  background-color: ${props => props.backgroundColor};
+  transition: 0.5s;
   text-decoration: none;
   border: none;
   font-family: ${props => props.font};
@@ -19,20 +20,23 @@ const ModalBtn = styled.button`
   padding: 10px;
   color: black;
   border-radius: 30px;
-  -webkit-transition: background-color 2s ease-out;
-  -moz-transition: background-color 2s ease-out;
-  -o-transition: background-color 2s ease-out;
-  transition: background-color 2s ease-out;
-  cursor: grab;
+  cursor: pointer;
   :hover {
-    background-color: ${props => props.color};
+    background-color: ${props => {
+      return props.backgroundColor.replace('0.3', '1');
+    }};
   }
 `;
 
-function CustomButton({ handler, name, color, font }) {
+function CustomButton({ handler, name, color, font, backgroundColor }) {
   return (
     <ModalContainer>
-      <ModalBtn onClick={handler} color={color} font={font}>
+      <ModalBtn
+        onClick={handler}
+        color={color}
+        font={font}
+        backgroundColor={backgroundColor}
+      >
         {name}
       </ModalBtn>
     </ModalContainer>
