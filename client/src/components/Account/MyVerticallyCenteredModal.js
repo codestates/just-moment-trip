@@ -14,7 +14,7 @@ function MyVerticallyCenteredModal(props) {
       style={{ background: 'rgba(0,0,170,0.24)' }}
     >
       <Modal.Body>
-        <Map gps={props.gps} />
+        <Map gps={props.gps} item_name={props.item_name} />
       </Modal.Body>
     </Modal>
   );

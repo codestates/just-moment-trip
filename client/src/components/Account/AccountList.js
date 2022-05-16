@@ -4,7 +4,6 @@ import Footer from '../common/Footer';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
-import Map from './Map';
 import AccountWriteUp from './AccountWriteUp';
 import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
