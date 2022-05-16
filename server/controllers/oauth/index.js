@@ -9,7 +9,7 @@ module.exports = {
       let code = req.query.code;
 
       const requestKakaoToken = await axios.post(
-        `${baseUrl}?grant_type=authorization_code&client_secret=${process.env.KAKAO_SECRET}&client_id=${process.env.KAKAO_CLIENT}&redirect_uri=https://www.just-moment-trip/oauth/callback/kakao&code=${code}`,
+        `${baseUrl}?grant_type=authorization_code&client_secret=${process.env.KAKAO_SECRET}&client_id=${process.env.KAKAO_CLIENT}&redirect_uri=https://www.just-moment-trip.ml/oauth/callback/kakao&code=${code}`,
         {
           headers: {
             "Content-type": "application/json",
