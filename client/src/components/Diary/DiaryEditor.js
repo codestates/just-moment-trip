@@ -342,11 +342,11 @@ function DiaryEditor({
         });
         onEdit(id, localContent, localTitle, localHashtags);
         toggleIsEdit();
-        console.log(
-          '------------- 수정시 localHashtags는 어떻게 되나요 ? :',
-          localHashtags,
-        );
-        console.log('------------- 수정시 id는 어떻게 되나요 ? :', hashtags);
+        // console.log(
+        //   '------------- 수정시 localHashtags는 어떻게 되나요 ? :',
+        //   localHashtags,
+        // );
+        // console.log('------------- 수정시 id는 어떻게 되나요 ? :', hashtags);
       } else if (result.isDismissed) {
         Swal.fire({
           icon: 'info',
@@ -383,10 +383,10 @@ function DiaryEditor({
 
   function handleHashtags(event) {
     // onFilter(selectedHashtag);
-    console.log(
-      '------------- 클릭시 localHashtags는 어떻게 되나요 ? :',
-      localHashtags,
-    );
+    // console.log(
+    //   '------------- 클릭시 localHashtags는 어떻게 되나요 ? :',
+    //   localHashtags,
+    // );
     toggleClicked(event);
   }
 

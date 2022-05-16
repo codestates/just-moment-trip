@@ -49,8 +49,8 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
   const CustomLayerComponent = myProps => layerProps => {
     const { centerX, centerY } = layerProps;
 
-    console.log(myProps);
-    console.log(layerProps);
+    // console.log(myProps);
+    // console.log(layerProps);
 
     return (
       <text

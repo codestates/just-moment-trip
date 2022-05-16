@@ -619,7 +619,6 @@ function AccountEditor({
                         >
                           {mapIcont}
                         </Mapbtn>
-                        {console.log('git')}
                         <MyVerticallyCenteredModal
                           show={modalShow}
                           onHide={() => setModalShow(false)}

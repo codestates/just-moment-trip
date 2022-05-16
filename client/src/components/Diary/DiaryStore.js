@@ -6,9 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
 import DiaryList from './DiaryList';
-import dummydata from './dummydata';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -27,7 +25,6 @@ const reducer = (state, action) => {
         ...action.data,
         createDate,
       };
-      console.log('--------🚨 CREATE시 reducer의 state-------- :', state);
       return [newItem, ...state];
     }
     case REMOVE: {
@@ -80,18 +77,18 @@ function DiaryStore() {
       type: CREATE,
       data: { title, content, write_date, hashtags, id: dataId.current },
     });
-    console.log('--------🚨 Store의 data-------- :', data);
+    // console.log('--------🚨 Store의 data-------- :', data);
     // console.log('--------🦭 Store의 Content-------- :', content);
     // console.log('--------🦭 Store의 Hashtags-------- :', hashtags);
     dataId.current += 1;
-    console.log('DiaryStore dataId 확인 :', dataId.current);
+    // console.log('DiaryStore dataId 확인 :', dataId.current);
     axios
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
-        console.log(res);
         setIsTrue(currentIsTrue => !currentIsTrue);
-        console.log('--------------- onCreate', isTrue);
-        console.log(res.data);
+        // console.log('--------------- onCreate', isTrue);
+        // console.log(res.data);
+        console.log(res);
         console.log(res.status);
       })
       .catch(err => {
@@ -104,15 +101,12 @@ function DiaryStore() {
     axios
       .diaryRemove(targetId)
       .then(res => {
-        console.log('--------------- 삭제시', isTrue);
         console.log(res.data);
         console.log(res.status);
       })
       .catch(err => {
         console.log(err);
-      })
-      .console.log('--------🚨 Store의 data-------- :', data);
-    console.log('DiaryStore onRemove 확인 :', targetId);
+      });
   }, []);
 
   const onEdit = useCallback(
@@ -134,8 +128,6 @@ function DiaryStore() {
         .catch(err => {
           console.log(err);
         });
-      console.log('Store의 new_content :', new_content);
-      console.log('Store의 new_hashtags :', new_hashtags);
     },
     [],
   );
