@@ -8,8 +8,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Map from './Map';
-import Modal1 from '../common/Modal';
 import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
 import parrot12 from '../../Assets/parrot12.gif';
 import catzzal4 from '../../Assets/catzzal4.gif';
@@ -326,7 +324,6 @@ function AccountEditor({
       }
     });
   };
-
   const handleQuitEdit = () => {
     setIsEdit(false);
     setEditPrice(price);
@@ -619,11 +616,11 @@ function AccountEditor({
                         >
                           {mapIcont}
                         </Mapbtn>
-                        {console.log('git')}
                         <MyVerticallyCenteredModal
                           show={modalShow}
                           onHide={() => setModalShow(false)}
                           gps={gps}
+                          item_name={item_name}
                         />
                       </div>
                       <div className="AccountItemRemoteBox">
