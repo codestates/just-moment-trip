@@ -45,7 +45,7 @@ function Home() {
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        MISSING
+                        REMEMBER
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
@@ -60,27 +60,27 @@ function Home() {
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        FRIEND
+                        FRIENDLY
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        FAMILY
+                        MUKBANG
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        NEW WORLD
+                        GO
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        PRESENT
+                        ENJOY
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        EVERYTHING
+                        UNIVERSAL
                       </a>
                     </div>
                     <div className="master-container-scroller_item">SAVE</div>
