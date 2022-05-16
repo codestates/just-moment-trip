@@ -14,11 +14,6 @@ import vibepartycat from '../../Assets/vibepartycat.gif';
 
 const fuzzy = require('./fuzzy');
 
-const HrEdit = styled.hr`
-  border: 0.5px solid gray;
-  width: 60%;
-`;
-
 const Slide = keyframes`
   0% {    
     transform: scaleX(-1);
@@ -128,11 +123,6 @@ const TagsInput = styled.div`
       outline: transparent;
     }
   }
-
-  &:focus-within + ${HrEdit} {
-    transition: all 0.4s ease-in;
-    border-color: rgb(67, 45, 127);
-  }
 `;
 
 const DiaryEditorBox = styled.div`
@@ -145,10 +135,9 @@ const DiaryEditorBox = styled.div`
   margin: 10px;
   padding: 10px 0;
   border-radius: 20px;
-  border: 3px solid rgb(179, 175, 237);
+  border: 2.5px solid rgb(109, 180, 232);
   :hover {
-    transition: all 0.2s linear;
-    transform: scale(1.05);
+    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.3);
   }
 `;
 
@@ -168,9 +157,8 @@ const DiaryEditInputBox = styled.input`
   background-color: transparent;
   outline: none;
   border: none;
-  padding: 5px;
+  padding: 15px;
   :hover {
-    z-index: 1;
     transition: all 0.2s linear;
     transform: scale(1.08);
   }
@@ -182,17 +170,17 @@ const DiaryEditInputBox = styled.input`
 
 const DiaryEditTextareaBox = styled.textarea`
   text-align: center;
+  align-items: center;
   font-family: SsurroundFont;
   background-color: transparent;
   outline: none;
   border: none;
   resize: none;
-  padding: 5px;
+  padding: 50px;
   width: 23.5vw;
   height: 8vw;
   font-size: 0.8em;
   :hover {
-    z-index: 1;
     transition: all 0.2s linear;
     transform: scale(1.08);
   }
@@ -207,7 +195,7 @@ const DiaryBtn = styled.button`
   outline: none;
   font-family: SsurroundFont;
   border: none;
-  font-size: 8px;
+  font-size: 0.5em;
   :hover {
     cursor: pointer;
     transition: all 0.2s linear;
@@ -419,7 +407,6 @@ function DiaryEditor({
           <>
             <div className="title_edit">
               <DiaryEditInputBox
-                maxlength="20"
                 className="title_info"
                 ref={lacalTitleInput}
                 value={localTitle}
@@ -435,7 +422,10 @@ function DiaryEditor({
               />
             </div>
             <TagsInput>
-              <ul id="tags">
+              <ul
+                id="tags"
+                style={{ justifyContent: 'center', textAlign: 'center' }}
+              >
                 {localHashtags.map((tag, index) => (
                   <li key={index} className="tag">
                     <span className="tag-title">{tag}</span>
@@ -458,7 +448,6 @@ function DiaryEditor({
                 placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
-            <HrEdit></HrEdit>
           </>
         ) : (
           <>

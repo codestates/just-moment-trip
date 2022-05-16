@@ -7,7 +7,6 @@ const Cont = styled.div`
   flex-direction: ${props => props.direction};
   background: ${props => props.back};
   justify-content: space-around;
-  overflow-y: auto;
   align-items: center;
   font-family: IMHyeminFont;
   font-weight: bold;

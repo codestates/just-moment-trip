@@ -21,14 +21,11 @@ const AnimationBox = keyframes`
 50% {
     border-top-color: rgb(201, 199, 237);
     border-right-color: rgb(201, 199, 237);
-    -webkit-transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
     transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
   }
   99% {
     border-bottom-color: rgb(201, 199, 237);
     border-left-color: rgb(201, 199, 237);
-    -webkit-transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
-      height 0.25s ease-out 0.75s;
     transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
       height 0.25s ease-out 0.75s;
   }
@@ -37,7 +34,18 @@ const AnimationBox = keyframes`
   }
 `;
 
-let DiaryModalBtnAnimation = keyframes`
+const ChangeColor = keyframes`
+14% {color:red}
+28% {color:orange}
+42% {color:yellow}
+56% {color:green}
+70% {color:blue}
+84% {color:navy}
+98% {color:purple}
+
+`;
+
+const DiaryModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
   100% {top: -300px; opacity: 0}
   `;
@@ -55,12 +63,6 @@ const Wrapper = styled.div`
   padding: 30px 0;
   display: flex;
   font-size: 2em;
-
-  /* :hover {
-    transition: all ease 1s;
-    transform: rotate(-45deg);
-    border-color: #7c98bc;
-  } */
 `;
 
 const Wrapper2 = styled.div`
@@ -114,6 +116,8 @@ const FilterBtn = styled.button`
   outline: none;
   border: none;
   background-color: transparent;
+  font-family: ManfuMedium;
+  font-size: 1.5em;
   :hover {
     z-index: 1;
     transition: all 0.2s linear;
@@ -129,13 +133,14 @@ const HelpBtnBox = styled.button`
   outline: none;
   border: none;
   size: 50px;
-  padding: 20px;
+  padding: 5vw 5vh;
   background-color: transparent;
   font-size: 20px;
-`;
-
-const DiarySplitBox = styled.div`
-  display: flex;
+  :hover {
+    transition: all 0.2s linear;
+    transform-origin: 0% 100%;
+    animation: ${ChangeColor} 1.5s linear infinite;
+  }
 `;
 
 //? ------------------------------------- 현민 작업 히스토리 리스트
@@ -180,9 +185,10 @@ function DiaryList({
     text-align: center;
   `;
 
-  const FillterListBox = styled.div`
+  const FilterListBox = styled.div`
     display: flex;
     flex-wrap: wrap;
+    height: 100vh;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -226,7 +232,7 @@ function DiaryList({
       제목/내용을 검색할 수 있어요 🐟
 
       🥔 해시태그를 누르면 무슨일이 일어날까요?`,
-      html: '<b></b>초 후 자동으로 사라져요 !',
+      html: '사라지기까지 앞으로 <b></b>!',
       timer: 2000,
       timerProgressBar: true,
       backdrop: `
@@ -251,7 +257,6 @@ function DiaryList({
         console.log('I was closed by the timer');
       }
     });
-    return console.log('hi');
   };
   //!-----------
 
@@ -339,8 +344,10 @@ function DiaryList({
     <>
       {clicked ? (
         <>
-          {console.log('공사중')}
-          <FillterListBox>
+          <p
+            style={{ fontSize: '3em', fontFamily: 'ManfuMedium' }}
+          >{`#${clickedHashtag}`}</p>
+          <FilterListBox>
             {filterDiary().map(it => (
               <DiaryEditor
                 key={it.id}
@@ -354,7 +361,7 @@ function DiaryList({
                 searchType={searchType}
               />
             ))}
-          </FillterListBox>
+          </FilterListBox>
           <FilterBtn
             onClick={() => {
               setClicked(false);
@@ -403,9 +410,6 @@ function DiaryList({
               alignItems: 'center',
             }}
           >
-            <div style={{ display: 'flex' }}>
-              <Wrapper>기록들</Wrapper>
-            </div>
             <Wrapper2>
               <PBox>{diaryList.length}</PBox>
               <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>

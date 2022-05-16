@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
 import Cards from '../components/AboutUs/Cards';
+import JMT from '../components/AboutUs/Team/JMT.png';
+import JMTL from '../components/AboutUs/Team/JMTL.png';
 
 const Body = styled.div`
   align-items: center;
@@ -34,16 +36,26 @@ const Body = styled.div`
 
 const Intro = styled.div`
   font-size: 50px;
-  margin-top: 100px;
+  margin: 100px auto 50px auto;
+  width: 100vw;
+  height: 5vh;
   text-align: center;
   font-family: ManfuBold;
-`;
 
+  > img {
+    height: 25vh;
+    width: 20vw;
+  }
+`;
 function AboutUs() {
   return (
     <>
       <Navbar />
-      <Intro>개발자들</Intro>
+      <Intro>
+        <img src={JMT} />
+        개발자들
+        <img src={JMTL} />
+      </Intro>
       <Body>
         <Cards />
       </Body>

@@ -30,6 +30,7 @@ body {
   font-size: 100%;
   vertical-align: baseline;
   background: transparent;
+  box-sizing: border-box;
 }
 
 a {
@@ -75,9 +76,7 @@ a {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 60vmin;
-  min-height: 94%;
-  max-height: 100%;
+  height: 100vh;
 }
 
 #master-container .content {
@@ -338,7 +337,7 @@ a {
   position: relative;
 }
 
-/* #master-container-grid .master-container-grid_item .grid_item-overlay {
+#master-container-grid .master-container-grid_item .grid_item-overlay {
   position: absolute;
   top: 0;
   right: 0;
@@ -359,7 +358,7 @@ a {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   text-decoration: none;
-} */
+}
 
 #master-container-grid .master-container-grid_item .grid_item-overlay:hover {
   opacity: 1;
@@ -620,10 +619,10 @@ a {
     background-color: #f9e7af;
   }
   66.66666666666667% {
-    background-color: #b4e2ee;
+    background-color: #349ab5;
   }
   70.37037037037037% {
-    background-color: #b4e2ee;
+    background-color: #349ab5;
   }
   77.77777777777777% {
     background-color: #cbe5f4;
@@ -632,13 +631,76 @@ a {
     background-color: #cbe5f4;
   }
   88.88888888888889% {
-    background-color: #d2e7e2;
+    background-color: #cbe5f4;
   }
   92.5925925925926% {
-    background-color: #d2e7e2;
+    background-color: #cbe5f4;
   }
   100.0% {
     background-color: #f5c59c;
+  }
+}
+
+@keyframes master-container-color {
+  0.0% {
+    color: #e65f48;
+  }
+  3.7037037037037037% {
+    color: #e65f48;
+  }
+  11.11111111111111% {
+    color: #76bcad;
+  }
+  14.814814814814815% {
+    color: #76bcad;
+  }
+  22.22222222222222% {
+    color: #84719f;
+  }
+  25.925925925925927% {
+    color: #84719f;
+  }
+  33.333333333333336% {
+    color: #d47787;
+  }
+  37.03703703703704% {
+    color: #d47787;
+  }
+  44.44444444444444% {
+    color: #f09551;
+  }
+  48.148148148148145% {
+    color: #f09551;
+  }
+  55.55555555555556% {
+    color: #349ab5;
+  }
+  59.25925925925926% {
+    color: #349ab5;
+  }
+  66.66666666666667% {
+    color: #896fce;
+  }
+  70.37037037037037% {
+    color: #896fce;
+  }
+  77.77777777777777% {
+    color: #9cdca8;
+  }
+  81.48148148148148% {
+    color: #9cdca8;
+  }
+  88.88888888888889% {
+    color: #2a3179;
+  }
+  92.5925925925926% {
+    color: #2a3179;
+  }
+  94% {
+    color: #423c37;
+  }
+  100.0% {
+    color: #423c37;
   }
 }
 
@@ -958,3 +1020,8 @@ a {
   }
 }
 /*-----------------------------------------------------*/
+
+.LoginSpan {
+  animation: master-container-color 15s cubic-bezier(0.645, 0.045, 0.355, 1)
+    infinite;
+}

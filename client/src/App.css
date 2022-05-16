@@ -104,3 +104,74 @@
     color: rgb(179, 155, 242);
   }
 }
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(1);
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes swing {
+  0%,
+  50% {
+    transform: rotate(0deg);
+  }
+  5%,
+  15%,
+  25%,
+  35%,
+  45% {
+    transform: rotate(8deg);
+  }
+  10%,
+  20%,
+  30%,
+  40% {
+    transform: rotate(-8deg);
+  }
+}
+
+/*   position: sticky; 사용해보기 */
+#dropdown-basic {
+  position: fixed;
+  top: 3.53em;
+  right: 0vw;
+  color: black;
+  background-color: transparent;
+  border: none;
+}
+
+#dropdown-basic.dropdown-toggle.btn.btn-success {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.dropdown-menu.show.dropdown-menu-end {
+  border: none;
+  background-color: transparent;
+  right: 0vw;
+  animation: fadein 1s;
+}
+
+#dropdown-basic.dropdown-toggle::after {
+  display: none;
+}
+
+.chatIconBox:hover {
+  transform-origin: top;
+  animation: swing 4s infinite linear;
+}

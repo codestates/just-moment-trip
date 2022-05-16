@@ -20,7 +20,7 @@ import dogeparrot from '../../Assets/dogeparrot.gif';
 const faMoneyBillsIcon = (
   <FontAwesomeIcon
     icon={faMoneyBills}
-    style={{ width: '30px', height: '30px', paddingLeft: '70px' }}
+    style={{ width: '30px', height: '30px' }}
   />
 );
 
@@ -37,6 +37,7 @@ const AccountEditBox = styled.div`
   justify-content: space-between;
   padding: 15px 0;
   height: 245px;
+  margin-bottom: 25px;
   font-size: 1em;
 `;
 
@@ -63,12 +64,47 @@ const AccountItemInputBox = styled.div`
   justify-content: space-around;
 `;
 
+const Swing = keyframes`
+    	0%{
+        	transform: rotate(0deg);
+        }
+        10%{
+        	transform: rotate(10deg);
+        }
+        20%{
+        	transform: rotate(-10deg);
+        }
+        30%{
+        	transform: rotate(5deg);
+        }
+        40%{
+        	transform: rotate(-5deg);
+        }
+        50%{
+        	transform: rotate(2deg);
+        }
+        60%{
+        	transform: rotate(-2deg);
+        }
+        70%{
+        	transform: rotate(0deg);
+        }
+        100%{
+        	transform: rotate(0deg);
+        }
+`;
+
+const Jump = keyframes`
+	0% {margin-top: 0px;}
+	100% {margin-top: 5px;}
+`;
+
 const AccountEditTextBox = styled.input`
   text-align: center;
   border: none;
   font-family: SsurroundFont;
-  width: 300;
-  height: 70;
+  width: 300px;
+  height: 70px;
   resize: none;
   outline: none;
   :hover {
@@ -100,6 +136,7 @@ const Mapbtn = styled.button`
   position: fixed;
 `;
 
+//!------------------------------ AccountBox that show on the screen
 const AccountItemBox = styled.div`
   width: 400px;
   height: 300px;
@@ -109,11 +146,29 @@ const AccountItemBox = styled.div`
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.05);
+    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.3);
   }
   &:hover ${Mapbtn} {
     visibility: visible;
     animation: ${fadeInUp} 2s;
     transition: all 0.3s;
+  }
+  :hover div.moneyBox {
+    transition: all 2s ease-in-out;
+    animation: ${Jump} 0.3s linear 0s infinite alternate;
+    margin-top: 0;
+    color: #473888;
+  }
+  :hover div.AccountItemContentBoxText2 {
+    transform-origin: 50% 0;
+    animation: ${Swing};
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.5s;
+  }
+  :hover div.categoryBox {
+    transition: all 1s ease;
+    color: rgb(183, 139, 186);
   }
 `;
 
@@ -140,8 +195,10 @@ const AccountMemoBox = styled.div`
 const AccountItemSecondBox = styled.div`
   display: flex;
   justify-content: space-between;
+  text-align: center;
   align-items: center;
-  height: 140px;
+  padding: 10px 0;
+  height: 80px;
   font-size: 1em;
 `;
 
@@ -149,13 +206,13 @@ const AccountItemBtnBox = styled.div`
   display: flex;
   justify-content: space-between;
   text-align: center;
-  margin: 10px;
+  margin: 15px;
   bottom: 20px;
 `;
 
 const EditBtn = styled.button`
   font-family: ManfuMedium;
-  font-size: 18px;
+  font-size: 15px;
   color: rgb(210, 206, 221);
   background-color: transparent;
   border: none;
@@ -344,7 +401,6 @@ function AccountEditor({
         `,
         });
         handleQuitEdit();
-        console.log('브랜치 생성용');
       }
     });
   };
@@ -359,6 +415,7 @@ function AccountEditor({
                 <AccountItemInputBox>
                   구입한 것 :
                   <AccountEditInputBox
+                    maxlength="10"
                     placeholder="무엇을 구입했나요 ?"
                     className="AccountItemInput"
                     ref={editItem_nameInput}
@@ -370,6 +427,7 @@ function AccountEditor({
                   사용한 통화 :
                   <AccountEditInputBox
                     placeholder="어느나라돈을 사용했나요 ?"
+                    maxlength="3"
                     className="AccountItemInput"
                     ref={editTarget_currencyInput}
                     value={editTarget_currency}
@@ -379,6 +437,7 @@ function AccountEditor({
                 <AccountItemInputBox>
                   구입한 사람 :
                   <AccountEditInputBox
+                    maxlength="5"
                     placeholder="돈 쓴 사람을 입력해요"
                     className="AccountItemInput"
                     ref={editSpent_personInput}
@@ -389,6 +448,7 @@ function AccountEditor({
                 <div>
                   <div>메모</div>
                   <AccountEditTextBox
+                    maxlength="50"
                     placeholder="메모를 입력해요"
                     className="AccountItemInput"
                     ref={editMemoInput}
@@ -399,6 +459,7 @@ function AccountEditor({
                 <div>
                   사용금액 :
                   <AccountEditInputBox
+                    maxlength="10"
                     placeholder="사용금액을 입력해요"
                     className="AccountItemInput"
                     ref={editPriceInput}
@@ -444,20 +505,26 @@ function AccountEditor({
                       }}
                     >
                       <div
+                        className="categoryBox"
                         style={{
-                          fontSize: '1.5em',
+                          fontFamily: 'SBFontLight',
+                          fontSize: '1.8em',
                           marginLeft: '25px',
                           marginTop: '10px',
                         }}
                       >
-                        {category}{' '}
+                        {category}
                       </div>
-                      <div>{faMoneyBillsIcon}</div>
+                      <div className="moneyBox" style={{ paddingLeft: '70px' }}>
+                        {faMoneyBillsIcon}
+                      </div>
                       <div
-                        className="AccountItemContentBoxText2"
+                        className="AccountItemContentBoxText0"
                         style={{
-                          fontSize: '0.7em',
-                          marginRight: '10px',
+                          fontSize: '0.9em',
+                          width: '150px',
+                          height: '50px',
+                          marginRight: '15px',
                           marginTop: '10px',
                         }}
                       >
@@ -473,8 +540,10 @@ function AccountEditor({
                         style={{
                           fontSize: '1em',
                           marginTop: '10px',
-                          width: '80px',
-                          height: '35px',
+                          width: '90px',
+                          height: '30px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         }}
                       >
                         {item_name}
@@ -482,27 +551,50 @@ function AccountEditor({
                       <div
                         className="AccountItemContentBoxText2"
                         style={{
+                          fontFamily: 'ManfuMedium',
                           fontWeight: 'bold',
                           fontSize: '2.2em',
                           width: '180px',
                           height: '35px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          alignItems: 'center',
+                          marginTop: '5px',
                         }}
                       >
                         {price}
                       </div>
-                      <div className="AccountItemContentBoxText3">
+                      <div
+                        className="AccountItemContentBoxText3"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
                         <p
                           style={{
+                            textAlign: 'center',
                             fontSize: '1em',
-                            width: '80px',
-                            height: '15px',
+                            width: '90px',
+                            height: '30px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            margin: 0,
                           }}
                         >
                           {target_currency}
                         </p>
                       </div>
                     </AccountItemSecondBox>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
                       <AccountMemoBox>{memo}</AccountMemoBox>
                     </div>
                     <AccountItemBtnBox>

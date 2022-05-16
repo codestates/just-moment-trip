@@ -6,14 +6,36 @@ import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import Map from './Map';
 import AccountWriteUp from './AccountWriteUp';
+import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faChartPie } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faChartPie,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import parrot9 from '../../Assets/parrot9.gif';
 
-let AccountModalBtnAnimation = keyframes`
+const AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
   100% {top: -300px; opacity: 0}
   `;
+
+// const BingBing = `
+//   0%{transform:rotate(0deg);}
+//   100%{transform:rotate(360deg);}
+// `;
+
+const ChangeColor = keyframes`
+14% {color:red}
+28% {color:orange}
+42% {color:yellow}
+56% {color:green}
+70% {color:blue}
+84% {color:navy}
+98% {color:purple}
+
+`;
 
 const IconBtn = styled.div`
   animation-name: ${AccountModalBtnAnimation};
@@ -21,6 +43,20 @@ const IconBtn = styled.div`
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.2);
+  }
+`;
+
+const HelpBtnBox = styled.button`
+  outline: none;
+  border: none;
+  size: 50px;
+  padding: 20px;
+  background-color: transparent;
+  font-size: 20px;
+  :hover {
+    transition: all 0.2s linear;
+    transform-origin: 0% 100%;
+    animation: ${ChangeColor} 1.5s linear infinite;
   }
 `;
 
@@ -55,7 +91,43 @@ function AccountList({
   remainingString,
   PercentageOfAmountUsed,
 }) {
-  // const a = new Date().toLocaleString();
+  //!-----------------
+  const helpBtnFx = () => {
+    let timerInterval;
+    Swal.fire({
+      width: 800,
+      height: 900,
+      title: `✏️ 를 누르면 기록을 남길 수 있어요
+
+      QUIZ ! 피자모양은 뭘까요 🐝? 
+
+      MISSION ! 숨겨진 지도를 찾아보세요 🗺️`,
+      html: '사라지기까지 앞으로 <b></b>!',
+      timer: 2000,
+      timerProgressBar: true,
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url(${parrot9})
+      top
+      no-repeat
+    `,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector('b');
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then(result => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        ('');
+      }
+    });
+  };
+  //!-----------
   return (
     <>
       <div className="AccountList">
@@ -77,6 +149,21 @@ function AccountList({
               <AccountPieChart data={data} />
             </Modal>
           </ModalBox>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HelpBtnBox onClick={helpBtnFx}>
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: '60px' }}
+              />
+            </HelpBtnBox>
+          </div>
         </div>
         {/* <div style={{ backgroundColor: 'red',}}> */}
         <AccountListBox>
