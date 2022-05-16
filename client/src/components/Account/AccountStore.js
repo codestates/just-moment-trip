@@ -42,7 +42,7 @@ function getLocation() {
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data;
+      return action.data.reverse();
     }
     case CREATE: {
       const create_date = new Date().getTime();
