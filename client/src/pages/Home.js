@@ -90,13 +90,13 @@ function Home() {
                 <div className="SignLinkBox">
                   <div className="SigninLinkBox">
                     {isLoggedIn ? (
-                      <Box display="center" padding="190px 0 0 125px">
+                      <Box display="center" padding="170px 0 0 125px">
                         <StyledLink className="LoginSpan" to="/trip">
                           <span>시작하기</span>
                         </StyledLink>
                       </Box>
                     ) : (
-                      <Box display="space - evenly" padding="190px 0 0 0">
+                      <Box display="space - evenly" padding="170px 0 0 0">
                         <StyledLink className="LoginSpan" to="/sign-up">
                           <span
                             className="LoginSpan"
