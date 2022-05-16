@@ -33,6 +33,9 @@ export const signInApi = async (email, password) => {
 
 export const signOutApi = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('trip_id');
+  localStorage.removeItem('total_price');
+  localStorage.removeItem('title');
 };
 
 export const kakaoSign = async code => {

@@ -30,11 +30,11 @@ const StartBtn = styled.button`
 const TripTitle = styled.div`
   font-size: 40px;
   font-weight: bold;
-  margin-bottom: 70px;
+  margin-bottom: 30px;
 `;
 
 const TripDiv = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const initialState = {
@@ -72,7 +72,7 @@ function TripModal() {
       state.endDate,
     );
     Swal.fire({
-      backdrop: ` rgba(0,0,110,0.5)`,
+      icon: 'success',
       text: '성공 !',
     }).then(res => {
       if (res.isConfirmed) window.location.reload();
@@ -102,19 +102,19 @@ function TripModal() {
                   }}
                   fullWidth={false}
                 />
+                <DateRangeInput
+                  onDatesChange={data =>
+                    dispatch({ type: 'dateChange', payload: data })
+                  }
+                  onFocusChange={focusedInput =>
+                    dispatch({ type: 'focusChange', payload: focusedInput })
+                  }
+                  startDate={state.startDate}
+                  endDate={state.endDate}
+                  focusedInput={state.focusedInput}
+                  displayFormat={'yyyy/MM/dd'}
+                />
               </TripDiv>
-              <DateRangeInput
-                onDatesChange={data =>
-                  dispatch({ type: 'dateChange', payload: data })
-                }
-                onFocusChange={focusedInput =>
-                  dispatch({ type: 'focusChange', payload: focusedInput })
-                }
-                startDate={state.startDate}
-                endDate={state.endDate}
-                focusedInput={state.focusedInput}
-                displayFormat={'yyyy/MM/dd'}
-              />
             </TripDiv>
             {/* <DatePicker
               selected={endDate}

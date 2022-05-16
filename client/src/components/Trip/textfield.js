@@ -12,7 +12,7 @@ const TripInput = styled.input`
   border-left: none;
   border-bottom: 2px solid gray;
   font-size: 1.05em;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 function TripTextField({ label, ...props }) {
