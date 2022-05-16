@@ -207,8 +207,8 @@ function DiaryList({
   const toggleClicked = event => {
     setClicked(true);
     setClickedHashtag(event.target.innerText);
-    console.log('------------- clicked?', clicked);
-    console.log('------------- clickedHashtag', clickedHashtag);
+    // console.log('------------- clicked?', clicked);
+    // console.log('------------- clickedHashtag', clickedHashtag);
   };
 
   function filterDiary() {
@@ -254,7 +254,7 @@ function DiaryList({
     }).then(result => {
       /* Read more about handling dismissals below */
       if (result.dismiss === Swal.DismissReason.timer) {
-        console.log('I was closed by the timer');
+        // console.log('I was closed by the timer');
       }
     });
   };
@@ -431,7 +431,6 @@ function DiaryList({
             </HelpBtnBox>
           </div>
           <div>
-            {/* <DiarySplitBox> */}
             <DiaryListBox>
               {newArr.map(dateFiltered => {
                 return (

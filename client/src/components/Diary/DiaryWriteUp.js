@@ -183,9 +183,9 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
       setTags([...tags, event.target.value]);
       // selectedTags([...tags, event.target.value]);
       event.target.value = '';
-      console.log('addTag의 tags :', tags);
+      // console.log('addTag의 tags :', tags);
       // console.log('addTag의 addTags :', addTags);
-      console.log('addTag의 filtered :', filtered);
+      // console.log('addTag의 filtered :', filtered);
     }
   };
   const titleInput = useRef();

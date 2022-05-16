@@ -94,15 +94,15 @@ function AccountStore() {
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.data.accessToken) accessToken = res.data.accessToken;
       const initData = res.data.data;
 
       dispatch({ type: INIT, data: initData });
     });
 
-    console.log('setTimeout 확인용');
-    console.log('--------------- useEffect', isTrue);
+    console.log('저 희 사 이 트 를 이 용 해 주 셔 서 무 한 도 전 👋');
+    // console.log('--------------- useEffect', isTrue);
   }, [isTrue]);
 
   const onCreate = useCallback(
@@ -132,7 +132,7 @@ function AccountStore() {
       });
       // console.log()
       dataId.current += 1;
-      console.log('AccountStore dataId 확인 :', dataId.current);
+      // console.log('AccountStore dataId 확인 :', dataId.current);
 
       axios
         .accountPost(
@@ -150,13 +150,13 @@ function AccountStore() {
           setIsTrue(currentIsTrue => {
             return !currentIsTrue;
           });
-          console.log('--------------- onCreate', isTrue);
+          // console.log('--------------- onCreate', isTrue);
           console.log(res.data);
           console.log(res.status);
         })
         .catch(err => {
           console.log(err);
-          console.log('루저ㅋ', err.status);
+          // console.log('루저ㅋ', err.status);
         });
     },
     [],
@@ -168,13 +168,13 @@ function AccountStore() {
     axios
       .accountRemove(targetId)
       .then(res => {
-        console.log('--------------- 삭제시', isTrue);
+        // console.log('--------------- 삭제시', isTrue);
         console.log(res.data);
         console.log(res.status);
       })
       .catch(err => {
         console.log(err);
-        console.log('루저ㅋ', err.status);
+        // console.log('루저ㅋ', err.status);
       });
   }, []);
 
@@ -215,7 +215,7 @@ function AccountStore() {
         })
         .catch(err => {
           console.log(err);
-          console.log('루저ㅋ', err.status);
+          // console.log('루저ㅋ', err.status);
         });
     },
     [],
