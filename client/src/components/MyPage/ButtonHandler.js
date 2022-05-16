@@ -29,6 +29,7 @@ function ButtonHandler({
         name={'로그아웃'}
         color={'yellow'}
         font={'SsurroundFont'}
+        backgroundColor={'rgba(255,250,250, 0.3)'}
       />
     </ButtonContainer>
   );

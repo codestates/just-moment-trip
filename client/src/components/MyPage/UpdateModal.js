@@ -70,6 +70,7 @@ function UpdateModal({ userPatchHandler }) {
         name={'수정'}
         color={'orange'}
         font={'ManfuMedium'}
+        backgroundColor={'rgba(255,127,80, 0.3)'}
       />
     </Container>
   );
