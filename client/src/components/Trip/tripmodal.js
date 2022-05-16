@@ -109,8 +109,10 @@ function TripModal() {
                   onFocusChange={focusedInput =>
                     dispatch({ type: 'focusChange', payload: focusedInput })
                   }
+                  //!-------------------------
                   startDate={state.startDate}
                   endDate={state.endDate}
+                  //!-------------------------
                   focusedInput={state.focusedInput}
                   displayFormat={'yyyy/MM/dd'}
                 />

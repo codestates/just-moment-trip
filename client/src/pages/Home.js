@@ -40,12 +40,12 @@ function Home() {
                   <div id="master-container-scroller">
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        MISSING
+                        MOMENT
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
                       <a className="cta-link" href="#">
-                        MOMENT
+                        MISSING
                       </a>
                     </div>
                     <div className="master-container-scroller_item">
