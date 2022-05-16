@@ -165,7 +165,6 @@ function AccountList({
             </HelpBtnBox>
           </div>
         </div>
-        {/* <div style={{ backgroundColor: 'red',}}> */}
         <AccountListBox>
           {data.map(it => (
             <AccountEditor
@@ -178,8 +177,6 @@ function AccountList({
             />
           ))}
         </AccountListBox>
-        {/* </div> */}
-
         <Footer
           totalSpentString={totalSpentString}
           remainingString={remainingString}

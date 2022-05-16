@@ -253,7 +253,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           category: '교통비',
           gps: '',
         });
-        console.log('AccountWriteUp', state);
+        // console.log('AccountWriteUp', state);
         openModalHandler(false);
       }
     });
