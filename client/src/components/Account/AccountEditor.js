@@ -94,6 +94,12 @@ const Swing = keyframes`
         }
 `;
 
+const Shake = keyframes`
+	0% {margin-right: 0px;}
+	100% {margin-right: 5px;}
+
+`;
+
 const Jump = keyframes`
 	0% {margin-top: 0px;}
 	100% {margin-top: 5px;}
@@ -123,7 +129,7 @@ const fadeInUp = keyframes`
   0% {
       opacity: 0;
   }
-  to {
+  50% {
       opacity: 1;
       transform: translateZ(0);
   }
@@ -161,14 +167,15 @@ const AccountItemBox = styled.div`
   }
   :hover div.AccountItemContentBoxText2 {
     transform-origin: 50% 0;
-    animation: ${Swing};
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-delay: 0.5s;
+    animation: ${fadeInUp} 1s linear 0s infinite alternate;
   }
   :hover div.categoryBox {
-    transition: all 1s ease;
     color: rgb(183, 139, 186);
+  }
+  :hover div.AccountItemContentBoxText1 {
+    transition: all 2s ease-in-out;
+    color: rgb(226, 155, 61);
+    transform: scale(1.05);
   }
 `;
 
@@ -179,7 +186,7 @@ const AccountMemoBox = styled.div`
   justify-content: center;
   align-items: center;
   border: none;
-  width: 380px;
+  width: 220px;
   height: 80px;
   font-size: 0.8em;
   :hover {
@@ -188,6 +195,7 @@ const AccountMemoBox = styled.div`
     border-top: 1px solid rgb(211, 226, 244);
     border-left: none;
     border-right: none;
+
     border-bottom: 1px solid rgb(211, 226, 244);
   }
 `;
@@ -536,28 +544,15 @@ function AccountEditor({
                     </div>
                     <AccountItemSecondBox>
                       <div
-                        className="AccountItemContentBoxText1"
-                        style={{
-                          fontSize: '1em',
-                          marginTop: '10px',
-                          width: '90px',
-                          height: '30px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {item_name}
-                      </div>
-                      <div
                         className="AccountItemContentBoxText2"
                         style={{
                           fontFamily: 'ManfuMedium',
                           fontWeight: 'bold',
                           fontSize: '2.2em',
-                          width: '180px',
+                          width: '260px',
                           height: '35px',
                           display: 'flex',
-                          justifyContent: 'center',
+                          justifyContent: 'end',
                           textAlign: 'center',
                           alignItems: 'center',
                           marginTop: '5px',
@@ -578,11 +573,12 @@ function AccountEditor({
                           style={{
                             textAlign: 'center',
                             fontSize: '1em',
-                            width: '90px',
-                            height: '30px',
+                            width: '130px',
+                            height: '40px',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            margin: 0,
+                            paddingTop: '13px',
+                            margin: '0 5px',
                           }}
                         >
                           {target_currency}
@@ -595,6 +591,24 @@ function AccountEditor({
                         justifyContent: 'center',
                       }}
                     >
+                      <div
+                        className="AccountItemContentBoxText1"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          alignItems: 'center',
+                          fontSize: '1em',
+                          width: '120px',
+                          height: '80px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          fontSize: '20px',
+                          fontFamily: 'SBFontLight',
+                        }}
+                      >
+                        {item_name}
+                      </div>
                       <AccountMemoBox>{memo}</AccountMemoBox>
                     </div>
                     <AccountItemBtnBox>
