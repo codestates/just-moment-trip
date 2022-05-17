@@ -217,8 +217,7 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
 # 팀원 : 최만선
 
 ---
-
-<p align="center"><img src="" width=“50%" height=“50%" /></p>
+<p align="center"><img src ="https://user-images.githubusercontent.com/91870110/168870789-b6cc5949-0950-4233-a12a-59e29e8846c9.jpeg" width="300" ></p>
 
 - Role : Team Member
 - Position : Back-end
