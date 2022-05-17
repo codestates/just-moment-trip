@@ -53,22 +53,18 @@
     <summary>가계부 도움말</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168765468-b2c27b9b-9f6e-4846-a410-58a5571de234.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>가계부 작성</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168765513-ca3dda8b-5ed2-4d4e-8079-2d0c7a29dafa.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>가계부 수정 및 삭제</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168765575-894cca9c-f671-4e10-b4af-8c80dac3d4ba.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>가계부 조회 및 그래프</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168765659-81b30894-750b-4f21-8765-3cbf5c25015f.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>가계부 지도 PIN</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168765790-65a77b6f-ae99-44d4-9905-2216c9ea8fc9.gif" width=“50%" height=“50%" /></p>
@@ -81,27 +77,22 @@
     <summary>다이어리 도움말</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766396-c1fb1db7-1111-43e6-8a98-d0b75ae97e14.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>다이어리 작성</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766435-4275eaae-03a4-41f5-8a79-6a73d8f3a11c.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>다이어리 수정 및 삭제</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766542-87eec8d8-5557-4ef8-97ab-d188e3560c22.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>다이어리 구성</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766622-40b1afbb-b773-4f5b-8d98-93f101a24def.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>다이어리 해시태그 검색</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766654-216889f3-86b8-4daf-b7b0-64608591f6e5.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>다이어리 제목 내용 검색</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766690-52e905a8-341b-42e3-ba73-7691a276a354.gif" width=“50%" height=“50%" /></p>
@@ -110,12 +101,10 @@
 
 <details>
 <summary>마이페이지</summary>
-
     <details>
     <summary>마이페이지</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766834-652c6318-2d7c-438d-ba63-53ac02221d7d.gif" width=“50%" height=“50%" /></p>
     </details>
-    
     <details>
     <summary>마이페이지</summary>
     <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766875-f2ef4a4c-60f1-487a-b130-ab48a2c7254b.gif" width=“50%" height=“50%" /></p>
