@@ -12,6 +12,8 @@
 - 서비스 이용자 간 채팅 기능
 - 여행중 구입내역 Google Map pin기능
 
+배포: https://just-moment-trip.ml
+
 ![홈](https://user-images.githubusercontent.com/95616448/168768146-aaee642c-edf9-494b-b5f3-0f57231d0de5.gif)
 
 # 주요 기능별 시연 gif
