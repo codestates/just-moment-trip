@@ -13,6 +13,8 @@
 - 여행중 구입내역 Google Map pin기능
 
 # 주요 기능별 시연 gif
+![홈](https://user-images.githubusercontent.com/95616448/168760914-f2ce2696-18d7-476c-b827-b49bf675ef7e.gif)
+
 
 ## 3. Members
 
@@ -20,7 +22,9 @@
 
 ### 팀장 : 윤기혁
 
----
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/168760681-5efddc8c-1337-4bc7-b110-eba280014c49.png" width=“50%" height=“50%" /></p>
+
+
 
 - Role : Team Leader
 - Position : Front-end
