@@ -20,7 +20,7 @@
 
 ---
 
-### 팀장 : 윤기혁
+# 팀장 : 윤기혁
 
 <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168760681-5efddc8c-1337-4bc7-b110-eba280014c49.png" width=“50%" height=“50%" /></p>
 
@@ -38,9 +38,10 @@
     6. 로그인 관련 및 여행페이지 CSS 작업
     
 
-### 팀원 : 문윤미
+# 팀원 : 문윤미
 
 ---
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/168761479-b040ec9d-d7ea-4ad2-a26e-c8c98bb5ee27.png" width=“50%" height=“50%" /></p>
 
 - Role : Team Member
 - Position : Front-end
@@ -105,13 +106,11 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
 
 ---
 
-### 팀원 : 최만선
+# 팀원 : 최만선
 
 ---
 
-
-## 본인의 사진을 올려주세요.
-( 배경이 너무 많이 나오는 사진은 적합하지 않습니다. )
+<p align="center"><img src="" width=“50%" height=“50%" /></p>
 
 - Role : Team Member
 - Position : Back-end
@@ -131,9 +130,10 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
 - Tech-Presentation Topic :  fuzzy 검색
     
 
-### 팀원 : 최현민
+# 팀원 : 최현민
 
 ---
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/168761621-e12a7e5b-8054-4480-8211-613a9a8cdb71.png" width=“50%" height=“50%" /></p>
 
 - Role : Team Member
 - Position : Back-end
