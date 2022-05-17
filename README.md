@@ -13,7 +13,124 @@
 - 여행중 구입내역 Google Map pin기능
 
 # 주요 기능별 시연 gif
-![홈](https://user-images.githubusercontent.com/95616448/168760914-f2ce2696-18d7-476c-b827-b49bf675ef7e.gif)
+<details>
+<summary>회원가입</summary>
+![회원가입](https://user-images.githubusercontent.com/95616448/168763835-560e5f99-4764-403d-b17d-dc3ab0294daa.gif)
+</details>
+
+<details>
+<summary>로그인</summary>
+![기본로그인](https://user-images.githubusercontent.com/95616448/168763987-d3a63ecd-3196-477a-b567-dd5c879fa570.gif)
+</details>
+
+
+<details>
+<summary>소셜로그인</summary>
+![카카오로그인](https://user-images.githubusercontent.com/95616448/168764115-e4b27a0f-4275-483a-9bb0-a3d9c2b46005.gif)
+</details>
+
+<details>
+<summary>여행 페이지</summary>
+    <details>
+    <summary>여행작성</summary>
+    ![트립작성](https://user-images.githubusercontent.com/95616448/168764552-8ff2866f-308d-4be4-bca3-385c764fb99c.gif)
+    </details>
+    
+    <details>
+    <summary>여행별 정보 확인</summary>
+    ![각트립별정보확인](https://user-images.githubusercontent.com/95616448/168764600-252a5008-a264-47c6-ad01-fb08a25185cb.gif)
+    </details>
+    
+    <details>
+    <summary>여행삭제</summary>
+    ![트립삭제](https://user-images.githubusercontent.com/95616448/168764633-7af1cc2f-4916-4530-8b40-35fe969dd7e5.gif)
+    </details>
+</details>
+
+<details>
+<summary>가계부 페이지</summary>
+    <details>
+    <summary>가계부 도움말</summary>
+    ![AccountPage도움말](https://user-images.githubusercontent.com/95616448/168765468-b2c27b9b-9f6e-4846-a410-58a5571de234.gif)
+    </details>
+    
+    <details>
+    <summary>가계부 작성</summary>
+    ![AccountPage작성](https://user-images.githubusercontent.com/95616448/168765513-ca3dda8b-5ed2-4d4e-8079-2d0c7a29dafa.gif)
+    </details>
+    
+    <details>
+    <summary>가계부 수정 및 삭제</summary>
+    ![AccountPage수정및삭제](https://user-images.githubusercontent.com/95616448/168765575-894cca9c-f671-4e10-b4af-8c80dac3d4ba.gif)
+    </details>
+    
+    <details>
+    <summary>가계부 조회 및 그래프</summary>
+    ![AccountPage기본+그래프](https://user-images.githubusercontent.com/95616448/168765659-81b30894-750b-4f21-8765-3cbf5c25015f.gif)
+    </details>
+    
+    <details>
+    <summary>가계부 지도 PIN</summary>
+    ![AccountPage지도](https://user-images.githubusercontent.com/95616448/168765790-65a77b6f-ae99-44d4-9905-2216c9ea8fc9.gif)
+    </details>
+</details>
+
+<details>
+<summary>다이어리 페이지</summary>
+    <details>
+    <summary>다이어리 도움말</summary>
+    ![Diary도움말페이지](https://user-images.githubusercontent.com/95616448/168766396-c1fb1db7-1111-43e6-8a98-d0b75ae97e14.gif)
+    </details>
+    
+    <details>
+    <summary>다이어리 작성</summary>
+    ![Diary작성](https://user-images.githubusercontent.com/95616448/168766435-4275eaae-03a4-41f5-8a79-6a73d8f3a11c.gif)
+    </details>
+    
+    <details>
+    <summary>다이어리 수정 및 삭제</summary>
+    ![Diary수정및삭제](https://user-images.githubusercontent.com/95616448/168766542-87eec8d8-5557-4ef8-97ab-d188e3560c22.gif)
+    </details>
+    
+    <details>
+    <summary>다이어리 구성</summary>
+    ![Diary단순조회](https://user-images.githubusercontent.com/95616448/168766622-40b1afbb-b773-4f5b-8d98-93f101a24def.gif)
+    </details>
+    
+    <details>
+    <summary>다이어리 해시태그 검색</summary>
+    ![Diary해시태그검색](https://user-images.githubusercontent.com/95616448/168766654-216889f3-86b8-4daf-b7b0-64608591f6e5.gif)
+    </details>
+    
+    <details>
+    <summary>다이어리 제목 내용 검색</summary>
+    ![Diary제목내용검색](https://user-images.githubusercontent.com/95616448/168766690-52e905a8-341b-42e3-ba73-7691a276a354.gif)
+    </details>
+</details>
+
+<details>
+<summary>마이페이지</summary>
+
+    <details>
+    <summary>마이페이지</summary>
+    ![마이페이지기능들](https://user-images.githubusercontent.com/95616448/168766834-652c6318-2d7c-438d-ba63-53ac02221d7d.gif)
+    </details>
+    
+    <details>
+    <summary>마이페이지</summary>
+    ![프로필사진설정](https://user-images.githubusercontent.com/95616448/168766875-f2ef4a4c-60f1-487a-b130-ab48a2c7254b.gif)
+    </details>
+</details>
+
+<details>
+<summary>인포페이지</summary>
+![INFO페이지](https://user-images.githubusercontent.com/95616448/168766952-498b830a-cba1-40b5-98c5-fc1bab60f56d.gif)
+</details>
+
+<details>
+<summary>채팅</summary>
+![SocketIO](https://user-images.githubusercontent.com/95616448/168766990-39bfe2a5-bebf-470d-a26d-7bb61bc2b5f6.gif)
+</details>
 
 
 ## 3. Members
