@@ -162,6 +162,6 @@ exports.diff_ngram = (data, search, num) => {
 // console.log(this.diff_ngram(a7, b7, 2));
 // console.log(this.diff_ngram(a7, b7, 3));
 // console.log("------------------");
-
+//a
 // 서울에서 맛있는 요리를 먹었다
 // console.log(this.diff_ngram("가나가나가나가나가나가나가나", "가나가마라라라라라라라라", 2));
