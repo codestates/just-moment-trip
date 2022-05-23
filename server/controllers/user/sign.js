@@ -1,7 +1,6 @@
 const { user } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
 module.exports = {
@@ -84,15 +83,15 @@ module.exports = {
             email,
           };
           const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-            expiresIn: "30h",
+            expiresIn: "30m",
           });
           const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
-            expiresIn: "7d",
+            expiresIn: "6h",
           });
           res.cookie("refreshToken", refreshToken, {
             sameSite: "Strict",
             httpOnly: true,
-            secure: false, // https로 바꾼후에 true로 바꿔야함
+            secure: true, // https로 바꾼후에 true로 바꿔야함
           });
           await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
           res.status(200).send({
