@@ -9,7 +9,7 @@ const tripCustomApi = axios.create({
 });
 
 export const requestTripList = async () => {
-  const result = await tripCustomApi.get('trip', {headers: tokenHeader()});
+  const result = await tripCustomApi.get('trip', { headers: tokenHeader() });
   return result.data.data;
 };
 
