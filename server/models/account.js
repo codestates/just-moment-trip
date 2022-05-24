@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   account.init(
     {
-      // trip_id: DataTypes.NUMBER,
       category: DataTypes.STRING,
       item_name: DataTypes.STRING,
       price: DataTypes.NUMBER,
