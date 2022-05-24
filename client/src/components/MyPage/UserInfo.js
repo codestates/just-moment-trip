@@ -6,13 +6,21 @@ import profile from './profile.jpeg';
 const CardDiv = styled.div`
   background-color: rgba(0, 0, 255, 0.3);
   text-align: center;
-  width: 30%;
+  width: 40vw;
   border-radius: 50px;
   margin: 100px auto 70px auto;
   padding: 30px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   font-family: SsurroundFont;
   font-size: 0.8em;
+
+  @media (max-width: 1400px) {
+    width: 60vw;
+  }
+
+  @media (max-width: 1000px) {
+    width: 80vw;
+  }
 
   > img {
     width: 100%;
