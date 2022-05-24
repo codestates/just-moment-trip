@@ -1,6 +1,5 @@
 const { user, trip } = require("../../models");
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
@@ -70,7 +69,6 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
-      console.log(validity);
       if (validity) {
         await user.destroy({
           where: { id: validity.id },
