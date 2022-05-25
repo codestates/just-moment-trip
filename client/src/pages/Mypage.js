@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 function MyPage() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
-  console.log(isLogin);
   return isLogin ? (
     <>
       <Navbar />
