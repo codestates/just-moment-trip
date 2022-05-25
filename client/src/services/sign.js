@@ -23,7 +23,7 @@ export const signInApi = async (email, password) => {
   });
   try {
     if (result.data.accessToken) {
-      localStorage.setItem('user', JSON.stringify(result.data));
+      sessionStorage.setItem('user', JSON.stringify(result.data));
     }
     return result.data;
   } catch (err) {
@@ -32,10 +32,10 @@ export const signInApi = async (email, password) => {
 };
 
 export const signOutApi = () => {
-  localStorage.removeItem('user');
-  localStorage.removeItem('trip_id');
-  localStorage.removeItem('total_price');
-  localStorage.removeItem('title');
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('trip_id');
+  sessionStorage.removeItem('total_price');
+  sessionStorage.removeItem('title');
 };
 
 export const kakaoSign = async code => {
@@ -44,7 +44,7 @@ export const kakaoSign = async code => {
     url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   });
   try {
-    localStorage.setItem('user', JSON.stringify(result.data));
+    sessionStorage.setItem('user', JSON.stringify(result.data));
     return result.data;
   } catch (err) {
     console.log(err);
