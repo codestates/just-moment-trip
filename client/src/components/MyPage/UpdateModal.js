@@ -58,13 +58,19 @@ function UpdateModal({ userPatchHandler }) {
     <Container onChange={onChange}>
       <h2>회원정보 수정</h2>
       <Input type="email" placeholder="Email" name="email" />
-      <Input type="password" placeholder="Current Password" name="password" />
-      <Input type="password" placeholder="New Password" name="new_password" />
-      <Input
-        type="password"
-        placeholder="Check New Password"
-        name="newpasswordCheck"
-      />
+      <form>
+        <Input type="password" placeholder="Current Password" name="password" />
+      </form>
+      <form>
+        <Input type="password" placeholder="New Password" name="new_password" />
+      </form>
+      <form>
+        <Input
+          type="password"
+          placeholder="Check New Password"
+          name="newpasswordCheck"
+        />
+      </form>
       <CustomButton
         handler={() => userPatchHandler(inputs)}
         name={'수정'}
