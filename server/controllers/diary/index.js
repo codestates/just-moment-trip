@@ -1,8 +1,6 @@
-const { diary, hashtag, diary_hashtag, Sequelize } = require("../../models");
+const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-const sequelize = require("sequelize");
-const Op = sequelize.Op;
 const fuzzy = require("./fuzzy");
 const levenshteinDistance = require("./levenshtein-distance");
 const nGram = require("./nGram");

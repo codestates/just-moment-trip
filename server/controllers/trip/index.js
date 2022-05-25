@@ -1,7 +1,7 @@
-const { trip, user } = require("../../models");
+const { trip } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-// const user = require("../user");
+
 module.exports = {
   get: async (req, res) => {
     try {
