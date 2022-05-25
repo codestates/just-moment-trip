@@ -54,7 +54,7 @@ function DiaryStore() {
   const dataId = useRef(0);
   const [search, setSearch] = React.useState('');
   const [searchType, setSearchType] = React.useState('');
-  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
+  const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
 
   const changeInput = e => {
     if (e.key === 'Enter') {
