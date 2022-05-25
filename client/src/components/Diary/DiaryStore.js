@@ -86,10 +86,6 @@ function DiaryStore() {
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
         setIsTrue(currentIsTrue => !currentIsTrue);
-        // console.log('--------------- onCreate', isTrue);
-        // console.log(res.data);
-        console.log(res);
-        console.log(res.status);
       })
       .catch(err => {
         console.log(err);
@@ -98,15 +94,9 @@ function DiaryStore() {
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
-    axios
-      .diaryRemove(targetId)
-      .then(res => {
-        console.log(res.data);
-        console.log(res.status);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    axios.diaryRemove(targetId).catch(err => {
+      console.log(err);
+    });
   }, []);
 
   const onEdit = useCallback(
@@ -121,10 +111,6 @@ function DiaryStore() {
 
       axios
         .diaryPatch(targetId, new_content, new_title, new_hashtags)
-        .then(res => {
-          console.log(res.data);
-          console.log(res.status);
-        })
         .catch(err => {
           console.log(err);
         });

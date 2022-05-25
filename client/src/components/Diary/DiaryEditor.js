@@ -58,6 +58,7 @@ const faFishFinsIcon = (
   </ManFishArea>
 );
 
+//해쉬태그 컴포넌트화 하기
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
