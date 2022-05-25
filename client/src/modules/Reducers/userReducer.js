@@ -6,7 +6,7 @@ import {
   kakaoSign,
 } from '../../services/sign';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 
 export const signUp = createAsyncThunk(
   'sign/up',

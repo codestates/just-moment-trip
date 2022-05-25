@@ -81,12 +81,12 @@ function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
-  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
-  // const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
-  const newTotalPrice = localStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
-    ? JSON.parse(localStorage.getItem('total_price'))
+  const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
+  // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
+  const newTotalPrice = sessionStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
+    ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
-  const title = JSON.parse(localStorage.getItem('title'));
+  const title = JSON.parse(sessionStorage.getItem('title'));
   const total = useSelector(state => state.trip);
   const newTotal = total.flat();
 
