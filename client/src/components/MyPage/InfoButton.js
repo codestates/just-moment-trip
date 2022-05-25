@@ -31,7 +31,6 @@ function InfoButton() {
   };
 
   const picUploadHandler = pic => {
-    //서버 재업 하고서 catch문 빼기
     axios.patch(url, { picture: pic }, options).then(() => {
       const newObj = Object.assign({}, userInfo, { picture: pic });
       setUserInfo(newObj);
