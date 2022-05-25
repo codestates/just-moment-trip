@@ -21,19 +21,23 @@ export const requestTripPost = (
   start_date,
   end_date,
 ) => {
-  tripCustomApi.post('trip', {
-    title,
-    country,
-    total_price,
-    base_currency,
-    start_date,
-    end_date,
-  });
+  tripCustomApi.post(
+    'trip',
+    {
+      title,
+      country,
+      total_price,
+      base_currency,
+      start_date,
+      end_date,
+    },
+    { headers: tokenHeader() },
+  );
 };
 
 export const requestTripDelete = id => {
   tripCustomApi
-    .delete(`trip/${id}`)
+    .delete(`trip/${id}`, { headers: tokenHeader() })
     .then(res => {
       console.log(res);
       window.location.reload();
