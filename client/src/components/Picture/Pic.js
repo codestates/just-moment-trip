@@ -66,7 +66,7 @@ const Pic = ({ picName, picUploadHandler }) => {
     // input 태그를 통해 선택한 파일 객체
     const file = e.target.files[0];
 
-    deleteHandler(file.name);
+    deleteHandler(picName);
 
     // S3 SDK에 내장된 업로드 함수
     const upload = new AWS.S3.ManagedUpload({
