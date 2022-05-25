@@ -59,7 +59,9 @@ const Pic = ({ picName, picUploadHandler }) => {
 
     var s3 = new AWS.S3();
     var params = { Bucket: 'jmtpictures', Key: name };
-    s3.deleteObject(params).promise();
+    s3.deleteObject(params, function (err, data) {
+      if (err) console.log(err);
+    });
   };
 
   const handleFileInput = async e => {
