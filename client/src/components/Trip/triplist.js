@@ -90,9 +90,9 @@ function TripList(props) {
 
   const handleRequest = (id, total, title) => {
     dispatch(postTripId(id));
-    localStorage.setItem('trip_id', JSON.stringify(id));
-    localStorage.setItem('total_price', JSON.stringify(total));
-    localStorage.setItem('title', JSON.stringify(title));
+    sessionStorage.setItem('trip_id', JSON.stringify(id));
+    sessionStorage.setItem('total_price', JSON.stringify(total));
+    sessionStorage.setItem('title', JSON.stringify(title));
     navigate('/account');
   };
 

@@ -25,7 +25,6 @@ function AccountInfo() {
   return (
     <Container direction={'row'} back={' rgba(0, 0, 255, .4)'}>
       <span>
-        {/* <img src={pic} /> */}
         <AccountEditor {...dummyData} />
       </span>
       <div className="message">
