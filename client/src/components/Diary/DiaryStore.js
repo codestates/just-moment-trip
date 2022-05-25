@@ -31,7 +31,7 @@ const reducer = (state, action) => {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
-      console.log('--------🚨 EDIT시 reducer의 state-------- :', state);
+      // console.log('--------🚨 EDIT시 reducer의 state-------- :', state);
       return state.map(it =>
         it.id === action.targetId
           ? {

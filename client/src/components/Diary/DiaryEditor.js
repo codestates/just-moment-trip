@@ -218,7 +218,7 @@ function DiaryEditor({
   const titleInput = useRef();
   const contentInput = useRef();
   useEffect(() => {
-    console.log(`${id}번 일기아이템 렌더`);
+    // console.log(`${id}번 일기아이템 렌더`); 
     if (searchType === 'title') {
       titleInput.current.innerHTML = titleInput.current.innerHTML
         .replace(/<span style="color: red">/g, '')
@@ -477,10 +477,6 @@ function DiaryEditor({
                           <span
                             className="tag-title"
                             onClick={event => {
-                              console.log(
-                                '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
-                                event.target.innerText,
-                              );
                               handleHashtags(event);
                             }}
                           >
