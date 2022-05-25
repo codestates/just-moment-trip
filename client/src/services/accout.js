@@ -8,7 +8,7 @@ let endpoint = 'https://just-moment-trip.tk';
 // 서로 따로 실행하니 당연히 주소도 다르겠지 후후
 
 export function accountGet(trip_id) {
-  console.log('어카운트 겟요청 됨');
+  // console.log('어카운트 겟요청 됨');
   let url = `${endpoint}/account?trip_id=${trip_id}`;
   return axios.get(url, {
     headers: tokenHeader(),
