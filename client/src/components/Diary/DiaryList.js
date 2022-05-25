@@ -432,9 +432,10 @@ function DiaryList({
           </div>
           <div>
             <DiaryListBox>
-              {newArr.map(dateFiltered => {
+              {newArr.map((dateFiltered, idx) => {
                 return (
                   <HistoryList
+                    key={idx}
                     data-aos="fade-up"
                     data-aos-offset="-400"
                     data-aos-delay="50"
