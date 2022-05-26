@@ -1,4 +1,4 @@
-const axios = require('../../services/accout');
+const axios = require('../../services/account');
 
 import React, {
   useState,
@@ -91,7 +91,7 @@ function AccountStore() {
   const newTotal = total.flat();
 
   console.log(newTotal);
-
+  let accessToken = '';
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
       // console.log(res);

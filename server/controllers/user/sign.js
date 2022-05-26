@@ -19,7 +19,6 @@ module.exports = {
             email,
           },
         });
-
         //이미 가입되었을 경우
         if (userInfo) {
           await slack.slack("Signup Post 409");
@@ -72,7 +71,6 @@ module.exports = {
             email,
           },
         });
-
         //데이터베이스에 email이 없을때
         if (!userInfo) {
           await slack.slack("Signin Post 400");
@@ -92,7 +90,7 @@ module.exports = {
                 email,
               };
               const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-                expiresIn: "30m",
+                expiresIn: "1s",
               });
               const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
                 expiresIn: "6h",
@@ -100,7 +98,7 @@ module.exports = {
               res.cookie("refreshToken", refreshToken, {
                 sameSite: "Strict",
                 httpOnly: true,
-                secure: true, // https로 바꾼후에 true로 바꿔야함
+                secure: false, // https로 바꾼후에 true로 바꿔야함
               });
               await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
               res.status(200).send({
