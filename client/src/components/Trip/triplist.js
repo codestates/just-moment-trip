@@ -84,7 +84,6 @@ function TripList(props) {
   useEffect(() => {
     dispatch(getTrip())
       .unwrap()
-      .then(res => console.log(res))
       .catch(err => console.log(err));
   }, []);
 
