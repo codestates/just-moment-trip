@@ -23,8 +23,8 @@ export default function Routers() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/diary" element={<Diary />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign/up" element={<SignUp />} />
+        <Route path="/sign/in" element={<SignIn />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSignIn />} />
         <Route path="/account" element={<Account />} />
         <Route path="/myPage" element={<MyPage />} />

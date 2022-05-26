@@ -28,7 +28,7 @@ const jwt = require("jsonwebtoken");
           email: data.email,
         };
 
-        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "30m" });
+        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, { expiresIn: "1s" });
         data["accessToken"] = accessToken;
         return data;
       } catch {
