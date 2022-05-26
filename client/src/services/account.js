@@ -1,12 +1,14 @@
 import axios from 'axios';
 import changeToken from './changeToken';
-// let endpoint = 'https://www.just-moment-trip.tk';
-let endpoint = 'http://localhost:8080';
+// let endpoint = 'http://localhost:8080';
+let endpoint = 'https://just-moment-trip.tk';
 
-export async function diaryGet(trip_id, search, searchType) {
-  let url = `${endpoint}/diary?trip_id=${trip_id}`;
-  if (search) url += `&search=${search}`;
-  if (searchType) url += `&searchType=${searchType}`;
+//tk : 서버배포
+//ml : 클라배포
+// 서로 따로 실행하니 당연히 주소도 다르겠지 후후
+
+export async function accountGet(trip_id) {
+  let url = `${endpoint}/account?trip_id=${trip_id}`;
   const res = await axios.get(url, {
     headers: {
       authorization:
@@ -19,16 +21,30 @@ export async function diaryGet(trip_id, search, searchType) {
   return res;
 }
 
-export async function diaryPost(trip_id, title, content, write_date, hashtags) {
-  let url = `${endpoint}/diary`;
+export async function accountPost(
+  trip_id,
+  item_name,
+  price,
+  category,
+  target_currency,
+  spent_person,
+  memo,
+  write_date,
+  gps,
+) {
+  let url = `${endpoint}/account`;
   const res = await axios.post(
     url,
     {
       trip_id,
-      title,
-      content,
+      item_name,
+      price,
+      category,
+      target_currency,
+      spent_person,
+      memo,
       write_date,
-      hashtags,
+      gps,
     },
     {
       headers: {
@@ -43,8 +59,8 @@ export async function diaryPost(trip_id, title, content, write_date, hashtags) {
   return res;
 }
 
-export async function diaryRemove(targetId) {
-  let url = `${endpoint}/diary/${targetId}`;
+export async function accountRemove(targetId) {
+  let url = `${endpoint}/account/${targetId}`;
   const res = await axios.delete(url, {
     headers: {
       authorization:
@@ -57,19 +73,25 @@ export async function diaryRemove(targetId) {
   return res;
 }
 
-export async function diaryPatch(
+export async function accountPatch(
   targetId,
-  new_content,
-  new_title,
-  new_hashtags,
+  new_price,
+  new_memo,
+  new_spent_person,
+  new_item_name,
+  new_target_currency,
+  new_category,
 ) {
-  let url = `${endpoint}/diary/${targetId}`;
+  let url = `${endpoint}/account/${targetId}`;
   const res = await axios.patch(
     url,
     {
-      new_content,
-      new_title,
-      new_hashtags,
+      new_price,
+      new_memo,
+      new_spent_person,
+      new_item_name,
+      new_target_currency,
+      new_category,
     },
     {
       headers: {

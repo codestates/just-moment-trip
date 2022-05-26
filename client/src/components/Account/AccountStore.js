@@ -1,4 +1,4 @@
-const axios = require('../../services/accout');
+const axios = require('../../services/account');
 
 import React, {
   useState,

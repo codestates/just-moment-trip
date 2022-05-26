@@ -102,7 +102,7 @@ function Home() {
                       </Box>
                     ) : (
                       <Box display="space - evenly" padding="170px 0 0 0">
-                        <StyledLink className="LoginSpan" to="/sign-up">
+                        <StyledLink className="LoginSpan" to="/sign/up">
                           <span
                             className="LoginSpan"
                             style={{ marginRight: '90px' }}
@@ -110,7 +110,7 @@ function Home() {
                             함께하기
                           </span>
                         </StyledLink>
-                        <StyledLink className="LoginSpan" to="/sign-in">
+                        <StyledLink className="LoginSpan" to="/sign/in">
                           <span>시작하기</span>
                         </StyledLink>
                       </Box>

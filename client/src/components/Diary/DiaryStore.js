@@ -64,6 +64,7 @@ function DiaryStore() {
   const getSearchType = e => {
     setSearchType(e.target.value);
   };
+  let accessToken = '';
   useEffect(() => {
     axios.diaryGet(trip_id, search, searchType).then(data => {
       if (data.data.accessToken) accessToken = data.data.accessToken;

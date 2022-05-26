@@ -1,19 +1,25 @@
 import axios from 'axios';
-import tokenHeader from './headers';
+import changeToken from './changeToken';
 
 const tripCustomApi = axios.create({
   // baseURL: 'http://localhost:8080/',
   baseURL: 'https://www.just-moment-trip.tk/',
-  'Content-Type': 'application/json',
   withCredentials: true,
 });
 
 export const requestTripList = async () => {
-  const result = await tripCustomApi.get('trip', { headers: tokenHeader() });
+  const result = await tripCustomApi.get('trip', {
+    headers: {
+      authorization:
+        'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+      'Content-Type': 'application/json',
+    },
+  });
+  changeToken(result);
   return result.data.data;
 };
 
-export const requestTripPost = (
+export const requestTripPost = async (
   title,
   country,
   total_price,
@@ -21,7 +27,7 @@ export const requestTripPost = (
   start_date,
   end_date,
 ) => {
-  tripCustomApi.post(
+  const res = await tripCustomApi.post(
     'trip',
     {
       title,
@@ -31,18 +37,25 @@ export const requestTripPost = (
       start_date,
       end_date,
     },
-    { headers: tokenHeader() },
+    {
+      headers: {
+        authorization:
+          'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+        'Content-Type': 'application/json',
+      },
+    },
   );
+  changeToken(res);
 };
 
-export const requestTripDelete = id => {
-  tripCustomApi
-    .delete(`trip/${id}`, { headers: tokenHeader() })
-    .then(res => {
-      console.log(res);
-      window.location.reload();
-    })
-    .catch(err => {
-      console.log(err);
-    });
+export const requestTripDelete = async id => {
+  const res = await tripCustomApi.delete(`trip/${id}`, {
+    headers: {
+      authorization:
+        'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+      'Content-Type': 'application/json',
+    },
+  });
+  changeToken(res);
+  window.location.reload();
 };
