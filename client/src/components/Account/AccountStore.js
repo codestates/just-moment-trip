@@ -91,7 +91,7 @@ function AccountStore() {
   const newTotal = total.flat();
 
   console.log(newTotal);
-  let accessToken = '';
+
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
       // console.log(res);
