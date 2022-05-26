@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import JMT from './Team/JMT.png';
 import JMTL from './Team/JMTL.png';

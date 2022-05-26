@@ -1,10 +1,11 @@
 import React from 'react';
-import DiaryList from '../components/Diary/DiaryList';
 import DiaryStore from '../components/Diary/DiaryStore';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
 import LoginMessage from '../components/common/LoginMessage';
 import { useSelector } from 'react-redux';
+
+// 카드 클릭했을 때 모션?이 있어야하나..? 리펙토링할때는 못할것같다만
 
 const Box = styled.div`
   padding-top: 150px;

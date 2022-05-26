@@ -58,6 +58,7 @@ const faFishFinsIcon = (
   </ManFishArea>
 );
 
+//해쉬태그 컴포넌트화 하기
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
@@ -218,7 +219,7 @@ function DiaryEditor({
   const titleInput = useRef();
   const contentInput = useRef();
   useEffect(() => {
-    console.log(`${id}번 일기아이템 렌더`);
+    // console.log(`${id}번 일기아이템 렌더`);
     if (searchType === 'title') {
       titleInput.current.innerHTML = titleInput.current.innerHTML
         .replace(/<span style="color: red">/g, '')
@@ -417,7 +418,7 @@ function DiaryEditor({
               <DiaryEditTextareaBox
                 ref={localContentInput}
                 value={localContent}
-                maxlength="100"
+                maxLength="100"
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
@@ -444,7 +445,7 @@ function DiaryEditor({
                 onKeyUp={event =>
                   event.key === 'Enter' ? addTags(event) : null
                 }
-                maxlength="12"
+                maxLength="12"
                 placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
@@ -461,7 +462,7 @@ function DiaryEditor({
               </div>
               <div
                 className="content"
-                style={{ width: '28.5vw', padding: '% 0' }}
+                style={{ width: '28.5vw' }}
                 ref={contentInput}
               >
                 {content}
@@ -477,10 +478,6 @@ function DiaryEditor({
                           <span
                             className="tag-title"
                             onClick={event => {
-                              console.log(
-                                '----------- 해시태그 클릭시 localHashtag는 어떻게 되나요 ?',
-                                event.target.innerText,
-                              );
                               handleHashtags(event);
                             }}
                           >

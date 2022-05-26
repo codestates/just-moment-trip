@@ -50,7 +50,6 @@ const reducer = (state, action) => {
         ...action.data,
         create_date,
       };
-      console.log('--------🚨 Store의 state-------- :', state);
 
       return [newItem, ...state];
     }
@@ -90,8 +89,6 @@ function AccountStore() {
   const total = useSelector(state => state.trip);
   const newTotal = total.flat();
 
-  console.log(newTotal);
-
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
       // console.log(res);
@@ -100,8 +97,6 @@ function AccountStore() {
 
       dispatch({ type: INIT, data: initData });
     });
-
-    console.log('저 희 사 이 트 를 이 용 해 주 셔 서 무 한 도 전 👋');
     // console.log('--------------- useEffect', isTrue);
   }, [isTrue]);
 
@@ -151,8 +146,6 @@ function AccountStore() {
             return !currentIsTrue;
           });
           // console.log('--------------- onCreate', isTrue);
-          console.log(res.data);
-          console.log(res.status);
         })
         .catch(err => {
           console.log(err);
@@ -165,17 +158,10 @@ function AccountStore() {
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
 
-    axios
-      .accountRemove(targetId)
-      .then(res => {
-        // console.log('--------------- 삭제시', isTrue);
-        console.log(res.data);
-        console.log(res.status);
-      })
-      .catch(err => {
-        console.log(err);
-        // console.log('루저ㅋ', err.status);
-      });
+    axios.accountRemove(targetId).catch(err => {
+      console.log(err);
+      // console.log('루저ㅋ', err.status);
+    });
   }, []);
 
   const onEdit = useCallback(
@@ -209,10 +195,6 @@ function AccountStore() {
           new_target_currency,
           new_category,
         )
-        .then(res => {
-          console.log(res.data);
-          console.log(res.status);
-        })
         .catch(err => {
           console.log(err);
           // console.log('루저ㅋ', err.status);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -27,6 +27,11 @@ const StyledLink = styled(Link)`
 
 function Home() {
   const isLoggedIn = useSelector(state => state.sign.isLoggedIn);
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('저 희 사 이 트 를 이 용 해 주 셔 서 무 한 도 전 👋');
+    }, 2000);
+  }, []);
   return (
     <>
       <Navbar />

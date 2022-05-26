@@ -181,11 +181,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     const filtered = tags.filter(el => el === event.target.value);
     if (event.target.value !== '' && filtered.length === 0) {
       setTags([...tags, event.target.value]);
-      // selectedTags([...tags, event.target.value]);
       event.target.value = '';
-      // console.log('addTag의 tags :', tags);
-      // console.log('addTag의 addTags :', addTags);
-      // console.log('addTag의 filtered :', filtered);
     }
   };
   const titleInput = useRef();
@@ -298,7 +294,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
             }}
             className="DiaryEditorTextarea"
             placeholder="오늘은 어땠나요 ?"
-            maxlength="100"
+            maxLength="100"
             ref={contentInput}
             value={state.content}
             name="content"
@@ -338,7 +334,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
               className="tag-input"
               type="text"
               onKeyUp={event => (event.key === 'Enter' ? addTags(event) : null)}
-              maxlength="12"
+              maxLength="12"
               placeholder="태그를 입력하세요🪐"
             />
           </TagsInput>
