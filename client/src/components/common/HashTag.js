@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 console.log('연습');
+console.log('연습1');
 
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
