@@ -418,7 +418,7 @@ function DiaryEditor({
               <DiaryEditTextareaBox
                 ref={localContentInput}
                 value={localContent}
-                maxlength="100"
+                maxLength="100"
                 onChange={e => setLocalContent(e.target.value)}
               />
             </div>
@@ -445,7 +445,7 @@ function DiaryEditor({
                 onKeyUp={event =>
                   event.key === 'Enter' ? addTags(event) : null
                 }
-                maxlength="12"
+                maxLength="12"
                 placeholder="최대 12자를 입력 할 수 있어요 🪐"
               />
             </TagsInput>
