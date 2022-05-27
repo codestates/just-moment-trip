@@ -90,7 +90,7 @@ module.exports = {
                 email,
               };
               const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-                expiresIn: "1s",
+                expiresIn: "30m",
               });
               const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
                 expiresIn: "6h",

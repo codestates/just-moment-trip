@@ -54,21 +54,46 @@ function UpdateModal({ userPatchHandler }) {
     });
   };
 
+  const onEnter = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Container onChange={onChange}>
       <h2>회원정보 수정</h2>
-      <Input type="email" placeholder="Email" name="email" />
+      <Input
+        type="email"
+        placeholder="Email"
+        name="email"
+        onKeyDown={onEnter}
+      />
       <form>
-        <Input type="password" placeholder="Current Password" name="password" />
+        <Input
+          type="password"
+          placeholder="Current Password"
+          name="password"
+          autoComplete="off"
+          onKeyDown={onEnter}
+        />
       </form>
       <form>
-        <Input type="password" placeholder="New Password" name="new_password" />
+        <Input
+          type="password"
+          placeholder="New Password"
+          name="new_password"
+          autoComplete="off"
+          onKeyDown={onEnter}
+        />
       </form>
       <form>
         <Input
           type="password"
           placeholder="Check New Password"
           name="newpasswordCheck"
+          autoComplete="off"
+          onKeyDown={onEnter}
         />
       </form>
       <CustomButton
