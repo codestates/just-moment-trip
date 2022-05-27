@@ -1,6 +1,7 @@
 import React from 'react';
 import { useField } from 'formik';
 import styled from 'styled-components';
+import { Fi } from 'react-flags-select';
 
 const TripInput = styled.input`
   text-align: center;
@@ -17,6 +18,7 @@ const TripInput = styled.input`
 
 function TripTextField({ label, ...props }) {
   const [Field, meta] = useField(props);
+
   return (
     <div>
       {/* <label htmlFor={Field.name}>{label}</label> */}
