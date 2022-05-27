@@ -10,7 +10,7 @@ export const signCustomApi = axios.create({
 });
 
 export const signUpApi = (email, nickname, password) => {
-  signCustomApi.post('up', {
+  return signCustomApi.post('up', {
     email,
     nickname,
     password,
