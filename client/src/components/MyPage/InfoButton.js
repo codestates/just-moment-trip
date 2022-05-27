@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
+import changeToken from '~/src/services/changeToken';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -19,19 +20,22 @@ function InfoButton() {
     getUserInfo();
   }, [userInfo.picture]);
 
-  const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const url = 'https://www.just-moment-trip.tk/user';
+  // const url = 'http://localhost:8080/user';
   const options = {
     headers: {
-      authorization: `Bearer ${accessToken}`,
+      authorization: `Bearer ${
+        JSON.parse(sessionStorage.getItem('user')).accessToken
+      }`,
       'Content-Type': 'application/json',
     },
   };
 
   const picUploadHandler = pic => {
-    axios.patch(url, { picture: pic }, options).then(() => {
+    axios.patch(url, { picture: pic }, options).then(res => {
+      changeToken(res);
       const newObj = Object.assign({}, userInfo, { picture: pic });
       setUserInfo(newObj);
     });
@@ -56,6 +60,13 @@ function InfoButton() {
       });
     }
 
+    if (input.email !== userInfo.email) {
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '이메일을 확인해주세요',
+      });
+    }
+
     if (
       input.password === input.new_password &&
       input.new_password === input.newpasswordCheck
@@ -69,6 +80,7 @@ function InfoButton() {
     axios
       .patch(url, input, options)
       .then(res => {
+        changeToken(res);
         Swal.fire({
           backdrop: ` rgba(0,0,110,0.5)`,
           text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
@@ -111,6 +123,7 @@ function InfoButton() {
 
   const getUserInfo = async () => {
     const user = await axios.get(url, options);
+    changeToken(user);
     setUserInfo({ ...user.data.data });
   };
 
