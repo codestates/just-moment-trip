@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
-import changeToken from '~/src/services/changeToken';
+import changeToken from '../../services/changeToken';
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
