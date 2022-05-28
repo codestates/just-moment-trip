@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import {
   signInApi,
   signUpApi,
@@ -13,10 +14,9 @@ export const signUp = createAsyncThunk(
   async ({ email, nickname, password }) => {
     try {
       const response = await signUpApi(email, nickname, password);
-      console.log(response.data);
       return response.data;
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   },
 );

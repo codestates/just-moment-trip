@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const signCustomApi = axios.create({
-  baseURL: 'http://localhost:8080/sign/',
-  // baseURL: 'https://www.just-moment-trip.tk/sign/',
+  // baseURL: 'http://localhost:8080/sign/',
+  baseURL: 'https://www.just-moment-trip.tk/sign/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ export const signCustomApi = axios.create({
 });
 
 export const signUpApi = (email, nickname, password) => {
-  signCustomApi.post('up', {
+  return signCustomApi.post('up', {
     email,
     nickname,
     password,

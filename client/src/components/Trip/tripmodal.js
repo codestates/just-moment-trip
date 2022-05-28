@@ -63,6 +63,37 @@ function TripModal() {
 
   const tripSubmit = (values, actions) => {
     const { title, total_price, base_currency } = values;
+
+    if (title.length < 1) {
+      return Swal.fire({
+        icon: 'error',
+        text: '여행이름을 입력해주세요',
+        backdrop: `
+      rgba(0,0,110,0.5)
+    `,
+      });
+    }
+
+    if (selected.length < 1) {
+      return Swal.fire({
+        icon: 'error',
+        text: '여행지를 선택해주세요',
+        backdrop: `
+      rgba(0,0,110,0.5)
+    `,
+      });
+    }
+
+    if (total_price.length < 1) {
+      return Swal.fire({
+        icon: 'error',
+        text: '여행경비를 입력해주세요',
+        backdrop: `
+      rgba(0,0,110,0.5)
+    `,
+      });
+    }
+
     requestTripPost(
       title,
       selected,
@@ -73,11 +104,12 @@ function TripModal() {
     );
     Swal.fire({
       icon: 'success',
-      text: '성공 !',
+      text: '작성이 완료되었어요 !',
     }).then(res => {
       if (res.isConfirmed) window.location.reload();
     });
   };
+
   return (
     <Formik
       initialValues={{
