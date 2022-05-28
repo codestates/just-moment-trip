@@ -2,9 +2,8 @@ import React from 'react';
 import DiaryStore from '../components/Diary/DiaryStore';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
-import LoginMessage from '../components/common/LoginMessage';
+import LoginTripMessage from '../components/common/LoginTripMessage';
 import { useSelector } from 'react-redux';
-import NoTrip from '../components/common/NoTrip';
 
 // 카드 클릭했을 때 모션?이 있어야하나..? 리펙토링할때는 못할것같다만
 
@@ -32,13 +31,13 @@ function Diary() {
     ) : (
       <>
         <Navbar />
-        <NoTrip />
+        <LoginTripMessage redirect={'/trip'} />
       </>
     )
   ) : (
     <>
       <Navbar />
-      <LoginMessage />
+      <LoginTripMessage redirect={'/'} />
     </>
   );
 }
