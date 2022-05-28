@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import catzzal5 from '../../Assets/catzzal5.gif';
+import vibepartycat from '../../Assets/vibepartycat.gif';
 
-function LoginMessage() {
+function NoTrip() {
   const navigate = useNavigate();
+
   const goHome = () => {
     Swal.fire({
       icon: 'warning',
-      title: '🤷‍♂️ 로그인이 필요합니다',
+      title: '여행을 작성하거나 선택해주세요',
       allowOutsideClick: false,
       backdrop: `
       rgba(0,0,110,0.5)
-      url(${catzzal5})
-      bottom
+      url(${vibepartycat})
+      top
       no-repeat
     `,
     }).then(result => {
       if (result.isConfirmed) {
-        navigate('/');
+        navigate('/trip');
       }
     });
   };
@@ -30,4 +31,4 @@ function LoginMessage() {
   return <></>;
 }
 
-export default LoginMessage;
+export default NoTrip;
