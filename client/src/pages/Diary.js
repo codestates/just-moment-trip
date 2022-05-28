@@ -18,7 +18,7 @@ const Box = styled.div`
 
 function Diary() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
-  const isTrip = useSelector(state => state.tripId.trip_id);
+  const isTrip = JSON.parse(sessionStorage.getItem('trip_id'));
 
   return isLogin ? (
     isTrip ? (
