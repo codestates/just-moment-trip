@@ -135,30 +135,27 @@ function TripModal() {
           <Form>
             <TripTextField label="여행이름" name="title" type="text" />
             <TripDiv>
-              <TripDiv>
-                <ReactFlagsSelect
-                  className="ReactFlagsSelect"
-                  selected={selected}
-                  onSelect={data => {
-                    setSelected(data);
-                  }}
-                  fullWidth={false}
-                />
-                <DateRangeInput
-                  onDatesChange={data =>
-                    dispatch({ type: 'dateChange', payload: data })
-                  }
-                  onFocusChange={focusedInput =>
-                    dispatch({ type: 'focusChange', payload: focusedInput })
-                  }
-                  //!-------------------------
-                  startDate={state.startDate}
-                  endDate={state.endDate}
-                  //!-------------------------
-                  focusedInput={state.focusedInput}
-                  displayFormat={'yyyy/MM/dd'}
-                />
-              </TripDiv>
+              <ReactFlagsSelect
+                selected={selected}
+                onSelect={data => {
+                  setSelected(data);
+                }}
+                searchable={true}
+              />
+              <DateRangeInput
+                onDatesChange={data =>
+                  dispatch({ type: 'dateChange', payload: data })
+                }
+                onFocusChange={focusedInput =>
+                  dispatch({ type: 'focusChange', payload: focusedInput })
+                }
+                //!-------------------------
+                startDate={state.startDate}
+                endDate={state.endDate}
+                //!-------------------------
+                focusedInput={state.focusedInput}
+                displayFormat={'yyyy/MM/dd'}
+              />
             </TripDiv>
             {/* <DatePicker
               selected={endDate}
