@@ -13,6 +13,7 @@ require("dotenv").config();
         charset: "utf8mb4",
         dateStrings: true,
         typeCast: true,
+        supportBigNumbers: true,
       },
     },
     test: {
@@ -27,6 +28,7 @@ require("dotenv").config();
         charset: "utf8mb4",
         dateStrings: true,
         typeCast: true,
+        supportBigNumbers: true,
       },
     },
     production: {
@@ -41,6 +43,7 @@ require("dotenv").config();
         charset: "utf8mb4",
         dateStrings: true,
         typeCast: true,
+        supportBigNumbers: true,
       },
     },
   };

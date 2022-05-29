@@ -20,6 +20,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      e: {
+        type: Sequelize.BIGINT,
+      },
+      N: {
+        type: Sequelize.BIGINT,
+      },
+      d: {
+        type: Sequelize.BIGINT,
+      },
       picture: {
         defaultValue: "profile.jpeg",
         allowNull: true,
