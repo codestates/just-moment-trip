@@ -3,7 +3,7 @@ import axios from 'axios';
 import UserInfo from './UserInfo';
 import ButtonHandler from './ButtonHandler';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
 import changeToken from '../../services/changeToken';
@@ -86,6 +86,7 @@ function InfoButton() {
           text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
         }).then(result => {
           if (result.isConfirmed) {
+            delete options.data;
             navigate('/');
             dispatch(signOut());
           }
@@ -98,7 +99,6 @@ function InfoButton() {
           text: '기존 이메일 비밀번호를 확인해주세요',
         });
       });
-    delete options.data;
   };
 
   const signoutHandler = () => {
@@ -138,10 +138,10 @@ function InfoButton() {
       confirmButtonText: '삭제!',
       cancelButtonText: '취소',
       backdrop: ` rgba(0,0,110,0.5)`,
-    }).then(async result => {
+    }).then(result => {
       if (result.isConfirmed) {
+        navigate('/');
         axios.delete(url, options).then(() => {
-          navigate('/');
           dispatch(signOut());
           Swal.fire({
             backdrop: ` rgba(0,0,110,0.5)`,

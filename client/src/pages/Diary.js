@@ -2,7 +2,7 @@ import React from 'react';
 import DiaryStore from '../components/Diary/DiaryStore';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
-import LoginMessage from '../components/common/LoginMessage';
+import LoginTripMessage from '../components/common/LoginTripMessage';
 import { useSelector } from 'react-redux';
 
 // 카드 클릭했을 때 모션?이 있어야하나..? 리펙토링할때는 못할것같다만
@@ -18,18 +18,26 @@ const Box = styled.div`
 
 function Diary() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
+  const isTrip = JSON.parse(sessionStorage.getItem('trip_id'));
 
   return isLogin ? (
-    <>
-      <Navbar />
-      <Box>
-        <DiaryStore />
-      </Box>
-    </>
+    isTrip ? (
+      <>
+        <Navbar />
+        <Box>
+          <DiaryStore />
+        </Box>
+      </>
+    ) : (
+      <>
+        <Navbar />
+        <LoginTripMessage redirect={'/trip'} />
+      </>
+    )
   ) : (
     <>
       <Navbar />
-      <LoginMessage />
+      <LoginTripMessage redirect={'/'} />
     </>
   );
 }

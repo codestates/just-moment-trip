@@ -83,9 +83,10 @@ function SignUpInput() {
 
   const signUpRequest = (values, actions) => {
     const { email, nickname, password } = values;
+
     dispatch(signUp({ email, nickname, password }))
       .unwrap()
-      .then(() => {
+      .then(res => {
         Swal.fire({
           icon: 'success',
           text: '회원가입 성공 !',
@@ -94,7 +95,8 @@ function SignUpInput() {
         });
       })
       .catch(err => {
-        if (err) {
+        const message = err.message.split(' ');
+        if (message[message.length - 1] === '409') {
           Swal.fire({
             icon: 'error',
             text: '이미 사용중인 이메일 입니다',
