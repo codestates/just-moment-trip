@@ -2,6 +2,7 @@ const { user, trip } = require("../../models");
 require("dotenv").config();
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   get: async (req, res) => {
@@ -47,23 +48,35 @@ module.exports = {
         const userInfo = await user.findOne({
           where: {
             email: req.body.email,
-            password: req.body.password,
           },
         });
+
         if (!userInfo) {
           await slack.slack("User Patch 404", `id : ${validity.id}`);
-          res.status(404).send({
+          return res.status(404).send({
             data: { id: validity.id },
             message: "No User",
           });
         }
-        await user.update({ password: req.body.new_password }, { where: { id: userInfo.id } });
-        await slack.slack("User Patch 200", `id : ${userInfo.id}`);
-        res.status(200).send({ data: { id: userInfo.id }, accessToken: validity.accessToken });
+
+        bcrypt.compare(req.body.password, userInfo.password, async function (err, result) {
+          if (result === false) {
+            return res.status(400).send({ message: "Wrong password" });
+          }
+          bcrypt.genSalt(10, async function (err, salt) {
+            bcrypt.hash(String(req.body.new_password), salt, async function (err, hash) {
+              await user.update({ password: hash }, { where: { id: userInfo.id } });
+              await slack.slack("User Patch 200", `id : ${userInfo.id}`);
+              return res
+                .status(200)
+                .send({ data: { id: userInfo.id }, accessToken: validity.accessToken });
+            });
+          });
+        });
       }
     } catch (err) {
       await slack.slack("User Patch 501");
-      res.status(501).send("User Patch");
+      return res.status(501).send("User Patch");
     }
   },
   delete: async (req, res) => {

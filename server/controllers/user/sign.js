@@ -3,53 +3,74 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
-
+const RSA = require("./RSA");
 module.exports = {
   up: {
     post: async (req, res) => {
       try {
-        // 정보 불충분
-        const { email, nickname, password } = req.body;
-        if (!email || !nickname || !password) {
-          await slack.slack("Signup Post 422");
-          return res.status(422).send({ message: "insufficient parameters supplied" });
-        }
+        const { email, nickname, createKey } = req.body;
+        let password = req.body.password;
         const userInfo = await user.findOne({
           where: {
             email,
           },
         });
-        //이미 가입되었을 경우
-        if (userInfo) {
-          await slack.slack("Signup Post 409");
-          return res.status(409).send({ message: "email already exists" });
-        }
+        // 가입 안되어 있을 경우 키 생성
+        if (createKey === true) {
+          // 이미 가입되었을 경우
+          if (userInfo) {
+            await slack.slack("Signup Post 409");
+            return res.status(409).send({ message: "email already exists" });
+          }
+          let [e, N, d] = RSA.createKey();
+          const payload = {
+            email,
+            nickname,
+            password: 193n ** 7n,
+            d,
+            e,
+            N,
+          };
+          await user.create(payload);
+          BigInt.prototype.toJSON = function () {
+            return this.toString();
+          };
+          e = JSON.stringify(e);
+          N = JSON.stringify(N);
+          return res.status(201).send({ data: { e: e, N: N } });
+        } else {
+          if (!email || !password || !nickname) {
+            await slack.slack("Signup Post 422");
+            return res.status(422).send({ message: "insufficient parameters supplied" });
+          }
+          let passwordBigIntArr = [];
+          for (let i = 0; i < password.length; i++) {
+            passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
+          }
 
-        //가입이 되지 않았을 경우
-        else {
-          //? 방법 1 salt 생성 후 소금 치기
-          bcrypt.genSalt(10, async function (err, salt) {
-            bcrypt.hash(String(password), salt, async function (err, hash) {
-              const payload = {
-                email,
-                nickname,
-                password: hash,
-              };
-              const result = await user.create(payload);
-              res.status(201).send({ data: { id: result.id } });
+          let d = BigInt(userInfo.dataValues.d);
+          let N = BigInt(userInfo.dataValues.N);
+          const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
+            return String.fromCharCode(Number(ele ** d % N));
+          });
+          password = passwordDecryptedArr.join("");
+          //     //? 방법 1 salt 생성 후 소금 치기
+          bcrypt.genSalt(13, async function (err, salt) {
+            bcrypt.hash(password, salt, async function (err, hash) {
+              userInfo.password = hash;
+              const result = await userInfo.save();
+              await slack.slack("User Post 201", `id : ${result.dataValues.id}`);
+              return res.status(201).send({ data: { id: result.dataValues.id } });
             });
           });
-          //? 방법 2 salt 자동 생성
-          // bcrypt.hash(String(password), 10, async function (err, hash) {
-          //   const payload = {
-          //     email,
-          //     nickname,
-          //     password: hash,
-          //   };
-          //   const result = await user.create(payload);
-          //   res.status(201).send({ data: { id: result.id } });
+          //     //? 방법 2 salt 자동 생성
+          // bcrypt.hash(password, 13, async function (err, hash) {
+          // userInfo.password = hash;
+          // const result = await userInfo.save();
+          // await slack.slack("User Post 201", `id : ${result.dataValues.id}`);
+          // return res.status(201).send({ data: { id: result.dataValues.id } });
           // });
-          //? ---
+          //     //? ---
         }
       } catch (err) {
         await slack.slack("Signup Post 501");
@@ -90,7 +111,7 @@ module.exports = {
                 email,
               };
               const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
-                expiresIn: "1s",
+                expiresIn: "30m",
               });
               const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
                 expiresIn: "6h",
