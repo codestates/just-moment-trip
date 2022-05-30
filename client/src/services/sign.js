@@ -21,16 +21,12 @@ export const signUpApi = async (email, nickname, password) => {
   BigInt.prototype.toJSON = function () {
     return this.toString();
   };
+  console.time('암호화');
   for (let i = 0; i < password.length; i++) {
     let a = BigInt(password[i].charCodeAt(0));
-    let total = 1n;
-    // 리액트에서는 **이 자동으로 Math.pow로 변해서 BigInt에서 못 읽어버림 그래서 for문으로 함
-    for (let j = 0n; j < e; j++) {
-      total *= a;
-    }
-    encrypted[i] = JSON.stringify(total % N);
+    encrypted[i] = JSON.stringify(power(a, e, N));
   }
-
+  console.timeEnd('암호화');
   const res2 = await signCustomApi.post('up', {
     email,
     nickname,
@@ -73,3 +69,20 @@ export const kakaoSign = async code => {
     console.log(err);
   }
 };
+function power(base, exponent, mod) {
+  base %= mod;
+  let result = 1n;
+
+  while (exponent > 0n) {
+    // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+    if (exponent & 1n) {
+      result = result * base;
+      result = result % mod;
+    }
+    exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+    base = base * base;
+    base = base % mod;
+  }
+
+  return result;
+}
