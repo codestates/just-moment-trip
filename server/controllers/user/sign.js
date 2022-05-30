@@ -44,14 +44,15 @@ module.exports = {
             return res.status(422).send({ message: "insufficient parameters supplied" });
           }
           let passwordBigIntArr = [];
+          console.time("복호화");
           for (let i = 0; i < password.length; i++) {
             passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
           }
-
+          console.timeEnd("복호화");
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
-            return String.fromCharCode(Number(ele ** d % N));
+            return String.fromCharCode(Number(power(ele, d, N)));
           });
           password = passwordDecryptedArr.join("");
           //     //? 방법 1 salt 생성 후 소금 치기
@@ -148,3 +149,20 @@ module.exports = {
     },
   },
 };
+function power(base, exponent, mod) {
+  base %= mod;
+  let result = 1n;
+
+  while (exponent > 0n) {
+    // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+    if (exponent & 1n) {
+      result = result * base;
+      result = result % mod;
+    }
+    exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+    base = base * base;
+    base = base % mod;
+  }
+
+  return result;
+}
