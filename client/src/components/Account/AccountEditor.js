@@ -555,7 +555,8 @@ function AccountEditor({
                           marginTop: '5px',
                         }}
                       >
-                        {price}
+                        {price.toLocaleString()}{' '}
+                        {/* //! ------------------------------------ */}
                       </div>
                       <div
                         className="AccountItemContentBoxText3"

@@ -9,8 +9,6 @@ import React, {
 } from 'react';
 
 import AccountList from './AccountList';
-import { useSelector } from 'react-redux';
-import { getName } from 'country-list';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -86,8 +84,6 @@ function AccountStore() {
     ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
-  const total = useSelector(state => state.trip);
-  const newTotal = total.flat();
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
@@ -216,7 +212,8 @@ function AccountStore() {
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString('ko-KR')}원`;
+  totalSpentString = `${totalSpent.toLocaleString()}원`;
+  console.log('------', totalSpentString);
   remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
   PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
     2,
