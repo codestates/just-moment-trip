@@ -9,8 +9,6 @@ import React, {
 } from 'react';
 
 import AccountList from './AccountList';
-import { useSelector } from 'react-redux';
-import { getName } from 'country-list';
 
 const INIT = 'INIT';
 const CREATE = 'CREATE';
@@ -45,13 +43,10 @@ const reducer = (state, action) => {
       return action.data.reverse();
     }
     case CREATE: {
-      const create_date = new Date().getTime();
       const newItem = {
         ...action.data,
-        create_date,
       };
-
-      return [newItem, ...state];
+      // return [newItem, ...state];
     }
     case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
@@ -78,7 +73,7 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
-  const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
+  // const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const dataId = useRef(0);
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
   // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
@@ -86,19 +81,15 @@ function AccountStore() {
     ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
-  const total = useSelector(state => state.trip);
-  const newTotal = total.flat();
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
       // console.log(res);
-      if (res.data.accessToken) accessToken = res.data.accessToken;
       const initData = res.data.data;
 
       dispatch({ type: INIT, data: initData });
     });
-    // console.log('--------------- useEffect', isTrue);
-  }, [isTrue]);
+  }, []);
 
   const onCreate = useCallback(
     (
@@ -111,24 +102,6 @@ function AccountStore() {
       write_date,
       gps,
     ) => {
-      dispatch({
-        type: CREATE,
-        data: {
-          item_name,
-          price,
-          category,
-          target_currency,
-          spent_person,
-          memo,
-          write_date,
-          gps,
-          id: dataId.current,
-        },
-      });
-      // console.log()
-      dataId.current += 1;
-      // console.log('AccountStore dataId 확인 :', dataId.current);
-
       axios
         .accountPost(
           trip_id,
@@ -141,11 +114,13 @@ function AccountStore() {
           write_date,
           gps,
         )
-        .then(res => {
-          setIsTrue(currentIsTrue => {
-            return !currentIsTrue;
+        .then(() => {
+          axios.accountGet(trip_id).then(res => {
+            // console.log(res);
+            const initData = res.data.data;
+
+            dispatch({ type: INIT, data: initData });
           });
-          // console.log('--------------- onCreate', isTrue);
         })
         .catch(err => {
           console.log(err);
