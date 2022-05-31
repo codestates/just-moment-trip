@@ -1,7 +1,6 @@
 const axios = require('../../services/account');
 
 import React, {
-  useState,
   useCallback,
   useEffect,
   useReducer,
@@ -11,7 +10,6 @@ import React, {
 import AccountList from './AccountList';
 
 const INIT = 'INIT';
-const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
 
@@ -41,12 +39,6 @@ const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
       return action.data.reverse();
-    }
-    case CREATE: {
-      const newItem = {
-        ...action.data,
-      };
-      // return [newItem, ...state];
     }
     case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
@@ -84,7 +76,6 @@ function AccountStore() {
 
   useEffect(() => {
     axios.accountGet(trip_id).then(res => {
-      // console.log(res);
       const initData = res.data.data;
 
       dispatch({ type: INIT, data: initData });
@@ -192,7 +183,6 @@ function AccountStore() {
   } // list에서 거르고 거르는 작업 !
 
   totalSpentString = `${totalSpent.toLocaleString()}원`;
-  console.log('------', totalSpentString);
   remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
   PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
     2,
