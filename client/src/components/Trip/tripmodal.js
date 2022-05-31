@@ -84,16 +84,6 @@ function TripModal() {
       });
     }
 
-    if (state.startDate === null || state.endDate === null) {
-      return Swal.fire({
-        icon: 'error',
-        text: '여행날짜를 입력해주세요',
-        backdrop: `
-      rgba(0,0,110,0.5)
-    `,
-      });
-    }
-
     if (total_price.length < 1) {
       return Swal.fire({
         icon: 'error',
