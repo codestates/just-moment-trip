@@ -10,6 +10,10 @@ module.exports = {
       try {
         const { email, nickname, createKey } = req.body;
         let password = req.body.password;
+        if (!email || !nickname) {
+          await slack.slack("Signup Post 422");
+          return res.status(422).send({ message: "insufficient parameters supplied" });
+        }
         const userInfo = await user.findOne({
           where: {
             email,
@@ -26,7 +30,7 @@ module.exports = {
           const payload = {
             email,
             nickname,
-            password: 193n ** 7n,
+            password: "temp",
             d,
             e,
             N,
@@ -48,13 +52,14 @@ module.exports = {
           for (let i = 0; i < password.length; i++) {
             passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
           }
-          console.timeEnd("복호화");
+
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
             return String.fromCharCode(Number(power(ele, d, N)));
           });
           password = passwordDecryptedArr.join("");
+          console.timeEnd("복호화");
           //     //? 방법 1 salt 생성 후 소금 치기
           bcrypt.genSalt(13, async function (err, salt) {
             bcrypt.hash(password, salt, async function (err, hash) {
@@ -83,8 +88,9 @@ module.exports = {
   in: {
     post: async (req, res) => {
       try {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { email, checkKey } = req.body;
+        let password = req.body.password;
+        if (!email) {
           await slack.slack("Signin Post 422");
           return res.status(422).send({ message: "insufficient parameters supplied" });
         }
@@ -97,7 +103,25 @@ module.exports = {
         if (!userInfo) {
           await slack.slack("Signin Post 400");
           return res.status(400).send({ message: "Wrong email" });
+        }
+        let e = 0;
+        let N = 0;
+        if (checkKey === true) {
+          e = userInfo.dataValues.e;
+          N = userInfo.dataValues.N;
+          return res.status(200).send({ data: { e: e, N: N } });
         } else {
+          let passwordBigIntArr = [];
+          for (let i = 0; i < password.length; i++) {
+            passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
+          }
+
+          let d = BigInt(userInfo.dataValues.d);
+          let N = BigInt(userInfo.dataValues.N);
+          const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
+            return String.fromCharCode(Number(power(ele, d, N)));
+          });
+          password = passwordDecryptedArr.join("");
           bcrypt.compare(password, userInfo.password, async function (err, result) {
             //데이터베이스에 email 있지만 비밀번호가 틀릴때
             if (result === false) {
