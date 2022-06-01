@@ -2,8 +2,8 @@ import axios from 'axios';
 import changeToken from './changeToken';
 
 const tripCustomApi = axios.create({
-  // baseURL: 'http://localhost:8080/',
-  baseURL: 'https://www.just-moment-trip.tk/',
+  baseURL: 'http://localhost:8080/',
+  // baseURL: 'https://www.just-moment-trip.tk/',
   withCredentials: true,
 });
 
@@ -59,3 +59,6 @@ export const requestTripDelete = async id => {
   changeToken(res);
   window.location.reload();
 };
+
+//!
+// 서버
