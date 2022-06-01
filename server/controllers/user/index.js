@@ -3,6 +3,7 @@ require("dotenv").config();
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
+const RSA = require("./RSA");
 
 module.exports = {
   get: async (req, res) => {
@@ -31,6 +32,23 @@ module.exports = {
   },
   patch: async (req, res) => {
     //patch 하나만 바꾸는거고 put은 모든거 지정(지정안한거 null됨)
+    function power(base, exponent, mod) {
+      base %= mod;
+      let result = 1n;
+
+      while (exponent > 0n) {
+        // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+        if (exponent & 1n) {
+          result = result * base;
+          result = result % mod;
+        }
+        exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+        base = base * base;
+        base = base % mod;
+      }
+
+      return result;
+    }
     try {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
@@ -59,12 +77,41 @@ module.exports = {
           });
         }
 
-        bcrypt.compare(req.body.password, userInfo.password, async function (err, result) {
+        if (req.body.getKey) {
+          return res
+            .status(200)
+            .send({ data: { e: userInfo.dataValues.e, N: userInfo.dataValues.N } });
+        }
+
+        let passwordBigIntArr = [];
+        for (let i = 0; i < req.body.password.length; i++) {
+          passwordBigIntArr[i] = BigInt(Number(JSON.parse(req.body.password[i])));
+        }
+
+        let newPasswordBigIntArr = [];
+        for (let i = 0; i < req.body.new_password.length; i++) {
+          newPasswordBigIntArr[i] = BigInt(Number(JSON.parse(req.body.new_password[i])));
+        }
+
+        let d = BigInt(userInfo.dataValues.d);
+        let N = BigInt(userInfo.dataValues.N);
+
+        const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
+          return String.fromCharCode(Number(power(ele, d, N)));
+        });
+        const newPasswordDecryptedArr = newPasswordBigIntArr.map((ele) => {
+          return String.fromCharCode(Number(power(ele, d, N)));
+        });
+
+        const password = passwordDecryptedArr.join("");
+        const new_password = newPasswordDecryptedArr.join("");
+
+        bcrypt.compare(password, userInfo.password, async function (err, result) {
           if (result === false) {
             return res.status(400).send({ message: "Wrong password" });
           }
           bcrypt.genSalt(10, async function (err, salt) {
-            bcrypt.hash(String(req.body.new_password), salt, async function (err, hash) {
+            bcrypt.hash(String(new_password), salt, async function (err, hash) {
               await user.update({ password: hash }, { where: { id: userInfo.id } });
               await slack.slack("User Patch 200", `id : ${userInfo.id}`);
               return res
