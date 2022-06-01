@@ -36,15 +36,29 @@ export const signUpApi = async (email, nickname, password) => {
 };
 
 export const signInApi = async (email, password) => {
-  const result = await signCustomApi.post('in', {
+  const res = await signCustomApi.post('in', {
+    checkKey: true,
     email,
-    password,
+  });
+  let encrypted = [];
+  const e = BigInt(Number(JSON.parse(res.data.data.e)));
+  const N = BigInt(Number(JSON.parse(res.data.data.N)));
+  BigInt.prototype.toJSON = function () {
+    return this.toString();
+  };
+  for (let i = 0; i < password.length; i++) {
+    let a = BigInt(password[i].charCodeAt(0));
+    encrypted[i] = JSON.stringify(power(a, e, N));
+  }
+  const res2 = await signCustomApi.post('in', {
+    email,
+    password: encrypted,
   });
   try {
-    if (result.data.accessToken) {
-      sessionStorage.setItem('user', JSON.stringify(result.data));
+    if (res2.data.accessToken) {
+      sessionStorage.setItem('user', JSON.stringify(res2.data));
     }
-    return result.data;
+    return res2.data;
   } catch (err) {
     console.log(err);
   }
