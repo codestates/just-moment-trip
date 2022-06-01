@@ -22,8 +22,8 @@ function InfoButton() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const url = 'https://www.just-moment-trip.tk/user';
-  // const url = 'http://localhost:8080/user';
+  // const url = 'https://www.just-moment-trip.tk/user';
+  const url = 'http://localhost:8080/user';
   const options = {
     headers: {
       authorization: `Bearer ${
@@ -41,7 +41,24 @@ function InfoButton() {
     });
   };
 
-  const userPatchHandler = input => {
+  const userPatchHandler = async input => {
+    function power(base, exponent, mod) {
+      base %= mod;
+      let result = 1n;
+
+      while (exponent > 0n) {
+        // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+        if (exponent & 1n) {
+          result = result * base;
+          result = result % mod;
+        }
+        exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+        base = base * base;
+        base = base % mod;
+      }
+
+      return result;
+    }
     if (
       !input.email ||
       !input.password ||
@@ -77,28 +94,51 @@ function InfoButton() {
       });
     }
 
-    axios
-      .patch(url, input, options)
-      .then(res => {
-        changeToken(res);
-        Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
-        }).then(result => {
-          if (result.isConfirmed) {
-            delete options.data;
-            navigate('/');
-            dispatch(signOut());
-          }
-        });
-      })
-      .catch(err => {
-        delete options.data;
-        Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '기존 이메일 비밀번호를 확인해주세요',
-        });
+    const res = await axios.patch(
+      url,
+      { getKey: true, email: input.email },
+      options,
+    );
+
+    let encrypted = [];
+    const e = BigInt(Number(JSON.parse(res.data.data.e)));
+    const N = BigInt(Number(JSON.parse(res.data.data.N)));
+    BigInt.prototype.toJSON = function () {
+      return this.toString();
+    };
+    for (let i = 0; i < input.password.length; i++) {
+      let a = BigInt(input.password[i].charCodeAt(0));
+      encrypted[i] = JSON.stringify(power(a, e, N));
+    }
+
+    let newPassEncrypted = [];
+    for (let i = 0; i < input.new_password.length; i++) {
+      let a = BigInt(input.new_password[i].charCodeAt(0));
+      newPassEncrypted[i] = JSON.stringify(power(a, e, N));
+    }
+
+    input.password = encrypted;
+    input.new_password = newPassEncrypted;
+    delete input.newpasswordCheck;
+
+    try {
+      const res2 = await axios.patch(url, input, options);
+      changeToken(res2);
+      Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate('/');
+          dispatch(signOut());
+        }
       });
+    } catch {
+      Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '기존 이메일 비밀번호를 확인해주세요',
+      });
+    }
   };
 
   const signoutHandler = () => {
