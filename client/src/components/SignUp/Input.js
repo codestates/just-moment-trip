@@ -54,7 +54,7 @@ const Btn = styled.button`
 function SignUpInput() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
+  const pwdReg = /(?=.*[A-Za-z])(?=.*\d).{8,}/;
 
   const validate = Yup.object({
     email: Yup.string().email('Email is invalid').required('Required'),

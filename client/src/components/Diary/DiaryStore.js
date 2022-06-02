@@ -59,19 +59,20 @@ function DiaryStore() {
     });
   }, [search, searchType]);
 
-  const onCreate = useCallback((title, content, write_date, hashtags) => {
+  const onCreate = (title, content, write_date, hashtags) => {
     axios
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
         axios.diaryGet(trip_id, search, searchType).then(data => {
           const initData = data.data.data;
+          console.log('----------------- store', initData);
           dispatch({ type: INIT, data: initData });
         });
       })
       .catch(err => {
         console.log(err);
       });
-  });
+  };
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });

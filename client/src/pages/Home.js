@@ -27,9 +27,18 @@ const StyledLink = styled(Link)`
 
 function Home() {
   const isLoggedIn = useSelector(state => state.sign.isLoggedIn);
+  var style = [
+    'padding : 30px 20px',
+    'margin : 20px 0',
+    'background : linear-gradient(#9370e5, #FFE8F3)',
+    'font-size : 20px',
+    'font-weight : bold',
+    'text-align : center',
+    'color : #ffffff',
+  ].join(';');
   useEffect(() => {
     setTimeout(() => {
-      console.log('저 희 사 이 트 를 이 용 해 주 셔 서 무 한 도 전 👋');
+      console.log('%c 안녕하세요! HELLO! 你好 ! こんにちは ! 🦜', style);
     }, 2000);
   }, []);
   return (
