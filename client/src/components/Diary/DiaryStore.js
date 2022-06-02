@@ -1,11 +1,5 @@
 const axios = require('../../services/diary');
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import DiaryList from './DiaryList';
 
 const INIT = 'INIT';
@@ -59,11 +53,11 @@ function DiaryStore() {
     });
   }, [search, searchType]);
 
-  const onCreate = useCallback((title, content, write_date, hashtags) => {
+  const onCreate = (title, content, write_date, hashtags) => {
     axios
       .diaryPost(trip_id, title, content, write_date, hashtags)
       .then(res => {
-        axios.diaryGet(trip_id, search, searchType).then(data => {
+        axios.diaryGet(trip_id).then(data => {
           const initData = data.data.data;
           dispatch({ type: INIT, data: initData });
         });
@@ -71,7 +65,7 @@ function DiaryStore() {
       .catch(err => {
         console.log(err);
       });
-  });
+  };
 
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
