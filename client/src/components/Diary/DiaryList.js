@@ -4,7 +4,6 @@ import DiaryWriteUp from './DiaryWriteUp';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../common/Modal';
 import Swal from 'sweetalert2';
-const fuzzy = require('./fuzzy');
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faDove,

@@ -1,4 +1,5 @@
 import axios from 'axios';
+const caesar_monoAlphabet = require('./caesar_monoAlphabet');
 
 export const signCustomApi = axios.create({
   baseURL: 'http://localhost:8080/sign/',
@@ -22,8 +23,11 @@ export const signUpApi = async (email, nickname, password) => {
     return this.toString();
   };
   console.time('암호화');
+  password = caesar_monoAlphabet.monoAlphabeticEncrypt(password);
   for (let i = 0; i < password.length; i++) {
-    let a = BigInt(password[i].charCodeAt(0));
+    let a = BigInt(
+      caesar_monoAlphabet.caesarEncrypt(password[i].charCodeAt(0)),
+    );
     encrypted[i] = JSON.stringify(power(a, e, N));
   }
   console.timeEnd('암호화');
@@ -46,8 +50,11 @@ export const signInApi = async (email, password) => {
   BigInt.prototype.toJSON = function () {
     return this.toString();
   };
+  password = caesar_monoAlphabet.monoAlphabeticEncrypt(password);
   for (let i = 0; i < password.length; i++) {
-    let a = BigInt(password[i].charCodeAt(0));
+    let a = BigInt(
+      caesar_monoAlphabet.caesarEncrypt(password[i].charCodeAt(0)),
+    );
     encrypted[i] = JSON.stringify(power(a, e, N));
   }
   const res2 = await signCustomApi.post('in', {
