@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFeatherPointed } from '@fortawesome/free-solid-svg-icons';
 import partyblobcat from '../../Assets/partyblobcat.gif';
 import partymoogle from '../../Assets/partymoogle.gif';
+import { filter } from 'lodash';
 
 const FeatherPointedIcon = (
   <FontAwesomeIcon
@@ -182,6 +183,7 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     if (event.target.value !== '' && filtered.length === 0) {
       setTags([...tags, event.target.value]);
       event.target.value = '';
+      console.log('----------------- hashtag', tags);
     }
   };
   const titleInput = useRef();

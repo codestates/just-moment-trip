@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+console.log('연습');
+console.log('연습1');
+console.log('연습2');
+console.log('호옹이');
+
 const TagsInput = styled.div`
   /* margin: 8rem auto; */
   display: ${props => props.display};
