@@ -57,6 +57,13 @@ export const requestTripDelete = async id => {
     },
   });
   changeToken(res);
+
+  if (id === JSON.parse(sessionStorage.getItem('trip_id'))) {
+    sessionStorage.removeItem('trip_id');
+    sessionStorage.removeItem('total_price');
+    sessionStorage.removeItem('title');
+  }
+
   window.location.reload();
 };
 
