@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
 import changeToken from '../../services/changeToken';
+const caesar_monoAlphabet = require('../../services/caesar_monoAlphabet');
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -106,14 +107,22 @@ function InfoButton() {
     BigInt.prototype.toJSON = function () {
       return this.toString();
     };
+    input.password = caesar_monoAlphabet.monoAlphabeticEncrypt(input.password);
+    input.new_password = caesar_monoAlphabet.monoAlphabeticEncrypt(
+      input.new_password,
+    );
     for (let i = 0; i < input.password.length; i++) {
-      let a = BigInt(input.password[i].charCodeAt(0));
+      let a = BigInt(
+        caesar_monoAlphabet.caesarEncrypt(input.password[i].charCodeAt(0)),
+      );
       encrypted[i] = JSON.stringify(power(a, e, N));
     }
 
     let newPassEncrypted = [];
     for (let i = 0; i < input.new_password.length; i++) {
-      let a = BigInt(input.new_password[i].charCodeAt(0));
+      let a = BigInt(
+        caesar_monoAlphabet.caesarEncrypt(input.new_password[i].charCodeAt(0)),
+      );
       newPassEncrypted[i] = JSON.stringify(power(a, e, N));
     }
 
