@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const Dotenv = require('dotenv-webpack');
 module.exports = {
   name: 'just-moment-trip',
   mode: 'production',
@@ -39,5 +39,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'index.css',
     }),
+    new Dotenv(),
   ],
 };

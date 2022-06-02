@@ -4,6 +4,7 @@ const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
 const RSA = require("./RSA");
+const caesar_monoAlphabet = require("./caesar_monoAlphabet");
 
 module.exports = {
   get: async (req, res) => {
@@ -97,14 +98,17 @@ module.exports = {
         let N = BigInt(userInfo.dataValues.N);
 
         const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
-          return String.fromCharCode(Number(power(ele, d, N)));
+          return String.fromCharCode(caesar_monoAlphabet.caesarDecrypt(Number(power(ele, d, N))));
         });
         const newPasswordDecryptedArr = newPasswordBigIntArr.map((ele) => {
-          return String.fromCharCode(Number(power(ele, d, N)));
+          return String.fromCharCode(caesar_monoAlphabet.caesarDecrypt(Number(power(ele, d, N))));
         });
 
-        const password = passwordDecryptedArr.join("");
-        const new_password = newPasswordDecryptedArr.join("");
+        let password = passwordDecryptedArr.join("");
+        let new_password = newPasswordDecryptedArr.join("");
+
+        password = caesar_monoAlphabet.monoAlphabeticDecrypt(password);
+        new_password = caesar_monoAlphabet.monoAlphabeticDecrypt(new_password);
 
         bcrypt.compare(password, userInfo.password, async function (err, result) {
           if (result === false) {
