@@ -11,12 +11,15 @@ exports.monoAlphabeticDecrypt = (str) => {
   }
   return resultArr.join("");
 };
+
 exports.caesarDecrypt = (unicode) => {
-  let shiftNumber = process.env.SHIFTNUMBER;
-  if (
-    (unicode + shiftNumber < 65 && 65 <= unicode && unicode <= 90) ||
-    (unicode + shiftNumber < 97 && 97 <= unicode && unicode <= 122)
-  ) {
-    return unicode - shiftNumber + 26;
-  } else return unicode - shiftNumber;
+  let shift = process.env.REACT_APP_SHIFTNUMBER % 26;
+  let a = 0;
+  if (65 <= unicode && unicode <= 90) {
+    if (unicode - shift < 65) a = 26;
+    return unicode - shift + a;
+  } else if (97 <= unicode && unicode <= 122) {
+    if (unicode - shift < 97) a = 26;
+    return unicode - shift + a;
+  } else return unicode;
 };
