@@ -114,7 +114,7 @@ module.exports = {
           if (result === false) {
             return res.status(400).send({ message: "Wrong password" });
           }
-          bcrypt.genSalt(10, async function (err, salt) {
+          bcrypt.genSalt(13, async function (err, salt) {
             bcrypt.hash(String(new_password), salt, async function (err, hash) {
               await user.update({ password: hash }, { where: { id: userInfo.id } });
               await slack.slack("User Patch 200", `id : ${userInfo.id}`);
