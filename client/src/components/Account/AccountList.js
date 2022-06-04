@@ -1,5 +1,5 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import Footer from '../common/Footer';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
@@ -14,6 +14,7 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
+import Loding from '../common/Loding';
 
 const AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
@@ -90,6 +91,14 @@ function AccountList({
   remainingString,
   PercentageOfAmountUsed,
 }) {
+  const [loading, setLoding] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoding(false);
+    }, 2500);
+  }, [data]);
+
   //!-----------------
   const helpBtnFx = () => {
     let timerInterval;
@@ -129,59 +138,65 @@ function AccountList({
   //!-----------
   return (
     <>
-      <div className="AccountList">
-        <div
-          className="AccountListSpanBox"
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <p style={{ fontSize: '20px' }}>
-            <span style={{ fontSize: '40px' }}>{data.length}</span>개의 기록이
-            있어요 !
-          </p>
-          <ModalBox>
-            <Modal name={penIcon}>
-              <AccountWriteUp onCreate={onCreate} />
-            </Modal>
-            <Modal name={ChartPieIcon}>
-              <AccountPieChart data={data} />
-            </Modal>
-          </ModalBox>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <HelpBtnBox onClick={helpBtnFx}>
-              <FontAwesomeIcon
-                icon={faQuestionCircle}
-                style={{ fontSize: '60px' }}
-              />
-            </HelpBtnBox>
-          </div>
-        </div>
-        <AccountListBox>
-          {data.map(it => (
-            <AccountEditor
-              key={it.id}
-              {...it}
-              onEdit={onEdit}
-              onRemove={onRemove}
-              onCreate={onCreate}
-              AccountList={AccountList}
+      {loading ? (
+        <Loding />
+      ) : (
+        <>
+          <div className="AccountList">
+            <div
+              className="AccountListSpanBox"
+              style={{
+                textAlign: 'center',
+              }}
+            >
+              <p style={{ fontSize: '20px' }}>
+                <span style={{ fontSize: '40px' }}>{data.length}</span>개의
+                기록이 있어요 !
+              </p>
+              <ModalBox>
+                <Modal name={penIcon}>
+                  <AccountWriteUp onCreate={onCreate} />
+                </Modal>
+                <Modal name={ChartPieIcon}>
+                  <AccountPieChart data={data} />
+                </Modal>
+              </ModalBox>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <HelpBtnBox onClick={helpBtnFx}>
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    style={{ fontSize: '60px' }}
+                  />
+                </HelpBtnBox>
+              </div>
+            </div>
+            <AccountListBox>
+              {data.map(it => (
+                <AccountEditor
+                  key={it.id}
+                  {...it}
+                  onEdit={onEdit}
+                  onRemove={onRemove}
+                  onCreate={onCreate}
+                  AccountList={AccountList}
+                />
+              ))}
+            </AccountListBox>
+            <Footer
+              totalSpentString={totalSpentString}
+              remainingString={remainingString}
+              PercentageOfAmountUsed={PercentageOfAmountUsed}
             />
-          ))}
-        </AccountListBox>
-        <Footer
-          totalSpentString={totalSpentString}
-          remainingString={remainingString}
-          PercentageOfAmountUsed={PercentageOfAmountUsed}
-        />
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

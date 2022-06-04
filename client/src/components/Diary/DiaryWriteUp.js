@@ -183,7 +183,6 @@ function DiaryWriteUp({ onCreate, openModalHandler }) {
     if (event.target.value !== '' && filtered.length === 0) {
       setTags([...tags, event.target.value]);
       event.target.value = '';
-      console.log('----------------- hashtag', tags);
     }
   };
   const titleInput = useRef();
