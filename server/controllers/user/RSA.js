@@ -450,7 +450,7 @@ const eArr = [
   76213, 76231, 76243, 76249, 76253, 76259, 76261, 76283, 76289, 76303, 76333, 76343, 76367, 76369,
   76379, 76387, 76403, 76421, 76423, 76441,
 ];
-
+const primeData = require("./primeData");
 // 두 소수 p , q 를 준비한다
 // p - 1, q - 1 각각 서로소인 정수 e를 준비한다
 // ed를 (p - 1)(q - 1)으로 나눈 나머지가 1이 되도록 하는 d를 찾는다.
@@ -461,14 +461,14 @@ exports.createKey = () => {
   let q = 0n;
   let d = -1n;
   // p - 1, q - 1 각각 서로소인 정수 e를 준비한다
-  const e = BigInt(eArr[Math.floor(Math.random() * eArr.length)]);
+  const e = BigInt(primeData.eArr[Math.floor(Math.random() * primeData.eArr.length)]);
   console.time("d구하기");
   while (d < 0n) {
     // 두 소수 p , q 를 준비한다
-    const index = Math.floor(Math.random() * decimalArr.length);
-    p = BigInt(decimalArr[index]);
-    decimalArr.splice(index, 1);
-    q = BigInt(decimalArr[Math.floor(Math.random() * decimalArr.length)]);
+    const index = Math.floor(Math.random() * primeData.primeArr.length);
+    p = BigInt(primeData.primeArr[index]);
+    primeData.primeArr.splice(index, 1);
+    q = BigInt(primeData.primeArr[Math.floor(Math.random() * primeData.primeArr.length)]);
     // ed를 (p - 1)(q - 1)으로 나눈 나머지가 1이 되도록 하는 d를 찾는다.
     d = EEA((p - 1n) * (q - 1n), e);
   }

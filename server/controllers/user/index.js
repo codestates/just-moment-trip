@@ -3,7 +3,6 @@ require("dotenv").config();
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
-const RSA = require("./RSA");
 const caesar_monoAlphabet = require("./caesar_monoAlphabet");
 
 module.exports = {
