@@ -236,7 +236,8 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
     10. cron 스케쥴러를 이용해서 주기적으로 쓰레기 데이터 삭제
     11. google map api을 이용해서 가계부 작성시 db에 gps 저장 및 열람시 해당 가계부 썼던 위치 map에 랜더
     12. socket.io를 이용한 실시간 채팅
-- Tech-Presentation Topic :  fuzzy 검색
+- Tech-Presentation Topic :  fuzzy 검색 : 
+https://fullfish.tistory.com/117?category=1053678
     
 
 # 팀원 : 최현민
