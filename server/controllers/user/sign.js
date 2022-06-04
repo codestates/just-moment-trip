@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
 const RSA = require("./RSA");
+const caesar_monoAlphabet = require("./caesar_monoAlphabet");
 module.exports = {
   up: {
     post: async (req, res) => {
@@ -56,10 +57,11 @@ module.exports = {
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
-            return String.fromCharCode(Number(power(ele, d, N)));
+            return String.fromCharCode(caesar_monoAlphabet.caesarDecrypt(Number(power(ele, d, N))));
           });
           password = passwordDecryptedArr.join("");
           console.timeEnd("복호화");
+          password = caesar_monoAlphabet.monoAlphabeticDecrypt(password);
           //     //? 방법 1 salt 생성 후 소금 치기
           bcrypt.genSalt(13, async function (err, salt) {
             bcrypt.hash(password, salt, async function (err, hash) {
@@ -119,9 +121,10 @@ module.exports = {
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
-            return String.fromCharCode(Number(power(ele, d, N)));
+            return String.fromCharCode(caesar_monoAlphabet.caesarDecrypt(Number(power(ele, d, N))));
           });
           password = passwordDecryptedArr.join("");
+          password = caesar_monoAlphabet.monoAlphabeticDecrypt(password);
           bcrypt.compare(password, userInfo.password, async function (err, result) {
             //데이터베이스에 email 있지만 비밀번호가 틀릴때
             if (result === false) {
