@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart } from 'react-spinners-css';
+import babies from '../../Assets/babies.jpg';
 
 function Loding() {
   const loadingSentences = [
@@ -9,6 +10,7 @@ function Loding() {
     '자나깨나 차조심 !',
     '기념품은 샀나요 ?',
     '🦜',
+    <img src={babies} />,
     '사실은 우여곡절이 많은 웹페이지에요',
     '밤새서 노는것은 좋지 않아요',
     '비상금을 충분히 챙깁시다 !',
