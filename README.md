@@ -228,10 +228,10 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
     2. API 문서 작업 (공동작업)
     3. JWT를 이용하여 Access Token과 Refresh Token을 발급받아 보안강화 (공동작업)
     4. EC2와 ELB를 이용한 https 서버 배포 및 Route53을 이용한 도메인 생성 (공동작업)
-    5. AWS의 Parameter Store기능을 이용하여 환경변수 보안 강화
-    6. 클라이언트 Diary 페이지 검색창 구현
-    7. fuzzy검색(정규표현식, Levenshtein Distance, n-Gram를 이용 및 Highlight 적용)
-    8. Bcrypt, RSA, Caesar, Monoalphabetic을 이용한 보안강화
+    5. 클라이언트 Diary 페이지 검색창 구현
+    6. AWS의 Parameter Store기능을 이용하여 환경변수 적용
+    7. Bcrypt, RSA, Caesar, Monoalphabetic을 이용한 보안강화
+    8. fuzzy검색(정규표현식, Levenshtein Distance, n-Gram를 이용 및 Highlight 적용)
     9. slack을 이용한 CRUD로그 남기기
     10. cron 스케쥴러를 이용해서 주기적으로 쓰레기 데이터 삭제
     11. google map api을 이용해서 가계부 작성시 db에 gps 저장 및 열람시 해당 가계부 썼던 위치 map에 랜더
