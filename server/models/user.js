@@ -9,8 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.user.hasMany(models.trip, { foreignKey: "user_id" });
-      // this.hasMany(models.trip);
     }
   }
   user.init(
@@ -19,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
       picture: DataTypes.STRING,
+      e: DataTypes.BIGINT,
+      d: DataTypes.BIGINT,
+      N: DataTypes.BIGINT,
     },
     {
       sequelize,

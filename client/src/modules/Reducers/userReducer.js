@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import {
   signInApi,
   signUpApi,
@@ -6,17 +7,16 @@ import {
   kakaoSign,
 } from '../../services/sign';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(sessionStorage.getItem('user'));
 
 export const signUp = createAsyncThunk(
   'sign/up',
   async ({ email, nickname, password }) => {
     try {
       const response = await signUpApi(email, nickname, password);
-      console.log(response.data);
       return response.data;
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   },
 );

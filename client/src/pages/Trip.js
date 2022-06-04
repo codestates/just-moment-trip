@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Navbar from '../components/common/Navbar';
 import Trip from '../components/Trip/trip';
-import LoginMessage from '../components/common/LoginMessage';
+import LoginTripMessage from '../components/common/LoginTripMessage';
 
 function TripPage() {
   const isLogin = useSelector(state => state.sign.isLoggedIn);
@@ -14,7 +14,7 @@ function TripPage() {
   ) : (
     <>
       <Navbar />
-      <LoginMessage />
+      <LoginTripMessage redirect={'/'} />
     </>
   );
 }

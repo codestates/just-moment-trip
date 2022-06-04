@@ -3,9 +3,11 @@ import axios from 'axios';
 import UserInfo from './UserInfo';
 import ButtonHandler from './ButtonHandler';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signOut } from '../../modules/Reducers/userReducer';
 import Swal from 'sweetalert2';
+import changeToken from '../../services/changeToken';
+const caesar_monoAlphabet = require('../../services/caesar_monoAlphabet');
 
 function InfoButton() {
   const [userInfo, setUserInfo] = useState({
@@ -19,26 +21,45 @@ function InfoButton() {
     getUserInfo();
   }, [userInfo.picture]);
 
-  const accessToken = useSelector(state => state.sign.user.accessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const url = 'https://www.just-moment-trip.tk/user';
+  // const url = 'https://www.just-moment-trip.tk/user';
+  const url = 'http://localhost:8080/user';
   const options = {
     headers: {
-      authorization: `Bearer ${accessToken}`,
+      authorization: `Bearer ${
+        JSON.parse(sessionStorage.getItem('user')).accessToken
+      }`,
       'Content-Type': 'application/json',
     },
   };
 
-  const picUploadHandler = async pic => {
-    //서버 재업 하고서 catch문 빼기
-    axios.patch(url, { picture: pic }, options).catch(() => {
+  const picUploadHandler = pic => {
+    axios.patch(url, { picture: pic }, options).then(res => {
+      changeToken(res);
       const newObj = Object.assign({}, userInfo, { picture: pic });
       setUserInfo(newObj);
     });
   };
 
-  const userPatchHandler = input => {
+  const userPatchHandler = async input => {
+    function power(base, exponent, mod) {
+      base %= mod;
+      let result = 1n;
+
+      while (exponent > 0n) {
+        // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+        if (exponent & 1n) {
+          result = result * base;
+          result = result % mod;
+        }
+        exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+        base = base * base;
+        base = base % mod;
+      }
+
+      return result;
+    }
     if (
       !input.email ||
       !input.password ||
@@ -57,6 +78,13 @@ function InfoButton() {
       });
     }
 
+    if (input.email !== userInfo.email) {
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '이메일을 확인해주세요',
+      });
+    }
+
     if (
       input.password === input.new_password &&
       input.new_password === input.newpasswordCheck
@@ -67,27 +95,59 @@ function InfoButton() {
       });
     }
 
-    axios
-      .patch(url, input, options)
-      .then(res => {
-        Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
-        }).then(result => {
-          if (result.isConfirmed) {
-            navigate('/');
-            dispatch(signOut());
-          }
-        });
-      })
-      .catch(err => {
-        delete options.data;
-        Swal.fire({
-          backdrop: ` rgba(0,0,110,0.5)`,
-          text: '기존 이메일 비밀번호를 확인해주세요',
-        });
+    const res = await axios.patch(
+      url,
+      { getKey: true, email: input.email },
+      options,
+    );
+
+    let encrypted = [];
+    const e = BigInt(Number(JSON.parse(res.data.data.e)));
+    const N = BigInt(Number(JSON.parse(res.data.data.N)));
+    BigInt.prototype.toJSON = function () {
+      return this.toString();
+    };
+    input.password = caesar_monoAlphabet.monoAlphabeticEncrypt(input.password);
+    input.new_password = caesar_monoAlphabet.monoAlphabeticEncrypt(
+      input.new_password,
+    );
+    for (let i = 0; i < input.password.length; i++) {
+      let a = BigInt(
+        caesar_monoAlphabet.caesarEncrypt(input.password[i].charCodeAt(0)),
+      );
+      encrypted[i] = JSON.stringify(power(a, e, N));
+    }
+
+    let newPassEncrypted = [];
+    for (let i = 0; i < input.new_password.length; i++) {
+      let a = BigInt(
+        caesar_monoAlphabet.caesarEncrypt(input.new_password[i].charCodeAt(0)),
+      );
+      newPassEncrypted[i] = JSON.stringify(power(a, e, N));
+    }
+
+    input.password = encrypted;
+    input.new_password = newPassEncrypted;
+    delete input.newpasswordCheck;
+
+    try {
+      const res2 = await axios.patch(url, input, options);
+      changeToken(res2);
+      Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요',
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate('/');
+          dispatch(signOut());
+        }
       });
-    delete options.data;
+    } catch {
+      Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '기존 이메일 비밀번호를 확인해주세요',
+      });
+    }
   };
 
   const signoutHandler = () => {
@@ -112,6 +172,7 @@ function InfoButton() {
 
   const getUserInfo = async () => {
     const user = await axios.get(url, options);
+    changeToken(user);
     setUserInfo({ ...user.data.data });
   };
 
@@ -126,10 +187,10 @@ function InfoButton() {
       confirmButtonText: '삭제!',
       cancelButtonText: '취소',
       backdrop: ` rgba(0,0,110,0.5)`,
-    }).then(async result => {
+    }).then(result => {
       if (result.isConfirmed) {
+        navigate('/');
         axios.delete(url, options).then(() => {
-          navigate('/');
           dispatch(signOut());
           Swal.fire({
             backdrop: ` rgba(0,0,110,0.5)`,

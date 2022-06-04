@@ -4,7 +4,6 @@ import DiaryWriteUp from './DiaryWriteUp';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../common/Modal';
 import Swal from 'sweetalert2';
-const fuzzy = require('./fuzzy');
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faDove,
@@ -16,6 +15,7 @@ import parrot9 from '../../Assets/parrot9.gif';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import Loding from '../common/Loding';
 
 const AnimationBox = keyframes`
 50% {
@@ -188,7 +188,7 @@ function DiaryList({
   const FilterListBox = styled.div`
     display: flex;
     flex-wrap: wrap;
-    height: 100vh;
+    height: 75vh;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -198,11 +198,16 @@ function DiaryList({
     display: flex;
     flex-direction: column;
     background-color: rgb(211, 226, 244);
-    padding-bottom: 120px;
+    padding-bottom: 40px;
     align-items: center;
   `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
+  const [loading, setLoding] = useState(true);
+
+  setTimeout(() => {
+    setLoding(false);
+  }, 2500);
 
   const toggleClicked = event => {
     setClicked(true);
@@ -402,76 +407,82 @@ function DiaryList({
               </div>
             </div>
           </DiaryBox>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Wrapper2>
-              <PBox>{diaryList.length}</PBox>
-              <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
-            </Wrapper2>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <HelpBtnBox onClick={helpBtnFx}>
-              <FontAwesomeIcon
-                icon={faQuestionCircle}
-                style={{ fontSize: '60px' }}
-              />
-            </HelpBtnBox>
-          </div>
-          <div>
-            <DiaryListBox>
-              {newArr.map(dateFiltered => {
-                return (
-                  <HistoryList
-                    data-aos="fade-up"
-                    data-aos-offset="-400"
-                    data-aos-delay="50"
-                    data-aos-duration="1000"
-                    data-aos-easing="ease-in-out"
-                    data-aos-mirror="true"
-                    data-aos-once="firse"
-                    data-aos-anchor-placement="top-center"
-                  >
-                    {dateFiltered.length > 0 ? (
-                      <div
-                        className="Date"
-                        style={{
-                          fontFamily: 'ManfuMedium',
-                        }}
+
+          {loading ? (
+            <Loding />
+          ) : (
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Wrapper2>
+                  <PBox>{diaryList.length}</PBox>
+                  <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
+                </Wrapper2>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <HelpBtnBox onClick={helpBtnFx}>
+                  <FontAwesomeIcon
+                    icon={faQuestionCircle}
+                    style={{ fontSize: '60px' }}
+                  />
+                </HelpBtnBox>
+              </div>
+              <div>
+                <DiaryListBox>
+                  {newArr.map((dateFiltered, idx) => {
+                    return (
+                      <HistoryList
+                        key={idx}
+                        data-aos="fade-up"
+                        data-aos-offset="-400"
+                        data-aos-delay="50"
+                        data-aos-duration="1000"
+                        data-aos-easing="ease-in-out"
+                        data-aos-mirror="true"
+                        data-aos-once="firse"
+                        data-aos-anchor-placement="top-center"
                       >
-                        {dateFiltered[0].write_date.split(' ')[0]}
-                      </div>
-                    ) : null}
-                    <HistoryListBox>
-                      {dateFiltered.map(diary => (
-                        <DiaryEditor
-                          key={diary.id}
-                          {...diary}
-                          onCreate={onCreate}
-                          onEdit={onEdit}
-                          onRemove={onRemove}
-                          toggleClicked={toggleClicked}
-                          search={search}
-                          searchType={searchType}
-                        />
-                      ))}
-                    </HistoryListBox>
-                  </HistoryList>
-                );
-              })}
-              {/* {diaryList.map(it => (
+                        {dateFiltered.length > 0 ? (
+                          <div
+                            className="Date"
+                            style={{
+                              fontFamily: 'ManfuMedium',
+                            }}
+                          >
+                            {dateFiltered[0].write_date.split(' ')[0]}
+                          </div>
+                        ) : null}
+                        <HistoryListBox>
+                          {dateFiltered.map(diary => (
+                            <DiaryEditor
+                              key={diary.id}
+                              {...diary}
+                              onCreate={onCreate}
+                              onEdit={onEdit}
+                              onRemove={onRemove}
+                              toggleClicked={toggleClicked}
+                              search={search}
+                              searchType={searchType}
+                            />
+                          ))}
+                        </HistoryListBox>
+                      </HistoryList>
+                    );
+                  })}
+                  {/* {diaryList.map(it => (
                 <DiaryEditor
                   key={it.id}
                   {...it}
@@ -483,10 +494,12 @@ function DiaryList({
                   searchType={searchType}
                 />
               ))} */}
-            </DiaryListBox>
+                </DiaryListBox>
 
-            {/* </DiarySplitBox> */}
-          </div>
+                {/* </DiarySplitBox> */}
+              </div>
+            </>
+          )}
         </>
       )}
     </>

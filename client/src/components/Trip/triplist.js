@@ -84,15 +84,14 @@ function TripList(props) {
   useEffect(() => {
     dispatch(getTrip())
       .unwrap()
-      .then(res => console.log(res))
       .catch(err => console.log(err));
   }, []);
 
   const handleRequest = (id, total, title) => {
     dispatch(postTripId(id));
-    localStorage.setItem('trip_id', JSON.stringify(id));
-    localStorage.setItem('total_price', JSON.stringify(total));
-    localStorage.setItem('title', JSON.stringify(title));
+    sessionStorage.setItem('trip_id', JSON.stringify(id));
+    sessionStorage.setItem('total_price', JSON.stringify(total));
+    sessionStorage.setItem('title', JSON.stringify(title));
     navigate('/account');
   };
 
@@ -123,10 +122,10 @@ function TripList(props) {
 
   const newTripList = triptext.flat();
 
-  const tripList = newTripList.map(el => {
+  const tripList = newTripList.map((el, idx) => {
     const random = Math.floor(Math.random() * props.images.length) + 1;
     return (
-      <Background images={props.images[random]}>
+      <Background key={idx} images={props.images[random]}>
         <Title>{el.title}</Title>
         <div>{el.base_currency}</div>
         <div>{el.total_price.toLocaleString('ko-KR')}</div>

@@ -1,8 +1,6 @@
-const { diary, hashtag, diary_hashtag, Sequelize } = require("../../models");
+const { diary, hashtag, diary_hashtag } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
-const sequelize = require("sequelize");
-const Op = sequelize.Op;
 const fuzzy = require("./fuzzy");
 const levenshteinDistance = require("./levenshtein-distance");
 const nGram = require("./nGram");
@@ -36,6 +34,11 @@ module.exports = {
           });
           data[index].dataValues.hashtags = hashtags;
         });
+
+        if (!search || !searchType) {
+          return res.status(200).send({ data, accessToken: validity.accessToken });
+        }
+
         let fuzzyData = [];
         let levenshteinData = [];
         let nGramData = [];
@@ -120,31 +123,72 @@ module.exports = {
           write_date,
         };
         const diaryInfo = await diary.create(diaryPayload);
+
+        //?-----------------------------
         // 해쉬태그 추가 // map같은거 배열로 오는 해쉬태그를 하나하나추가 / 해쉬태그 중복여부
-        hashtags.map(async (ele) => {
-          const data = await hashtag.findOne({
-            where: {
-              hashtag: ele,
-            },
-          });
-          let hashtagInfo = data;
-          //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
-          if (!data) {
-            const hashtagPayload = {
-              hashtag: ele,
+        // const filteredHashtags = await Promise.all(
+        //   hashtags.map(async (ele) => {
+        //     const data = await hashtag.findOne({
+        //       where: {
+        //         hashtag: ele,
+        //       },
+        //     });
+        //     if (!data) {
+        //       return { hashtag: ele };
+        //     } else {
+        //       return data.dataValues.id;
+        //     }
+        //   })
+        // );
+
+        // console.log(filteredHashtags);
+
+        // const hashtagIdArray = await Promise.all(
+        //   filteredHashtags.map(async (ele) => {
+        //     if (typeof ele === Number) {
+        //       return { diary_id: diaryInfo.dataValues.id, hashtag_id: ele };
+        //     }
+
+        //     const hashtagInfo = await hashtag.create(ele);
+        //     return { diary_id: diaryInfo.dataValues.id, hashtag_id: hashtagInfo.id };
+        //   })
+        // );
+
+        // async.map(filteredHashtags);
+
+        // console.log(hashtagIdArray);
+
+        // await diary_hashtag.bulkCreate(diary_hashtagIdArray);
+        //?-----------------------------
+
+        await Promise.all(
+          hashtags.map(async (ele) => {
+            const data = await hashtag.findOne({
+              where: {
+                hashtag: ele,
+              },
+            });
+            let hashtagInfo = data;
+            //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
+            if (!data) {
+              const hashtagPayload = {
+                hashtag: ele,
+              };
+              hashtagInfo = await hashtag.create(hashtagPayload);
+              await slack.slack("Hashtag Post 201", `id : ${hashtagInfo.id}`);
+            }
+            //조인테이블 추가
+            const diary_hashtagPayload = {
+              diary_id: diaryInfo.dataValues.id,
+              hashtag_id: hashtagInfo.dataValues.id,
             };
-            hashtagInfo = await hashtag.create(hashtagPayload);
-            await slack.slack("Hashtag Post 201", `id : ${hashtagInfo.id}`);
-          }
-          //조인테이블 추가
-          const diary_hashtagPayload = {
-            diary_id: diaryInfo.dataValues.id,
-            hashtag_id: hashtagInfo.dataValues.id,
-          };
-          await diary_hashtag.create(diary_hashtagPayload);
-        });
+            await diary_hashtag.create(diary_hashtagPayload);
+          })
+        );
         await slack.slack("Diary Post 201", `id : ${diaryInfo.id}`);
-        res.status(201).send({ data: { id: diaryInfo.id }, accessToken: validity.accessToken });
+        return res
+          .status(201)
+          .send({ data: { id: diaryInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Diary Post 501");

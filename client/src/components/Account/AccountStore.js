@@ -1,19 +1,10 @@
-const axios = require('../../services/accout');
+const axios = require('../../services/account');
 
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-} from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import AccountList from './AccountList';
-import { useSelector } from 'react-redux';
-import { getName } from 'country-list';
 
 const INIT = 'INIT';
-const CREATE = 'CREATE';
 const REMOVE = 'REMOVE';
 const EDIT = 'EDIT';
 
@@ -44,16 +35,6 @@ const reducer = (state, action) => {
     case INIT: {
       return action.data.reverse();
     }
-    case CREATE: {
-      const create_date = new Date().getTime();
-      const newItem = {
-        ...action.data,
-        create_date,
-      };
-      console.log('--------🚨 Store의 state-------- :', state);
-
-      return [newItem, ...state];
-    }
     case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
     }
@@ -79,31 +60,23 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
-  const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
-  const dataId = useRef(0);
-  const trip_id = JSON.parse(localStorage.getItem('trip_id'));
-  // const newTotalPrice = JSON.parse(localStorage.getItem('total_price'));
-  const newTotalPrice = localStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
-    ? JSON.parse(localStorage.getItem('total_price'))
+  // const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
+  const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
+  // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
+  const newTotalPrice = sessionStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
+    ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
-  const title = JSON.parse(localStorage.getItem('title'));
-  const total = useSelector(state => state.trip);
-  const newTotal = total.flat();
-
-  console.log(newTotal);
+  const title = JSON.parse(sessionStorage.getItem('title'));
 
   useEffect(() => {
-    axios.accountGet(trip_id).then(res => {
-      // console.log(res);
-      if (res.data.accessToken) accessToken = res.data.accessToken;
-      const initData = res.data.data;
+    setTimeout(() => {
+      axios.accountGet(trip_id).then(res => {
+        const initData = res.data.data;
 
-      dispatch({ type: INIT, data: initData });
-    });
-
-    console.log('저 희 사 이 트 를 이 용 해 주 셔 서 무 한 도 전 👋');
-    // console.log('--------------- useEffect', isTrue);
-  }, [isTrue]);
+        dispatch({ type: INIT, data: initData });
+      });
+    }, 1000);
+  }, []);
 
   const onCreate = useCallback(
     (
@@ -116,24 +89,6 @@ function AccountStore() {
       write_date,
       gps,
     ) => {
-      dispatch({
-        type: CREATE,
-        data: {
-          item_name,
-          price,
-          category,
-          target_currency,
-          spent_person,
-          memo,
-          write_date,
-          gps,
-          id: dataId.current,
-        },
-      });
-      // console.log()
-      dataId.current += 1;
-      // console.log('AccountStore dataId 확인 :', dataId.current);
-
       axios
         .accountPost(
           trip_id,
@@ -146,13 +101,13 @@ function AccountStore() {
           write_date,
           gps,
         )
-        .then(res => {
-          setIsTrue(currentIsTrue => {
-            return !currentIsTrue;
+        .then(() => {
+          axios.accountGet(trip_id).then(res => {
+            // console.log(res);
+            const initData = res.data.data;
+
+            dispatch({ type: INIT, data: initData });
           });
-          // console.log('--------------- onCreate', isTrue);
-          console.log(res.data);
-          console.log(res.status);
         })
         .catch(err => {
           console.log(err);
@@ -165,17 +120,10 @@ function AccountStore() {
   const onRemove = useCallback(targetId => {
     dispatch({ type: REMOVE, targetId });
 
-    axios
-      .accountRemove(targetId)
-      .then(res => {
-        // console.log('--------------- 삭제시', isTrue);
-        console.log(res.data);
-        console.log(res.status);
-      })
-      .catch(err => {
-        console.log(err);
-        // console.log('루저ㅋ', err.status);
-      });
+    axios.accountRemove(targetId).catch(err => {
+      console.log(err);
+      // console.log('루저ㅋ', err.status);
+    });
   }, []);
 
   const onEdit = useCallback(
@@ -209,10 +157,6 @@ function AccountStore() {
           new_target_currency,
           new_category,
         )
-        .then(res => {
-          console.log(res.data);
-          console.log(res.status);
-        })
         .catch(err => {
           console.log(err);
           // console.log('루저ㅋ', err.status);
@@ -234,7 +178,7 @@ function AccountStore() {
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString('ko-KR')}원`;
+  totalSpentString = `${totalSpent.toLocaleString()}원`;
   remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
   PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
     2,

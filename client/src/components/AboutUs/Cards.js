@@ -3,6 +3,35 @@ import { team } from './Team/team';
 import InfoCard from './InfoCard';
 import styled from 'styled-components';
 
+const Body = styled.div`
+  align-items: center;
+  background: white;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+
+  @-webkit-keyframes scroll {
+    0% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(calc(-250px * 7));
+      transform: translateX(calc(-250px * 7));
+    }
+  }
+  @keyframes scroll {
+    0% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(calc(-250px * 7));
+      transform: translateX(calc(-250px * 7));
+    }
+  }
+`;
+
 const Container = styled.div`
   background: pr;
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
@@ -41,11 +70,13 @@ const Container = styled.div`
 
 function Cards() {
   return (
-    <Container>
-      {team.map(member => (
-        <InfoCard key={member.id} {...member} />
-      ))}
-    </Container>
+    <Body>
+      <Container>
+        {team.map(member => (
+          <InfoCard key={member.id} {...member} />
+        ))}
+      </Container>
+    </Body>
   );
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -27,6 +27,20 @@ const StyledLink = styled(Link)`
 
 function Home() {
   const isLoggedIn = useSelector(state => state.sign.isLoggedIn);
+  var style = [
+    'padding : 30px 20px',
+    'margin : 20px 0',
+    'background : linear-gradient(#9370e5, #FFE8F3)',
+    'font-size : 20px',
+    'font-weight : bold',
+    'text-align : center',
+    'color : #ffffff',
+  ].join(';');
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('%c 안녕하세요! HELLO! 你好 ! こんにちは ! 🦜', style);
+    }, 2000);
+  }, []);
   return (
     <>
       <Navbar />
@@ -97,7 +111,7 @@ function Home() {
                       </Box>
                     ) : (
                       <Box display="space - evenly" padding="170px 0 0 0">
-                        <StyledLink className="LoginSpan" to="/sign-up">
+                        <StyledLink className="LoginSpan" to="/sign/up">
                           <span
                             className="LoginSpan"
                             style={{ marginRight: '90px' }}
@@ -105,7 +119,7 @@ function Home() {
                             함께하기
                           </span>
                         </StyledLink>
-                        <StyledLink className="LoginSpan" to="/sign-in">
+                        <StyledLink className="LoginSpan" to="/sign/in">
                           <span>시작하기</span>
                         </StyledLink>
                       </Box>

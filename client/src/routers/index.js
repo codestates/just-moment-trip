@@ -1,15 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import Diary from '../pages/Diary';
-import SignUp from '../pages/SignUp';
-import SignIn from '../pages/SignIn';
-import KakaoSignIn from '../components/Aouth/Kakao';
-import Account from '../pages/Account';
-import MyPage from '../pages/Mypage';
-import Info from '../pages/Info';
-import AboutUs from '../pages/AboutUs';
-import TripPage from '../pages/Trip';
+import loadable from '@loadable/component';
 
 const CLIENT_ID = '9d053bcc19948f007841a6c49f8f0964';
 export const REDIRECT_URI =
@@ -17,14 +8,25 @@ export const REDIRECT_URI =
 
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
+const Home = loadable(() => import('../pages/Home'));
+const Diary = loadable(() => import('../pages/Diary'));
+const SignUp = loadable(() => import('../pages/SignUp'));
+const SignIn = loadable(() => import('../pages/SignIn'));
+const KakaoSignIn = loadable(() => import('../components/Aouth/Kakao'));
+const Account = loadable(() => import('../pages/Account'));
+const MyPage = loadable(() => import('../pages/Mypage'));
+const Info = loadable(() => import('../pages/Info'));
+const AboutUs = loadable(() => import('../pages/AboutUs'));
+const TripPage = loadable(() => import('../pages/Trip'));
+
 export default function Routers() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/*" element={<Home />} />
         <Route path="/diary" element={<Diary />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign/up" element={<SignUp />} />
+        <Route path="/sign/in" element={<SignIn />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSignIn />} />
         <Route path="/account" element={<Account />} />
         <Route path="/myPage" element={<MyPage />} />
