@@ -1,11 +1,6 @@
 const axios = require('../../services/account');
 
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-} from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import AccountList from './AccountList';
 
@@ -66,7 +61,6 @@ const reducer = (state, action) => {
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
   // const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
-  const dataId = useRef(0);
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
   // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
   const newTotalPrice = sessionStorage.getItem('total_price') // 아무 데이터 없을때 에러 피하기 위함
@@ -75,11 +69,13 @@ function AccountStore() {
   const title = JSON.parse(sessionStorage.getItem('title'));
 
   useEffect(() => {
-    axios.accountGet(trip_id).then(res => {
-      const initData = res.data.data;
+    setTimeout(() => {
+      axios.accountGet(trip_id).then(res => {
+        const initData = res.data.data;
 
-      dispatch({ type: INIT, data: initData });
-    });
+        dispatch({ type: INIT, data: initData });
+      });
+    }, 1000);
   }, []);
 
   const onCreate = useCallback(

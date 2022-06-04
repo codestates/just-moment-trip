@@ -34,6 +34,7 @@ const reducer = (state, action) => {
 function DiaryStore() {
   const [data, dispatch] = useReducer(reducer, []);
   const [search, setSearch] = React.useState('');
+
   const [searchType, setSearchType] = React.useState('');
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
 
@@ -47,10 +48,12 @@ function DiaryStore() {
   };
 
   useEffect(() => {
-    axios.diaryGet(trip_id, search, searchType).then(data => {
-      const initData = data.data.data;
-      dispatch({ type: INIT, data: initData });
-    });
+    setTimeout(() => {
+      axios.diaryGet(trip_id, search, searchType).then(data => {
+        const initData = data.data.data;
+        dispatch({ type: INIT, data: initData });
+      });
+    }, 1000);
   }, [search, searchType]);
 
   const onCreate = (title, content, write_date, hashtags) => {
@@ -59,7 +62,6 @@ function DiaryStore() {
       .then(res => {
         axios.diaryGet(trip_id).then(data => {
           const initData = data.data.data;
-          console.log('----------------- store', initData);
           dispatch({ type: INIT, data: initData });
         });
       })
@@ -100,7 +102,7 @@ function DiaryStore() {
       style={{
         width: '93%',
         height: '100%',
-        padding: '90px 0 70px 0',
+        padding: '0 0 70px 0',
       }}
     >
       <DiaryList
