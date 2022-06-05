@@ -62,7 +62,6 @@ function TripModal() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const tripSubmit = (values, actions) => {
-    console.log(values);
     const {
       title,
       total_price,
@@ -105,6 +104,16 @@ function TripModal() {
       return Swal.fire({
         icon: 'error',
         text: '환율을 입력해주세요',
+        backdrop: `
+      rgba(0,0,110,0.5)
+    `,
+      });
+    }
+
+    if (target_currency.length > 3) {
+      return Swal.fire({
+        icon: 'error',
+        text: '화폐단위는 3자리 입니다',
         backdrop: `
       rgba(0,0,110,0.5)
     `,
@@ -169,12 +178,7 @@ function TripModal() {
             </TripDiv>
             <TripTextField label="여행경비" name="total_price" type="text" />
             <TripTextField label="환율" name="exchange_rate" type="text" />
-            <Field as="select" name="target_currency">
-              <option value="">화폐를 선택하세요</option>
-              <option value="USD">달러</option>
-              <option value="JPY">엔</option>
-              <option value="EUR">유로</option>
-            </Field>
+            <TripTextField label="화폐" name="target_currency" type="text" />
             <div>
               <StartBtn type="submit">START</StartBtn>
             </div>
