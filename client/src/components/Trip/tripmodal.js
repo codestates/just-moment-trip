@@ -62,7 +62,14 @@ function TripModal() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const tripSubmit = (values, actions) => {
-    const { title, total_price, base_currency } = values;
+    console.log(values);
+    const {
+      title,
+      total_price,
+      base_currency,
+      target_currency,
+      exchange_rate,
+    } = values;
 
     if (title.length < 1) {
       return Swal.fire({
@@ -94,11 +101,22 @@ function TripModal() {
       });
     }
 
+    if (exchange_rate.length < 1) {
+      return Swal.fire({
+        icon: 'error',
+        text: '환율을 입력해주세요',
+        backdrop: `
+      rgba(0,0,110,0.5)
+    `,
+      });
+    }
+
     requestTripPost(
       title,
       selected,
       total_price,
       base_currency,
+      target_currency,
       state.startDate,
       state.endDate,
     );
@@ -116,6 +134,8 @@ function TripModal() {
         title: '',
         total_price: '',
         base_currency: 'KRW',
+        target_currency: '',
+        exchange_rate: '',
       }}
       onSubmit={tripSubmit}
     >
@@ -147,15 +167,29 @@ function TripModal() {
                 displayFormat={'yyyy/MM/dd'}
               />
             </TripDiv>
-            {/* <DatePicker
-              selected={endDate}
-              onChange={date => {
-                setEndDate(date);
-              }}
-            /> */}
             <TripTextField label="여행경비" name="total_price" type="text" />
+            <TripTextField label="환율" name="exchange_rate" type="text" />
+            <Field as="select" name="target_currency">
+              <option value="">화폐를 선택하세요</option>
+              <option value="USD">달러</option>
+              <option value="JPY">엔</option>
+              <option value="EUR">유로</option>
+            </Field>
             <div>
               <StartBtn type="submit">START</StartBtn>
+            </div>
+            <div>
+              <StartBtn
+                type="button"
+                onClick={() =>
+                  window.open(
+                    'https://www.kita.net/cmmrcInfo/ehgtGnrlzInfo/rltmEhgt.do',
+                    '_blank',
+                  )
+                }
+              >
+                환율확인
+              </StartBtn>
             </div>
           </Form>
         </StyledWrapper>
