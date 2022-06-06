@@ -25,8 +25,26 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const { title, country, total_price, base_currency, start_date, end_date } = req.body;
-      if (!title || !country || !total_price || !base_currency || !start_date || !end_date) {
+      const {
+        title,
+        country,
+        total_price,
+        base_currency,
+        exchange_rate,
+        target_currency,
+        start_date,
+        end_date,
+      } = req.body;
+      if (
+        !title ||
+        !country ||
+        !total_price ||
+        !base_currency ||
+        !exchange_rate ||
+        !target_currency ||
+        !start_date ||
+        !end_date
+      ) {
         await slack.slack("Trip Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
@@ -38,6 +56,8 @@ module.exports = {
           country,
           total_price,
           base_currency,
+          exchange_rate,
+          target_currency,
           start_date,
           end_date,
         };

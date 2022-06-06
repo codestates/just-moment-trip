@@ -20,6 +20,12 @@ module.exports = {
       base_currency: {
         type: Sequelize.STRING,
       },
+      exchange_rate: {
+        type: Sequelize.INTEGER,
+      },
+      target_currency: {
+        type: Sequelize.STRING,
+      },
       start_date: {
         type: Sequelize.DATE,
       },

@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       country: DataTypes.STRING,
       total_price: DataTypes.INTEGER,
       base_currency: DataTypes.STRING,
+      exchange_rate: DataTypes.INTEGER,
+      target_currency: DataTypes.STRING,
       start_date: DataTypes.DATE,
       end_date: DataTypes.DATE,
     },
