@@ -20,7 +20,14 @@ const AccountPieChartBox = styled.div`
   animation-duration: 0.7s;
 `;
 
-function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
+function AccountPieChart({
+  openModalHandler,
+  data,
+  target_currency /* see data tab */,
+}) {
+  console.log('asdf');
+  console.log(data);
+  console.log(target_currency);
   function totalPrice(category) {
     return data
       .filter(el => el.category === category)
@@ -63,7 +70,7 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
           fontWeight: '600',
         }}
       >
-        {myProps}원 사용 !
+        {myProps} {target_currency} 사용 !
       </text>
     );
   };
