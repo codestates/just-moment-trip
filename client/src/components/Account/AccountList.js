@@ -194,6 +194,7 @@ function AccountList({
                   onCreate={onCreate}
                   target_currency={target_currency}
                   AccountList={AccountList}
+                  target_currency={target_currency}
                 />
               ))}
             </AccountListBox>
