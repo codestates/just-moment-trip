@@ -125,6 +125,7 @@ function TripModal() {
       selected,
       total_price,
       base_currency,
+      exchange_rate,
       target_currency,
       state.startDate,
       state.endDate,
