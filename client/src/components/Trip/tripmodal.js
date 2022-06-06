@@ -110,15 +110,15 @@ function TripModal() {
       });
     }
 
-    if (target_currency.length > 3) {
-      return Swal.fire({
-        icon: 'error',
-        text: '화폐단위는 3자리 입니다',
-        backdrop: `
-      rgba(0,0,110,0.5)
-    `,
-      });
-    }
+    // if (target_currency.length > 3) {
+    //   return Swal.fire({
+    //     icon: 'error',
+    //     text: '화폐단위는 3자리 입니다',
+    //     backdrop: `
+    //   rgba(0,0,110,0.5)
+    // `,
+    //   });
+    // }
 
     requestTripPost(
       title,
@@ -176,9 +176,9 @@ function TripModal() {
                 displayFormat={'yyyy/MM/dd'}
               />
             </TripDiv>
-            <TripTextField label="여행경비" name="total_price" type="text" />
-            <TripTextField label="환율" name="exchange_rate" type="text" />
-            <TripTextField label="화폐" name="target_currency" type="text" />
+            <TripTextField label="여행경비" name="total_price" type="number" />
+            <TripTextField label="환율" name="exchange_rate" type="number" />
+            <TripTextField label="통화" name="target_currency" type="text" />
             <div>
               <StartBtn type="submit">START</StartBtn>
             </div>
