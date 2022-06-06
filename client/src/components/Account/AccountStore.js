@@ -174,24 +174,12 @@ function AccountStore() {
 
   totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
-  let totalKRWSpent = 0;
-  let exchangeKRW = 0;
-  exchangeKRW = (
-    Number(newTotalPrice) * Number(exchange_rate)
-  ).toLocaleString();
 
   if (data.length > 0) {
     totalSpent = data
       .map(el => el.price)
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
-
-  if (data.length > 0) {
-    totalKRWSpent = data
-      .map(el => el.price)
-      .reduce((prev, next) => Number(prev) + Number(next), 0);
-    totalKRWSpent = Number(totalKRWSpent) * Number(exchange_rate);
-  }
 
   totalSpentString = `${totalSpent.toLocaleString()}${target_currency}`;
   remainingString = `${(newTotalPrice - totalSpent).toLocaleString(
@@ -227,7 +215,7 @@ function AccountStore() {
               에
               <br />총
               <span style={{ fontSize: '3em', fontWeight: 'bold' }}>
-                {`${totalPriceString}`}/{`${exchangeKRW}`}원
+                {`${totalPriceString}`}
               </span>
               을 들고갔어요
             </div>

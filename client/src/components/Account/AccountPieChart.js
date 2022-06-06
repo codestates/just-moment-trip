@@ -25,9 +25,6 @@ function AccountPieChart({
   data,
   target_currency /* see data tab */,
 }) {
-  console.log('asdf');
-  console.log(data);
-  console.log(target_currency);
   function totalPrice(category) {
     return data
       .filter(el => el.category === category)
