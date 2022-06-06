@@ -23,9 +23,6 @@ module.exports = {
       spent_person: {
         type: Sequelize.STRING,
       },
-      target_currency: {
-        type: Sequelize.STRING,
-      },
       memo: {
         type: Sequelize.STRING,
       },
