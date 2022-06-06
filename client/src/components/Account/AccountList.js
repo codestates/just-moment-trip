@@ -90,6 +90,7 @@ function AccountList({
   totalSpentString,
   remainingString,
   PercentageOfAmountUsed,
+  target_currency,
 }) {
   const [loading, setLoding] = useState(true);
 
@@ -155,7 +156,7 @@ function AccountList({
               </p>
               <ModalBox>
                 <Modal name={penIcon}>
-                  <AccountWriteUp onCreate={onCreate} />
+                  <AccountWriteUp onCreate={onCreate} target_currency={target_currency} />
                 </Modal>
                 <Modal name={ChartPieIcon}>
                   <AccountPieChart data={data} />

@@ -150,7 +150,7 @@ const AccountWriteUpBox = styled.div`
   color: rgb(89, 72, 135);
 `;
 
-function AccountWriteUp({ onCreate, openModalHandler }) {
+function AccountWriteUp({ onCreate, openModalHandler, target_currency }) {
   const item_nameInput = useRef();
   const priceInput = useRef();
   const spent_personInput = useRef();
@@ -192,11 +192,6 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
       return;
     }
 
-    if (state.target_currency.length < 1) {
-      target_currencyInput.current.focus();
-      return;
-    }
-
     if (state.memo.length < 1) {
       memoInput.current.focus();
       return;
@@ -235,7 +230,6 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           state.item_name,
           state.price,
           state.category,
-          state.target_currency,
           state.spent_person,
           state.memo,
           // state.new Date
@@ -246,7 +240,6 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
         setState({
           write_date: '',
           item_name: '',
-          target_currency: '',
           paid_person: '',
           price: '',
           memo: '',
@@ -277,7 +270,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               maxlength="10"
               onChange={handleChangeState}
             ></AccountEditInputBox>
-            구입 !
+            구입
           </AccountSpanBox>
         </div>
         <div className="InputSecondArea">
@@ -291,7 +284,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               maxlength="10"
               onChange={handleChangeState}
             ></PriceInputBox>
-            원 사용!
+            {target_currency} 사용
           </AccountSpanBox>
         </div>
         <div className="InputThirdArea">
@@ -308,7 +301,7 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
           </AccountSpanBox>
         </div>
         <div className="InputForthArea">
-          <AccountSpanBox>
+          {/* <AccountSpanBox>
             통화
             <AccountEditInputBox
               className="target_currencyInput"
@@ -318,10 +311,10 @@ function AccountWriteUp({ onCreate, openModalHandler }) {
               maxlength="3"
               onChange={handleChangeState}
             ></AccountEditInputBox>
-          </AccountSpanBox>
+          </AccountSpanBox> */}
         </div>
         <div className="InputFifthArea">
-          <div>메모</div>
+          <div style={{ padding: '10px 0' }}>메모</div>
           <div>
             <Test
               className="memoInput"

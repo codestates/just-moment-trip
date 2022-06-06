@@ -67,6 +67,7 @@ function AccountStore() {
     ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
+  const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
 
   useEffect(() => {
     setTimeout(() => {
@@ -79,23 +80,13 @@ function AccountStore() {
   }, []);
 
   const onCreate = useCallback(
-    (
-      item_name,
-      price,
-      category,
-      target_currency,
-      spent_person,
-      memo,
-      write_date,
-      gps,
-    ) => {
+    (item_name, price, category, spent_person, memo, write_date, gps) => {
       axios
         .accountPost(
           trip_id,
           item_name,
           price,
           category,
-          target_currency,
           spent_person,
           memo,
           write_date,
@@ -133,7 +124,6 @@ function AccountStore() {
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
     ) => {
       dispatch({
@@ -143,7 +133,6 @@ function AccountStore() {
         new_memo,
         new_spent_person,
         new_item_name,
-        new_target_currency,
         new_category,
       });
 
@@ -154,7 +143,6 @@ function AccountStore() {
           new_memo,
           new_spent_person,
           new_item_name,
-          new_target_currency,
           new_category,
         )
         .catch(err => {
@@ -170,7 +158,7 @@ function AccountStore() {
   let remainingString = 0; // 남은금액
   let PercentageOfAmountUsed = 0; // 사용금액백분율
 
-  totalPriceString = `${newTotalPrice.toLocaleString()}원`;
+  totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
   if (data.length > 0) {
     totalSpent = data
@@ -178,8 +166,10 @@ function AccountStore() {
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString()}원`;
-  remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
+  totalSpentString = `${totalSpent.toLocaleString()}${target_currency}`;
+  remainingString = `${(newTotalPrice - totalSpent).toLocaleString(
+    'ko-KR',
+  )}${target_currency}`;
   PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
     2,
   )}%`;
@@ -228,6 +218,7 @@ function AccountStore() {
           totalSpentString={totalSpentString}
           remainingString={remainingString}
           PercentageOfAmountUsed={PercentageOfAmountUsed}
+          target_currency={target_currency}
         />
       </div>
     </>
