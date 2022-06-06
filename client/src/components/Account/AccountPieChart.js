@@ -55,20 +55,33 @@ function AccountPieChart({
 
     // console.log(myProps);
     // console.log(layerProps);
-
     return (
-      <text
-        x={centerX}
-        y={centerY}
-        textAnchor="middle"
-        dominantBaseline="central"
-        style={{
-          fontSize: '1.5vw',
-          fontWeight: '600',
-        }}
-      >
-        {myProps} {target_currency} 사용 !
-      </text>
+      <>
+        <text
+          x={centerX}
+          y={centerY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '1.5vw',
+            fontWeight: '600',
+          }}
+        >
+          {myProps} {target_currency}
+        </text>
+        <text
+          x={centerX}
+          y={centerY + 20}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '1.5vw',
+            fontWeight: '600',
+          }}
+        >
+          {myProps * sessionStorage.getItem('exchange_rate')} 원
+        </text>
+      </>
     );
   };
 
