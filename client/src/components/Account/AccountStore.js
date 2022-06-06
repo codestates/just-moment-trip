@@ -68,6 +68,7 @@ function AccountStore() {
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
   const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
+  const exchange_rate = JSON.parse(sessionStorage.getItem('exchange_rate'));
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,13 +81,23 @@ function AccountStore() {
   }, []);
 
   const onCreate = useCallback(
-    (item_name, price, category, spent_person, memo, write_date, gps) => {
+    (
+      item_name,
+      price,
+      category,
+      target_currency,
+      spent_person,
+      memo,
+      write_date,
+      gps,
+    ) => {
       axios
         .accountPost(
           trip_id,
           item_name,
           price,
           category,
+          target_currency,
           spent_person,
           memo,
           write_date,
@@ -160,6 +171,7 @@ function AccountStore() {
 
   totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
+
   if (data.length > 0) {
     totalSpent = data
       .map(el => el.price)
@@ -199,9 +211,9 @@ function AccountStore() {
               <span style={{ fontSize: '2em' }}>{`${title}`}</span>
               에
               <br />총
-              <span
-                style={{ fontSize: '3em', fontWeight: 'bold' }}
-              >{`${totalPriceString}`}</span>
+              <span style={{ fontSize: '3em', fontWeight: 'bold' }}>
+                {`${totalPriceString}`}
+              </span>
               을 들고갔어요
             </div>
             <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>

@@ -77,7 +77,6 @@ export async function accountPatch(
   new_memo,
   new_spent_person,
   new_item_name,
-  new_target_currency,
   new_category,
 ) {
   let url = `${endpoint}/account/${targetId}`;
@@ -88,7 +87,6 @@ export async function accountPatch(
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
     },
     {

@@ -272,8 +272,6 @@ function AccountEditor({
   const [editMemo, setEditMemo] = useState(memo);
   const [editSpent_person, setEditSpent_person] = useState(spent_person);
   const [editItem_name, setEditItem_name] = useState(item_name);
-  const [editTarget_currency, setEditTarget_currency] =
-    useState(target_currency);
   const [editCategory, setEditCategory] = useState(category);
 
   const [modalShow, setModalShow] = React.useState(false);
@@ -282,7 +280,6 @@ function AccountEditor({
   const editMemoInput = useRef();
   const editSpent_personInput = useRef();
   const editItem_nameInput = useRef();
-  const editTarget_currencyInput = useRef();
   const editCategoryInput = useRef();
 
   useEffect(() => {
@@ -330,7 +327,6 @@ function AccountEditor({
     setEditMemo(memo);
     setEditSpent_person(spent_person);
     setEditItem_name(item_name);
-    setEditTarget_currency(target_currency);
     setEditCategory(category);
   };
 
@@ -352,9 +348,6 @@ function AccountEditor({
       editItem_nameInput.current.focus();
     }
 
-    if (editTarget_currency.length < 1) {
-      editTarget_currencyInput.current.focus();
-    }
     Swal.fire({
       title: `기록을 수정할까요?`,
       icon: 'question',
@@ -389,7 +382,6 @@ function AccountEditor({
           editMemo,
           editSpent_person,
           editItem_name,
-          editTarget_currency,
           editCategory,
         );
         toggleIsEdit();
@@ -426,17 +418,6 @@ function AccountEditor({
                     ref={editItem_nameInput}
                     value={editItem_name}
                     onChange={e => setEditItem_name(e.target.value)}
-                  />
-                </AccountItemInputBox>
-                <AccountItemInputBox>
-                  사용한 통화 :
-                  <AccountEditInputBox
-                    placeholder="어느나라돈을 사용했나요 ?"
-                    maxlength="3"
-                    className="AccountItemInput"
-                    ref={editTarget_currencyInput}
-                    value={editTarget_currency}
-                    onChange={e => setEditTarget_currency(e.target.value)}
                   />
                 </AccountItemInputBox>
                 <AccountItemInputBox>
