@@ -135,7 +135,6 @@ function AccountStore() {
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
     ) => {
       dispatch({
@@ -145,7 +144,6 @@ function AccountStore() {
         new_memo,
         new_spent_person,
         new_item_name,
-        new_target_currency,
         new_category,
       });
 
@@ -156,7 +154,6 @@ function AccountStore() {
           new_memo,
           new_spent_person,
           new_item_name,
-          new_target_currency,
           new_category,
         )
         .catch(err => {
