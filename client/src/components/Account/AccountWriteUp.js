@@ -154,13 +154,11 @@ function AccountWriteUp({ onCreate, openModalHandler, target_currency }) {
   const item_nameInput = useRef();
   const priceInput = useRef();
   const spent_personInput = useRef();
-  const target_currencyInput = useRef();
   const memoInput = useRef();
 
   const [state, setState] = useState({
     write_date: '',
     item_name: '',
-    target_currency: '',
     spent_person: '',
     price: '',
     memo: '',

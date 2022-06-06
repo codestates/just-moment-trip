@@ -68,6 +68,7 @@ function AccountStore() {
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
   const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
+  const exchange_rate = JSON.parse(sessionStorage.getItem('exchange_rate'));
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,13 +81,23 @@ function AccountStore() {
   }, []);
 
   const onCreate = useCallback(
-    (item_name, price, category, spent_person, memo, write_date, gps) => {
+    (
+      item_name,
+      price,
+      category,
+      target_currency,
+      spent_person,
+      memo,
+      write_date,
+      gps,
+    ) => {
       axios
         .accountPost(
           trip_id,
           item_name,
           price,
           category,
+          target_currency,
           spent_person,
           memo,
           write_date,
@@ -124,6 +135,7 @@ function AccountStore() {
       new_memo,
       new_spent_person,
       new_item_name,
+      new_target_currency,
       new_category,
     ) => {
       dispatch({
@@ -133,6 +145,7 @@ function AccountStore() {
         new_memo,
         new_spent_person,
         new_item_name,
+        new_target_currency,
         new_category,
       });
 
@@ -143,6 +156,7 @@ function AccountStore() {
           new_memo,
           new_spent_person,
           new_item_name,
+          new_target_currency,
           new_category,
         )
         .catch(err => {
@@ -160,11 +174,24 @@ function AccountStore() {
 
   totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
+  let totalKRWSpent = 0;
+  let exchangeKRW = 0;
+  exchangeKRW = (
+    Number(newTotalPrice) * Number(exchange_rate)
+  ).toLocaleString();
+
   if (data.length > 0) {
     totalSpent = data
       .map(el => el.price)
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
+
+  if (data.length > 0) {
+    totalKRWSpent = data
+      .map(el => el.price)
+      .reduce((prev, next) => Number(prev) + Number(next), 0);
+    totalKRWSpent = Number(totalKRWSpent) * Number(exchange_rate);
+  }
 
   totalSpentString = `${totalSpent.toLocaleString()}${target_currency}`;
   remainingString = `${(newTotalPrice - totalSpent).toLocaleString(
@@ -199,9 +226,9 @@ function AccountStore() {
               <span style={{ fontSize: '2em' }}>{`${title}`}</span>
               에
               <br />총
-              <span
-                style={{ fontSize: '3em', fontWeight: 'bold' }}
-              >{`${totalPriceString}`}</span>
+              <span style={{ fontSize: '3em', fontWeight: 'bold' }}>
+                {`${totalPriceString}`}/{`${exchangeKRW}`}원
+              </span>
               을 들고갔어요
             </div>
             <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>

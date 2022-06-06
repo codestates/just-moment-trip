@@ -26,7 +26,6 @@ export async function accountPost(
   item_name,
   price,
   category,
-  target_currency,
   spent_person,
   memo,
   write_date,
@@ -40,7 +39,6 @@ export async function accountPost(
       item_name,
       price,
       category,
-      target_currency,
       spent_person,
       memo,
       write_date,
@@ -79,7 +77,6 @@ export async function accountPatch(
   new_memo,
   new_spent_person,
   new_item_name,
-  new_target_currency,
   new_category,
 ) {
   let url = `${endpoint}/account/${targetId}`;
@@ -90,7 +87,6 @@ export async function accountPatch(
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
     },
     {
