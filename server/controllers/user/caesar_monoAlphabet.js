@@ -13,7 +13,7 @@ exports.monoAlphabeticDecrypt = (str) => {
 };
 
 exports.caesarDecrypt = (unicode) => {
-  let shift = process.env.REACT_APP_SHIFTNUMBER % 26;
+  let shift = process.env.SHIFTNUMBER % 26;
   let a = 0;
   if (65 <= unicode && unicode <= 90) {
     if (unicode - shift < 65) a = 26;

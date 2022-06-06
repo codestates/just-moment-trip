@@ -5,6 +5,7 @@ const slack = require("../slack");
 const bcrypt = require("bcrypt");
 const RSA = require("./RSA");
 const caesar_monoAlphabet = require("./caesar_monoAlphabet");
+const nodemailer = require("./nodemaile");
 module.exports = {
   up: {
     post: async (req, res) => {
@@ -117,7 +118,6 @@ module.exports = {
           for (let i = 0; i < password.length; i++) {
             passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
           }
-
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
@@ -175,6 +175,32 @@ module.exports = {
       }
     },
   },
+  find: {
+    post: async (req, res) => {
+      try {
+        const email = req.body.email;
+        const userInfo = await user.findOne({
+          where: { email },
+        });
+        if (!userInfo) {
+          return res.status(400).send({ message: "no email" });
+        } else {
+          const newPassword = createRandomPassword();
+          nodemailer.sendEmail(email, newPassword);
+          bcrypt.genSalt(13, async function (err, salt) {
+            bcrypt.hash(newPassword, salt, async function (err, hash) {
+              await user.update({ password: hash }, { where: { id: userInfo.id } });
+              await slack.slack("sign/find post 200", `id : ${userInfo.id}`);
+              return res.status(200).send({ data: { id: userInfo.id } });
+            });
+          });
+        }
+      } catch (err) {
+        await slack.slack("User Get 501");
+        res.status(501).send("User Get");
+      }
+    },
+  },
 };
 function power(base, exponent, mod) {
   base %= mod;
@@ -192,4 +218,28 @@ function power(base, exponent, mod) {
   }
 
   return result;
+}
+function createRandomPassword() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const number = "0123456789";
+  const special = "!@#$%^&*()_-+={}[]`~:;<>,.?";
+  const random = "abc";
+  let newPassword = "";
+  let a = Math.ceil(Math.random() * 3) + 3,
+    b = Math.ceil(Math.random() * 3) + 3;
+  c = Math.ceil(Math.random() * 3) + 3;
+  while (a + b + c >= 1) {
+    const select = random[Math.floor(Math.random() * random.length)];
+    if (select === "a" && a !== 0) {
+      newPassword += alphabet[Math.floor(Math.random() * alphabet.length)];
+      a--;
+    } else if (select === "b" && b !== 0) {
+      newPassword += number[Math.floor(Math.random() * number.length)];
+      b--;
+    } else if (select === "c" && c !== 0) {
+      newPassword += special[Math.floor(Math.random() * special.length)];
+      c--;
+    }
+  }
+  return newPassword;
 }
