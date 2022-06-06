@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
       },
       spent_person: {
         type: Sequelize.STRING,

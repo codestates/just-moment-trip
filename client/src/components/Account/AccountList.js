@@ -162,7 +162,10 @@ function AccountList({
                   />
                 </Modal>
                 <Modal name={ChartPieIcon}>
-                  <AccountPieChart data={data} />
+                  <AccountPieChart
+                    data={data}
+                    target_currency={target_currency}
+                  />
                 </Modal>
               </ModalBox>
               <div
@@ -189,6 +192,7 @@ function AccountList({
                   onEdit={onEdit}
                   onRemove={onRemove}
                   onCreate={onCreate}
+                  target_currency={target_currency}
                   AccountList={AccountList}
                   target_currency={target_currency}
                 />
