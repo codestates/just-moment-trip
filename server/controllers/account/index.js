@@ -24,18 +24,8 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const {
-        trip_id,
-        category,
-        item_name,
-        price,
-        spent_person,
-        target_currency,
-        gps,
-        memo,
-        write_date,
-      } = req.body;
-      if (!category || !item_name || !price || !spent_person || !target_currency || !write_date) {
+      const { trip_id, category, item_name, price, spent_person, gps, memo, write_date } = req.body;
+      if (!category || !item_name || !price || !spent_person || !write_date) {
         await slack.slack("Account Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
@@ -47,7 +37,6 @@ module.exports = {
           item_name,
           price,
           spent_person,
-          target_currency,
           gps,
           memo,
           write_date,
@@ -96,25 +85,17 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const id = req.params.account_id;
-        const {
-          new_category,
-          new_item_name,
-          new_price,
-          new_spent_person,
-          new_target_currency,
-          new_memo,
-        } = req.body;
+        const { new_category, new_item_name, new_price, new_spent_person, new_memo } = req.body;
         const accountInfo = await account.findOne({
           where: { id: id },
         });
-        const { category, item_name, price, spent_person, target_currency, memo } = accountInfo;
+        const { category, item_name, price, spent_person, memo } = accountInfo;
         if (accountInfo) {
           if (
             category === new_category &&
             item_name === new_item_name &&
             price === new_price &&
             spent_person === new_spent_person &&
-            target_currency === new_target_currency &&
             memo === new_memo
           ) {
             // 바뀐게 없음
@@ -131,7 +112,6 @@ module.exports = {
                 item_name: new_item_name,
                 price: new_price,
                 spent_person: new_spent_person,
-                target_currency: new_target_currency,
                 memo: new_memo,
               },
               { where: { id: id } }
