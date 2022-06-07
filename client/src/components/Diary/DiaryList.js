@@ -5,16 +5,10 @@ import styled, { keyframes } from 'styled-components';
 import Modal from '../common/Modal';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faDove,
-  faCircleQuestion,
-  faQuestionCircle,
-  faImage,
-} from '@fortawesome/free-solid-svg-icons';
+import { faDove, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { createEntityAdapter } from '@reduxjs/toolkit';
 import Loding from '../common/Loding';
 
 const AnimationBox = keyframes`

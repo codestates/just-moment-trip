@@ -34,10 +34,9 @@ function Footer({
   exchange_rate,
   target_currency,
 }) {
-  console.log(typeof exchange_rate);
-
   let totalSpentStringKrw = totalSpentString * exchange_rate;
   let remainingStringKrw = remainingString * exchange_rate;
+
   return (
     <FooterBox>
       <div
