@@ -54,7 +54,7 @@ function Trip() {
         </TripBox>
       </StyledWrapper>
       <Container>
-        <Modal name={<StartText>START</StartText>}>
+        <Modal name={<StartText>여행지 기록하기</StartText>}>
           <TripModal />
         </Modal>
       </Container>

@@ -135,7 +135,7 @@ function TripList(props) {
         <Title>{el.title}</Title>
         <div>{el.target_currency}</div>
         <div>{el.total_price.toLocaleString('ko-KR')}</div>
-        <Currency>{`${el.exchange_rate}${el.base_currency} -> 1${el.target_currency}`}</Currency>
+        <Currency>{`${el.exchange_rate}${el.base_currency} → 1${el.target_currency}`}</Currency>
         <div>{getName(el.country)}</div>
         <Dates>
           {moment(el.start_date).format('YYYY-MM-DD')}~
@@ -167,7 +167,6 @@ function TripList(props) {
       <StyledWrapper>
         <img src={noData} alt="NO DATA" />
         <div>아직 여행기록이 없어요 !</div>
-        <div>START 버튼을 눌러 여행을 시작하세요 !</div>
       </StyledWrapper>
     );
   }

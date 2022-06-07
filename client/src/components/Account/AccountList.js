@@ -192,7 +192,6 @@ function AccountList({
                   onEdit={onEdit}
                   onRemove={onRemove}
                   onCreate={onCreate}
-                  target_currency={target_currency}
                   AccountList={AccountList}
                 />
               ))}

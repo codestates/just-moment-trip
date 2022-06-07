@@ -68,7 +68,6 @@ function AccountStore() {
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
   const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
-  const exchange_rate = JSON.parse(sessionStorage.getItem('exchange_rate'));
 
   useEffect(() => {
     setTimeout(() => {
