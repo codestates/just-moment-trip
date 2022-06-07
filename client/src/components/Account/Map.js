@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 function Map({ gps, item_name }) {
   const gpsArray = gps.split(',');
   const meyLatLng = `${gpsArray[0]}, ${gpsArray[1]}`;

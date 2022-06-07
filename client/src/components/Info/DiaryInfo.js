@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import DiaryEditor from '../Diary/DiaryEditor';
 import Container from './Container';
 
@@ -19,7 +19,11 @@ function DiaryInfo() {
   };
 
   return (
-    <Container direction={'row'} back={' rgba(0, 255, 0, .4)'}>
+    <Container
+      direction={'row'}
+      back={' rgba(0, 255, 0, .4)'}
+      onClick={e => e.preventDefault()}
+    >
       <div className="message">즐거웠던 하루의 일들에 대해 일기도 작성하고</div>
       <span>
         <DiaryEditor {...dummyData} />
