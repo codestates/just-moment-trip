@@ -14,6 +14,9 @@ const TripInput = styled.input`
   border-bottom: 2px solid gray;
   font-size: 1.05em;
   margin-bottom: 20px;
+  ::-webkit-inner-spin-button {
+    appearance: none;
+  }
 `;
 
 function TripTextField({ label, ...props }) {

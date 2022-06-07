@@ -24,6 +24,8 @@ export const requestTripPost = async (
   country,
   total_price,
   base_currency,
+  exchange_rate,
+  target_currency,
   start_date,
   end_date,
 ) => {
@@ -34,6 +36,8 @@ export const requestTripPost = async (
       country,
       total_price,
       base_currency,
+      exchange_rate,
+      target_currency,
       start_date,
       end_date,
     },
@@ -62,6 +66,8 @@ export const requestTripDelete = async id => {
     sessionStorage.removeItem('trip_id');
     sessionStorage.removeItem('total_price');
     sessionStorage.removeItem('title');
+    sessionStorage.removeItem('exchange_rate');
+    sessionStorage.removeItem('target_currency');
   }
 
   window.location.reload();

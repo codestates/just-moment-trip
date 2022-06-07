@@ -67,6 +67,8 @@ function AccountStore() {
     ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
+  const exchange_rate = JSON.parse(sessionStorage.getItem('exchange_rate'));
+  const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,7 +77,7 @@ function AccountStore() {
 
         dispatch({ type: INIT, data: initData });
       });
-    }, 1000);
+    }, 0);
   }, []);
 
   const onCreate = useCallback(
@@ -133,7 +135,6 @@ function AccountStore() {
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
     ) => {
       dispatch({
@@ -143,7 +144,6 @@ function AccountStore() {
         new_memo,
         new_spent_person,
         new_item_name,
-        new_target_currency,
         new_category,
       });
 
@@ -154,7 +154,6 @@ function AccountStore() {
           new_memo,
           new_spent_person,
           new_item_name,
-          new_target_currency,
           new_category,
         )
         .catch(err => {
@@ -170,19 +169,18 @@ function AccountStore() {
   let remainingString = 0; // 남은금액
   let PercentageOfAmountUsed = 0; // 사용금액백분율
 
-  totalPriceString = `${newTotalPrice.toLocaleString()}원`;
+  totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
+
   if (data.length > 0) {
     totalSpent = data
       .map(el => el.price)
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString()}원`;
-  remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
-  PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
-    2,
-  )}%`;
+  totalSpentString = totalSpent;
+  remainingString = newTotalPrice - totalSpent;
+  PercentageOfAmountUsed = Number((totalSpent / newTotalPrice) * 100);
 
   return (
     <>
@@ -209,13 +207,13 @@ function AccountStore() {
               <span style={{ fontSize: '2em' }}>{`${title}`}</span>
               에
               <br />총
-              <span
-                style={{ fontSize: '3em', fontWeight: 'bold' }}
-              >{`${totalPriceString}`}</span>
+              <span style={{ fontSize: '3em', fontWeight: 'bold' }}>
+                {`${totalPriceString}`}
+              </span>
               을 들고갔어요
             </div>
             <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>
-              {`💸 사용한돈 ${totalSpentString}/💰 남은돈 ${remainingString}`}
+              {`💸 사용한돈 ${totalSpentString.toLocaleString()}${target_currency}/💰 남은돈 ${remainingString.toLocaleString()}${target_currency}`}
             </span>
           </div>
         </div>
@@ -228,6 +226,8 @@ function AccountStore() {
           totalSpentString={totalSpentString}
           remainingString={remainingString}
           PercentageOfAmountUsed={PercentageOfAmountUsed}
+          target_currency={target_currency}
+          exchange_rate={exchange_rate}
         />
       </div>
     </>

@@ -20,7 +20,11 @@ const AccountPieChartBox = styled.div`
   animation-duration: 0.7s;
 `;
 
-function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
+function AccountPieChart({
+  openModalHandler,
+  data,
+  target_currency /* see data tab */,
+}) {
   function totalPrice(category) {
     return data
       .filter(el => el.category === category)
@@ -51,20 +55,34 @@ function AccountPieChart({ openModalHandler, data /* see data tab */ }) {
 
     // console.log(myProps);
     // console.log(layerProps);
-
     return (
-      <text
-        x={centerX}
-        y={centerY}
-        textAnchor="middle"
-        dominantBaseline="central"
-        style={{
-          fontSize: '1.5vw',
-          fontWeight: '600',
-        }}
-      >
-        {myProps}원 사용 !
-      </text>
+      <>
+        <text
+          x={centerX}
+          y={centerY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '1.5vw',
+            fontWeight: '600',
+          }}
+        >
+          {myProps} {target_currency}
+        </text>
+        <text
+          x={centerX}
+          y={centerY + 20}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '1.5vw',
+            fontWeight: '600',
+          }}
+        >
+          {(myProps * sessionStorage.getItem('exchange_rate')).toLocaleString()}
+          원
+        </text>
+      </>
     );
   };
 

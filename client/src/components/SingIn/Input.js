@@ -10,6 +10,9 @@ import TextField from '../SignUp/TextField';
 import kakaoImg from '../../Assets/kakao_login_medium_wide.png';
 import jmt from '../../Assets/JMT_logo.png';
 import { KAKAO_AUTH_URL } from '../../routers/index';
+import Modal from '../common/Modal';
+import PasswordFindModal from './PassFindModal';
+import { findPassword } from '../../services/sign';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const Container = styled.div`
   background-color: #ffffff;
   text-align: center;
   width: 400px;
-  height: 500px;
+  height: 85vh;
   margin: 1rem auto;
   border-radius: 1.5em;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
@@ -80,6 +83,25 @@ function SignInput() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
+  const passwordFindRequest = async email => {
+    try {
+      await findPassword(email);
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '임시비밀번호가 전송되었습니다. 임시비밀번호를 이용하여 로그인후 비밀번호 변경을 해주세요',
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate('/');
+        }
+      });
+    } catch {
+      return Swal.fire({
+        backdrop: ` rgba(0,0,110,0.5)`,
+        text: '가입되지 않는 이메일입니다. 이메일을 다시 확인해주세요',
+      });
+    }
+  };
+
   const signInRequest = (values, actions) => {
     const { email, password } = values;
     dispatch(signIn({ email, password }))
@@ -123,6 +145,23 @@ function SignInput() {
               <TextField label="Email" name="email" type="email" />
               <TextField label="Password" name="password" type="password" />
               <Btn type="submit">Sign In</Btn>
+              <div
+                style={{
+                  marginLeft: '25%',
+                  marginBottom: '0px',
+                  paddingBottom: '0px',
+                }}
+              >
+                <Modal
+                  name={
+                    <div style={{ fontSize: '15px' }}>Forgot Password?</div>
+                  }
+                >
+                  <PasswordFindModal
+                    passwordFindRequest={passwordFindRequest}
+                  />
+                </Modal>
+              </div>
             </Form>
             <KakaoImg src={kakaoImg} alt="" onClick={handleClick} />
           </Container>

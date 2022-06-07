@@ -77,6 +77,10 @@ const Dates = styled.div`
   font-size: 15px;
 `;
 
+const Currency = styled.div`
+  font-size: 15px;
+`;
+
 function TripList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -87,11 +91,13 @@ function TripList(props) {
       .catch(err => console.log(err));
   }, []);
 
-  const handleRequest = (id, total, title) => {
+  const handleRequest = (id, total, title, exchange_rate, target_currency) => {
     dispatch(postTripId(id));
     sessionStorage.setItem('trip_id', JSON.stringify(id));
     sessionStorage.setItem('total_price', JSON.stringify(total));
     sessionStorage.setItem('title', JSON.stringify(title));
+    sessionStorage.setItem('exchange_rate', JSON.stringify(exchange_rate));
+    sessionStorage.setItem('target_currency', JSON.stringify(target_currency));
     navigate('/account');
   };
 
@@ -127,8 +133,9 @@ function TripList(props) {
     return (
       <Background key={idx} images={props.images[random]}>
         <Title>{el.title}</Title>
-        <div>{el.base_currency}</div>
+        <div>{el.target_currency}</div>
         <div>{el.total_price.toLocaleString('ko-KR')}</div>
+        <Currency>{`${el.exchange_rate}${el.base_currency} → 1${el.target_currency}`}</Currency>
         <div>{getName(el.country)}</div>
         <Dates>
           {moment(el.start_date).format('YYYY-MM-DD')}~
@@ -139,7 +146,15 @@ function TripList(props) {
         </DeleteBtn>
         <StartBtn
           type="button"
-          onClick={() => handleRequest(el.id, el.total_price, el.title)}
+          onClick={() =>
+            handleRequest(
+              el.id,
+              el.total_price,
+              el.title,
+              el.exchange_rate,
+              el.target_currency,
+            )
+          }
         >
           확인하기
         </StartBtn>
@@ -152,7 +167,6 @@ function TripList(props) {
       <StyledWrapper>
         <img src={noData} alt="NO DATA" />
         <div>아직 여행기록이 없어요 !</div>
-        <div>START 버튼을 눌러 여행을 시작하세요 !</div>
       </StyledWrapper>
     );
   }

@@ -5,5 +5,4 @@ const userController = require("../controllers/user");
 router.get("/", userController.get);
 router.patch("/", userController.patch);
 router.delete("/", userController.delete);
-
 module.exports = router;
