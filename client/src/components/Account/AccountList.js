@@ -91,13 +91,14 @@ function AccountList({
   remainingString,
   PercentageOfAmountUsed,
   target_currency,
+  exchange_rate,
 }) {
   const [loading, setLoding] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setLoding(false);
-    }, 2500);
+    }, 0);
   }, [data]);
 
   //!-----------------
@@ -200,6 +201,8 @@ function AccountList({
               totalSpentString={totalSpentString}
               remainingString={remainingString}
               PercentageOfAmountUsed={PercentageOfAmountUsed}
+              exchange_rate={exchange_rate}
+              target_currency={target_currency}
             />
           </div>
         </>
