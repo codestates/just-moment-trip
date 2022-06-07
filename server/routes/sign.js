@@ -7,4 +7,5 @@ router.post("/out", signController.out.post);
 router.post("/in", signController.in.post);
 router.post("/find", signController.find.post);
 router.post("/emailVerification", signController.emailVerification.post);
+router.post("/codeVerification", signController.codeVerification.post);
 module.exports = router;

@@ -9,11 +9,18 @@ export const signCustomApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const sendEmail = async email => {
-  const res = await signCustomApi.post('emailVerification', {
+  await signCustomApi.post('emailVerification', {
     email,
   });
-  console.log(res.data.data.code);
+};
+
+export const sendCode = async (email, code) => {
+  await signCustomApi.post('codeVerification', {
+    email,
+    code,
+  });
 };
 
 export const findPassword = async email => {
