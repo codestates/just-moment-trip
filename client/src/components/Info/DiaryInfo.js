@@ -19,11 +19,7 @@ function DiaryInfo() {
   };
 
   return (
-    <Container
-      direction={'row'}
-      back={' rgba(0, 255, 0, .4)'}
-      onClick={e => e.preventDefault()}
-    >
+    <Container direction={'row'} back={' rgba(0, 255, 0, .4)'}>
       <div className="message">즐거웠던 하루의 일들에 대해 일기도 작성하고</div>
       <span>
         <DiaryEditor {...dummyData} />
