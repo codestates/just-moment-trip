@@ -9,6 +9,12 @@ export const signCustomApi = axios.create({
   },
   withCredentials: true,
 });
+export const sendEmail = async email => {
+  const res = await signCustomApi.post('emailVerification', {
+    email,
+  });
+  console.log(res.data.data.code);
+};
 
 export const signUpApi = async (email, nickname, password) => {
   const res = await signCustomApi.post('up', {

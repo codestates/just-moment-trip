@@ -190,14 +190,34 @@ module.exports = {
           bcrypt.genSalt(13, async function (err, salt) {
             bcrypt.hash(newPassword, salt, async function (err, hash) {
               await user.update({ password: hash }, { where: { id: userInfo.id } });
-              await slack.slack("sign/find post 200", `id : ${userInfo.id}`);
+              await slack.slack("sign/find Post 200", `id : ${userInfo.id}`);
               return res.status(200).send({ data: { id: userInfo.id } });
             });
           });
         }
       } catch (err) {
-        await slack.slack("User Get 501");
-        res.status(501).send("User Get");
+        await slack.slack("sign/find Post 501");
+        res.status(501).send("sign/find Post");
+      }
+    },
+  },
+  emailVerification: {
+    post: async (req, res) => {
+      try {
+        const email = req.body.email;
+        const userInfo = await user.findOne({
+          where: { email },
+        });
+        if (userInfo) {
+          return res.status(400).send({ message: "aleady exist email" });
+        } else {
+          const code = createRandomPassword();
+          nodemailer.sendEmail(email, code);
+          return res.status(200).send({ data: { code: code } });
+        }
+      } catch (err) {
+        await slack.slack("sign/emailVerification Post 501");
+        res.status(501).send("sign/emailVerification Post");
       }
     },
   },
