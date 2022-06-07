@@ -4,6 +4,7 @@ import axios from 'axios';
 import Modal from '../common/Modal';
 import TripModal from './tripmodal';
 import TripList from './triplist';
+import TopBtn from '../common/TopBtn';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -56,6 +57,7 @@ function Trip() {
           <TripList images={images} />
         </TripBox>
       </StyledWrapper>
+      <TopBtn marginBottom={1} />
       <Container>
         <Modal name={<StartText>여행지 기록하기</StartText>}>
           <TripModal />
