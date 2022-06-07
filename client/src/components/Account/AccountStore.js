@@ -77,7 +77,7 @@ function AccountStore() {
 
         dispatch({ type: INIT, data: initData });
       });
-    }, 0);
+    }, 1000);
   }, []);
 
   const onCreate = useCallback(
