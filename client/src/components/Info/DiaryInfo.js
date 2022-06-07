@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import DiaryEditor from '../Diary/DiaryEditor';
 import Container from './Container';
 

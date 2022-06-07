@@ -1,7 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
 import styled from 'styled-components';
-import { Fi } from 'react-flags-select';
 
 const TripInput = styled.input`
   text-align: center;

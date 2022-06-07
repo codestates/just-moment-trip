@@ -14,7 +14,7 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-import Loding from '../common/Loding';
+import Loding from '../common/Loading';
 import TopBtn from '../common/TopBtn';
 
 const AccountModalBtnAnimation = keyframes`

@@ -103,13 +103,23 @@ function TripList(props) {
       .catch(err => console.log(err));
   }, []);
 
-  const handleRequest = (id, total, title, exchange_rate, target_currency) => {
+  const handleRequest = (
+    id,
+    total,
+    title,
+    exchange_rate,
+    target_currency,
+    start_date,
+    end_date,
+  ) => {
     dispatch(postTripId(id));
     sessionStorage.setItem('trip_id', JSON.stringify(id));
     sessionStorage.setItem('total_price', JSON.stringify(total));
     sessionStorage.setItem('title', JSON.stringify(title));
     sessionStorage.setItem('exchange_rate', JSON.stringify(exchange_rate));
     sessionStorage.setItem('target_currency', JSON.stringify(target_currency));
+    sessionStorage.setItem('start_date', JSON.stringify(start_date));
+    sessionStorage.setItem('end_date', JSON.stringify(end_date));
     navigate('/account');
   };
 
@@ -155,6 +165,8 @@ function TripList(props) {
               el.title,
               el.exchange_rate,
               el.target_currency,
+              el.start_date,
+              el.end_date,
             )
           }
         >

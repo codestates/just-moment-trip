@@ -4,7 +4,7 @@ import ReactFlagsSelect from 'react-flags-select';
 import { DateRangeInput } from '@datepicker-react/styled';
 import Swal from 'sweetalert2';
 import TripTextField from './textfield';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { requestTripPost } from '../../services/trip';
 
 const StyledWrapper = styled.div`
