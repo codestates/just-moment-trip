@@ -9,13 +9,13 @@ const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: SsurroundFont;
+  font-family: ManfuMedium;
 `;
 
 const TripBox = styled.div`
   width: 93%;
   height: 100%;
-  padding: 90px 0px 70px;
+  padding: 90px 0px 10px 0;
 `;
 
 const Container = styled.div`
@@ -26,7 +26,7 @@ const Container = styled.div`
 const StartText = styled.div`
   :hover {
     transition: all 0.2s linear;
-    transform: scale(1.2);
+    border-bottom: 5px solid pink;
   }
 `;
 
