@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const smtpTransporter = require("nodemailer-smtp-transport");
 
-exports.sendEmail = (email, newPassword) => {
+exports.sendEmail = (email, newPassword, subject) => {
   //이메일 보내기
   var smtpTransport = nodemailer.createTransport(
     smtpTransporter({
@@ -14,10 +14,11 @@ exports.sendEmail = (email, newPassword) => {
     })
   );
 
-  var mailOption = {
+  var mailOption;
+  mailOption = {
     from: process.env.NAVER_EMAIL, // 보내는 분의 메일계정
     to: email, // 받는 분의 메일계정 (여러 개 가능)
-    subject: "임시 비밀번호",
+    subject: subject,
     text: newPassword,
   };
 

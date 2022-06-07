@@ -1,4 +1,4 @@
-const { user } = require("../../models");
+const { user, signup } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const slack = require("../slack");
@@ -186,7 +186,7 @@ module.exports = {
           return res.status(400).send({ message: "no email" });
         } else {
           const newPassword = createRandomPassword();
-          nodemailer.sendEmail(email, newPassword);
+          nodemailer.sendEmail(email, newPassword, "임시 비밀번호");
           bcrypt.genSalt(13, async function (err, salt) {
             bcrypt.hash(newPassword, salt, async function (err, hash) {
               await user.update({ password: hash }, { where: { id: userInfo.id } });
@@ -212,12 +212,33 @@ module.exports = {
           return res.status(400).send({ message: "aleady exist email" });
         } else {
           const code = createRandomPassword();
-          nodemailer.sendEmail(email, code);
-          return res.status(200).send({ data: { code: code } });
+          nodemailer.sendEmail(email, code, "인증 코드");
+          await signup.create({ email, code });
+          return res.status(200).send({ message: "Code sent to Email" });
         }
       } catch (err) {
         await slack.slack("sign/emailVerification Post 501");
         res.status(501).send("sign/emailVerification Post");
+      }
+    },
+  },
+  codeVerification: {
+    post: async (req, res) => {
+      const { email, code } = req.body;
+      try {
+        const verify = await signup.findOne({ where: { email, code } });
+        console.log(verify);
+        if (verify) {
+          await slack.slack("sign/codeVerification Verified");
+          await signup.destroy({ where: { email, code } });
+          return res.status(200).send({ message: "Verified" });
+        } else {
+          await slack.slack("sign/codeVerification WrongCode");
+          return res.status(400).send({ message: "WrongCode" });
+        }
+      } catch {
+        await slack.slack("sign/codeVerification Post 501");
+        return res.status(501).send("sign/codeVerification Post");
       }
     },
   },
