@@ -79,7 +79,8 @@ function AccountPieChart({
             fontWeight: '600',
           }}
         >
-          {myProps * sessionStorage.getItem('exchange_rate')} 원
+          {(myProps * sessionStorage.getItem('exchange_rate')).toLocaleString()}
+          원
         </text>
       </>
     );
