@@ -10,6 +10,7 @@ import parrot9 from '../../Assets/parrot9.gif';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Loding from '../common/Loding';
+import TopBtn from '../common/TopBtn';
 
 const AnimationBox = keyframes`
 50% {
@@ -489,7 +490,7 @@ function DiaryList({
                 />
               ))} */}
                 </DiaryListBox>
-
+                <TopBtn marginBottom={1} />
                 {/* </DiarySplitBox> */}
               </div>
             </>

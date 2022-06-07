@@ -4,6 +4,7 @@ import axios from 'axios';
 import Modal from '../common/Modal';
 import TripModal from './tripmodal';
 import TripList from './triplist';
+import TopBtn from '../common/TopBtn';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -24,7 +25,10 @@ const Container = styled.div`
 `;
 
 const StartText = styled.div`
+  font-family: ManfuMedium;
+  color: rgb(210, 206, 221);
   :hover {
+    color: rgb(71, 56, 136);
     transition: all 0.2s linear;
     border-bottom: 5px solid pink;
   }
@@ -53,6 +57,7 @@ function Trip() {
           <TripList images={images} />
         </TripBox>
       </StyledWrapper>
+      <TopBtn marginBottom={1} />
       <Container>
         <Modal name={<StartText>여행지 기록하기</StartText>}>
           <TripModal />

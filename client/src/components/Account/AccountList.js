@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 import Loding from '../common/Loding';
+import TopBtn from '../common/TopBtn';
 
 const AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
@@ -197,12 +198,13 @@ function AccountList({
                 />
               ))}
             </AccountListBox>
+            <TopBtn marginBottom={3} />
             <Footer
               totalSpentString={totalSpentString}
               remainingString={remainingString}
               PercentageOfAmountUsed={PercentageOfAmountUsed}
-                exchange_rate={exchange_rate}
-                target_currency={target_currency}
+              exchange_rate={exchange_rate}
+              target_currency={target_currency}
             />
           </div>
         </>
