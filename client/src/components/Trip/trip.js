@@ -24,7 +24,10 @@ const Container = styled.div`
 `;
 
 const StartText = styled.div`
+  font-family: ManfuMedium;
+  color: rgb(210, 206, 221);
   :hover {
+    color: rgb(71, 56, 136);
     transition: all 0.2s linear;
     border-bottom: 5px solid pink;
   }

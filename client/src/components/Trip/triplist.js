@@ -42,7 +42,8 @@ const Background = styled.div`
   padding: 15px 0;
   border-radius: 5px;
   :hover {
-    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.3);
+    transition: all 0.2s linear;
+    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.7);
   }
 `;
 
@@ -56,7 +57,8 @@ const Btn = styled.button`
   :hover {
     transition: all 0.2s linear;
     transform: scale(1.1);
-    border-bottom: 1px solid pink;
+    border-bottom: 2px solid pink;
+    color: rgb(71, 56, 136);
   }
 `;
 
@@ -141,7 +143,7 @@ function TripList(props) {
   const tripList = newTripList.map((el, idx) => {
     const random = Math.floor(Math.random() * props.images.length) + 1;
     return (
-      <TripBox>
+      <TripBox key={idx}>
         <Background
           key={idx}
           images={props.images[random]}
@@ -181,7 +183,7 @@ function TripList(props) {
             확인하기
           </StartBtn> */}
         </Background>
-        <div>
+        <div style={{ paddingTop: '190px' }}>
           <Btn type="button" onClick={() => deleteRequest(el.id)}>
             삭제
           </Btn>
