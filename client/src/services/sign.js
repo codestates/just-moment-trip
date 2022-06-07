@@ -16,6 +16,10 @@ export const sendEmail = async email => {
   console.log(res.data.data.code);
 };
 
+export const findPassword = async email => {
+  return await signCustomApi.post('find', { email });
+};
+
 export const signUpApi = async (email, nickname, password) => {
   const res = await signCustomApi.post('up', {
     createKey: true,
