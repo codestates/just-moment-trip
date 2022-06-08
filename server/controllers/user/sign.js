@@ -211,6 +211,7 @@ module.exports = {
         if (userInfo) {
           return res.status(400).send({ message: "aleady exist email" });
         } else {
+          await signup.destroy({ where: { email } });
           const code = createRandomPassword();
           nodemailer.sendEmail(email, code, "인증 코드");
           await signup.create({ email, code });
@@ -263,7 +264,7 @@ function power(base, exponent, mod) {
 function createRandomPassword() {
   const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const number = "0123456789";
-  const special = "!@#$%^&*()_-+={}[]`~:;<>,.?";
+  const special = "!@#%^&*()_-+=}[]`~:;>,.?";
   const random = "abc";
   let newPassword = "";
   let a = Math.ceil(Math.random() * 3) + 3,

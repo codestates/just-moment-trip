@@ -1,4 +1,5 @@
 const hashtag_delete_schedule = require("./controllers/diary/hashtag_delete_schedule");
+const signup_delete_schedule = require("./controllers/user/signup_delete_schedule");
 require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -13,6 +14,7 @@ const account = require("./routes/account");
 const diary = require("./routes/diary");
 
 hashtag_delete_schedule.cron();
+signup_delete_schedule.cron();
 //!
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
