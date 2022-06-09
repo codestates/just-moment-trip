@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import { getName } from 'country-list';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
-import { requestTripDelete } from '../../services/trip';
+import { requestTripDelete, requestTripPatch } from '../../services/trip';
 import noData from '../../Assets/No_data.png';
+import TripEditor from './tripeditor';
+import amongus from '../../Assets/amongus.gif';
+import parrot13 from '../../Assets/parrot13.gif';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -16,74 +18,15 @@ const StyledWrapper = styled.div`
   justify-content: center;
   height: 75vh;
 `;
-
-const TripBox = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: space-between;
-`;
-
-const Background = styled.div`
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${props => props.images});
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-position: center;
-  background-size: cover;
-  text-align: center;
-  font-size: 1.6rem;
-  color: white;
-  width: 93%;
-  margin: 10px;
-  padding: 15px 0;
-  border-radius: 5px;
-  :hover {
-    transition: all 0.2s linear;
-    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.7);
-  }
-`;
-
-const Btn = styled.button`
-  font-family: ManfuMedium;
-  font-size: 1rem;
-  color: rgb(210, 206, 221);
-  background-color: transparent;
-  border: none;
-  outline: 0;
-  :hover {
-    transition: all 0.2s linear;
-    transform: scale(1.1);
-    border-bottom: 2px solid pink;
-    color: rgb(71, 56, 136);
-  }
-`;
-
 const TripListBox = styled.div`
   display: grid;
   text-align: center;
 `;
 
-const Title = styled.div`
-  font-weight: bold;
-  font-size: 2rem;
-`;
-
-const Dates = styled.div`
-  font-size: 1.3rem;
-`;
-
-const Currency = styled.div`
-  font-size: 1.3rem;
-`;
-
-function TripList(props) {
+function TripList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     dispatch(getTrip())
@@ -100,7 +43,6 @@ function TripList(props) {
     start_date,
     end_date,
   ) => {
-
     dispatch(postTripId(id));
     sessionStorage.setItem('trip_id', JSON.stringify(id));
     sessionStorage.setItem('total_price', JSON.stringify(total));
@@ -112,16 +54,48 @@ function TripList(props) {
     navigate('/account');
   };
 
-  const [isEdit, setIsEdit] = useState(false);
-  const [totalPrice, setTotalPrice] = useState('');
-
-  const toggleIsEdit = () => setIsEdit(!isEdit);
-
   useEffect(() => {
     dispatch(getTrip())
       .unwrap()
       .catch(err => console.log(err));
   }, []);
+
+  const patchRequest = total_price => {
+    Swal.fire({
+      title: `기록을 수정할까요?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url(${amongus})
+      left top
+      no-repeat
+    `,
+    }).then(res => {
+      if (res.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: '수정 완료!',
+          text: `선택하신 기록을 수정했어요`,
+          confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${parrot13})
+          bottom
+          no-repeat
+        `,
+        }).then(result => {
+          if (result.isConfirmed) {
+            requestTripPatch(total_price);
+          }
+        });
+      }
+    });
+  };
 
   const deleteRequest = id => {
     Swal.fire({
@@ -147,56 +121,40 @@ function TripList(props) {
   };
 
   const triptext = useSelector(state => state.trip);
-
   const newTripList = triptext.flat();
 
+  let some = newTripList.map(el => (el.id ? el.id : null));
+
+  console.log(some.length);
+
+  useEffect(() => {
+    axios
+      .get('https://api.unsplash.com/photos/random', {
+        params: {
+          client_id: 'WsSyzWat1M0u7oNlzCR5GS4xDlDsyh7YGG7gFeb7yGY',
+          count: 20,
+        },
+      })
+      .then(res => {
+        console.log('리렌더링멈춰!');
+        setImages([...images, ...res.data.map(el => el.urls.small)]);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('리렌더링멈춰');
+      });
+  }, [some.length]);
+
   const tripList = newTripList.map(el => {
-    const random = Math.floor(Math.random() * props.images.length) + 1;
     return (
-      <TripBox key={el.id}>
-        <Background
-          onClick={() => {
-            handleRequest(
-              el.id,
-              el.total_price,
-              el.title,
-              el.exchange_rate,
-              el.target_currency,
-              el.start_date,
-              el.end_date,
-            );
-          }}
-          images={props.images[random]}
-          type="button"
-        >
-          <Title>{el.title}</Title>
-
-          <div>{el.target_currency}</div>
-          <div>{el.total_price.toLocaleString('ko-KR')}</div>
-
-          <Currency>{`${el.exchange_rate}${el.base_currency} → 1${el.target_currency}`}</Currency>
-          <div>{getName(el.country)}</div>
-          <Dates>
-            {moment(el.start_date).format('YYYY-MM-DD')}~
-            {moment(el.end_date).format('YYYY-MM-DD')}
-          </Dates>
-        </Background>
-
-        <div style={{ paddingTop: '190px' }}>
-          <Btn type="button" onClick={() => deleteRequest(el.id)}>
-            삭제
-          </Btn>
-          <Btn
-            type="button"
-            onClick={() => {
-              toggleIsEdit();
-              console.log('날짜수정해야하무!');
-            }}
-          >
-            수정
-          </Btn>
-        </div>
-      </TripBox>
+      <TripEditor
+        key={el.id}
+        {...el}
+        images={images}
+        handleRequest={handleRequest}
+        deleteRequest={deleteRequest}
+        patchRequest={patchRequest}
+      />
     );
   });
 

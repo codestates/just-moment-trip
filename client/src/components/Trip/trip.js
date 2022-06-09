@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import Modal from '../common/Modal';
 import TripModal from './tripmodal';
 import TripList from './triplist';
@@ -35,26 +34,11 @@ const StartText = styled.div`
 `;
 
 function Trip() {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get('https://api.unsplash.com/photos/random', {
-        params: {
-          client_id: 'WsSyzWat1M0u7oNlzCR5GS4xDlDsyh7YGG7gFeb7yGY',
-          count: 20,
-        },
-      })
-      .then(res => {
-        setImages([...images, ...res.data.map(el => el.urls.small)]);
-      });
-  }, []);
-
   return (
     <>
       <StyledWrapper>
         <TripBox>
-          <TripList images={images} />
+          <TripList />
         </TripBox>
       </StyledWrapper>
       <TopBtn marginBottom={1} />

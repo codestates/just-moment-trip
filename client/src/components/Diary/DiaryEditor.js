@@ -289,11 +289,11 @@ function DiaryEditor({
     });
   };
 
-  function handleOnInput(el, maxlength) {
-    if (el.value.length > maxlength) {
-      el.value = el.value.substr(0, maxlength);
-    }
-  }
+  // function handleOnInput(el, maxlength) {
+  //   if (el.value.length > maxlength) {
+  //     el.value = el.value.substr(0, maxlength);
+  //   }
+  // }
 
   const handleQuitEdit = () => {
     setIsEdit(false);
