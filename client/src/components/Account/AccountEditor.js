@@ -273,6 +273,7 @@ function AccountEditor({
   const [editSpent_person, setEditSpent_person] = useState(spent_person);
   const [editItem_name, setEditItem_name] = useState(item_name);
   const [editCategory, setEditCategory] = useState(category);
+  const [editWriteDate, setEditWriteDate] = useState(write_date);
 
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -281,6 +282,7 @@ function AccountEditor({
   const editSpent_personInput = useRef();
   const editItem_nameInput = useRef();
   const editCategoryInput = useRef();
+  const editWirteDateInput = useRef();
 
   useEffect(() => {
     AOS.init();
@@ -328,6 +330,7 @@ function AccountEditor({
     setEditSpent_person(spent_person);
     setEditItem_name(item_name);
     setEditCategory(category);
+    setEditWriteDate(write_date);
   };
 
   const handleEdit = () => {
@@ -346,6 +349,10 @@ function AccountEditor({
 
     if (editItem_name.length < 1) {
       editItem_nameInput.current.focus();
+    }
+
+    if (editWriteDate.length < 1) {
+      editWirteDateInput.current.focus();
     }
 
     Swal.fire({
@@ -383,6 +390,7 @@ function AccountEditor({
           editSpent_person,
           editItem_name,
           editCategory,
+          editWriteDate,
         );
         toggleIsEdit();
       } else if (result.isDismissed) {
@@ -429,6 +437,17 @@ function AccountEditor({
                     ref={editSpent_personInput}
                     value={editSpent_person}
                     onChange={e => setEditSpent_person(e.target.value)}
+                  />
+                </AccountItemInputBox>
+                <AccountItemInputBox>
+                  날짜 :
+                  <AccountEditInputBox
+                    maxlength="5"
+                    placeholder="날짜를 입력해요"
+                    className="AccountItemInput"
+                    ref={editWirteDateInput}
+                    value={editWriteDate}
+                    onChange={e => setEditWriteDate(e.target.value)}
                   />
                 </AccountItemInputBox>
                 <div>

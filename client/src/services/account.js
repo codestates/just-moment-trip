@@ -78,6 +78,7 @@ export async function accountPatch(
   new_spent_person,
   new_item_name,
   new_category,
+  new_write_date,
 ) {
   let url = `${endpoint}/account/${targetId}`;
   const res = await axios.patch(
@@ -88,6 +89,7 @@ export async function accountPatch(
       new_spent_person,
       new_item_name,
       new_category,
+      new_write_date,
     },
     {
       headers: {

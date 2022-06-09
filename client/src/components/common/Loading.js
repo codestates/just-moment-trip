@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart } from 'react-spinners-css';
 import babies from '../../Assets/babies.jpg';
 
-function Loding() {
+function Loading() {
   const loadingSentences = [
     '기분이 어때요?',
     '숙소는 편안한가요 ?',
@@ -43,4 +43,4 @@ function Loding() {
   );
 }
 
-export default Loding;
+export default Loading;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -62,19 +62,6 @@ const Btn = styled.button`
   }
 `;
 
-// const StartBtn = styled.button`
-//   font-family: ManfuMedium;
-//   font-size: 18px;
-//   color: #ff6670;
-//   background-color: transparent;
-//   border: none;
-//   outline: 0;
-//   :hover {
-//     transition: all 0.2s linear;
-//     transform: scale(1.2);
-//   }
-// `;
-
 const TripListBox = styled.div`
   display: grid;
   text-align: center;
@@ -97,12 +84,6 @@ function TripList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(getTrip())
-      .unwrap()
-      .catch(err => console.log(err));
-  }, []);
-
   const handleRequest = (id, total, title, exchange_rate, target_currency) => {
     dispatch(postTripId(id));
     sessionStorage.setItem('trip_id', JSON.stringify(id));
@@ -112,6 +93,17 @@ function TripList(props) {
     sessionStorage.setItem('target_currency', JSON.stringify(target_currency));
     navigate('/account');
   };
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [totalPrice, setTotalPrice] = useState('');
+
+  const toggleIsEdit = () => setIsEdit(!isEdit);
+
+  useEffect(() => {
+    dispatch(getTrip())
+      .unwrap()
+      .catch(err => console.log(err));
+  }, []);
 
   const deleteRequest = id => {
     Swal.fire({
@@ -140,49 +132,36 @@ function TripList(props) {
 
   const newTripList = triptext.flat();
 
-  const tripList = newTripList.map((el, idx) => {
+  const tripList = newTripList.map(el => {
     const random = Math.floor(Math.random() * props.images.length) + 1;
     return (
-      <TripBox key={idx}>
+      <TripBox key={el.id}>
         <Background
-          key={idx}
-          images={props.images[random]}
-          type="button"
-          onClick={() =>
+          onClick={() => {
             handleRequest(
               el.id,
               el.total_price,
               el.title,
               el.exchange_rate,
               el.target_currency,
-            )
-          }
+            );
+          }}
+          images={props.images[random]}
+          type="button"
         >
           <Title>{el.title}</Title>
+
           <div>{el.target_currency}</div>
           <div>{el.total_price.toLocaleString('ko-KR')}</div>
+
           <Currency>{`${el.exchange_rate}${el.base_currency} → 1${el.target_currency}`}</Currency>
           <div>{getName(el.country)}</div>
           <Dates>
             {moment(el.start_date).format('YYYY-MM-DD')}~
             {moment(el.end_date).format('YYYY-MM-DD')}
           </Dates>
-
-          {/* <StartBtn
-            type="button"
-            onClick={() =>
-              handleRequest(
-                el.id,
-                el.total_price,
-                el.title,
-                el.exchange_rate,
-                el.target_currency,
-              )
-            }
-          >
-            확인하기
-          </StartBtn> */}
         </Background>
+
         <div style={{ paddingTop: '190px' }}>
           <Btn type="button" onClick={() => deleteRequest(el.id)}>
             삭제
@@ -190,6 +169,7 @@ function TripList(props) {
           <Btn
             type="button"
             onClick={() => {
+              toggleIsEdit();
               console.log('날짜수정해야하무!');
             }}
           >
