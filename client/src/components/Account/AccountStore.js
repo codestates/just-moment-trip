@@ -49,6 +49,7 @@ const reducer = (state, action) => {
               item_name: action.new_item_name,
               target_currency: action.new_target_currency,
               category: action.new_category,
+              write_date: action.new_write_date,
             }
           : it,
       );
@@ -136,6 +137,7 @@ function AccountStore() {
       new_spent_person,
       new_item_name,
       new_category,
+      new_write_date,
     ) => {
       dispatch({
         type: EDIT,
@@ -145,6 +147,7 @@ function AccountStore() {
         new_spent_person,
         new_item_name,
         new_category,
+        new_write_date,
       });
 
       axios
@@ -155,7 +158,11 @@ function AccountStore() {
           new_spent_person,
           new_item_name,
           new_category,
+          new_write_date,
         )
+        .then(res => {
+          console.log(res.data);
+        })
         .catch(err => {
           console.log(err);
           // console.log('루저ㅋ', err.status);

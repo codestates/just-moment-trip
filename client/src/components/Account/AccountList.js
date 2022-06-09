@@ -14,7 +14,9 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-import Loding from '../common/Loading';
+
+import Loading from '../common/Loading';
+
 import TopBtn from '../common/TopBtn';
 
 const AccountModalBtnAnimation = keyframes`
@@ -94,11 +96,11 @@ function AccountList({
   target_currency,
   exchange_rate,
 }) {
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setLoding(false);
+      setLoading(false);
     }, 2500);
   }, [data]);
 
@@ -142,7 +144,7 @@ function AccountList({
   return (
     <>
       {loading ? (
-        <Loding />
+        <Loading />
       ) : (
         <>
           <div className="AccountList">
