@@ -91,18 +91,26 @@ module.exports = {
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const id = req.params.account_id;
-        const { new_category, new_item_name, new_price, new_spent_person, new_memo } = req.body;
+        const {
+          new_category,
+          new_item_name,
+          new_price,
+          new_spent_person,
+          new_memo,
+          new_write_date,
+        } = req.body;
         const accountInfo = await account.findOne({
           where: { id: id },
         });
-        const { category, item_name, price, spent_person, memo } = accountInfo;
+        const { category, item_name, price, spent_person, memo, write_date } = accountInfo;
         if (accountInfo) {
           if (
             category === new_category &&
             item_name === new_item_name &&
             price === new_price &&
             spent_person === new_spent_person &&
-            memo === new_memo
+            memo === new_memo &&
+            write_date === new_write_date
           ) {
             // 바뀐게 없음
             await slack.slack("Account Patch 412", `id : ${id}`);
@@ -119,6 +127,7 @@ module.exports = {
                 price: new_price,
                 spent_person: new_spent_person,
                 memo: new_memo,
+                write_date: new_write_date,
               },
               { where: { id: id } }
             );
@@ -131,7 +140,7 @@ module.exports = {
           res.status(404).send({
             data: { id: id },
             accessToken: validity.accessToken,
-            message: "Deleted Account",
+            message: "No Account Info",
           });
         }
       }
