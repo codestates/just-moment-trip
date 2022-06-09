@@ -1,7 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { getName } from 'country-list';
+import Swal from 'sweetalert2';
+import { requestTripPatch } from '../../services/trip';
+import amongus from '../../Assets/amongus.gif';
+import parrot13 from '../../Assets/parrot13.gif';
 
 const TripBox = styled.div`
   display: flex;
@@ -63,6 +67,7 @@ const Currency = styled.div`
 
 function TripEditor({
   images,
+  index,
   id,
   total_price,
   title,
@@ -74,7 +79,6 @@ function TripEditor({
   end_date,
   handleRequest,
   deleteRequest,
-  patchRequest,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(total_price);
@@ -82,11 +86,71 @@ function TripEditor({
 
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
-  const random = Math.floor(Math.random() * images.length) + 1;
+  const handleEdit = () => {
+    if (totalPrice.length < 1) {
+      totalPriceInput.current.focus();
+      return;
+    }
+
+    Swal.fire({
+      title: `기록을 수정할까요?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+      backdrop: `
+      rgba(0,0,110,0.5)
+      url(${amongus})
+      left top
+      no-repeat
+    `,
+    }).then(result => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          title: '수정 완료!',
+          text: `선택하신 기록을 수정했어요`,
+          confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${parrot13})
+          bottom
+          no-repeat
+        `,
+        }).then(() => {
+          requestTripPatch(id, totalPrice);
+          toggleIsEdit();
+          sessionStorage.removeItem('trip_id');
+          sessionStorage.removeItem('total_price');
+          sessionStorage.removeItem('title');
+          sessionStorage.removeItem('exchange_rate');
+          sessionStorage.removeItem('target_currency');
+          sessionStorage.removeItem('start_date');
+          sessionStorage.removeItem('end_date');
+          window.location.reload();
+        });
+      } else if (result.isDismissed) {
+        Swal.fire({
+          icon: 'info',
+          text: `수정을 취소했어요`,
+          confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+          url(${parrot13})
+          top
+          no-repeat
+        `,
+        });
+        toggleIsEdit();
+      }
+    });
+  };
   return (
     <TripBox>
       <Background
-        images={images[random]}
+        images={images[index]}
         type="button"
         onClick={
           isEdit
@@ -129,16 +193,10 @@ function TripEditor({
         <>
           {' '}
           <div style={{ paddingTop: '190px', width: '80px' }}>
-            <Btn type="button" onClick={() => deleteRequest(id)}>
+            <Btn type="button" onClick={toggleIsEdit}>
               수정취소
             </Btn>
-            <Btn
-              type="button"
-              onClick={() => {
-                patchRequest(id);
-                toggleIsEdit();
-              }}
-            >
+            <Btn type="button" onClick={handleEdit}>
               수정완료
             </Btn>
           </div>
@@ -165,4 +223,4 @@ function TripEditor({
   );
 }
 
-export default TripEditor;
+export default React.memo(TripEditor);

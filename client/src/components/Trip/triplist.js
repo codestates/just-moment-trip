@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,11 +6,9 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
-import { requestTripDelete, requestTripPatch } from '../../services/trip';
+import { requestTripDelete } from '../../services/trip';
 import noData from '../../Assets/No_data.png';
 import TripEditor from './tripeditor';
-import amongus from '../../Assets/amongus.gif';
-import parrot13 from '../../Assets/parrot13.gif';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -23,10 +21,9 @@ const TripListBox = styled.div`
   text-align: center;
 `;
 
-function TripList() {
+function TripList({ images }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [images, setImages] = useState([]);
 
   useEffect(() => {
     dispatch(getTrip())
@@ -54,49 +51,6 @@ function TripList() {
     navigate('/account');
   };
 
-  useEffect(() => {
-    dispatch(getTrip())
-      .unwrap()
-      .catch(err => console.log(err));
-  }, []);
-
-  const patchRequest = total_price => {
-    Swal.fire({
-      title: `기록을 수정할까요?`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '네',
-      cancelButtonText: '아니오',
-      backdrop: `
-      rgba(0,0,110,0.5)
-      url(${amongus})
-      left top
-      no-repeat
-    `,
-    }).then(res => {
-      if (res.isConfirmed) {
-        Swal.fire({
-          icon: 'success',
-          title: '수정 완료!',
-          text: `선택하신 기록을 수정했어요`,
-          confirmButtonText: '알겠어요',
-          backdrop: `
-          rgba(0,0,110,0.5)
-          url(${parrot13})
-          bottom
-          no-repeat
-        `,
-        }).then(result => {
-          if (result.isConfirmed) {
-            requestTripPatch(total_price);
-          }
-        });
-      }
-    });
-  };
-
   const deleteRequest = id => {
     Swal.fire({
       title: '정말 삭제 하시겠습니까?',
@@ -122,38 +76,17 @@ function TripList() {
 
   const triptext = useSelector(state => state.trip);
   const newTripList = triptext.flat();
-
-  let some = newTripList.map(el => (el.id ? el.id : null));
-
-  console.log(some.length);
-
-  useEffect(() => {
-    axios
-      .get('https://api.unsplash.com/photos/random', {
-        params: {
-          client_id: 'WsSyzWat1M0u7oNlzCR5GS4xDlDsyh7YGG7gFeb7yGY',
-          count: 20,
-        },
-      })
-      .then(res => {
-        console.log('리렌더링멈춰!');
-        setImages([...images, ...res.data.map(el => el.urls.small)]);
-      })
-      .catch(err => {
-        console.log(err);
-        console.log('리렌더링멈춰');
-      });
-  }, [some.length]);
-
   const tripList = newTripList.map(el => {
+    const random = Math.floor(Math.random() * images.length) + 1;
+
     return (
       <TripEditor
         key={el.id}
         {...el}
+        index={random}
         images={images}
         handleRequest={handleRequest}
         deleteRequest={deleteRequest}
-        patchRequest={patchRequest}
       />
     );
   });

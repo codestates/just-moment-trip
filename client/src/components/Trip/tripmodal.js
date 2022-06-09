@@ -110,16 +110,6 @@ function TripModal() {
       });
     }
 
-    // if (target_currency.length > 3) {
-    //   return Swal.fire({
-    //     icon: 'error',
-    //     text: '화폐단위는 3자리 입니다',
-    //     backdrop: `
-    //   rgba(0,0,110,0.5)
-    // `,
-    //   });
-    // }
-
     requestTripPost(
       title,
       selected,
