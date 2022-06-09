@@ -32,6 +32,7 @@ function InfoButton() {
       }`,
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   };
 
   const picUploadHandler = pic => {
