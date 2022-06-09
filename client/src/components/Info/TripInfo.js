@@ -65,7 +65,7 @@ const Message = styled.div`
 
 function TripInfo() {
   const buttonHandler = () => {
-    Swal.fire('로그인후 Diary에서 체험하세요');
+    Swal.fire('로그인후 Trip페이지에서 체험하세요');
   };
 
   return (

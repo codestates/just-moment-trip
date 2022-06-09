@@ -9,11 +9,18 @@ export const signCustomApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const sendEmail = async email => {
-  const res = await signCustomApi.post('emailVerification', {
+  await signCustomApi.post('emailVerification', {
     email,
   });
-  console.log(res.data.data.code);
+};
+
+export const sendCode = async (email, code) => {
+  await signCustomApi.post('codeVerification', {
+    email,
+    code,
+  });
 };
 
 export const findPassword = async email => {
@@ -86,6 +93,12 @@ export const signOutApi = () => {
   sessionStorage.removeItem('trip_id');
   sessionStorage.removeItem('total_price');
   sessionStorage.removeItem('title');
+  sessionStorage.removeItem('exchange_rate');
+  sessionStorage.removeItem('target_currency');
+  sessionStorage.removeItem('start_date');
+  sessionStorage.removeItem('end_date');
+  sessionStorage.removeItem('longitude');
+  sessionStorage.removeItem('latitude');
 };
 
 export const kakaoSign = async code => {

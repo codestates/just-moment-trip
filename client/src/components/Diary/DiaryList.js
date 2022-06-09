@@ -7,9 +7,10 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDove, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-import AOS from 'aos';
 import 'aos/dist/aos.css';
+
 import Loading from '../common/Loading';
+
 import TopBtn from '../common/TopBtn';
 
 const AnimationBox = keyframes`
@@ -138,7 +139,7 @@ const HelpBtnBox = styled.button`
   }
 `;
 
-//? ------------------------------------- 현민 작업 히스토리 리스트
+//? ------------------------------------- 히스토리 리스트
 const HistoryList = styled.div`
   display: flex;
   display: grid;
@@ -156,7 +157,7 @@ const HistoryListBox = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-//? ------------------------------------- 현민 작업 히스토리 리스트
+//? ------------------------------------- 히스토리 리스트
 
 const doveIcon = (
   <IconBtn>
@@ -260,7 +261,7 @@ function DiaryList({
   };
   //!-----------
 
-  //? ------------------------------------- 현민 작업 2차원배열 만들기
+  //? ------------------------------------- 날짜 정렬
   function addOneDay(date) {
     const year = date.split('-')[0];
     const month = date.split('-')[1];
@@ -275,70 +276,31 @@ function DiaryList({
     ).padStart(2, '0')}`;
   }
 
-  let minDate = '9999-99-99';
-  let maxDate = '0000-00-00';
-  const allDates = diaryList.map(diary => diary.write_date);
-  allDates.forEach(data => {
-    if (typeof data === 'object') {
-      data = `${data.getFullYear()}-${String(data.getMonth()).padStart(
-        2,
-        '0',
-      )}-${String(data.getDate()).padStart(2, '0')}`;
-    }
-    const ymd = data.split(' ')[0];
-    const year = ymd.split('-')[0];
-    const month = ymd.split('-')[1];
-    const day = ymd.split('-')[2];
-
-    const minYear = minDate.split('-')[0];
-    const minMonth = minDate.split('-')[1];
-    const minDay = minDate.split('-')[2];
-
-    const maxYear = maxDate.split('-')[0];
-    const maxMonth = maxDate.split('-')[1];
-    const maxDay = maxDate.split('-')[2];
-
-    if (Number(year) < Number(minYear)) {
-      minDate = ymd;
-    } else if (Number(month) < Number(minMonth)) {
-      minDate = ymd;
-    } else if (Number(day) < Number(minDay)) {
-      minDate = ymd;
-    }
-
-    if (Number(year) > Number(maxYear)) {
-      maxDate = ymd;
-    } else if (Number(month) > Number(maxMonth)) {
-      maxDate = ymd;
-    } else if (Number(day) > Number(maxDay)) {
-      maxDate = ymd;
-    }
-  });
+  let start_date = JSON.parse(sessionStorage.getItem('start_date')).split(
+    ' ',
+  )[0];
+  let end_date = JSON.parse(sessionStorage.getItem('end_date')).split(' ')[0];
 
   var dateArray = [];
 
   var newArr = [];
 
-  if (minDate === '9999-99-99') {
-    newArr = [diaryList];
-  } else {
-    while (minDate !== maxDate) {
-      dateArray.push(minDate);
-      minDate = addOneDay(minDate);
-    }
-
-    dateArray.push(maxDate);
-
-    dateArray.forEach(date => {
-      const filtered = diaryList.filter(diary => {
-        const filteredDate = diary.write_date.split(' ')[0];
-        return filteredDate === date;
-      });
-      newArr.push(filtered);
-    });
+  while (start_date !== end_date) {
+    dateArray.push(start_date);
+    start_date = addOneDay(start_date);
   }
 
-  //? ------------------------------------- 현민 작업
+  dateArray.push(end_date);
+
+  dateArray.forEach(date => {
+    const filtered = diaryList.filter(diary => {
+      const filteredDate = diary.write_date.split(' ')[0];
+      return filteredDate === date;
+    });
+    newArr.push(filtered);
+  });
+
+  //? ------------------------------------- 날짜 정렬
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
