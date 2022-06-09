@@ -283,7 +283,7 @@ function DiaryList({
 
   var dateArray = [];
 
-  var newArr = [];
+  var dateSortedArray = [];
 
   while (start_date !== end_date) {
     dateArray.push(start_date);
@@ -297,7 +297,7 @@ function DiaryList({
       const filteredDate = diary.write_date.split(' ')[0];
       return filteredDate === date;
     });
-    newArr.push(filtered);
+    dateSortedArray.push(filtered);
   });
 
   //? ------------------------------------- 날짜 정렬
@@ -400,7 +400,7 @@ function DiaryList({
               </div>
               <div>
                 <DiaryListBox>
-                  {newArr.map((dateFiltered, idx) => {
+                  {dateSortedArray.map((dateFiltered, idx) => {
                     return (
                       <HistoryList
                         key={idx}
