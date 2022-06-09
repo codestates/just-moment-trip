@@ -29,6 +29,7 @@ module.exports = {
       let email = kakaoUserInfo.data.kakao_account.email;
       let nickname = kakaoUserInfo.data.kakao_account.profile.nickname;
       let password = process.env.KAKAO_PASSWORD;
+
       const keyPayload = {
         email,
         nickname,
@@ -36,15 +37,11 @@ module.exports = {
       };
 
       const kakaoInfo = await user.findOne({
-        where: { email: payload.email },
+        where: { email },
       });
 
       if (!kakaoInfo) {
-        const result = await axios.post("https://www.just-moment-trip.tk/sign/up", keyPayload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const result = await axios.post("https://www.just-moment-trip.tk/sign/up", keyPayload);
         let encrypted = [];
         const e = BigInt(Number(JSON.parse(result.data.data.e)));
         const N = BigInt(Number(JSON.parse(result.data.data.N)));
@@ -59,26 +56,18 @@ module.exports = {
         }
         password = encrypted;
         console.timeEnd("암호화");
-        await signCustomApi.post("up", {
+        await axios.post("https://www.just-moment-trip.tk/sign/up", {
           email,
           nickname,
           password,
         });
-        const result2 = await axios.post(
-          "https://www.just-moment-trip.tk/sign/in",
-          {
-            email,
-            password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const result2 = await axios.post("https://www.just-moment-trip.tk/sign/in", {
+          email,
+          password,
+        });
         return res.status(200).json(result2.data);
       } else {
-        const result = await signCustomApi.post("in", {
+        const result = await axios.post("https://www.just-moment-trip.tk/sign/in", {
           checkKey: true,
           email,
         });
@@ -93,7 +82,7 @@ module.exports = {
           let a = BigInt(caesar_monoAlphabet.caesarEncrypt(password[i].charCodeAt(0)));
           encrypted[i] = JSON.stringify(power(a, e, N));
         }
-        const result2 = await signCustomApi.post("in", {
+        const result2 = await axios.post("https://www.just-moment-trip.tk/sign/in", {
           email,
           password: encrypted,
         });
