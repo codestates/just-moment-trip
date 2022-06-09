@@ -86,4 +86,44 @@ module.exports = {
       res.status(501).send("Trip Delete");
     }
   },
+  patch: async (req, res) => {
+    try {
+      const validity = await tokenHandler.accessTokenVerify(req, res);
+      if (validity) {
+        const id = req.params.trip_id;
+        const { new_total_price } = req.body;
+
+        const tripInfo = await trip.findOne({
+          where: { id: id },
+        });
+        const { total_price } = tripInfo;
+        if (total_price === new_total_price) {
+          await slack.slack("Trip Patch 412", `id : ${id}`);
+          return res.status(412).send({
+            data: { id: id },
+            accessToken: validity.accessToken,
+            message: "No Change",
+          });
+        }
+        await trip.update(
+          {
+            total_price: new_total_price,
+          },
+          { where: { id: id } }
+        );
+        await slack.slack("Trip Patch 200", `id : ${id}`);
+        return res.status(200).send({ data: { id: id }, accessToken: validity.accessToken });
+      } else {
+        await slack.slack("Trip Patch 404", `id : ${id}`);
+        return res.status(404).send({
+          data: { id: id },
+          accessToken: validity.accessToken,
+          message: "No Trip Info",
+        });
+      }
+    } catch {
+      await slack.slack("Trip Patch 501");
+      return res.status(501).send("Trip Patch");
+    }
+  },
 };

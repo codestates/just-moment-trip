@@ -52,16 +52,21 @@ export const requestTripPost = async (
   changeToken(res);
 };
 
-export const requestTripPatch = async id => {
-  const res = await tripCustomApi.patch(`trip/${id}`, {
-    headers: {
-      authorization:
-        'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
-      'Content-Type': 'application/json',
+export const requestTripPatch = async (id, new_total_price) => {
+  const respone = await tripCustomApi.patch(
+    `trip/${id}`,
+    { new_total_price },
+    {
+      headers: {
+        authorization:
+          'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+        'Content-Type': 'application/json',
+      },
     },
-  });
-  changeToken(res);
-  return res;
+  );
+  console.log(respone);
+  changeToken(respone);
+  return respone;
 };
 
 export const requestTripDelete = async id => {
