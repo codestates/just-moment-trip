@@ -61,15 +61,24 @@ function TripList({ images }) {
       cancelButtonColor: '#d33',
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
+      backdrop: `
+      rgba(0,0,110,0.5)
+    `,
     }).then(res => {
       if (res.isConfirmed) {
-        Swal.fire('삭제완료!', '기록이 삭제 되었습니다.', 'success').then(
-          result => {
-            if (result.isConfirmed) {
-              requestTripDelete(id);
-            }
-          },
-        );
+        Swal.fire({
+          icon: 'success',
+          title: '삭제 완료!',
+          text: `선택하신 기록을 삭제했어요`,
+          confirmButtonText: '알겠어요',
+          backdrop: `
+          rgba(0,0,110,0.5)
+        `,
+        }).then(result => {
+          if (result.isConfirmed) {
+            requestTripDelete(id);
+          }
+        });
       }
     });
   };

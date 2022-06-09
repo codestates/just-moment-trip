@@ -4,8 +4,8 @@ import moment from 'moment';
 import { getName } from 'country-list';
 import Swal from 'sweetalert2';
 import { requestTripPatch } from '../../services/trip';
-import amongus from '../../Assets/amongus.gif';
-import parrot13 from '../../Assets/parrot13.gif';
+import jammanbo from '../../Assets/jammanbo.gif';
+import meu from '../../Assets/meu.gif';
 
 const TripBox = styled.div`
   display: flex;
@@ -102,8 +102,8 @@ function TripEditor({
       cancelButtonText: '아니오',
       backdrop: `
       rgba(0,0,110,0.5)
-      url(${amongus})
-      left top
+      url(${jammanbo})
+      right
       no-repeat
     `,
     }).then(result => {
@@ -115,8 +115,8 @@ function TripEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url(${parrot13})
-          bottom
+          url(${meu})
+          right bottom
           no-repeat
         `,
         }).then(() => {
@@ -138,8 +138,8 @@ function TripEditor({
           confirmButtonText: '알겠어요',
           backdrop: `
           rgba(0,0,110,0.5)
-          url(${parrot13})
-          top
+          url(${meu})
+          left top
           no-repeat
         `,
         });

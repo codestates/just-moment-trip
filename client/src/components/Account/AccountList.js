@@ -24,11 +24,6 @@ const AccountModalBtnAnimation = keyframes`
   100% {top: -300px; opacity: 0}
   `;
 
-// const BingBing = `
-//   0%{transform:rotate(0deg);}
-//   100%{transform:rotate(360deg);}
-// `;
-
 const ChangeColor = keyframes`
 14% {color:red}
 28% {color:orange}
