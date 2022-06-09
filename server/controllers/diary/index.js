@@ -124,67 +124,27 @@ module.exports = {
         };
         const diaryInfo = await diary.create(diaryPayload);
 
-        //?-----------------------------
-        // 해쉬태그 추가 // map같은거 배열로 오는 해쉬태그를 하나하나추가 / 해쉬태그 중복여부
-        // const filteredHashtags = await Promise.all(
-        //   hashtags.map(async (ele) => {
-        //     const data = await hashtag.findOne({
-        //       where: {
-        //         hashtag: ele,
-        //       },
-        //     });
-        //     if (!data) {
-        //       return { hashtag: ele };
-        //     } else {
-        //       return data.dataValues.id;
-        //     }
-        //   })
-        // );
-
-        // console.log(filteredHashtags);
-
-        // const hashtagIdArray = await Promise.all(
-        //   filteredHashtags.map(async (ele) => {
-        //     if (typeof ele === Number) {
-        //       return { diary_id: diaryInfo.dataValues.id, hashtag_id: ele };
-        //     }
-
-        //     const hashtagInfo = await hashtag.create(ele);
-        //     return { diary_id: diaryInfo.dataValues.id, hashtag_id: hashtagInfo.id };
-        //   })
-        // );
-
-        // async.map(filteredHashtags);
-
-        // console.log(hashtagIdArray);
-
-        // await diary_hashtag.bulkCreate(diary_hashtagIdArray);
-        //?-----------------------------
-
-        await Promise.all(
-          hashtags.map(async (ele) => {
-            const data = await hashtag.findOne({
-              where: {
-                hashtag: ele,
-              },
-            });
-            let hashtagInfo = data;
-            //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
-            if (!data) {
-              const hashtagPayload = {
-                hashtag: ele,
-              };
-              hashtagInfo = await hashtag.create(hashtagPayload);
-              await slack.slack("Hashtag Post 201", `id : ${hashtagInfo.id}`);
-            }
-            //조인테이블 추가
-            const diary_hashtagPayload = {
-              diary_id: diaryInfo.dataValues.id,
-              hashtag_id: hashtagInfo.dataValues.id,
+        for (const ele of hashtags) {
+          const data = await hashtag.findOne({
+            where: {
+              hashtag: ele,
+            },
+          });
+          let hashtagInfo = data;
+          //해쉬태그가 이미 있는게 아닐경우 (없을 경우)
+          if (!data) {
+            const hashtagPayload = {
+              hashtag: ele,
             };
-            await diary_hashtag.create(diary_hashtagPayload);
-          })
-        );
+            hashtagInfo = await hashtag.create(hashtagPayload);
+          }
+          //조인테이블 추가
+          const diary_hashtagPayload = {
+            diary_id: diaryInfo.dataValues.id,
+            hashtag_id: hashtagInfo.dataValues.id,
+          };
+          await diary_hashtag.create(diary_hashtagPayload);
+        }
         await slack.slack("Diary Post 201", `id : ${diaryInfo.id}`);
         return res
           .status(201)
@@ -244,17 +204,21 @@ module.exports = {
         });
         const { title, content } = diaryInfo;
         let hashtags = [];
-        hashtagsInfo[0].hashtags.forEach((ele) => hashtags.push(ele.hashtag));
+        for (const ele of hashtagsInfo[0].hashtags) {
+          hashtags.push(ele.hashtag);
+        }
 
         if (diaryInfo) {
+          const hashtagsCopy = hashtags.slice();
+          const new_hashtagsCopy = new_hashtags.slice();
           if (
             title === new_title &&
             content === new_content &&
-            JSON.stringify(hashtags.sort()) === JSON.stringify(new_hashtags.sort())
+            JSON.stringify(hashtagsCopy.sort()) === JSON.stringify(new_hashtagsCopy.sort())
           ) {
             // 바뀐게 없음
             await slack.slack("Diary Patch 412", `id : ${id}`);
-            res.status(412).send({
+            return res.status(412).send({
               data: { id: id },
               accessToken: validity.accessToken,
               message: "No Change",
@@ -269,7 +233,7 @@ module.exports = {
             );
             //? 해쉬태그 부분
             //만약 new값의 요소가 현재 다이어리의 원래 db상에 없다면 조인테이블과 해쉬태그 테이블에 추가
-            new_hashtags.forEach(async (ele) => {
+            for (const ele of new_hashtags) {
               if (!hashtags.includes(ele)) {
                 //?
                 //데이터베이스상 모든 헤시태그
@@ -294,9 +258,9 @@ module.exports = {
                 };
                 await diary_hashtag.create(diary_hashtagPayload);
               }
-            });
+            }
             //만약 해당 다이어리의 hashtag db상에 있는 요소가 new값에 없다면 해당 요소 조인테이블상에서 삭제
-            hashtags.forEach(async (ele) => {
+            for (const ele of hashtags) {
               const hashtag_id = await hashtag.findOne({
                 where: { hashtag: ele },
               });
@@ -305,7 +269,7 @@ module.exports = {
                   where: { hashtag_id: hashtag_id.dataValues.id, diary_id: id },
                 });
               }
-            });
+            }
             //?
 
             await slack.slack("Diary Patch 200", `id : ${id}`);
