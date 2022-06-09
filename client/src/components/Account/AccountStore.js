@@ -160,9 +160,6 @@ function AccountStore() {
           new_category,
           new_write_date,
         )
-        .then(res => {
-          console.log(res.data);
-        })
         .catch(err => {
           console.log(err);
           // console.log('루저ㅋ', err.status);
