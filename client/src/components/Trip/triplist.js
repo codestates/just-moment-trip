@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import { getName } from 'country-list';
 import Swal from 'sweetalert2';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
 import { requestTripDelete } from '../../services/trip';
 import noData from '../../Assets/No_data.png';
+import TripEditor from './tripeditor';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -17,67 +16,22 @@ const StyledWrapper = styled.div`
   height: 75vh;
 `;
 
-const TripBox = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: space-between;
-`;
-
-const Background = styled.div`
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${props => props.images});
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-position: center;
-  background-size: cover;
-  text-align: center;
-  font-size: 1.6rem;
-  color: white;
-  width: 93%;
-  margin: 10px;
-  padding: 15px 0;
-  border-radius: 5px;
-  :hover {
-    transition: all 0.2s linear;
-    box-shadow: 0px 5px 10px 5px rgba(130, 141, 171, 0.7);
-  }
-`;
-
-const Btn = styled.button`
-  font-family: ManfuMedium;
-  font-size: 1rem;
-  color: rgb(210, 206, 221);
-  background-color: transparent;
-  border: none;
-  outline: 0;
-  :hover {
-    transition: all 0.2s linear;
-    transform: scale(1.1);
-    border-bottom: 2px solid pink;
-    color: rgb(71, 56, 136);
-  }
-`;
+// const StartBtn = styled.button`
+//   font-family: ManfuMedium;
+//   font-size: 18px;
+//   color: #ff6670;
+//   background-color: transparent;
+//   border: none;
+//   outline: 0;
+//   :hover {
+//     transition: all 0.2s linear;
+//     transform: scale(1.2);
+//   }
+// `;
 
 const TripListBox = styled.div`
   display: grid;
   text-align: center;
-`;
-
-const Title = styled.div`
-  font-weight: bold;
-  font-size: 2rem;
-`;
-
-const Dates = styled.div`
-  font-size: 1.3rem;
-`;
-
-const Currency = styled.div`
-  font-size: 1.3rem;
 `;
 
 function TripList(props) {
@@ -151,52 +105,14 @@ function TripList(props) {
   const newTripList = triptext.flat();
 
   const tripList = newTripList.map(el => {
-    const random = Math.floor(Math.random() * props.images.length) + 1;
     return (
-      <TripBox key={el.id}>
-        <Background
-          onClick={() => {
-            handleRequest(
-              el.id,
-              el.total_price,
-              el.title,
-              el.exchange_rate,
-              el.target_currency,
-              el.start_date,
-              el.end_date,
-            );
-          }}
-          images={props.images[random]}
-          type="button"
-        >
-          <Title>{el.title}</Title>
-
-          <div>{el.target_currency}</div>
-          <div>{el.total_price.toLocaleString('ko-KR')}</div>
-
-          <Currency>{`${el.exchange_rate}${el.base_currency} → 1${el.target_currency}`}</Currency>
-          <div>{getName(el.country)}</div>
-          <Dates>
-            {moment(el.start_date).format('YYYY-MM-DD')}~
-            {moment(el.end_date).format('YYYY-MM-DD')}
-          </Dates>
-        </Background>
-
-        <div style={{ paddingTop: '190px' }}>
-          <Btn type="button" onClick={() => deleteRequest(el.id)}>
-            삭제
-          </Btn>
-          <Btn
-            type="button"
-            onClick={() => {
-              toggleIsEdit();
-              console.log('날짜수정해야하무!');
-            }}
-          >
-            수정
-          </Btn>
-        </div>
-      </TripBox>
+      <TripEditor
+        key={el.id}
+        {...el}
+        props={props}
+        handleRequest={handleRequest}
+        deleteRequest={deleteRequest}
+      />
     );
   });
 
