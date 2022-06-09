@@ -52,6 +52,18 @@ export const requestTripPost = async (
   changeToken(res);
 };
 
+export const requestTripPatch = async id => {
+  const res = await tripCustomApi.patch(`trip/${id}`, {
+    headers: {
+      authorization:
+        'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+      'Content-Type': 'application/json',
+    },
+  });
+  changeToken(res);
+  return res;
+};
+
 export const requestTripDelete = async id => {
   const res = await tripCustomApi.delete(`trip/${id}`, {
     headers: {

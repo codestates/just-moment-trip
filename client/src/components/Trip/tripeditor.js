@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { getName } from 'country-list';
@@ -62,7 +62,7 @@ const Currency = styled.div`
 `;
 
 function TripEditor({
-  props,
+  images,
   id,
   total_price,
   title,
@@ -74,13 +74,19 @@ function TripEditor({
   end_date,
   handleRequest,
   deleteRequest,
+  patchRequest,
 }) {
   const [isEdit, setIsEdit] = useState(false);
-  const random = Math.floor(Math.random() * props.images.length) + 1;
+  const [totalPrice, setTotalPrice] = useState(total_price);
+  const totalPriceInput = useRef();
+
+  const toggleIsEdit = () => setIsEdit(!isEdit);
+
+  const random = Math.floor(Math.random() * images.length) + 1;
   return (
     <TripBox>
       <Background
-        images={props.images[random]}
+        images={images[random]}
         type="button"
         onClick={
           isEdit
@@ -101,7 +107,13 @@ function TripEditor({
         <div>{target_currency}</div>
         {isEdit ? (
           <div>
-            <input></input>
+            <input
+              value={totalPrice}
+              ref={totalPriceInput}
+              onChange={e => {
+                setTotalPrice(e.target.value);
+              }}
+            ></input>
           </div>
         ) : (
           <div>{total_price.toLocaleString('ko-KR')}</div>
@@ -112,35 +124,43 @@ function TripEditor({
           {moment(start_date).format('YYYY-MM-DD')}~
           {moment(end_date).format('YYYY-MM-DD')}
         </Dates>
-
-        {/* <StartBtn
-            type="button"
-            onClick={() =>
-              handleRequest(
-                id,
-                total_price,
-                title,
-                exchange_rate,
-                target_currency,
-              )
-            }
-          >
-            확인하기
-          </StartBtn> */}
       </Background>
-      <div style={{ paddingTop: '190px' }}>
-        <Btn type="button" onClick={() => deleteRequest(id)}>
-          삭제
-        </Btn>
-        <Btn
-          type="button"
-          onClick={() => {
-            setIsEdit(true);
-          }}
-        >
-          수정
-        </Btn>
-      </div>
+      {isEdit ? (
+        <>
+          {' '}
+          <div style={{ paddingTop: '190px', width: '80px' }}>
+            <Btn type="button" onClick={() => deleteRequest(id)}>
+              수정취소
+            </Btn>
+            <Btn
+              type="button"
+              onClick={() => {
+                patchRequest(id);
+                toggleIsEdit();
+              }}
+            >
+              수정완료
+            </Btn>
+          </div>
+        </>
+      ) : (
+        <>
+          {' '}
+          <div style={{ paddingTop: '190px' }}>
+            <Btn type="button" onClick={() => deleteRequest(id)}>
+              삭제
+            </Btn>
+            <Btn
+              type="button"
+              onClick={() => {
+                toggleIsEdit();
+              }}
+            >
+              수정
+            </Btn>
+          </div>
+        </>
+      )}
     </TripBox>
   );
 }
