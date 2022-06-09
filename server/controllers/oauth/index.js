@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { user } = require("../../models");
+const caesar_monoAlphabet = require("./caesar_monoAlphabet");
 
 module.exports = {
   get: async (req, res) => {
@@ -86,10 +87,28 @@ module.exports = {
           email,
           password: encrypted,
         });
-        return res.status(200).json(result2);
+        return res.status(200).json(result2.data);
       }
     } catch (err) {
       console.log(err);
     }
   },
 };
+
+function power(base, exponent, mod) {
+  base %= mod;
+  let result = 1n;
+
+  while (exponent > 0n) {
+    // 1의 자리 비트가 1이면 트루 즉, 홀수면 트루
+    if (exponent & 1n) {
+      result = result * base;
+      result = result % mod;
+    }
+    exponent >>= 1n; //나누기2 비트 오른쪽꺼 삭제
+    base = base * base;
+    base = base % mod;
+  }
+
+  return result;
+}
