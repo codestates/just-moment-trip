@@ -440,21 +440,8 @@ function DiaryList({
                       </HistoryList>
                     );
                   })}
-                  {/* {diaryList.map(it => (
-                <DiaryEditor
-                  key={it.id}
-                  {...it}
-                  onCreate={onCreate}
-                  onEdit={onEdit}
-                  onRemove={onRemove}
-                  toggleClicked={toggleClicked}
-                  search={search}
-                  searchType={searchType}
-                />
-              ))} */}
                 </DiaryListBox>
                 <TopBtn marginBottom={1} />
-                {/* </DiarySplitBox> */}
               </div>
             </>
           )}
