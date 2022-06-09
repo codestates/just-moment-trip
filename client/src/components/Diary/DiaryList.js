@@ -8,7 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDove, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 import 'aos/dist/aos.css';
-import Loding from '../common/Loading';
+
+import Loading from '../common/Loading';
+
 import TopBtn from '../common/TopBtn';
 
 const AnimationBox = keyframes`
@@ -197,10 +199,10 @@ function DiaryList({
   `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
-    setLoding(false);
+    setLoading(false);
   }, 2500);
 
   const toggleClicked = event => {
@@ -301,6 +303,7 @@ function DiaryList({
   //? ------------------------------------- 날짜 정렬
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {clicked ? (
         <>
@@ -364,7 +367,7 @@ function DiaryList({
           </DiaryBox>
 
           {loading ? (
-            <Loding />
+            <Loading />
           ) : (
             <>
               <div

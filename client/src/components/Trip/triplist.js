@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +38,7 @@ function TripList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     dispatch(getTrip())
       .unwrap()
@@ -53,6 +54,7 @@ function TripList(props) {
     start_date,
     end_date,
   ) => {
+
     dispatch(postTripId(id));
     sessionStorage.setItem('trip_id', JSON.stringify(id));
     sessionStorage.setItem('total_price', JSON.stringify(total));
@@ -63,6 +65,17 @@ function TripList(props) {
     sessionStorage.setItem('end_date', JSON.stringify(end_date));
     navigate('/account');
   };
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [totalPrice, setTotalPrice] = useState('');
+
+  const toggleIsEdit = () => setIsEdit(!isEdit);
+
+  useEffect(() => {
+    dispatch(getTrip())
+      .unwrap()
+      .catch(err => console.log(err));
+  }, []);
 
   const deleteRequest = id => {
     Swal.fire({
