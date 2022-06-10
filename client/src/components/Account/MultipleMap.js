@@ -1,9 +1,11 @@
 import { Helmet } from 'react-helmet';
 import React from 'react';
-function Map({ gps, item_name }) {
-  const meyLatLng = gps.split(',').join(', ');
+function MultipleMap({ gps, item_name }) {
+  const meyLatLng = gps[0].split(',').join(', ');
   const image =
     'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+  const stringifyGps = JSON.stringify(gps);
+  const stringifyName = JSON.stringify(item_name);
   return (
     <>
       <div id="googleMap" style={{ width: '100%', height: '40vw' }}></div>
@@ -14,7 +16,7 @@ function Map({ gps, item_name }) {
           center: new google.maps.LatLng(
             ${meyLatLng}
           ),
-          zoom: 17,
+          zoom: 14,
         };
 
         var map = new google.maps.Map(
@@ -22,13 +24,19 @@ function Map({ gps, item_name }) {
           mapOptions,
         );
 
-        var marker = new google.maps.Marker({
-          position:  new google.maps.LatLng(${meyLatLng}), 
-          map: map, 
-          label:'${item_name}',
-        // icon : '${image}'
-        },
-          );
+        const gpsArr = ${stringifyGps};
+        const itemArr = ${stringifyName};
+
+        var marker = gpsArr.map((gps,idx) => {
+          const lat = Number(gps.split(',')[0]);
+          const lng = Number(gps.split(',')[1]);
+
+          return new google.maps.Marker({
+            position: new google.maps.LatLng({lat, lng}), 
+            map: map,
+            label: itemArr[idx],
+          })
+        })
       }`}
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXOOVZFsJGQO2-sW8SmECiJQmIkyGzTIQ&callback=myMap"></script>
@@ -36,4 +44,4 @@ function Map({ gps, item_name }) {
     </>
   );
 }
-export default Map;
+export default MultipleMap;
