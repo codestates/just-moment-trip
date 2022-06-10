@@ -263,6 +263,7 @@ function AccountEditor({
   memo,
   write_date,
   gps,
+  data,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -620,7 +621,7 @@ function AccountEditor({
                           show={modalShow}
                           onHide={() => setModalShow(false)}
                           gps={gps}
-                          item_name={item_name}
+                          data={data}
                         />
                       </div>
                       <div className="AccountItemRemoteBox">
