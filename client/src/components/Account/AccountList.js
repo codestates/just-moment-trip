@@ -5,6 +5,7 @@ import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
 import AccountPieChart from './AccountPieChart';
 import AccountWriteUp from './AccountWriteUp';
+import MyVerticallyCenteredModal from './MyVerticallyCenteredModal';
 import Swal from 'sweetalert2';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,12 +13,13 @@ import {
   faPen,
   faChartPie,
   faQuestionCircle,
+  faMapLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-
 import Loading from '../common/Loading';
-
 import TopBtn from '../common/TopBtn';
+
+const axios = require('../../services/account');
 
 const AccountModalBtnAnimation = keyframes`
   50% {top: 0; opacity: 1}
@@ -92,6 +94,9 @@ function AccountList({
   exchange_rate,
 }) {
   const [loading, setLoading] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
+  const [gps, setGps] = useState([]);
+  const [names, setNames] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -166,6 +171,34 @@ function AccountList({
                     target_currency={target_currency}
                   />
                 </Modal>
+                <FontAwesomeIcon
+                  icon={faMapLocationDot}
+                  style={{ width: '30px', height: '30px' }}
+                  onClick={() => {
+                    axios
+                      .accountGet(JSON.parse(sessionStorage.getItem('trip_id')))
+                      .then(res => {
+                        const accountArr = res.data.data;
+                        setGps(
+                          accountArr.map(account => {
+                            return account.gps;
+                          }),
+                        );
+                        setNames(
+                          accountArr.map(account => {
+                            return account.item_name;
+                          }),
+                        );
+                        setModalShow(true);
+                      });
+                  }}
+                />
+                <MyVerticallyCenteredModal
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  gps={gps}
+                  item_name={names}
+                />
               </ModalBox>
               <div
                 style={{
