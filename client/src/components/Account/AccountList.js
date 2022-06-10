@@ -171,34 +171,6 @@ function AccountList({
                     target_currency={target_currency}
                   />
                 </Modal>
-                <FontAwesomeIcon
-                  icon={faMapLocationDot}
-                  style={{ width: '30px', height: '30px' }}
-                  onClick={() => {
-                    axios
-                      .accountGet(JSON.parse(sessionStorage.getItem('trip_id')))
-                      .then(res => {
-                        const accountArr = res.data.data;
-                        setGps(
-                          accountArr.map(account => {
-                            return account.gps;
-                          }),
-                        );
-                        setNames(
-                          accountArr.map(account => {
-                            return account.item_name;
-                          }),
-                        );
-                        setModalShow(true);
-                      });
-                  }}
-                />
-                <MyVerticallyCenteredModal
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                  gps={gps}
-                  item_name={names}
-                />
               </ModalBox>
               <div
                 style={{
@@ -225,6 +197,7 @@ function AccountList({
                   onRemove={onRemove}
                   onCreate={onCreate}
                   AccountList={AccountList}
+                  data={data}
                 />
               ))}
             </AccountListBox>

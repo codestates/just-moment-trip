@@ -15,11 +15,7 @@ function MyVerticallyCenteredModal(props) {
       style={{ background: 'rgba(0,0,170,0.24)' }}
     >
       <Modal.Body>
-        {typeof props.gps === 'object' ? (
-          <MultipleMap gps={props.gps} item_name={props.item_name} />
-        ) : (
-          <Map gps={props.gps} item_name={props.item_name} />
-        )}
+        <Map gps={props.gps} item_name={props.item_name} data={props.data} />
       </Modal.Body>
     </Modal>
   );
