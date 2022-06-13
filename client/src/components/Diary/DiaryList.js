@@ -295,8 +295,6 @@ function DiaryList({
 
   //? ------------------------------------- 날짜 정렬
 
-  console.log('LIST');
-
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>

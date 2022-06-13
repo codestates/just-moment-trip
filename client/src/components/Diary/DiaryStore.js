@@ -103,7 +103,6 @@ function DiaryStore() {
     [],
   );
 
-  console.log('adsfiojsodifjaosidfjiod');
   return (
     <div
       className="DiaryStore"
