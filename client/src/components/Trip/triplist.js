@@ -45,8 +45,6 @@ function TripList({ images }) {
     sessionStorage.setItem('title', JSON.stringify(title));
     sessionStorage.setItem('exchange_rate', JSON.stringify(exchange_rate));
     sessionStorage.setItem('target_currency', JSON.stringify(target_currency));
-    sessionStorage.setItem('start_date', JSON.stringify(start_date));
-    sessionStorage.setItem('end_date', JSON.stringify(end_date));
     navigate('/account');
   };
 
