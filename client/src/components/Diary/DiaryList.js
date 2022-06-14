@@ -255,43 +255,21 @@ function DiaryList({
   //!-----------
 
   //? ------------------------------------- 날짜 정렬
-  function addOneDay(date) {
-    const year = date.split('-')[0];
-    const month = date.split('-')[1];
-    const day = date.split('-')[2];
+  const dateSortedArray = [];
+  let container = [];
 
-    const newDate = new Date(Number(year), Number(month) - 1, Number(day) + 1);
-    const newYear = newDate.getFullYear();
-    const newMonth = newDate.getMonth() + 1;
-    const newDay = newDate.getDate();
-    return `${newYear}-${String(newMonth).padStart(2, '0')}-${String(
-      newDay,
-    ).padStart(2, '0')}`;
+  for (let i = 0; i < diaryList.length; i++) {
+    const currDate = diaryList[i].write_date.split(' ')[0];
+    if (container.length === 0) {
+    } else if (
+      currDate !== container[container.length - 1].write_date.split(' ')[0]
+    ) {
+      dateSortedArray.push(container);
+      container = [];
+    }
+    container.push(diaryList[i]);
   }
-
-  let start_date = JSON.parse(sessionStorage.getItem('start_date')).split(
-    ' ',
-  )[0];
-  let end_date = JSON.parse(sessionStorage.getItem('end_date')).split(' ')[0];
-
-  var dateArray = [];
-
-  var dateSortedArray = [];
-
-  while (start_date !== end_date) {
-    dateArray.push(start_date);
-    start_date = addOneDay(start_date);
-  }
-
-  dateArray.push(end_date);
-
-  dateArray.forEach(date => {
-    const filtered = diaryList.filter(diary => {
-      const filteredDate = diary.write_date.split(' ')[0];
-      return filteredDate === date;
-    });
-    dateSortedArray.push(filtered);
-  });
+  dateSortedArray.push(container);
 
   //? ------------------------------------- 날짜 정렬
 
