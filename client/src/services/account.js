@@ -18,6 +18,9 @@ export async function accountGet(trip_id) {
     withCredentials: true,
   });
   changeToken(res);
+  res.data.data.sort((a, b) => {
+    return new Date(a.write_date) - new Date(b.write_date);
+  });
   return res;
 }
 
