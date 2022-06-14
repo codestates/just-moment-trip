@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
 import { requestTripDelete } from '../../services/trip';

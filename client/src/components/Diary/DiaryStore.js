@@ -16,16 +16,18 @@ const reducer = (state, action) => {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
-      return state.map(it =>
-        it.id === action.targetId
-          ? {
-              ...it,
-              content: action.new_content,
-              title: action.new_title,
-              hashtags: action.new_hashtags,
-            }
-          : it,
-      );
+      return state
+        .map(it =>
+          it.id === action.targetId
+            ? {
+                ...it,
+                content: action.new_content,
+                title: action.new_title,
+                hashtags: action.new_hashtags,
+              }
+            : it,
+        )
+        .sort((a, b) => new Date(a.write_date) - new Date(b.write_date));
     }
     default:
       return state;

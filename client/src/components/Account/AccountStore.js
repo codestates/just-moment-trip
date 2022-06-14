@@ -1,8 +1,7 @@
-const axios = require('../../services/account');
-
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
-
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import AccountList from './AccountList';
+import Loading from '../common/Loading';
+const axios = require('../../services/account');
 
 const INIT = 'INIT';
 const REMOVE = 'REMOVE';
@@ -33,26 +32,28 @@ function getLocation() {
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data.reverse();
+      return action.data;
     }
     case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
-      return state.map(it =>
-        it.id === action.targetId
-          ? {
-              ...it,
-              price: action.new_price,
-              memo: action.new_memo,
-              spent_person: action.new_spent_person,
-              item_name: action.new_item_name,
-              target_currency: action.new_target_currency,
-              category: action.new_category,
-              write_date: action.new_write_date,
-            }
-          : it,
-      );
+      return state
+        .map(it =>
+          it.id === action.targetId
+            ? {
+                ...it,
+                price: action.new_price,
+                memo: action.new_memo,
+                spent_person: action.new_spent_person,
+                item_name: action.new_item_name,
+                target_currency: action.new_target_currency,
+                category: action.new_category,
+                write_date: action.new_write_date,
+              }
+            : it,
+        )
+        .sort((a, b) => new Date(a.write_date) - new Date(b.write_date));
     }
     default:
       return state;
@@ -61,6 +62,7 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [loading, setLoading] = useState(true);
   // const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
   // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
@@ -72,13 +74,15 @@ function AccountStore() {
   const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
 
   useEffect(() => {
-    setTimeout(() => {
-      axios.accountGet(trip_id).then(res => {
-        const initData = res.data.data;
+    setLoading(true);
+    axios.accountGet(trip_id).then(res => {
+      const initData = res.data.data;
 
-        dispatch({ type: INIT, data: initData });
-      });
-    }, 1000);
+      dispatch({ type: INIT, data: initData });
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
   }, []);
 
   const onCreate = useCallback(
@@ -222,17 +226,21 @@ function AccountStore() {
           </div>
         </div>
 
-        <AccountList
-          onCreate={onCreate}
-          onEdit={onEdit}
-          onRemove={onRemove}
-          data={data}
-          totalSpentString={totalSpentString}
-          remainingString={remainingString}
-          PercentageOfAmountUsed={PercentageOfAmountUsed}
-          target_currency={target_currency}
-          exchange_rate={exchange_rate}
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <AccountList
+            onCreate={onCreate}
+            onEdit={onEdit}
+            onRemove={onRemove}
+            data={data}
+            totalSpentString={totalSpentString}
+            remainingString={remainingString}
+            PercentageOfAmountUsed={PercentageOfAmountUsed}
+            target_currency={target_currency}
+            exchange_rate={exchange_rate}
+          />
+        )}
       </div>
     </>
   );
