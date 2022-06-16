@@ -105,9 +105,6 @@ export const kakaoSign = async code => {
     url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   });
   try {
-    if (result.data.accessToken) {
-      sessionStorage.setItem('user', JSON.stringify(res2.data));
-    }
     return result.data;
   } catch (err) {
     console.log(err);
