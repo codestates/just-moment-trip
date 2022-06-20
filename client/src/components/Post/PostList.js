@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
@@ -13,23 +15,43 @@ import {
   Label,
   SearchIcon,
   SearchInput,
+  PostTitleBox,
+  ListTable,
 } from './styles';
 
-function PostList({ datas, paginate, totalDatas, postsPerPage }) {
-  const [isClicked, setIsClicked] = useState(false);
+function PostList({ datas }) {
+  const [Clicked, setClicked] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostPerPage] = useState(10);
+
+  useEffect(() => {
+    searchIconClicked;
+  }, [datas]);
+
+  const newDatas = datas
+    .slice(0)
+    .reverse()
+    .map(data => data);
+  console.log('----------------------- newDatas', newDatas);
 
   const searchIconClicked = useCallback(() => {
-    setIsClicked(!isClicked);
-  }, [isClicked, datas]);
+    setClicked(!Clicked);
+  }, [Clicked]);
 
-  console.log(isClicked);
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  const currentPosts = posts => {
+    let currentPosts = 0;
+    currentPosts = posts.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  };
 
   return (
     <>
       <PostListHeaderBox>
         <Label>🕊 여행에 관해 이야기 해볼까요 ?</Label>
         <SearchIcon>
-          {isClicked ? <SearchInput /> : ''}
+          {Clicked ? <SearchInput /> : null}
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             onClick={searchIconClicked}
@@ -37,15 +59,24 @@ function PostList({ datas, paginate, totalDatas, postsPerPage }) {
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
+        <PostTitleBox>
+          <ListTable style={{ width: '15%' }}>닉네임</ListTable>
+          <ListTable style={{ width: '70%', fontWeight: 'bold' }}>
+            제목
+          </ListTable>
+          <ListTable style={{ width: '15%', marginRight: '6px' }}>
+            작성날짜
+          </ListTable>
+        </PostTitleBox>
         <DataTablesBox>
-          {datas.reverse().map(data => (
+          {currentPosts(newDatas).map(data => (
             <PostItem key={data.id} data={data} />
           ))}
         </DataTablesBox>
         <PaginationBox>
           <Pagination
-            paginate={paginate}
-            totalDatas={totalDatas}
+            paginate={setCurrentPage}
+            totalDatas={datas.length}
             postsPerPage={postsPerPage}
           />
         </PaginationBox>
