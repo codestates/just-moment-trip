@@ -18,6 +18,7 @@ const MyPage = loadable(() => import('../pages/Mypage'));
 const Info = loadable(() => import('../pages/Info'));
 const AboutUs = loadable(() => import('../pages/AboutUs'));
 const TripPage = loadable(() => import('../pages/Trip'));
+const Post = loadable(() => import('../pages/Post'));
 
 export default function Routers() {
   return (
@@ -29,6 +30,7 @@ export default function Routers() {
         <Route path="/sign/in" element={<SignIn />} />
         <Route path="/oauth/callback/kakao" element={<KakaoSignIn />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/post" element={<Post />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/trip" element={<TripPage />} />
         <Route path="/aboutUs" element={<AboutUs />} />
