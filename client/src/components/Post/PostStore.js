@@ -8,8 +8,6 @@ import data from './dummydata';
 function PostStore() {
   const [isLoading, setIsLoading] = useState(true);
   const [datas, setDatas] = useState(data);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostPerPage] = useState(10);
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,29 +15,9 @@ function PostStore() {
     }, 0);
   }, []);
 
-  const indexOfLast = currentPage * postsPerPage;
-  const indexOfFirst = indexOfLast - postsPerPage;
-  const currentPosts = posts => {
-    let currentPosts = 0;
-    currentPosts = datas.slice(indexOfFirst, indexOfLast);
-    return currentPosts;
-  };
-  console.log('------------- poststore', currentPosts(datas));
+  console.log('------------- poststore', datas);
 
-  return (
-    <div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <PostList
-          datas={currentPosts(datas)}
-          paginate={setCurrentPage}
-          totalDatas={datas.length}
-          postsPerPage={postsPerPage}
-        />
-      )}
-    </div>
-  );
+  return <div>{isLoading ? <Loading /> : <PostList datas={datas} />}</div>;
 }
 
 export default PostStore;
