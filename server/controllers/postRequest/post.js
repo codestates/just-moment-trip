@@ -1,4 +1,4 @@
-const { post, comment } = require("../../models");
+const { post, comment, trip, user } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
@@ -8,11 +8,31 @@ module.exports = {
       const id = req.params.post_id;
       try {
         const postInfo = await post.findOne({
+          include: [
+            {
+              model: user,
+            },
+            {
+              model: trip,
+            },
+          ],
           where: { id },
         });
+        if (!postInfo) {
+          return res.status(200).send({ data: {} });
+        }
         const commentInfo = await comment.findAll({ where: { post_id: id } });
-        postInfo.comments = commentInfo;
-        return res.status(200).send({ data: postInfo });
+        const data = {
+          id: postInfo.id,
+          title: postInfo.title,
+          content: postInfo.content,
+          nickname: postInfo.user.nickname,
+          created_at: postInfo.createdAt,
+          comments: commentInfo,
+          trip: postInfo.trip,
+        };
+        postInfo.dataValues.comments = commentInfo;
+        return res.status(200).send({ data });
       } catch {
         await slack.slack("Post/:post_id GET 501");
         res.status(501).send("Post GET Server Error");
@@ -22,11 +42,26 @@ module.exports = {
 
   get: async (req, res) => {
     try {
-      const postInfo = await post.findAll();
-      return res.status(200).send({ data: postInfo });
+      const postInfo = await post.findAll({
+        include: [
+          {
+            model: user,
+            attributes: ["id", "nickname"],
+          },
+        ],
+      });
+      const data = postInfo.map((el) => {
+        return {
+          id: el.id,
+          title: el.title,
+          nickname: el.user.nickname,
+          created_at: el.createdAt,
+        };
+      });
+      return res.status(200).send({ data });
     } catch (err) {
       await slack.slack("Post GET 501");
-      res.status(501).send("Post GET Server Error");
+      return res.status(501).send("Post GET Server Error");
     }
   },
 
@@ -42,7 +77,7 @@ module.exports = {
         const postPayload = {
           title,
           content,
-          trip_id,
+          tripId: trip_id,
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
@@ -74,7 +109,7 @@ module.exports = {
           {
             title: new_title,
             content: new_content,
-            trip_id: new_trip_id,
+            tripId: new_trip_id,
           },
           { where: { id } }
         );
