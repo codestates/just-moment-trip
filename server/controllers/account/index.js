@@ -24,13 +24,11 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      console.log("1");
       const { trip_id, category, item_name, price, spent_person, gps, memo, write_date } = req.body;
       if (!category || !item_name || !price || !spent_person || !write_date) {
         await slack.slack("Account Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
-      console.log(2);
       const validity = await tokenHandler.accessTokenVerify(req, res);
       if (validity) {
         const payload = {
@@ -43,13 +41,8 @@ module.exports = {
           memo,
           write_date,
         };
-        console.log(3);
-        console.log(req.body);
-        console.log(payload);
         const result = await account.create(payload);
-        console.log(4);
         await slack.slack("Account Post 201", `id : ${result.id}`);
-        console.log(5);
         res.status(201).send({ data: { id: result.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
