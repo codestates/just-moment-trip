@@ -6,12 +6,12 @@ import LoginTripMessage from '../components/common/LoginTripMessage';
 // import { useSelector } from 'react-redux';
 
 const Box = styled.div`
-  padding-top: 150px;
+  padding-top: 120px;
   display: flex;
   justify-content: center;
-  /* background-color: transparent; */
-  background-color: cornflowerblue;
-  height: auto;
+  background-color: transparent;
+  /* background-color: cornflowerblue; */
+  height: 100vh;
   font-family: SsurroundFont;
 `;
 
