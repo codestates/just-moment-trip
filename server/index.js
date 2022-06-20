@@ -12,6 +12,8 @@ const trip = require("./routes/trip");
 const ouath = require("./routes/oauth");
 const account = require("./routes/account");
 const diary = require("./routes/diary");
+const post = require("./routes/post");
+const comment = require("./routes/comment");
 
 hashtag_delete_schedule.cron();
 signup_delete_schedule.cron();
@@ -87,6 +89,8 @@ app.use("/trip", trip);
 app.use("/oauth", ouath);
 app.use("/account", account);
 app.use("/diary", diary);
+app.use("/post", post);
+app.use("/comment", comment);
 
 server.listen(port, () => {
   console.log(`Listening on ${port}`);
