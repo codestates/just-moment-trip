@@ -28,10 +28,7 @@ function PostList({ datas }) {
     searchIconClicked;
   }, [datas]);
 
-  const newDatas = datas
-    .slice(0)
-    .reverse()
-    .map(data => data);
+  const newDatas = datas.slice(0).reverse();
   console.log('----------------------- newDatas', newDatas);
 
   const searchIconClicked = useCallback(() => {
