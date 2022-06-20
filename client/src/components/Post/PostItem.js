@@ -4,7 +4,6 @@ import React from 'react';
 import { PostItemBox, ListTable } from './styles';
 
 function PostItem({ data }) {
-  // console.log('--------PostItem', data);
   return (
     <PostItemBox>
       <ListTable style={{ width: '9vw' }}>{data.nickname}</ListTable>
