@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
@@ -13,6 +15,8 @@ import {
   Label,
   SearchIcon,
   SearchInput,
+  PostTitleBox,
+  ListTable,
 } from './styles';
 
 function PostList({ datas }) {
@@ -55,6 +59,15 @@ function PostList({ datas }) {
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
+        <PostTitleBox>
+          <ListTable style={{ width: '15%' }}>닉네임</ListTable>
+          <ListTable style={{ width: '70%', fontWeight: 'bold' }}>
+            제목
+          </ListTable>
+          <ListTable style={{ width: '15%', marginRight: '6px' }}>
+            작성날짜
+          </ListTable>
+        </PostTitleBox>
         <DataTablesBox>
           {currentPosts(newDatas).map(data => (
             <PostItem key={data.id} data={data} />

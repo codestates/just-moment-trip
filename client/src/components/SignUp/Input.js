@@ -126,7 +126,7 @@ function SignUpInput() {
   const validate = Yup.object({
     nickname: Yup.string()
       .min(1, '닉네임을 입력해주세요')
-      .max(16, '닉네임은 16자까지 입력할 수 있습니다')
+      .max(8, '닉네임은 8자까지 입력할 수 있습니다')
       .required('Nickname is required'),
     password: Yup.string()
       .min(

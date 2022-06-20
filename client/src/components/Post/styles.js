@@ -54,6 +54,18 @@ export const PostListBox = styled.div`
   font-size: 1em;
 `;
 
+export const PostTitleBox = styled.div`
+  font-family: ManfuMedium;
+  font-size: 20px;
+  background-color: white;
+  margin: 14px 65px 0px 65px;
+  display: flex;
+  background-color: transparent;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+`;
+
 export const PostItemBox = styled.div`
   border-radius: 5px;
   background-color: white;
