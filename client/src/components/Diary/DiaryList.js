@@ -9,8 +9,6 @@ import { faDove, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
 import 'aos/dist/aos.css';
 
-import Loading from '../common/Loading';
-
 import TopBtn from '../common/TopBtn';
 
 const AnimationBox = keyframes`
@@ -199,11 +197,6 @@ function DiaryList({
   `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  setTimeout(() => {
-    setLoading(false);
-  }, 2500);
 
   const toggleClicked = event => {
     setClicked(true);
@@ -262,43 +255,21 @@ function DiaryList({
   //!-----------
 
   //? ------------------------------------- 날짜 정렬
-  function addOneDay(date) {
-    const year = date.split('-')[0];
-    const month = date.split('-')[1];
-    const day = date.split('-')[2];
+  const dateSortedArray = [];
+  let container = [];
 
-    const newDate = new Date(Number(year), Number(month) - 1, Number(day) + 1);
-    const newYear = newDate.getFullYear();
-    const newMonth = newDate.getMonth() + 1;
-    const newDay = newDate.getDate();
-    return `${newYear}-${String(newMonth).padStart(2, '0')}-${String(
-      newDay,
-    ).padStart(2, '0')}`;
+  for (let i = 0; i < diaryList.length; i++) {
+    const currDate = diaryList[i].write_date.split(' ')[0];
+    if (container.length === 0) {
+    } else if (
+      currDate !== container[container.length - 1].write_date.split(' ')[0]
+    ) {
+      dateSortedArray.push(container);
+      container = [];
+    }
+    container.push(diaryList[i]);
   }
-
-  let start_date = JSON.parse(sessionStorage.getItem('start_date')).split(
-    ' ',
-  )[0];
-  let end_date = JSON.parse(sessionStorage.getItem('end_date')).split(' ')[0];
-
-  var dateArray = [];
-
-  var newArr = [];
-
-  while (start_date !== end_date) {
-    dateArray.push(start_date);
-    start_date = addOneDay(start_date);
-  }
-
-  dateArray.push(end_date);
-
-  dateArray.forEach(date => {
-    const filtered = diaryList.filter(diary => {
-      const filteredDate = diary.write_date.split(' ')[0];
-      return filteredDate === date;
-    });
-    newArr.push(filtered);
-  });
+  dateSortedArray.push(container);
 
   //? ------------------------------------- 날짜 정렬
 
@@ -352,99 +323,95 @@ function DiaryList({
                   type="radio"
                   name="searchType"
                   value="title"
-                  onClick={getSearchType}
+                  onChange={getSearchType}
+                  checked={searchType === 'title'}
                 />{' '}
                 제목
                 <input
                   type="radio"
                   name="searchType"
                   value="content"
-                  onClick={getSearchType}
+                  onChange={getSearchType}
+                  checked={searchType === 'content'}
                 />{' '}
                 기록
               </div>
             </div>
           </DiaryBox>
 
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Wrapper2>
-                  <PBox>{diaryList.length}</PBox>
-                  <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
-                </Wrapper2>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <HelpBtnBox onClick={helpBtnFx}>
-                  <FontAwesomeIcon
-                    icon={faQuestionCircle}
-                    style={{ fontSize: '60px' }}
-                  />
-                </HelpBtnBox>
-              </div>
-              <div>
-                <DiaryListBox>
-                  {newArr.map((dateFiltered, idx) => {
-                    return (
-                      <HistoryList
-                        key={idx}
-                        data-aos="fade-up"
-                        data-aos-offset="-400"
-                        data-aos-delay="50"
-                        data-aos-duration="1000"
-                        data-aos-easing="ease-in-out"
-                        data-aos-mirror="true"
-                        data-aos-once="firse"
-                        data-aos-anchor-placement="top-center"
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Wrapper2>
+              <PBox>{diaryList.length}</PBox>
+              <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
+            </Wrapper2>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HelpBtnBox onClick={helpBtnFx}>
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: '60px' }}
+              />
+            </HelpBtnBox>
+          </div>
+          <div>
+            <DiaryListBox>
+              {dateSortedArray.map((dateFiltered, idx) => {
+                return (
+                  <HistoryList
+                    key={idx}
+                    data-aos="fade-up"
+                    data-aos-offset="-400"
+                    data-aos-delay="50"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    data-aos-once="firse"
+                    data-aos-anchor-placement="top-center"
+                  >
+                    {dateFiltered.length > 0 ? (
+                      <div
+                        className="Date"
+                        style={{
+                          fontFamily: 'ManfuMedium',
+                        }}
                       >
-                        {dateFiltered.length > 0 ? (
-                          <div
-                            className="Date"
-                            style={{
-                              fontFamily: 'ManfuMedium',
-                            }}
-                          >
-                            {dateFiltered[0].write_date.split(' ')[0]}
-                          </div>
-                        ) : null}
-                        <HistoryListBox>
-                          {dateFiltered.map(diary => (
-                            <DiaryEditor
-                              key={diary.id}
-                              {...diary}
-                              onCreate={onCreate}
-                              onEdit={onEdit}
-                              onRemove={onRemove}
-                              toggleClicked={toggleClicked}
-                              search={search}
-                              searchType={searchType}
-                            />
-                          ))}
-                        </HistoryListBox>
-                      </HistoryList>
-                    );
-                  })}
-                </DiaryListBox>
-                <TopBtn marginBottom={1} />
-              </div>
-            </>
-          )}
+                        {dateFiltered[0].write_date.split(' ')[0]}
+                      </div>
+                    ) : null}
+                    <HistoryListBox>
+                      {dateFiltered.map(diary => (
+                        <DiaryEditor
+                          key={diary.id}
+                          {...diary}
+                          onCreate={onCreate}
+                          onEdit={onEdit}
+                          onRemove={onRemove}
+                          toggleClicked={toggleClicked}
+                          search={search}
+                          searchType={searchType}
+                        />
+                      ))}
+                    </HistoryListBox>
+                  </HistoryList>
+                );
+              })}
+            </DiaryListBox>
+            <TopBtn marginBottom={1} />
+          </div>
         </>
       )}
     </>

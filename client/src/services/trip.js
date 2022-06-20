@@ -85,8 +85,6 @@ export const requestTripDelete = async id => {
     sessionStorage.removeItem('title');
     sessionStorage.removeItem('exchange_rate');
     sessionStorage.removeItem('target_currency');
-    sessionStorage.removeItem('start_date');
-    sessionStorage.removeItem('end_date');
   }
 
   window.location.reload();

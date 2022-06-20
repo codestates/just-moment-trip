@@ -36,3 +36,12 @@
     ]
   }
 }
+
+// {
+//   "extends": ["plugin:prettier/recommended"],
+//   "parser": "babel-eslint",
+//   "parserOptions": {
+//     "sourceType": "module",
+//     "ecmaVersion": 2015
+//   }
+// }

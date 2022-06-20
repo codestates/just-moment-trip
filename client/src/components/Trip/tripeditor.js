@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { getName } from 'country-list';
@@ -127,8 +127,6 @@ function TripEditor({
           sessionStorage.removeItem('title');
           sessionStorage.removeItem('exchange_rate');
           sessionStorage.removeItem('target_currency');
-          sessionStorage.removeItem('start_date');
-          sessionStorage.removeItem('end_date');
           window.location.reload();
         });
       } else if (result.isDismissed) {

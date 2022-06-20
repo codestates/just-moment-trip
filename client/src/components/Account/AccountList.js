@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import Footer from '../common/Footer';
 import Modal from '../common/Modal';
 import AccountEditor from './AccountEditor';
@@ -14,9 +13,6 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-
-import Loading from '../common/Loading';
-
 import TopBtn from '../common/TopBtn';
 
 const AccountModalBtnAnimation = keyframes`
@@ -91,14 +87,6 @@ function AccountList({
   target_currency,
   exchange_rate,
 }) {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-  }, [data]);
-
   //!-----------------
   const helpBtnFx = () => {
     let timerInterval;
@@ -138,74 +126,66 @@ function AccountList({
   //!-----------
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="AccountList">
-            <div
-              className="AccountListSpanBox"
-              style={{
-                textAlign: 'center',
-              }}
-            >
-              <p style={{ fontSize: '20px' }}>
-                <span style={{ fontSize: '40px' }}>{data.length}</span>개의
-                기록이 있어요 !
-              </p>
-              <ModalBox>
-                <Modal name={penIcon}>
-                  <AccountWriteUp
-                    onCreate={onCreate}
-                    target_currency={target_currency}
-                  />
-                </Modal>
-                <Modal name={ChartPieIcon}>
-                  <AccountPieChart
-                    data={data}
-                    target_currency={target_currency}
-                  />
-                </Modal>
-              </ModalBox>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <HelpBtnBox onClick={helpBtnFx}>
-                  <FontAwesomeIcon
-                    icon={faQuestionCircle}
-                    style={{ fontSize: '60px' }}
-                  />
-                </HelpBtnBox>
-              </div>
-            </div>
-            <AccountListBox>
-              {data.map(it => (
-                <AccountEditor
-                  key={it.id}
-                  {...it}
-                  onEdit={onEdit}
-                  onRemove={onRemove}
-                  onCreate={onCreate}
-                  AccountList={AccountList}
-                />
-              ))}
-            </AccountListBox>
-            <TopBtn marginBottom={3} />
-            <Footer
-              totalSpentString={totalSpentString}
-              remainingString={remainingString}
-              PercentageOfAmountUsed={PercentageOfAmountUsed}
-              exchange_rate={exchange_rate}
-              target_currency={target_currency}
-            />
+      <div className="AccountList">
+        <div
+          className="AccountListSpanBox"
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <p style={{ fontSize: '20px' }}>
+            <span style={{ fontSize: '40px' }}>{data.length}</span>개의 기록이
+            있어요 !
+          </p>
+          <ModalBox>
+            <Modal name={penIcon}>
+              <AccountWriteUp
+                onCreate={onCreate}
+                target_currency={target_currency}
+              />
+            </Modal>
+            <Modal name={ChartPieIcon}>
+              <AccountPieChart data={data} target_currency={target_currency} />
+            </Modal>
+          </ModalBox>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HelpBtnBox onClick={helpBtnFx}>
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: '60px' }}
+              />
+            </HelpBtnBox>
           </div>
-        </>
-      )}
+        </div>
+        <AccountListBox>
+          {data.map(it => (
+            <AccountEditor
+              key={it.id}
+              {...it}
+              onEdit={onEdit}
+              onRemove={onRemove}
+              onCreate={onCreate}
+              AccountList={AccountList}
+              data={data}
+            />
+          ))}
+        </AccountListBox>
+        <TopBtn marginBottom={3} />
+        <Footer
+          totalSpentString={totalSpentString}
+          remainingString={remainingString}
+          PercentageOfAmountUsed={PercentageOfAmountUsed}
+          exchange_rate={exchange_rate}
+          target_currency={target_currency}
+        />
+      </div>
     </>
   );
 }

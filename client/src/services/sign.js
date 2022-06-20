@@ -95,8 +95,6 @@ export const signOutApi = () => {
   sessionStorage.removeItem('title');
   sessionStorage.removeItem('exchange_rate');
   sessionStorage.removeItem('target_currency');
-  sessionStorage.removeItem('start_date');
-  sessionStorage.removeItem('end_date');
   sessionStorage.removeItem('longitude');
   sessionStorage.removeItem('latitude');
 };
@@ -107,7 +105,6 @@ export const kakaoSign = async code => {
     url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   });
   try {
-    sessionStorage.setItem('user', JSON.stringify(result.data));
     return result.data;
   } catch (err) {
     console.log(err);

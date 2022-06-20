@@ -38,6 +38,7 @@ export const kakaoLogIn = createAsyncThunk(
   async code => {
     try {
       const result = await kakaoSign(code);
+      sessionStorage.setItem('user', JSON.stringify(result));
       return { user: result };
     } catch (err) {
       console.log(err);

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { getTrip } from '../../modules/Reducers/tripReducer';
 import { postTripId } from '../../modules/Reducers/tripid';
 import { requestTripDelete } from '../../services/trip';
@@ -46,8 +45,6 @@ function TripList({ images }) {
     sessionStorage.setItem('title', JSON.stringify(title));
     sessionStorage.setItem('exchange_rate', JSON.stringify(exchange_rate));
     sessionStorage.setItem('target_currency', JSON.stringify(target_currency));
-    sessionStorage.setItem('start_date', JSON.stringify(start_date));
-    sessionStorage.setItem('end_date', JSON.stringify(end_date));
     navigate('/account');
   };
 
