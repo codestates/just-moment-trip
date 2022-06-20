@@ -6,4 +6,5 @@ router.get("/", commentController.get);
 router.post("/", commentController.post);
 router.patch("/:comment_id", commentController.patch);
 router.delete("/:comment_id", commentController.delete);
+
 module.exports = router;

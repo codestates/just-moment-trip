@@ -89,7 +89,7 @@ app.use("/trip", trip);
 app.use("/oauth", ouath);
 app.use("/account", account);
 app.use("/diary", diary);
-// app.use("/post", post);
+app.use("/post", post);
 app.use("/comment", comment);
 
 server.listen(port, () => {

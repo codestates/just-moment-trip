@@ -1,11 +1,10 @@
-// const express = require("express");
-// const router = express.Router();
-// const postController = require("../controllers/postRequest/post");
+const express = require("express");
+const router = express.Router();
+const postController = require("../controllers/postRequest/post");
 
-// router.get("/", postController.get);
-// router.get("/:post_id", postController.id.get);
-// router.post("/", postController.post);
-// router.patch("/:post_id", postController.patch);
-// router.delete("/:post_id", postController.delete);
-
-// module.exports = router;
+router.get("/", postController.get); //모든 포스트 겟 요쳥
+router.post("/", postController.post); //포스트 작성 요청
+router.get("/:post_id", postController.id.get); //post_id 에 대한 포스트 내용들 가져오기
+router.patch("/post_id", postController.patch); //수정
+router.delete("/post_id", postController.delete); // 삭제
+module.exports = router;
