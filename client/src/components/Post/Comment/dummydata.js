@@ -1,8 +1,9 @@
 const dummydata = [
   {
     id: 1,
-    nickname: '닉네임1',
-    comment: '개추',
+    nickname: 'asdf1234',
+    comment:
+      '개추추추추추추개추추추추추추개추추추추추추개추추추추추추개추추추추추추개추추추추추추개추추추추추추개추추추추추추',
     created_at: '2022-06-21',
   },
   {
