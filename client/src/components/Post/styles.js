@@ -23,6 +23,8 @@ to {
 `;
 
 export const SearchInput = styled.input`
+  float: right;
+  width: 350px;
   border-top: none;
   border-right: none;
   border-left: none;
@@ -30,11 +32,20 @@ export const SearchInput = styled.input`
   border-bottom: 1px solid rgb(71, 56, 136);
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
-  animation-duration: 1s;
-  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+`;
+
+export const WriteIcon = styled.div`
+  font-size: 40px;
+  :hover {
+    cursor: pointer;
+    color: rgb(139, 139, 185);
+    transition: all 0.5s linear;
+  }
 `;
 
 export const SearchIcon = styled.div`
+  width: 420px;
   padding-top: 10px;
   font-size: 20px;
 `;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
+import PostStore from '../components/Post/PostStore';
 
 const CLIENT_ID = '9d053bcc19948f007841a6c49f8f0964';
 export const REDIRECT_URI =
@@ -20,6 +21,7 @@ const AboutUs = loadable(() => import('../pages/AboutUs'));
 const TripPage = loadable(() => import('../pages/Trip'));
 const Post = loadable(() => import('../pages/Post'));
 const PostView = loadable(() => import('../pages/PostView'));
+// const PostWriteUp = loadable(() => import('../components/Post/PostWriteUp'));
 
 export default function Routers() {
   return (
@@ -33,6 +35,7 @@ export default function Routers() {
         <Route path="/account" element={<Account />} />
         <Route path="/post" element={<Post />} />
         <Route path="/post/:id" element={<PostView />} />
+        {/* <Route path="/post/writeup" element={<PostWriteUp />} /> */}
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/trip" element={<TripPage />} />
         <Route path="/aboutUs" element={<AboutUs />} />
