@@ -4,7 +4,8 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
 import {
@@ -17,23 +18,30 @@ import {
   SearchInput,
   PostTitleBox,
   ListTable,
+  WriteIcon,
 } from './styles';
 
 function PostList({ datas }) {
-  const [Clicked, setClicked] = useState(false);
+  const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
 
   useEffect(() => {
-    searchIconClicked;
+    SearchIconClicked;
   }, [datas]);
 
-  const newDatas = datas.slice(0).reverse();
-  console.log('----------------------- newDatas', newDatas);
+  // const navigate = useNavigate();
 
-  const searchIconClicked = useCallback(() => {
-    setClicked(!Clicked);
-  }, [Clicked]);
+  const newDatas = datas.slice(0).reverse();
+
+  const SearchIconClicked = useCallback(() => {
+    setSearchIconClick(!searchIconClick);
+  }, [searchIconClick]);
+
+  const WriteIconClicked = useCallback(() => {
+    // navigate('/post/writeup');
+    console.log('---------------------- WriteIconClicked', '으앙');
+  }, []);
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -47,12 +55,16 @@ function PostList({ datas }) {
     <>
       <PostListHeaderBox>
         <Label>🕊 여행에 관해 이야기 해볼까요 ?</Label>
+        <WriteIcon>
+          <FontAwesomeIcon icon={faPencil} onClick={WriteIconClicked} />
+        </WriteIcon>
         <SearchIcon>
-          {Clicked ? <SearchInput /> : null}
           <FontAwesomeIcon
+            style={{ float: 'right' }}
             icon={faMagnifyingGlass}
-            onClick={searchIconClicked}
+            onClick={SearchIconClicked}
           />
+          {searchIconClick ? <SearchInput /> : null}
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
