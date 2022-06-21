@@ -109,7 +109,7 @@ module.exports = {
           {
             title: new_title,
             content: new_content,
-            tripId: new_trip_id,
+            trip_id: new_trip_id,
           },
           { where: { id } }
         );
