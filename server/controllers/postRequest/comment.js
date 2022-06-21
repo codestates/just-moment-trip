@@ -3,22 +3,6 @@ const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
 module.exports = {
-  get: async (req, res) => {
-    try {
-      const { post_id } = req.query;
-      const data = await comment.findAll({ where: { post_id } });
-      let data_slack_id = "";
-      data.forEach((ele) => {
-        data_slack_id += `${ele.dataValues.id}, `;
-      });
-      await slack.slack("Post Get 200", `id : ${data_slack_id}`);
-      res.status(200).send({ data: data });
-    } catch (err) {
-      await slack.slack("Post Get 501");
-      res.status(501).send("Post Get");
-    }
-  },
-
   post: async (req, res) => {
     try {
       const { post_id, content } = req.body;
@@ -27,10 +11,13 @@ module.exports = {
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
       const validity = await tokenHandler.accessTokenVerify(req, res);
+      console.log("1111");
+      console.log(validity.id);
       if (validity) {
         const payload = {
           post_id,
           content,
+          user_id: validity.id,
         };
         const result = await comment.create(payload);
         await slack.slack("Comment Post 201", `id : ${result.id}`);

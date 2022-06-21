@@ -77,7 +77,7 @@ module.exports = {
         const postPayload = {
           title,
           content,
-          tripId: trip_id,
+          trip_id: trip_id,
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
