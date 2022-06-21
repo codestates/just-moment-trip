@@ -3,6 +3,7 @@ import PostStore from '../components/Post/PostStore';
 import Navbar from '../components/common/Navbar';
 import styled from 'styled-components';
 import LoginTripMessage from '../components/common/LoginTripMessage';
+
 // import { useSelector } from 'react-redux';
 
 const Box = styled.div`
