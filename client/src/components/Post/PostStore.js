@@ -15,8 +15,6 @@ function PostStore() {
     }, 0);
   }, []);
 
-  console.log('------------- poststore', datas);
-
   return <div>{isLoading ? <Loading /> : <PostList datas={datas} />}</div>;
 }
 
