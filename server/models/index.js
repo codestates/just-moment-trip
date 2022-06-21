@@ -66,6 +66,12 @@ db.post.belongsTo(db.user, { foreignKey: "user_id", targetKey: "id" });
 db.trip.hasOne(db.post);
 db.post.belongsTo(db.trip);
 
+db.post.hasMany(db.comment, { foreignKey: "post_id", sourceKey: "id" });
+db.comment.belongsTo(db.post, { foreignKey: "post_id", targetKey: "id" });
+
+db.user.hasMany(db.comment, { foreignKey: "user_id", sourceKey: "id" });
+db.comment.belongsTo(db.user, { foreignKey: "user_id", targetKey: "id" });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

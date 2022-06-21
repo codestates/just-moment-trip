@@ -12,7 +12,7 @@ module.exports = {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     });
-    await queryInterface.addColumn("post", "tripId", {
+    await queryInterface.addColumn("post", "trip_id", {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
