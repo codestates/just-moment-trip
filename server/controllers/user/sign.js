@@ -21,12 +21,22 @@ module.exports = {
             email,
           },
         });
+
+        const nicknameInfo = await user.findOne({
+          where: {
+            nickname,
+          },
+        });
         // 가입 안되어 있을 경우 키 생성
         if (createKey === true) {
           // 이미 가입되었을 경우
           if (userInfo) {
             await slack.slack("Signup Post 409");
             return res.status(409).send({ message: "email already exists" });
+          }
+          if (nicknameInfo) {
+            await slack.slack("Signup Post 409");
+            return res.status(409).send({ message: "nickname already exists" });
           }
           let [e, N, d] = RSA.createKey();
           const payload = {
@@ -151,7 +161,7 @@ module.exports = {
               });
               await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
               res.status(200).send({
-                data: { id: userInfo.id },
+                data: { id: userInfo.id, nickname: userInfo.nickname },
                 accessToken: accessToken,
               });
             }
