@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
 import {
@@ -20,8 +20,9 @@ import {
   ListTable,
   WriteIcon,
 } from './styles';
+import PostWriteUp from './PostWriteUp';
 
-function PostList({ datas }) {
+function PostList({ datas, test }) {
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
@@ -30,18 +31,20 @@ function PostList({ datas }) {
     SearchIconClicked;
   }, [datas]);
 
-  // const navigate = useNavigate();
+  console.log(typeof test);
 
-  const newDatas = datas.slice(0).reverse();
+  const navigate = useNavigate();
+
+  const newDatas = datas?.slice(0).reverse();
 
   const SearchIconClicked = useCallback(() => {
     setSearchIconClick(!searchIconClick);
   }, [searchIconClick]);
 
-  const WriteIconClicked = useCallback(() => {
-    // navigate('/post/writeup');
-    console.log('---------------------- WriteIconClicked', '으앙');
-  }, []);
+  // const WriteIconClicked = useCallback(() => {
+  //   navigate('/post/writeup');
+  //   console.log('---------------------- WriteIconClicked', '으앙');
+  // }, []);
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -55,9 +58,18 @@ function PostList({ datas }) {
     <>
       <PostListHeaderBox>
         <Label>🕊 여행에 관해 이야기 해볼까요 ?</Label>
-        <WriteIcon>
-          <FontAwesomeIcon icon={faPencil} onClick={WriteIconClicked} />
-        </WriteIcon>
+        <Link
+          to="/post/writeup"
+          style={{ textDecoration: 'none', color: 'black' }}
+          state={{
+            datas,
+          }}
+          data={test}
+        >
+          <WriteIcon>
+            <FontAwesomeIcon icon={faPencil} />
+          </WriteIcon>
+        </Link>
         <SearchIcon>
           <FontAwesomeIcon
             style={{ float: 'right' }}

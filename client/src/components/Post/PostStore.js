@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Loading from '../common/Loading';
 import PostList from './PostList';
 import data from './dummydata';
+import PostWriteUp from './PostWriteUp';
 
 function PostStore() {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,15 @@ function PostStore() {
     }, 0);
   }, []);
 
-  return <div>{isLoading ? <Loading /> : <PostList datas={datas} />}</div>;
+  const test = useCallback(() => {
+    alert('성공');
+  }, []);
+
+  return (
+    <div>
+      {isLoading ? <Loading /> : <PostList datas={datas} test={test} />}
+    </div>
+  );
 }
 
 export default PostStore;
