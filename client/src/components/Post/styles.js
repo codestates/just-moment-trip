@@ -46,10 +46,10 @@ export const PostListBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-top: 2px solid gray;
+  border-top: 2px solid rgb(86, 66, 137);
   border-left: none;
   border-right: none;
-  border-bottom: 2px solid gray;
+  border-bottom: 2px solid rgb(86, 66, 137);
   background-color: transparent;
   font-size: 1em;
 `;
@@ -68,7 +68,7 @@ export const PostTitleBox = styled.div`
 
 export const PostItemBox = styled.div`
   border-radius: 5px;
-  background-color: white;
+  background-color: transparent;
   margin: 14px 20px;
   padding: 13px 10px;
   display: flex;
@@ -76,7 +76,8 @@ export const PostItemBox = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   :hover {
-    outline: 2px solid black;
+    cursor: pointer;
+    outline: 2px solid rgb(139, 139, 185);
   }
 `;
 
@@ -84,6 +85,7 @@ export const DataTablesBox = styled.div`
   height: 95%;
   overflow: auto;
   &::-webkit-scrollbar {
+    overflow: none;
     width: 4px;
   }
   :hover {
@@ -107,7 +109,6 @@ export const PaginationBox = styled.div`
 
 export const ListTable = styled.div`
   text-align: center;
-  /* background-color: cornflowerblue; */
   background-color: transparent;
 `;
 
@@ -117,9 +118,8 @@ export const PageUl = styled.ul`
   text-align: center;
   bottom: 0;
   justify-content: center;
-
   border-radius: 3px;
-  color: white;
+  color: rgb(86, 66, 137);
   background-color: transparent;
 `;
 
@@ -129,23 +129,29 @@ export const PageLi = styled.li`
   font-family: ManfuMedium;
   padding: 5px;
   border-radius: 5px;
+  color: rgb(86, 66, 137);
 
-  &:hover {
+  /* &:hover {
     cursor: pointer;
-    color: white;
+    color: rgb(86, 66, 137);
   }
   &:focus::after {
-    color: white;
-    background-color: #263a6c;
-  }
+    color: rgb(86, 66, 137);
+    background-color: rgb(86, 66, 137);
+  } */
 `;
 
 export const PageSpan = styled.span`
   border: none;
-  &:hover::after,
+  color: rgb(86, 66, 137);
+  &:hover {
+    cursor: pointer;
+    color: rgb(86, 66, 137);
+  }
+  /* &:hover::after,
   &:focus::after {
     border-radius: 100%;
-    color: white;
-    background-color: #263a6c;
-  }
+    color: rgb(86, 66, 137);
+    background-color: rgb(86, 66, 137);
+  } */
 `;
