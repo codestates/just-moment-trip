@@ -100,7 +100,7 @@ function CommentList({ comments }) {
     <CommentContainer>
       <h1>댓글</h1>
       {token ? (
-        <CommentBox>
+        <CommentBox style={{ border: '1px black solid', borderRadius: '10px' }}>
           <div>닉네임 : {userNickname}</div>
           <div>
             <CommentWriteTextareaBox

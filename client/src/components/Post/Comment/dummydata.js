@@ -24,6 +24,18 @@ const dummydata = [
     comment: '비추',
     created_at: '2022-06-21',
   },
+  {
+    id: 5,
+    nickname: 'asdf1234',
+    comment: '좋습니다',
+    created_at: '2022-06-21',
+  },
+  {
+    id: 6,
+    nickname: '닉네임5',
+    comment: '꿀띠',
+    created_at: '2022-06-21',
+  },
 ];
 
 export default dummydata;
