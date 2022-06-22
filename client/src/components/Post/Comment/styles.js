@@ -5,10 +5,11 @@ export const CommentContainer = styled.div`
   border-radius: 20px;
   padding-left: 4vw;
   width: 90vw;
+  margin-top: 20px;
   > h1 {
     width: 100px;
     text-align: center;
-    margin-top: -15px;
+    margin-top: -19px;
     margin-left: 10px;
     margin-bottom: 5px;
     background: white;
@@ -21,8 +22,9 @@ export const CommentBox = styled.div`
   justify-content: space-between;
   text-align: left;
   width: 80vw;
-  border: 1px solid black;
-  border-radius: 10px;
+  border-bottom: 1px black dotted;
+  /* border: 1px solid black;
+  border-radius: 10px; */
   padding: 10px;
   margin-bottom: 20px;
 
