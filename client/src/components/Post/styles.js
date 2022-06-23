@@ -129,6 +129,8 @@ export const PaginationBox = styled.div`
 
 export const ListTable = styled.div`
   text-align: center;
+  width: ${props => props.width}%;
+  font-weight: ${props => props.fontweight};
   background-color: transparent;
 `;
 
