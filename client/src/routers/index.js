@@ -20,7 +20,7 @@ const AboutUs = loadable(() => import('../pages/AboutUs'));
 const TripPage = loadable(() => import('../pages/Trip'));
 const Post = loadable(() => import('../pages/Post'));
 const PostView = loadable(() => import('../pages/PostView'));
-const PostWriteUp = loadable(() => import('../components/Post/PostWriteUp'));
+const PostWriteUp = loadable(() => import('../pages/PostWriteUp'));
 
 export default function Routers() {
   return (

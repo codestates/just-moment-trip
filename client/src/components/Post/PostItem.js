@@ -14,11 +14,11 @@ function PostItem({ data }) {
       }}
     >
       <PostItemBox>
-        <ListTable style={{ width: '20%' }}>{data.nickname}</ListTable>
-        <ListTable style={{ width: '60%', fontWeight: 'bold' }}>
+        <ListTable width="20">{data.nickname}</ListTable>
+        <ListTable width="60" fontweight="bold">
           {data.title}
         </ListTable>
-        <ListTable style={{ width: '20%' }}>{data.created_at}</ListTable>
+        <ListTable width="20">{data.created_at}</ListTable>
       </PostItemBox>
     </Link>
   );
