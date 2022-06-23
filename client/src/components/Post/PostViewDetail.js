@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser'; //태그를 문자열로 바꿔줌 ! 이거 설정해야함 !
+/* ReactHtmlParser(content) */
 import Swal from 'sweetalert2';
 import spongebob from '../../Assets/spongebob.gif';
 
