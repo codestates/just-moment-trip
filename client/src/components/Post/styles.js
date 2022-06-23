@@ -1,12 +1,11 @@
 import styled, { keyframes } from 'styled-components';
 
 export const Box = styled.div`
-  padding-top: 120px;
   display: flex;
   justify-content: center;
   background-color: transparent;
   /* background-color: cornflowerblue; */
-  height: 100vh;
+  height: auto;
   font-family: SsurroundFont;
 `;
 
@@ -31,21 +30,25 @@ to {
 }
 `;
 
-export const SearchInput = styled.input`
+export const Input = styled.input`
   float: right;
-  width: 350px;
+  width: ${props => props.width}vw;
   border-top: none;
   border-right: none;
   border-left: none;
+  margin-bottom: ${props => props.marginBottom}vh;
   outline: none;
   border-bottom: 1px solid rgb(71, 56, 136);
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
+  :focus {
+    border-color: blue;
+  }
 `;
 
-export const WriteIcon = styled.div`
-  font-size: 40px;
+export const Iconbox = styled.div`
+  font-size: ${props => props.fontSize}px;
   :hover {
     cursor: pointer;
     color: rgb(139, 139, 185);
@@ -131,6 +134,7 @@ export const ListTable = styled.div`
   text-align: center;
   width: ${props => props.width}%;
   font-weight: ${props => props.fontweight};
+  margin-right: ${props => props.marginRight}px;
   background-color: transparent;
 `;
 
@@ -176,4 +180,25 @@ export const PageSpan = styled.span`
     color: rgb(86, 66, 137);
     background-color: rgb(86, 66, 137);
   } */
+`;
+
+export const PostWriteUpDetailBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
+export const TitleInput = styled.input`
+  width: 30vw;
+`;
+
+export const Warning = styled.p`
+  font-family: NexonFont;
+`;
+
+export const Error = styled.p`
+  font-family: NexonFont;
+  color: ${props => props.color};
 `;

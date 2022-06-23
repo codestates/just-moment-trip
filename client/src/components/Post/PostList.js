@@ -15,10 +15,10 @@ import {
   PostListHeaderBox,
   Label,
   SearchIcon,
-  SearchInput,
+  Input,
   PostTitleBox,
   ListTable,
-  WriteIcon,
+  Iconbox,
 } from './styles';
 import data from './dummydata';
 
@@ -32,8 +32,6 @@ function PostList() {
     SearchIconClicked;
   }, [datas]);
 
-  console.log(typeof test);
-
   const navigate = useNavigate();
 
   const newDatas = datas?.slice(0).reverse();
@@ -42,9 +40,9 @@ function PostList() {
     setSearchIconClick(!searchIconClick);
   }, [searchIconClick]);
 
-  // const WriteIconClicked = useCallback(() => {
+  // const IconboxClicked = useCallback(() => {
   //   navigate('/post/writeup');
-  //   console.log('---------------------- WriteIconClicked', '으앙');
+  //   console.log('---------------------- IconboxClicked', '으앙');
   // }, []);
 
   const indexOfLast = currentPage * postsPerPage;
@@ -63,9 +61,9 @@ function PostList() {
           to="/post/writeup"
           style={{ textDecoration: 'none', color: 'black' }}
         >
-          <WriteIcon>
+          <Iconbox fontSize="40">
             <FontAwesomeIcon icon={faPencil} />
-          </WriteIcon>
+          </Iconbox>
         </Link>
         <SearchIcon>
           <FontAwesomeIcon
@@ -73,16 +71,16 @@ function PostList() {
             icon={faMagnifyingGlass}
             onClick={SearchIconClicked}
           />
-          {searchIconClick ? <SearchInput /> : null}
+          {searchIconClick ? <Input width="30" /> : null}
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
         <PostTitleBox>
-          <ListTable style={{ width: '15%' }}>닉네임</ListTable>
-          <ListTable style={{ width: '70%', fontWeight: 'bold' }}>
+          <ListTable width="15">닉네임</ListTable>
+          <ListTable width="70 " fontWeight="bold">
             제목
           </ListTable>
-          <ListTable style={{ width: '15%', marginRight: '6px' }}>
+          <ListTable width="15" marginRight="6">
             작성날짜
           </ListTable>
         </PostTitleBox>
