@@ -25,6 +25,8 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/runtime": "^7.17.9",
+    "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@datepicker-react/styled": "^2.8.4",
     "@emotion/react": "^11.9.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
