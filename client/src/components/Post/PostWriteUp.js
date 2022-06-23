@@ -1,10 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+// import {CKEditor}
 import Navbar from '../common/Navbar';
-import PostStore from './PostStore';
+
 import { Box } from './styles';
 
-function PostWriteUp({ datas, test }) {
+function PostWriteUp() {
   const location = useLocation();
   console.log('---------------PostWriteUp', location);
 

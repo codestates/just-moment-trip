@@ -20,9 +20,10 @@ import {
   ListTable,
   WriteIcon,
 } from './styles';
-import PostWriteUp from './PostWriteUp';
+import data from './dummydata';
 
-function PostList({ datas, test }) {
+function PostList() {
+  const [datas, setDatas] = useState(data);
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
@@ -55,16 +56,12 @@ function PostList({ datas, test }) {
   };
 
   return (
-    <>
+    <div>
       <PostListHeaderBox>
         <Label>🕊 여행에 관해 이야기 해볼까요 ?</Label>
         <Link
           to="/post/writeup"
           style={{ textDecoration: 'none', color: 'black' }}
-          state={{
-            datas,
-          }}
-          data={test}
         >
           <WriteIcon>
             <FontAwesomeIcon icon={faPencil} />
@@ -90,8 +87,8 @@ function PostList({ datas, test }) {
           </ListTable>
         </PostTitleBox>
         <DataTablesBox>
-          {currentPosts(newDatas).map(data => (
-            <PostItem key={data.id} data={data} />
+          {currentPosts(newDatas).map(el => (
+            <PostItem key={el.id} data={el} />
           ))}
         </DataTablesBox>
         <PaginationBox>
@@ -102,7 +99,7 @@ function PostList({ datas, test }) {
           />
         </PaginationBox>
       </PostListBox>
-    </>
+    </div>
   );
 }
 

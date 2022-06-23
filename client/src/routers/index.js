@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
-import PostStore from '../components/Post/PostStore';
 
 const CLIENT_ID = '9d053bcc19948f007841a6c49f8f0964';
 export const REDIRECT_URI =

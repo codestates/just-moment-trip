@@ -1,8 +1,7 @@
 import React from 'react';
-import PostStore from '../components/Post/PostStore';
-import Navbar from '../components/common/Navbar';
 import styled from 'styled-components';
-import LoginTripMessage from '../components/common/LoginTripMessage';
+import Navbar from '../components/common/Navbar';
+import PostList from '../components/Post/PostList';
 
 // import { useSelector } from 'react-redux';
 
@@ -23,7 +22,7 @@ function Post() {
   return (
     <Box>
       <Navbar />
-      <PostStore />
+      <PostList />
     </Box>
   );
 }
