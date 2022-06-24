@@ -15,7 +15,7 @@ function Comment({
   userNickname,
 }) {
   const [isEdit, setIsEdit] = useState(false);
-  const [currComment, setCurrComment] = useState(comment.comment);
+  const [currComment, setCurrComment] = useState(comment.content);
 
   const editHandler = () => {
     setIsEdit(true);
@@ -69,13 +69,13 @@ function Comment({
     <CommentBox>
       <div>
         <span>닉네임 : {comment.nickname}</span>
-        <span>{comment.created_at}</span>
+        <span>{comment.updatedAt}</span>
       </div>
       <CommentDiv>
         {isEdit ? (
           <CommentEditTextareaBox value={currComment} onChange={inputHandler} />
         ) : (
-          <div style={{ width: '70vw' }}>{comment.comment}</div>
+          <div style={{ width: '70vw' }}>{comment.content}</div>
         )}
         {userNickname === comment.nickname ? (
           isEdit ? (
