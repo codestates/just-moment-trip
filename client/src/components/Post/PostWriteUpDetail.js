@@ -3,6 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import spongebob from '../../Assets/spongebob.gif';
@@ -43,6 +44,7 @@ function PostWriteUpDetail() {
     });
   }, []);
 
+  const url = 'http://localhost:8080';
   const submit = useCallback(
     e => {
       if (title.length < 1) {
@@ -72,6 +74,26 @@ function PostWriteUpDetail() {
       `,
       }).then(result => {
         if (result.isConfirmed) {
+          axios
+            .post(
+              `${url}/post`,
+              {
+                title: title,
+                content: content,
+              },
+              {
+                headers: {
+                  authorization:
+                    'Bearer ' +
+                    JSON.parse(sessionStorage.getItem('user'))?.accessToken,
+                  'Content-Type': 'application/json',
+                },
+
+                withCredentials: true,
+              },
+            )
+            .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
+
           console.log('전송성공');
           setArrContent(arrContent.concat({ ...content }));
           console.log('----------------- arrContent', arrContent);

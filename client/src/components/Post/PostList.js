@@ -6,6 +6,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
 import {
@@ -23,20 +24,34 @@ import {
 import data from './dummydata';
 
 function PostList() {
-  const [datas, setDatas] = useState(data);
+  const [datas, setDatas] = useState([]);
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
 
+  const url = 'http://localhost:8080';
+
   useEffect(() => {
-    SearchIconClicked;
+    searchIconClicked;
   }, [datas]);
+
+  useEffect(() => {
+    axios
+      .get(`${url}/post`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        console.log(res.data.data);
+        setDatas(res.data.data);
+      })
+      .catch(err => console.log('--------------- 루저ㅋ', err, err.data));
+  }, []);
 
   const navigate = useNavigate();
 
-  const newDatas = datas?.slice(0).reverse();
+  // const newDatas = datas?.slice(0).reverse();
 
-  const SearchIconClicked = useCallback(() => {
+  const searchIconClicked = useCallback(() => {
     setSearchIconClick(!searchIconClick);
   }, [searchIconClick]);
 
@@ -69,7 +84,7 @@ function PostList() {
           <FontAwesomeIcon
             style={{ float: 'right' }}
             icon={faMagnifyingGlass}
-            onClick={SearchIconClicked}
+            onClick={searchIconClicked}
           />
           {searchIconClick ? <Input width="30" /> : null}
         </SearchIcon>
@@ -85,7 +100,7 @@ function PostList() {
           </ListTable>
         </PostTitleBox>
         <DataTablesBox>
-          {currentPosts(newDatas).map(el => (
+          {currentPosts(datas).map(el => (
             <PostItem key={el.id} data={el} />
           ))}
         </DataTablesBox>
