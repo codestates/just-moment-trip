@@ -60,6 +60,9 @@ export const SearchIcon = styled.div`
   width: 420px;
   padding-top: 10px;
   font-size: 20px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const PostListBox = styled.div`
@@ -201,4 +204,62 @@ export const Warning = styled.p`
 export const Error = styled.p`
   font-family: NexonFont;
   color: ${props => props.color};
+`;
+
+export const PostViewDetailBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgb(139, 139, 185);
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid rgb(139, 139, 185);
+  padding: 20px;
+  margin: 60px;
+  min-height: 650px;
+  height: auto;
+`;
+
+export const HeaderBox = styled.div``;
+
+export const Header = styled.p`
+  text-align: center;
+  font-family: ManfuMedium;
+  font-size: 1.7rem;
+`;
+
+export const MiddleBox = styled.div`
+  text-align: right;
+`;
+
+export const MiddelSentence = styled.p`
+  font-family: SBFontLight;
+  font-size: 1em;
+`;
+
+export const BtnBox = styled.div`
+  padding-top: 10px;
+  text-align: right;
+`;
+
+export const Btn = styled.button`
+  font-family: ManfuMedium;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  border-color: transparent;
+  :hover {
+    color: rgb(139, 139, 185);
+    transition: all 0.2s linear;
+  }
+`;
+
+export const ContentBox = styled.div`
+  border: 1px solid rgb(168, 168, 191);
+  min-height: 30vh;
+`;
+
+export const ContentListBox = styled.div`
+  /* min-height: 10vh; */
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
