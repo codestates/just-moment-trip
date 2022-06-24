@@ -21,21 +21,38 @@ module.exports = {
         if (!postInfo) {
           return res.status(200).send({ data: {} });
         }
-        const commentInfo = await comment.findAll({ where: { post_id: id } });
+
         const data = {
           id: postInfo.id,
           title: postInfo.title,
           content: postInfo.content,
           nickname: postInfo.user.nickname,
           created_at: postInfo.createdAt,
-          comments: commentInfo,
           trip: postInfo.trip,
         };
-        postInfo.dataValues.comments = commentInfo;
+
         return res.status(200).send({ data });
-      } catch {
+      } catch (err) {
         await slack.slack("Post/:post_id GET 501");
         res.status(501).send("Post GET Server Error");
+      }
+    },
+  },
+
+  comment: {
+    get: async (req, res) => {
+      const id = req.params.post_id;
+      try {
+        const commentInfo = await comment.findAll({ where: { post_id: id }, raw: true });
+        for (let i = 0; i < commentInfo.length; i++) {
+          const userInfo = await user.findOne({ where: { id: commentInfo[i].user_id }, raw: true });
+          commentInfo[i].nickname = userInfo.nickname;
+        }
+
+        return res.status(200).send({ data: commentInfo });
+      } catch (err) {
+        await slack.slack("Post/:post_id/comment GET 501");
+        res.status(501).send("comment GET Server Error");
       }
     },
   },

@@ -1,9 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser'; //태그를 문자열로 바꿔줌 ! 이거 설정해야함 !
 /* ReactHtmlParser(content) */
 import Swal from 'sweetalert2';
 import spongebob from '../../Assets/spongebob.gif';
+import CommentList from './Comment/CommentList';
+import {
+  Btn,
+  BtnBox,
+  ContentBox,
+  ContentListBox,
+  Header,
+  MiddelSentence,
+  MiddleBox,
+  PostViewDetailBox,
+} from './styles';
 
 function PostViewDetail({ data }) {
   const location = useLocation();
@@ -32,14 +43,30 @@ function PostViewDetail({ data }) {
     }
   }, []);
 
+   useCallback(() => { },[])
+
   return (
-    <div>
-      <p>{location.state?.data.id}</p>
-      <p>{location.state?.data.nickname}</p>
-      <p>{location.state?.data.title}</p>
-      <p>{location.state?.data.content}</p>
-      <p>{location.state?.data.created_at}</p>
-    </div>
+    <PostViewDetailBox>
+      <Header>글제목 : {location.state?.data.title}</Header>
+      <MiddleBox>
+        <MiddelSentence>
+          작성자 : {location.state?.data.nickname}
+        </MiddelSentence>
+        <MiddelSentence>
+          적성날짜 : {location.state?.data.created_at}
+        </MiddelSentence>
+      </MiddleBox>
+      <ContentBox>
+        <p>{location.state?.data.content}</p>
+      </ContentBox>
+      <BtnBox>
+        <Btn>수정하기</Btn>
+        <Btn>삭제하기</Btn>
+      </BtnBox>
+      <ContentListBox>
+        <CommentList />
+      </ContentListBox>
+    </PostViewDetailBox>
   );
 }
 

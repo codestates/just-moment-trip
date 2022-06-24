@@ -166,7 +166,7 @@ function SignUpInput() {
         if (message[message.length - 1] === '409') {
           Swal.fire({
             icon: 'error',
-            text: '이미 사용중인 이메일 입니다',
+            text: '이미 사용중인 닉네임 입니다.',
           }).then(res => {
             if (res.isConfirmed) actions.resetForm();
           });
