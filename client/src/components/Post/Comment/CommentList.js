@@ -104,9 +104,8 @@ function CommentList({ post_id }) {
 
   return (
     <CommentContainer>
-      <h1>댓글</h1>
       {token ? (
-        <CommentBox style={{ border: '1px black solid', borderRadius: '10px' }}>
+        <CommentBox>
           <div>닉네임 : {userNickname}</div>
           <div>
             <CommentWriteTextareaBox

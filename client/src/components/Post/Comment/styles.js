@@ -1,19 +1,14 @@
 import styled from 'styled-components';
 
 export const CommentContainer = styled.div`
-  border: 3px solid lightblue;
-  border-radius: 20px;
+  border-top: 1px solid rgb(139, 139, 185);
+  border-bottom: 1px solid rgb(139, 139, 185);
+  border-left: none;
+  border-right: none;
   padding-left: 4vw;
   width: 90vw;
+  min-height: 8vh;
   margin-top: 20px;
-  > h1 {
-    width: 100px;
-    text-align: center;
-    margin-top: -19px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    background: white;
-  }
 `;
 
 export const CommentBox = styled.div`
@@ -22,7 +17,7 @@ export const CommentBox = styled.div`
   justify-content: space-between;
   text-align: left;
   width: 80vw;
-  border-bottom: 1px black dotted;
+  /* border-bottom: 1px black dotted; */
   /* border: 1px solid black;
   border-radius: 10px; */
   padding: 10px;
@@ -45,7 +40,7 @@ export const CommentWriteTextareaBox = styled.textarea`
   align-items: center;
   background-color: transparent;
   outline: none;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   resize: none;
   width: 70vw;
   font-size: 1em;
@@ -65,13 +60,13 @@ export const CommentEditTextareaBox = styled.textarea`
 export const Btn = styled.button`
   font-size: 1rem;
   color: black;
+  font-family: ManfuMedium;
   background-color: transparent;
   border: none;
   outline: 0;
   :hover {
     transition: all 0.2s linear;
-    transform: scale(1.1);
-    border-bottom: 2px solid grey;
+    color: rgb(139, 139, 185);
   }
 `;
 
@@ -81,7 +76,11 @@ export const BtnBox = styled.div`
 `;
 
 export const LoginPlz = styled.div`
-  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 0 auto;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.2rem;
+  font-family: SBFontLight;
 `;
