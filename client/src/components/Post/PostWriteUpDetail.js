@@ -37,11 +37,8 @@ function PostWriteUpDetail() {
 
   const onChangeContent = useCallback((event, editor) => {
     const data = editor.getData();
-    console.log('-------------- onChangeContent', { event, editor, data });
-    setContent({
-      ...content,
-      content: data,
-    });
+    console.log('-------------- onChangeContent', data);
+    setContent(data);
   }, []);
 
   const url = 'http://localhost:8080';
@@ -50,11 +47,13 @@ function PostWriteUpDetail() {
       if (title.length < 1) {
         e.preventDefault();
         setTitleError(true);
+        setContentError(false);
         return;
       }
-      setTitleError(false);
+
       if (content.length < 1) {
         e.preventDefault();
+        setTitleError(false);
         setContentError(true);
         return;
       }
@@ -74,6 +73,7 @@ function PostWriteUpDetail() {
       `,
       }).then(result => {
         if (result.isConfirmed) {
+          setArrContent(arrContent.concat({ ...content }));
           axios
             .post(
               `${url}/post`,
@@ -92,13 +92,14 @@ function PostWriteUpDetail() {
                 withCredentials: true,
               },
             )
+            .then(() => {
+              navigate('/post');
+            })
             .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
-
           console.log('전송성공');
-          setArrContent(arrContent.concat({ ...content }));
           console.log('----------------- arrContent', arrContent);
           console.log('----------------- content', content);
-          navigate('/post');
+          console.log('----------------- content', typeof content);
         }
       });
     },

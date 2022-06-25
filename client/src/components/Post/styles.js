@@ -6,6 +6,7 @@ export const Box = styled.div`
   background-color: transparent;
   /* background-color: cornflowerblue; */
   height: auto;
+  overflow: hidden;
   font-family: SsurroundFont;
 `;
 
@@ -60,9 +61,6 @@ export const SearchIcon = styled.div`
   width: 420px;
   padding-top: 10px;
   font-size: 20px;
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 export const PostListBox = styled.div`
@@ -212,11 +210,8 @@ export const PostViewDetailBox = styled.div`
   border-top: 1px solid rgb(139, 139, 185);
   border-right: none;
   border-left: none;
-  border-bottom: 1px solid rgb(139, 139, 185);
   padding: 20px;
   margin: 60px;
-  min-height: 650px;
-  height: auto;
 `;
 
 export const HeaderBox = styled.div``;
@@ -253,9 +248,11 @@ export const Btn = styled.button`
   }
 `;
 
-export const ContentBox = styled.div`
+export const ContentBox = styled.p`
   border: 1px solid rgb(168, 168, 191);
-  min-height: 30vh;
+  padding: 20px;
+  /* min-height: 30vh; */
+  /* height: 100%; */
 `;
 
 export const ContentListBox = styled.div`
@@ -263,3 +260,5 @@ export const ContentListBox = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
 `;
+
+export const Content = styled.p``;

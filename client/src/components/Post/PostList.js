@@ -28,7 +28,7 @@ function PostList() {
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
-
+  const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const url = 'http://localhost:8080';
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function PostList() {
       })
       .then(res => {
         console.log(res.data.data);
-        setDatas(res.data.data);
+        setDatas(res.data.data.reverse());
       })
       .catch(err => console.log('--------------- 루저ㅋ', err, err.data));
   }, []);
@@ -76,13 +76,15 @@ function PostList() {
           to="/post/writeup"
           style={{ textDecoration: 'none', color: 'black' }}
         >
-          <Iconbox fontSize="40">
-            <FontAwesomeIcon icon={faPencil} />
-          </Iconbox>
+          {token && (
+            <Iconbox fontSize="40">
+              <FontAwesomeIcon icon={faPencil} />
+            </Iconbox>
+          )}
         </Link>
         <SearchIcon>
           <FontAwesomeIcon
-            style={{ float: 'right' }}
+            style={{ float: 'right', cursor: 'pointer' }}
             icon={faMagnifyingGlass}
             onClick={searchIconClicked}
           />
