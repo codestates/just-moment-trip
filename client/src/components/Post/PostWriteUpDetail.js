@@ -30,14 +30,12 @@ function PostWriteUpDetail() {
     e => {
       e.preventDefault();
       setTitle(e.target.value);
-      console.log('-------------- title', e.target.value);
     },
     [title],
   );
 
   const onChangeContent = useCallback((event, editor) => {
     const data = editor.getData();
-    console.log('-------------- onChangeContent', data);
     setContent(data);
   }, []);
 
@@ -93,13 +91,23 @@ function PostWriteUpDetail() {
               },
             )
             .then(() => {
+              if (result.isConfirmed) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '작성 완료!',
+                  confirmButtonText: '알겠어요',
+                  backdrop: `
+                    rgba(0,0,110,0.5)
+                    url(${spongebob})
+                    right bottom
+                    no-repeat
+                  `,
+                });
+              }
+
               navigate('/post');
             })
             .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
-          console.log('전송성공');
-          console.log('----------------- arrContent', arrContent);
-          console.log('----------------- content', content);
-          console.log('----------------- content', typeof content);
         }
       });
     },

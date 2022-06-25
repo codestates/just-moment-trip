@@ -37,6 +37,7 @@ export const Input = styled.input`
   border-top: none;
   border-right: none;
   border-left: none;
+  margin-top: ${props => props.marginTop}vh;
   margin-bottom: ${props => props.marginBottom}vh;
   outline: none;
   border-bottom: 1px solid rgb(71, 56, 136);
@@ -189,6 +190,7 @@ export const PostWriteUpDetailBox = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  min-height: 400px;
 `;
 
 export const TitleInput = styled.input`
@@ -248,7 +250,7 @@ export const Btn = styled.button`
   }
 `;
 
-export const ContentBox = styled.p`
+export const ContentBox = styled.div`
   border: 1px solid rgb(168, 168, 191);
   padding: 20px;
   /* min-height: 30vh; */
@@ -261,4 +263,11 @@ export const ContentListBox = styled.div`
   padding-bottom: 10px;
 `;
 
-export const Content = styled.p``;
+export const Content = styled.div``;
+
+export const PostEditBox = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
