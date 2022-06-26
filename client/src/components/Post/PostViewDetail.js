@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser'; //태그를 문자열로 바꿔줌 ! 이거 설정해야함 !
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -25,7 +25,6 @@ import {
 function PostViewDetail() {
   const location = useLocation();
   const navigate = useNavigate();
-
   const [newTitle, setNewTitle] = useState(`${location.state?.data.title}`);
   const [newContent, setNewContent] = useState('');
   const [arrNewContent, setArrNewContent] = useState([]);
@@ -150,20 +149,18 @@ function PostViewDetail() {
             },
           )
           .then(() => {
-            if (res.isConfirmed) {
-              Swal.fire({
-                icon: 'success',
-                title: '수정 완료!',
-                confirmButtonText: '알겠어요',
-                backdrop: `
+            Swal.fire({
+              icon: 'success',
+              title: '수정 완료!',
+              confirmButtonText: '알겠어요',
+              backdrop: `
             rgba(0,0,110,0.5)
             url(${spongebob})
             left bottom
             no-repeat
           `,
-              });
-            }
-            setIsEdit(false);
+            });
+            <Link to="/post" />;
           })
           .catch(err => console.log('--------루저ㅋ', err));
       }
@@ -207,7 +204,6 @@ function PostViewDetail() {
               작성날짜 : {location.state?.data.created_at}
             </MiddelSentence>
           </MiddleBox>
-
           <ContentBox>
             <Content>{ReactHtmlParser(location.state?.data.content)}</Content>
           </ContentBox>
