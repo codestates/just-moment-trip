@@ -26,7 +26,7 @@ function PostViewDetail() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [newTitle, setNewTitle] = useState(location.state?.data.title);
+  const [newTitle, setNewTitle] = useState(`${location.state?.data.title}`);
   const [newContent, setNewContent] = useState('');
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -62,13 +62,13 @@ function PostViewDetail() {
     e.preventDefault();
     setNewTitle(e.target.value);
   }, []);
-  console.log('============title', newTitle);
+  console.log('============newTitle', newTitle, typeof newTitle);
 
   const onChangeNewContent = useCallback((event, editor) => {
     const data = editor.getData();
-    setNewContent(data);
+    setNewContent(`${data}`);
   }, []);
-  console.log('------------newContent', newContent);
+  console.log('------------newContent', newContent, typeof newContent);
 
   const editHandler = useCallback(() => {
     setIsEdit(true);
@@ -116,7 +116,6 @@ function PostViewDetail() {
   }, []);
 
   const onEdit = useCallback(() => {
-    setArrNewContent(arrNewContent.concat({ ...newContent }));
     Swal.fire({
       title: `게시글을 수정할까요 ?`,
       icon: 'question',
@@ -129,40 +128,47 @@ function PostViewDetail() {
         url(${spongebob})
         no-repeat
       `,
-    }).then(() => {
-      axios
-        .patch(
-          `${url}/post/${location.state?.data.id}`,
-          { new_title: newTitle, new_content: newContent, new_trip_id: 0 },
-          {
-            headers: {
-              authorization:
-                'Bearer ' +
-                JSON.parse(sessionStorage.getItem('user')).accessToken,
-              'Content-Type': 'application/json',
+    }).then(res => {
+      if (res.isConfirmed) {
+        setArrNewContent(arrNewContent.concat({ ...newContent }));
+        axios
+          .patch(
+            `${url}/post/${location.state?.data.id}`,
+            {
+              new_content: newContent,
+              new_title: newTitle,
+              new_trip_id: 1,
             },
-            withCredentials: true,
-          },
-        )
-        .then(res => {
-          if (res.isConfirmed) {
-            Swal.fire({
-              icon: 'success',
-              title: '수정 완료!',
-              confirmButtonText: '알겠어요',
-              backdrop: `
-              rgba(0,0,110,0.5)
-              url(${spongebob})
-              left bottom
-              no-repeat
-            `,
-            });
-          }
-          console.log('수정완료');
-        })
-        .catch(err => console.log('--------루저ㅋ', err));
+            {
+              headers: {
+                authorization:
+                  'Bearer ' +
+                  JSON.parse(sessionStorage.getItem('user')).accessToken,
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            },
+          )
+          .then(() => {
+            if (res.isConfirmed) {
+              Swal.fire({
+                icon: 'success',
+                title: '수정 완료!',
+                confirmButtonText: '알겠어요',
+                backdrop: `
+            rgba(0,0,110,0.5)
+            url(${spongebob})
+            left bottom
+            no-repeat
+          `,
+              });
+            }
+            setIsEdit(false);
+          })
+          .catch(err => console.log('--------루저ㅋ', err));
+      }
     });
-  }, []);
+  }, [newTitle, newContent]);
 
   return (
     <PostViewDetailBox>
@@ -192,7 +198,7 @@ function PostViewDetail() {
         </PostEditBox>
       ) : (
         <>
-          <Header>글제목 : {location.state?.data.title}</Header>
+          <Header>글제목 : {newTitle}</Header>
           <MiddleBox>
             <MiddelSentence>
               작성자 : {location.state?.data.nickname}
