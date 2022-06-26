@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
@@ -28,6 +28,7 @@ function PostList() {
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
+  const location = useLocation();
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const url = 'http://localhost:8080';
 
