@@ -3,41 +3,41 @@ const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
 module.exports = {
-  // id: {
-  //   get: async (req, res) => {
-  //     const id = req.params.post_id;
-  //     try {
-  //       const postInfo = await post.findOne({
-  //         include: [
-  //           {
-  //             model: user,
-  //           },
-  //           {
-  //             model: trip,
-  //           },
-  //         ],
-  //         where: { id },
-  //       });
-  //       if (!postInfo) {
-  //         return res.status(200).send({ data: {} });
-  //       }
+  id: {
+    get: async (req, res) => {
+      const id = req.params.post_id;
+      try {
+        const postInfo = await post.findOne({
+          include: [
+            {
+              model: user,
+            },
+            {
+              model: trip,
+            },
+          ],
+          where: { id },
+        });
+        if (!postInfo) {
+          return res.status(200).send({ data: {} });
+        }
 
-  //       const data = {
-  //         id: postInfo.id,
-  //         title: postInfo.title,
-  //         content: postInfo.content,
-  //         nickname: postInfo.user.nickname,
-  //         created_at: postInfo.createdAt,
-  //         trip: postInfo.trip,
-  //       };
+        const data = {
+          id: postInfo.id,
+          title: postInfo.title,
+          content: postInfo.content,
+          nickname: postInfo.user.nickname,
+          created_at: postInfo.createdAt,
+          trip: postInfo.trip,
+        };
 
-  //       return res.status(200).send({ data });
-  //     } catch (err) {
-  //       await slack.slack("Post/:post_id GET 501");
-  //       res.status(501).send("Post GET Server Error");
-  //     }
-  //   },
-  // },
+        return res.status(200).send({ data });
+      } catch (err) {
+        await slack.slack("Post/:post_id GET 501");
+        res.status(501).send("Post GET Server Error");
+      }
+    },
+  },
 
   comment: {
     get: async (req, res) => {
