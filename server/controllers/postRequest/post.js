@@ -103,9 +103,7 @@ module.exports = {
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
-        return res
-          .status(201)
-          .send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
+        return res.status(201).send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Post Post 501");
@@ -114,6 +112,7 @@ module.exports = {
   },
   patch: async (req, res) => {
     const { new_title, new_content, new_trip_id } = req.body;
+    console.log(new_title, new_content, new_trip_id);
     const id = req.params.post_id;
     if (!new_title || !new_content || !new_trip_id) {
       await slack.slack("Post Post 422");
