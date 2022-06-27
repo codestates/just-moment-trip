@@ -7,7 +7,8 @@ export const CommentContainer = styled.div`
   border-right: none;
   padding-left: 4vw;
   width: 90vw;
-  min-height: 8vh;
+  /* min-height: 8vh;
+  height: 100%; */
   margin-top: 20px;
 `;
 
@@ -79,7 +80,7 @@ export const LoginPlz = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
   text-align: center;
   font-size: 1.2rem;
   font-family: SBFontLight;

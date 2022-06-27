@@ -63,7 +63,10 @@ module.exports = {
         include: [
           {
             model: user,
-            attributes: ["id", "nickname"],
+            attributes: ["nickname"],
+          },
+          {
+            model: trip,
           },
         ],
       });
@@ -71,8 +74,10 @@ module.exports = {
         return {
           id: el.id,
           title: el.title,
+          content: el.content,
           nickname: el.user.nickname,
           created_at: el.createdAt,
+          trip: el.trip,
         };
       });
       return res.status(200).send({ data });
@@ -98,9 +103,7 @@ module.exports = {
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
-        return res
-          .status(201)
-          .send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
+        return res.status(201).send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Post Post 501");
@@ -109,6 +112,7 @@ module.exports = {
   },
   patch: async (req, res) => {
     const { new_title, new_content, new_trip_id } = req.body;
+    console.log(new_title, new_content, new_trip_id);
     const id = req.params.post_id;
     if (!new_title || !new_content || !new_trip_id) {
       await slack.slack("Post Post 422");
@@ -126,7 +130,7 @@ module.exports = {
           {
             title: new_title,
             content: new_content,
-            tripId: new_trip_id,
+            trip_id: new_trip_id,
           },
           { where: { id } }
         );

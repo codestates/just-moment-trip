@@ -3,6 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import spongebob from '../../Assets/spongebob.gif';
@@ -29,30 +30,28 @@ function PostWriteUpDetail() {
     e => {
       e.preventDefault();
       setTitle(e.target.value);
-      console.log('-------------- title', e.target.value);
     },
     [title],
   );
 
   const onChangeContent = useCallback((event, editor) => {
     const data = editor.getData();
-    console.log('-------------- onChangeContent', { event, editor, data });
-    setContent({
-      ...content,
-      content: data,
-    });
+    setContent(data);
   }, []);
 
+  const url = 'http://localhost:8080';
   const submit = useCallback(
     e => {
       if (title.length < 1) {
         e.preventDefault();
         setTitleError(true);
+        setContentError(false);
         return;
       }
-      setTitleError(false);
+
       if (content.length < 1) {
         e.preventDefault();
+        setTitleError(false);
         setContentError(true);
         return;
       }
@@ -72,11 +71,43 @@ function PostWriteUpDetail() {
       `,
       }).then(result => {
         if (result.isConfirmed) {
-          console.log('전송성공');
           setArrContent(arrContent.concat({ ...content }));
-          console.log('----------------- arrContent', arrContent);
-          console.log('----------------- content', content);
-          navigate('/post');
+          axios
+            .post(
+              `${url}/post`,
+              {
+                title: title,
+                content: content,
+              },
+              {
+                headers: {
+                  authorization:
+                    'Bearer ' +
+                    JSON.parse(sessionStorage.getItem('user'))?.accessToken,
+                  'Content-Type': 'application/json',
+                },
+
+                withCredentials: true,
+              },
+            )
+            .then(() => {
+              if (result.isConfirmed) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '작성 완료!',
+                  confirmButtonText: '알겠어요',
+                  backdrop: `
+                    rgba(0,0,110,0.5)
+                    url(${spongebob})
+                    right bottom
+                    no-repeat
+                  `,
+                });
+              }
+
+              navigate('/post');
+            })
+            .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
         }
       });
     },
