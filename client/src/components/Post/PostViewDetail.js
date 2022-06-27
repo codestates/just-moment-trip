@@ -25,10 +25,13 @@ import {
 function PostViewDetail() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [newTitle, setNewTitle] = useState(`${location.state?.data.title}`);
+  const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
+  const [date, setDate] = useState(`${location.state?.data.created_at}`);
+  const [nickname, setNickname] = useState(`${location.state?.data.nickname}`);
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [test, setTest] = useState(false);
   const url = 'http://localhost:8080';
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
@@ -55,6 +58,20 @@ function PostViewDetail() {
         }
       });
     }
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${url}/post/${location.state?.data.id}`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        console.log('data들어옴 ? ', res.data.data.title);
+        console.log('------------', res.data.data);
+        setNewTitle(res.data.data.title);
+        setNewContent(res.data.data.content);
+      })
+      .catch(err => console.error(err));
   }, []);
 
   const onChangeNewTitle = useCallback(e => {
@@ -160,7 +177,7 @@ function PostViewDetail() {
             no-repeat
           `,
             });
-            <Link to="/post" />;
+            setIsEdit(false);
           })
           .catch(err => console.log('--------루저ㅋ', err));
       }
@@ -181,7 +198,7 @@ function PostViewDetail() {
             onChange={onChangeNewTitle}
           />
           <CKEditor
-            data={location.state?.data.content}
+            data={newContent}
             editor={ClassicEditor}
             config={{
               placeholder: '여기에 글을 작성하세요',
@@ -197,15 +214,12 @@ function PostViewDetail() {
         <>
           <Header>글제목 : {newTitle}</Header>
           <MiddleBox>
-            <MiddelSentence>
-              작성자 : {location.state?.data.nickname}
-            </MiddelSentence>
-            <MiddelSentence>
-              작성날짜 : {location.state?.data.created_at}
-            </MiddelSentence>
+            {/* {test ? <h2>수정완료</h2> : <h2>수정전</h2>} */}
+            <MiddelSentence>작성자 : {nickname}</MiddelSentence>
+            <MiddelSentence>작성날짜 : {date}</MiddelSentence>
           </MiddleBox>
           <ContentBox>
-            <Content>{ReactHtmlParser(location.state?.data.content)}</Content>
+            <Content>{ReactHtmlParser(newContent)}</Content>
           </ContentBox>
         </>
       )}

@@ -40,81 +40,79 @@ function PostWriteUpDetail() {
   }, []);
 
   const url = 'http://localhost:8080';
-  const submit = async () => {
-    useCallback(
-      e => {
-        if (title.length < 1) {
-          e.preventDefault();
-          setTitleError(true);
-          setContentError(false);
-          return;
-        }
-
-        if (content.length < 1) {
-          e.preventDefault();
-          setTitleError(false);
-          setContentError(true);
-          return;
-        }
+  const submit = useCallback(
+    e => {
+      if (title.length < 1) {
+        e.preventDefault();
+        setTitleError(true);
         setContentError(false);
+        return;
+      }
 
-        Swal.fire({
-          title: `게시글 작성을 완료할까요 ?`,
-          icon: 'question',
-          allowOutsideClick: false,
-          showCancelButton: true,
-          confirmButtonText: '네',
-          cancelButtonText: '아니오',
-          backdrop: `
+      if (content.length < 1) {
+        e.preventDefault();
+        setTitleError(false);
+        setContentError(true);
+        return;
+      }
+      setContentError(false);
+
+      Swal.fire({
+        title: `게시글 작성을 완료할까요 ?`,
+        icon: 'question',
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonText: '네',
+        cancelButtonText: '아니오',
+        backdrop: `
         rgba(0,0,110,0.5)
         url(${spongebob})
         no-repeat
       `,
-        }).then(result => {
-          if (result.isConfirmed) {
-            setArrContent(arrContent.concat({ ...content }));
-            axios
-              .post(
-                `${url}/post`,
-                {
-                  title: title,
-                  content: content,
+      }).then(result => {
+        if (result.isConfirmed) {
+          setArrContent(arrContent.concat({ ...content }));
+          axios
+            .post(
+              `${url}/post`,
+              {
+                title: title,
+                content: content,
+              },
+              {
+                headers: {
+                  authorization:
+                    'Bearer ' +
+                    JSON.parse(sessionStorage.getItem('user'))?.accessToken,
+                  'Content-Type': 'application/json',
                 },
-                {
-                  headers: {
-                    authorization:
-                      'Bearer ' +
-                      JSON.parse(sessionStorage.getItem('user'))?.accessToken,
-                    'Content-Type': 'application/json',
-                  },
 
-                  withCredentials: true,
-                },
-              )
-              .then(() => {
-                if (result.isConfirmed) {
-                  Swal.fire({
-                    icon: 'success',
-                    title: '작성 완료!',
-                    confirmButtonText: '알겠어요',
-                    backdrop: `
+                withCredentials: true,
+              },
+            )
+            .then(() => {
+              if (result.isConfirmed) {
+                Swal.fire({
+                  icon: 'success',
+                  title: '작성 완료!',
+                  confirmButtonText: '알겠어요',
+                  backdrop: `
                     rgba(0,0,110,0.5)
                     url(${spongebob})
                     right bottom
                     no-repeat
                   `,
-                  });
-                }
+                });
+              }
 
-                navigate('/post');
-              })
-              .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
-          }
-        });
-      },
-      [title, content],
-    );
-  };
+              navigate('/post');
+            })
+            .catch(err => console.log('------- POSTING 실패 루저ㅋ', err));
+        }
+      });
+    },
+    [title, content],
+  );
 
   return (
     <Box>
