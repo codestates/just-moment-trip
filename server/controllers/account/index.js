@@ -24,18 +24,8 @@ module.exports = {
 
   post: async (req, res) => {
     try {
-      const {
-        trip_id,
-        category,
-        item_name,
-        price,
-        spent_person,
-        target_currency,
-        gps,
-        memo,
-        write_date,
-      } = req.body;
-      if (!category || !item_name || !price || !spent_person || !target_currency || !write_date) {
+      const { trip_id, category, item_name, price, spent_person, gps, memo, write_date } = req.body;
+      if (!category || !item_name || !price || !spent_person || !write_date) {
         await slack.slack("Account Post 422");
         return res.status(422).send({ message: "insufficient parameters supplied" });
       }
@@ -47,11 +37,9 @@ module.exports = {
           item_name,
           price,
           spent_person,
-          target_currency,
           gps,
           memo,
           write_date,
-          gps,
         };
         const result = await account.create(payload);
         await slack.slack("Account Post 201", `id : ${result.id}`);
@@ -101,21 +89,21 @@ module.exports = {
           new_item_name,
           new_price,
           new_spent_person,
-          new_target_currency,
           new_memo,
+          new_write_date,
         } = req.body;
         const accountInfo = await account.findOne({
           where: { id: id },
         });
-        const { category, item_name, price, spent_person, target_currency, memo } = accountInfo;
+        const { category, item_name, price, spent_person, memo, write_date } = accountInfo;
         if (accountInfo) {
           if (
             category === new_category &&
             item_name === new_item_name &&
             price === new_price &&
             spent_person === new_spent_person &&
-            target_currency === new_target_currency &&
-            memo === new_memo
+            memo === new_memo &&
+            write_date === new_write_date
           ) {
             // 바뀐게 없음
             await slack.slack("Account Patch 412", `id : ${id}`);
@@ -131,8 +119,8 @@ module.exports = {
                 item_name: new_item_name,
                 price: new_price,
                 spent_person: new_spent_person,
-                target_currency: new_target_currency,
                 memo: new_memo,
+                write_date: new_write_date,
               },
               { where: { id: id } }
             );
@@ -145,7 +133,7 @@ module.exports = {
           res.status(404).send({
             data: { id: id },
             accessToken: validity.accessToken,
-            message: "Deleted Account",
+            message: "No Account Info",
           });
         }
       }

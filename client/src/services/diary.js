@@ -16,6 +16,9 @@ export async function diaryGet(trip_id, search, searchType) {
     withCredentials: true,
   });
   changeToken(res);
+  res.data.data.sort((a, b) => {
+    return new Date(a.write_date) - new Date(b.write_date);
+  });
   return res;
 }
 

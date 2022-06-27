@@ -1,10 +1,11 @@
-const { user } = require("../../models");
+const { user, signup } = require("../../models");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const slack = require("../slack");
 const bcrypt = require("bcrypt");
 const RSA = require("./RSA");
 const caesar_monoAlphabet = require("./caesar_monoAlphabet");
+const nodemailer = require("./nodemaile");
 module.exports = {
   up: {
     post: async (req, res) => {
@@ -20,12 +21,22 @@ module.exports = {
             email,
           },
         });
+
+        const nicknameInfo = await user.findOne({
+          where: {
+            nickname,
+          },
+        });
         // 가입 안되어 있을 경우 키 생성
         if (createKey === true) {
           // 이미 가입되었을 경우
           if (userInfo) {
             await slack.slack("Signup Post 409");
             return res.status(409).send({ message: "email already exists" });
+          }
+          if (nicknameInfo) {
+            await slack.slack("Signup Post 409");
+            return res.status(409).send({ message: "nickname already exists" });
           }
           let [e, N, d] = RSA.createKey();
           const payload = {
@@ -117,7 +128,6 @@ module.exports = {
           for (let i = 0; i < password.length; i++) {
             passwordBigIntArr[i] = BigInt(Number(JSON.parse(password[i])));
           }
-
           let d = BigInt(userInfo.dataValues.d);
           let N = BigInt(userInfo.dataValues.N);
           const passwordDecryptedArr = passwordBigIntArr.map((ele) => {
@@ -151,7 +161,7 @@ module.exports = {
               });
               await slack.slack("Signin Post 200", `id : ${userInfo.id}`);
               res.status(200).send({
-                data: { id: userInfo.id },
+                data: { id: userInfo.id, nickname: userInfo.nickname },
                 accessToken: accessToken,
               });
             }
@@ -175,6 +185,74 @@ module.exports = {
       }
     },
   },
+  find: {
+    post: async (req, res) => {
+      try {
+        const email = req.body.email;
+        const userInfo = await user.findOne({
+          where: { email },
+        });
+        if (!userInfo) {
+          return res.status(400).send({ message: "no email" });
+        } else {
+          const newPassword = createRandomPassword();
+          nodemailer.sendEmail(email, newPassword, "임시 비밀번호");
+          bcrypt.genSalt(13, async function (err, salt) {
+            bcrypt.hash(newPassword, salt, async function (err, hash) {
+              await user.update({ password: hash }, { where: { id: userInfo.id } });
+              await slack.slack("sign/find Post 200", `id : ${userInfo.id}`);
+              return res.status(200).send({ data: { id: userInfo.id } });
+            });
+          });
+        }
+      } catch (err) {
+        await slack.slack("sign/find Post 501");
+        res.status(501).send("sign/find Post");
+      }
+    },
+  },
+  emailVerification: {
+    post: async (req, res) => {
+      try {
+        const email = req.body.email;
+        const userInfo = await user.findOne({
+          where: { email },
+        });
+        if (userInfo) {
+          return res.status(400).send({ message: "aleady exist email" });
+        } else {
+          await signup.destroy({ where: { email } });
+          const code = createRandomPassword();
+          nodemailer.sendEmail(email, code, "인증 코드");
+          await signup.create({ email, code });
+          return res.status(200).send({ message: "Code sent to Email" });
+        }
+      } catch (err) {
+        await slack.slack("sign/emailVerification Post 501");
+        res.status(501).send("sign/emailVerification Post");
+      }
+    },
+  },
+  codeVerification: {
+    post: async (req, res) => {
+      const { email, code } = req.body;
+      try {
+        const verify = await signup.findOne({ where: { email, code } });
+        console.log(verify);
+        if (verify) {
+          await slack.slack("sign/codeVerification Verified");
+          await signup.destroy({ where: { email, code } });
+          return res.status(200).send({ message: "Verified" });
+        } else {
+          await slack.slack("sign/codeVerification WrongCode");
+          return res.status(400).send({ message: "WrongCode" });
+        }
+      } catch {
+        await slack.slack("sign/codeVerification Post 501");
+        return res.status(501).send("sign/codeVerification Post");
+      }
+    },
+  },
 };
 function power(base, exponent, mod) {
   base %= mod;
@@ -192,4 +270,28 @@ function power(base, exponent, mod) {
   }
 
   return result;
+}
+function createRandomPassword() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const number = "0123456789";
+  const special = "!@#%^&*()_-+=}[]`~:;>,.?";
+  const random = "abc";
+  let newPassword = "";
+  let a = Math.ceil(Math.random() * 3) + 3,
+    b = Math.ceil(Math.random() * 3) + 3;
+  c = Math.ceil(Math.random() * 3) + 3;
+  while (a + b + c >= 1) {
+    const select = random[Math.floor(Math.random() * random.length)];
+    if (select === "a" && a !== 0) {
+      newPassword += alphabet[Math.floor(Math.random() * alphabet.length)];
+      a--;
+    } else if (select === "b" && b !== 0) {
+      newPassword += number[Math.floor(Math.random() * number.length)];
+      b--;
+    } else if (select === "c" && c !== 0) {
+      newPassword += special[Math.floor(Math.random() * special.length)];
+      c--;
+    }
+  }
+  return newPassword;
 }

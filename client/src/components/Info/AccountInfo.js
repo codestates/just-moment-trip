@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import AccountEditor from '../Account/AccountEditor';
 import Swal from 'sweetalert2';
 import Container from './Container';

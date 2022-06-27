@@ -41,7 +41,7 @@ function UserInfo({
   email,
   num_trips,
 }) {
-  const picUrl = `https://jmtpictures.s3.ap-northeast-2.amazonaws.com/${picture}`;
+  const picUrl = `https://${process.env.REACT_APP_BUCKET}.s3.ap-northeast-2.amazonaws.com/${picture}`;
 
   return (
     <CardDiv>

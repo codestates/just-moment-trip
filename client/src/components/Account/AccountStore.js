@@ -1,8 +1,7 @@
-const axios = require('../../services/account');
-
-import React, { useCallback, useEffect, useReducer, useRef } from 'react';
-
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import AccountList from './AccountList';
+import Loading from '../common/Loading';
+const axios = require('../../services/account');
 
 const INIT = 'INIT';
 const REMOVE = 'REMOVE';
@@ -33,25 +32,28 @@ function getLocation() {
 const reducer = (state, action) => {
   switch (action.type) {
     case INIT: {
-      return action.data.reverse();
+      return action.data;
     }
     case REMOVE: {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
-      return state.map(it =>
-        it.id === action.targetId
-          ? {
-              ...it,
-              price: action.new_price,
-              memo: action.new_memo,
-              spent_person: action.new_spent_person,
-              item_name: action.new_item_name,
-              target_currency: action.new_target_currency,
-              category: action.new_category,
-            }
-          : it,
-      );
+      return state
+        .map(it =>
+          it.id === action.targetId
+            ? {
+                ...it,
+                price: action.new_price,
+                memo: action.new_memo,
+                spent_person: action.new_spent_person,
+                item_name: action.new_item_name,
+                target_currency: action.new_target_currency,
+                category: action.new_category,
+                write_date: action.new_write_date,
+              }
+            : it,
+        )
+        .sort((a, b) => new Date(a.write_date) - new Date(b.write_date));
     }
     default:
       return state;
@@ -60,6 +62,7 @@ const reducer = (state, action) => {
 
 function AccountStore() {
   const [data, dispatch] = useReducer(reducer, []);
+  const [loading, setLoading] = useState(true);
   // const [isTrue, setIsTrue] = useState(true); // 이 스테이트가 변경될때마다 useEffect를 실행
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
   // const newTotalPrice = JSON.parse(sessionStorage.getItem('total_price'));
@@ -67,15 +70,19 @@ function AccountStore() {
     ? JSON.parse(sessionStorage.getItem('total_price'))
     : 0;
   const title = JSON.parse(sessionStorage.getItem('title'));
+  const exchange_rate = JSON.parse(sessionStorage.getItem('exchange_rate'));
+  const target_currency = JSON.parse(sessionStorage.getItem('target_currency'));
 
   useEffect(() => {
-    setTimeout(() => {
-      axios.accountGet(trip_id).then(res => {
-        const initData = res.data.data;
+    setLoading(true);
+    axios.accountGet(trip_id).then(res => {
+      const initData = res.data.data;
 
-        dispatch({ type: INIT, data: initData });
-      });
-    }, 1000);
+      dispatch({ type: INIT, data: initData });
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
   }, []);
 
   const onCreate = useCallback(
@@ -133,8 +140,8 @@ function AccountStore() {
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
+      new_write_date,
     ) => {
       dispatch({
         type: EDIT,
@@ -143,8 +150,8 @@ function AccountStore() {
         new_memo,
         new_spent_person,
         new_item_name,
-        new_target_currency,
         new_category,
+        new_write_date,
       });
 
       axios
@@ -154,8 +161,8 @@ function AccountStore() {
           new_memo,
           new_spent_person,
           new_item_name,
-          new_target_currency,
           new_category,
+          new_write_date,
         )
         .catch(err => {
           console.log(err);
@@ -170,19 +177,18 @@ function AccountStore() {
   let remainingString = 0; // 남은금액
   let PercentageOfAmountUsed = 0; // 사용금액백분율
 
-  totalPriceString = `${newTotalPrice.toLocaleString()}원`;
+  totalPriceString = `${newTotalPrice.toLocaleString()}${target_currency}`;
   let totalSpent = 0;
+
   if (data.length > 0) {
     totalSpent = data
       .map(el => el.price)
       .reduce((prev, next) => Number(prev) + Number(next), 0);
   } // list에서 거르고 거르는 작업 !
 
-  totalSpentString = `${totalSpent.toLocaleString()}원`;
-  remainingString = `${(newTotalPrice - totalSpent).toLocaleString('ko-KR')}원`;
-  PercentageOfAmountUsed = `${((totalSpent / newTotalPrice) * 100).toFixed(
-    2,
-  )}%`;
+  totalSpentString = totalSpent;
+  remainingString = newTotalPrice - totalSpent;
+  PercentageOfAmountUsed = Number((totalSpent / newTotalPrice) * 100);
 
   return (
     <>
@@ -209,26 +215,32 @@ function AccountStore() {
               <span style={{ fontSize: '2em' }}>{`${title}`}</span>
               에
               <br />총
-              <span
-                style={{ fontSize: '3em', fontWeight: 'bold' }}
-              >{`${totalPriceString}`}</span>
+              <span style={{ fontSize: '3em', fontWeight: 'bold' }}>
+                {`${totalPriceString}`}
+              </span>
               을 들고갔어요
             </div>
             <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>
-              {`💸 사용한돈 ${totalSpentString}/💰 남은돈 ${remainingString}`}
+              {`💸 사용한돈 ${totalSpentString.toLocaleString()}${target_currency}/💰 남은돈 ${remainingString.toLocaleString()}${target_currency}`}
             </span>
           </div>
         </div>
 
-        <AccountList
-          onCreate={onCreate}
-          onEdit={onEdit}
-          onRemove={onRemove}
-          data={data}
-          totalSpentString={totalSpentString}
-          remainingString={remainingString}
-          PercentageOfAmountUsed={PercentageOfAmountUsed}
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <AccountList
+            onCreate={onCreate}
+            onEdit={onEdit}
+            onRemove={onRemove}
+            data={data}
+            totalSpentString={totalSpentString}
+            remainingString={remainingString}
+            PercentageOfAmountUsed={PercentageOfAmountUsed}
+            target_currency={target_currency}
+            exchange_rate={exchange_rate}
+          />
+        )}
       </div>
     </>
   );

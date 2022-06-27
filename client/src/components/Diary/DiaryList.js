@@ -5,17 +5,11 @@ import styled, { keyframes } from 'styled-components';
 import Modal from '../common/Modal';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faDove,
-  faCircleQuestion,
-  faQuestionCircle,
-  faImage,
-} from '@fortawesome/free-solid-svg-icons';
+import { faDove, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import parrot9 from '../../Assets/parrot9.gif';
-import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { createEntityAdapter } from '@reduxjs/toolkit';
-import Loding from '../common/Loding';
+
+import TopBtn from '../common/TopBtn';
 
 const AnimationBox = keyframes`
 50% {
@@ -143,7 +137,7 @@ const HelpBtnBox = styled.button`
   }
 `;
 
-//? ------------------------------------- 현민 작업 히스토리 리스트
+//? ------------------------------------- 히스토리 리스트
 const HistoryList = styled.div`
   display: flex;
   display: grid;
@@ -161,7 +155,7 @@ const HistoryListBox = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-//? ------------------------------------- 현민 작업 히스토리 리스트
+//? ------------------------------------- 히스토리 리스트
 
 const doveIcon = (
   <IconBtn>
@@ -203,11 +197,6 @@ function DiaryList({
   `;
   const [clickedHashtag, setClickedHashtag] = useState('');
   const [clicked, setClicked] = useState(false);
-  const [loading, setLoding] = useState(true);
-
-  setTimeout(() => {
-    setLoding(false);
-  }, 2500);
 
   const toggleClicked = event => {
     setClicked(true);
@@ -265,87 +254,27 @@ function DiaryList({
   };
   //!-----------
 
-  //? ------------------------------------- 현민 작업 2차원배열 만들기
-  function addOneDay(date) {
-    const year = date.split('-')[0];
-    const month = date.split('-')[1];
-    const day = date.split('-')[2];
+  //? ------------------------------------- 날짜 정렬
+  const dateSortedArray = [];
+  let container = [];
 
-    const newDate = new Date(Number(year), Number(month) - 1, Number(day) + 1);
-    const newYear = newDate.getFullYear();
-    const newMonth = newDate.getMonth() + 1;
-    const newDay = newDate.getDate();
-    return `${newYear}-${String(newMonth).padStart(2, '0')}-${String(
-      newDay,
-    ).padStart(2, '0')}`;
+  for (let i = 0; i < diaryList.length; i++) {
+    const currDate = diaryList[i].write_date.split(' ')[0];
+    if (container.length === 0) {
+    } else if (
+      currDate !== container[container.length - 1].write_date.split(' ')[0]
+    ) {
+      dateSortedArray.push(container);
+      container = [];
+    }
+    container.push(diaryList[i]);
   }
+  dateSortedArray.push(container);
 
-  let minDate = '9999-99-99';
-  let maxDate = '0000-00-00';
-  const allDates = diaryList.map(diary => diary.write_date);
-  allDates.forEach(data => {
-    if (typeof data === 'object') {
-      data = `${data.getFullYear()}-${String(data.getMonth()).padStart(
-        2,
-        '0',
-      )}-${String(data.getDate()).padStart(2, '0')}`;
-    }
-    const ymd = data.split(' ')[0];
-    const year = ymd.split('-')[0];
-    const month = ymd.split('-')[1];
-    const day = ymd.split('-')[2];
-
-    const minYear = minDate.split('-')[0];
-    const minMonth = minDate.split('-')[1];
-    const minDay = minDate.split('-')[2];
-
-    const maxYear = maxDate.split('-')[0];
-    const maxMonth = maxDate.split('-')[1];
-    const maxDay = maxDate.split('-')[2];
-
-    if (Number(year) < Number(minYear)) {
-      minDate = ymd;
-    } else if (Number(month) < Number(minMonth)) {
-      minDate = ymd;
-    } else if (Number(day) < Number(minDay)) {
-      minDate = ymd;
-    }
-
-    if (Number(year) > Number(maxYear)) {
-      maxDate = ymd;
-    } else if (Number(month) > Number(maxMonth)) {
-      maxDate = ymd;
-    } else if (Number(day) > Number(maxDay)) {
-      maxDate = ymd;
-    }
-  });
-
-  var dateArray = [];
-
-  var newArr = [];
-
-  if (minDate === '9999-99-99') {
-    newArr = [diaryList];
-  } else {
-    while (minDate !== maxDate) {
-      dateArray.push(minDate);
-      minDate = addOneDay(minDate);
-    }
-
-    dateArray.push(maxDate);
-
-    dateArray.forEach(date => {
-      const filtered = diaryList.filter(diary => {
-        const filteredDate = diary.write_date.split(' ')[0];
-        return filteredDate === date;
-      });
-      newArr.push(filtered);
-    });
-  }
-
-  //? ------------------------------------- 현민 작업
+  //? ------------------------------------- 날짜 정렬
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {clicked ? (
         <>
@@ -394,112 +323,95 @@ function DiaryList({
                   type="radio"
                   name="searchType"
                   value="title"
-                  onClick={getSearchType}
+                  onChange={getSearchType}
+                  checked={searchType === 'title'}
                 />{' '}
                 제목
                 <input
                   type="radio"
                   name="searchType"
                   value="content"
-                  onClick={getSearchType}
+                  onChange={getSearchType}
+                  checked={searchType === 'content'}
                 />{' '}
                 기록
               </div>
             </div>
           </DiaryBox>
 
-          {loading ? (
-            <Loding />
-          ) : (
-            <>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Wrapper2>
-                  <PBox>{diaryList.length}</PBox>
-                  <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
-                </Wrapper2>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <HelpBtnBox onClick={helpBtnFx}>
-                  <FontAwesomeIcon
-                    icon={faQuestionCircle}
-                    style={{ fontSize: '60px' }}
-                  />
-                </HelpBtnBox>
-              </div>
-              <div>
-                <DiaryListBox>
-                  {newArr.map((dateFiltered, idx) => {
-                    return (
-                      <HistoryList
-                        key={idx}
-                        data-aos="fade-up"
-                        data-aos-offset="-400"
-                        data-aos-delay="50"
-                        data-aos-duration="1000"
-                        data-aos-easing="ease-in-out"
-                        data-aos-mirror="true"
-                        data-aos-once="firse"
-                        data-aos-anchor-placement="top-center"
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Wrapper2>
+              <PBox>{diaryList.length}</PBox>
+              <p style={{ textAlign: 'center' }}>개의 일기가 있습니다.</p>
+            </Wrapper2>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HelpBtnBox onClick={helpBtnFx}>
+              <FontAwesomeIcon
+                icon={faQuestionCircle}
+                style={{ fontSize: '60px' }}
+              />
+            </HelpBtnBox>
+          </div>
+          <div>
+            <DiaryListBox>
+              {dateSortedArray.map((dateFiltered, idx) => {
+                return (
+                  <HistoryList
+                    key={idx}
+                    data-aos="fade-up"
+                    data-aos-offset="-400"
+                    data-aos-delay="50"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-in-out"
+                    data-aos-mirror="true"
+                    data-aos-once="firse"
+                    data-aos-anchor-placement="top-center"
+                  >
+                    {dateFiltered.length > 0 ? (
+                      <div
+                        className="Date"
+                        style={{
+                          fontFamily: 'ManfuMedium',
+                        }}
                       >
-                        {dateFiltered.length > 0 ? (
-                          <div
-                            className="Date"
-                            style={{
-                              fontFamily: 'ManfuMedium',
-                            }}
-                          >
-                            {dateFiltered[0].write_date.split(' ')[0]}
-                          </div>
-                        ) : null}
-                        <HistoryListBox>
-                          {dateFiltered.map(diary => (
-                            <DiaryEditor
-                              key={diary.id}
-                              {...diary}
-                              onCreate={onCreate}
-                              onEdit={onEdit}
-                              onRemove={onRemove}
-                              toggleClicked={toggleClicked}
-                              search={search}
-                              searchType={searchType}
-                            />
-                          ))}
-                        </HistoryListBox>
-                      </HistoryList>
-                    );
-                  })}
-                  {/* {diaryList.map(it => (
-                <DiaryEditor
-                  key={it.id}
-                  {...it}
-                  onCreate={onCreate}
-                  onEdit={onEdit}
-                  onRemove={onRemove}
-                  toggleClicked={toggleClicked}
-                  search={search}
-                  searchType={searchType}
-                />
-              ))} */}
-                </DiaryListBox>
-
-                {/* </DiarySplitBox> */}
-              </div>
-            </>
-          )}
+                        {dateFiltered[0].write_date.split(' ')[0]}
+                      </div>
+                    ) : null}
+                    <HistoryListBox>
+                      {dateFiltered.map(diary => (
+                        <DiaryEditor
+                          key={diary.id}
+                          {...diary}
+                          onCreate={onCreate}
+                          onEdit={onEdit}
+                          onRemove={onRemove}
+                          toggleClicked={toggleClicked}
+                          search={search}
+                          searchType={searchType}
+                        />
+                      ))}
+                    </HistoryListBox>
+                  </HistoryList>
+                );
+              })}
+            </DiaryListBox>
+            <TopBtn marginBottom={1} />
+          </div>
         </>
       )}
     </>

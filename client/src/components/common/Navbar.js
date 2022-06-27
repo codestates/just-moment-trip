@@ -66,6 +66,16 @@ function Navbar() {
             ACCOUNT
           </Link>
         </NavDivBox>
+
+        <NavDivBox>
+          <Link
+            style={{ textDecoration: 'none', color: 'whitesmoke' }}
+            to="/post"
+          >
+            BOARD
+          </Link>
+        </NavDivBox>
+
         <NavDivBox>
           <Link
             style={{ textDecoration: 'none', color: 'whitesmoke' }}

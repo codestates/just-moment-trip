@@ -18,6 +18,9 @@ export async function accountGet(trip_id) {
     withCredentials: true,
   });
   changeToken(res);
+  res.data.data.sort((a, b) => {
+    return new Date(a.write_date) - new Date(b.write_date);
+  });
   return res;
 }
 
@@ -26,7 +29,6 @@ export async function accountPost(
   item_name,
   price,
   category,
-  target_currency,
   spent_person,
   memo,
   write_date,
@@ -40,7 +42,6 @@ export async function accountPost(
       item_name,
       price,
       category,
-      target_currency,
       spent_person,
       memo,
       write_date,
@@ -79,8 +80,8 @@ export async function accountPatch(
   new_memo,
   new_spent_person,
   new_item_name,
-  new_target_currency,
   new_category,
+  new_write_date,
 ) {
   let url = `${endpoint}/account/${targetId}`;
   const res = await axios.patch(
@@ -90,8 +91,8 @@ export async function accountPatch(
       new_memo,
       new_spent_person,
       new_item_name,
-      new_target_currency,
       new_category,
+      new_write_date,
     },
     {
       headers: {

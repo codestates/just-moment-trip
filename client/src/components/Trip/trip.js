@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
+import styled from 'styled-components';
 import Modal from '../common/Modal';
 import TripModal from './tripmodal';
 import TripList from './triplist';
+import TopBtn from '../common/TopBtn';
 
 const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: SsurroundFont;
+  font-family: ManfuMedium;
 `;
 
 const TripBox = styled.div`
   width: 93%;
   height: 100%;
-  padding: 90px 0px 70px;
+  padding: 90px 0px 10px 0;
 `;
 
 const Container = styled.div`
@@ -24,12 +25,14 @@ const Container = styled.div`
 `;
 
 const StartText = styled.div`
+  font-family: ManfuMedium;
+  color: rgb(210, 206, 221);
   :hover {
+    color: rgb(71, 56, 136);
     transition: all 0.2s linear;
-    transform: scale(1.2);
+    border-bottom: 5px solid pink;
   }
 `;
-
 function Trip() {
   const [images, setImages] = useState([]);
 
@@ -43,6 +46,9 @@ function Trip() {
       })
       .then(res => {
         setImages([...images, ...res.data.map(el => el.urls.small)]);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }, []);
 
@@ -53,8 +59,9 @@ function Trip() {
           <TripList images={images} />
         </TripBox>
       </StyledWrapper>
+      <TopBtn marginBottom={1} />
       <Container>
-        <Modal name={<StartText>START</StartText>}>
+        <Modal name={<StartText>여행지 기록하기</StartText>}>
           <TripModal />
         </Modal>
       </Container>

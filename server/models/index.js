@@ -60,6 +60,18 @@ db.hashtag.belongsToMany(db.diary, {
   onUpdate: "CASCADE",
 });
 
+db.user.hasMany(db.post, { foreignKey: "user_id", sourceKey: "id" });
+db.post.belongsTo(db.user, { foreignKey: "user_id", targetKey: "id" });
+
+db.trip.hasOne(db.post, { foreignKey: "trip_id", sourceKey: "id" });
+db.post.belongsTo(db.trip, { foreignKey: "trip_id", sourceKey: "id" });
+
+db.post.hasMany(db.comment, { foreignKey: "post_id", sourceKey: "id" });
+db.comment.belongsTo(db.post, { foreignKey: "post_id", targetKey: "id" });
+
+db.user.hasMany(db.comment, { foreignKey: "user_id", sourceKey: "id" });
+db.comment.belongsTo(db.user, { foreignKey: "user_id", targetKey: "id" });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

@@ -263,6 +263,7 @@ function AccountEditor({
   memo,
   write_date,
   gps,
+  data,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => {
@@ -272,9 +273,8 @@ function AccountEditor({
   const [editMemo, setEditMemo] = useState(memo);
   const [editSpent_person, setEditSpent_person] = useState(spent_person);
   const [editItem_name, setEditItem_name] = useState(item_name);
-  const [editTarget_currency, setEditTarget_currency] =
-    useState(target_currency);
   const [editCategory, setEditCategory] = useState(category);
+  const [editWriteDate, setEditWriteDate] = useState(write_date);
 
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -282,8 +282,8 @@ function AccountEditor({
   const editMemoInput = useRef();
   const editSpent_personInput = useRef();
   const editItem_nameInput = useRef();
-  const editTarget_currencyInput = useRef();
   const editCategoryInput = useRef();
+  const editWirteDateInput = useRef();
 
   useEffect(() => {
     AOS.init();
@@ -330,8 +330,8 @@ function AccountEditor({
     setEditMemo(memo);
     setEditSpent_person(spent_person);
     setEditItem_name(item_name);
-    setEditTarget_currency(target_currency);
     setEditCategory(category);
+    setEditWriteDate(write_date);
   };
 
   const handleEdit = () => {
@@ -352,9 +352,10 @@ function AccountEditor({
       editItem_nameInput.current.focus();
     }
 
-    if (editTarget_currency.length < 1) {
-      editTarget_currencyInput.current.focus();
+    if (editWriteDate.length < 1) {
+      editWirteDateInput.current.focus();
     }
+
     Swal.fire({
       title: `기록을 수정할까요?`,
       icon: 'question',
@@ -389,8 +390,8 @@ function AccountEditor({
           editMemo,
           editSpent_person,
           editItem_name,
-          editTarget_currency,
           editCategory,
+          editWriteDate,
         );
         toggleIsEdit();
       } else if (result.isDismissed) {
@@ -429,17 +430,6 @@ function AccountEditor({
                   />
                 </AccountItemInputBox>
                 <AccountItemInputBox>
-                  사용한 통화 :
-                  <AccountEditInputBox
-                    placeholder="어느나라돈을 사용했나요 ?"
-                    maxlength="3"
-                    className="AccountItemInput"
-                    ref={editTarget_currencyInput}
-                    value={editTarget_currency}
-                    onChange={e => setEditTarget_currency(e.target.value)}
-                  />
-                </AccountItemInputBox>
-                <AccountItemInputBox>
                   구입한 사람 :
                   <AccountEditInputBox
                     maxlength="5"
@@ -448,6 +438,17 @@ function AccountEditor({
                     ref={editSpent_personInput}
                     value={editSpent_person}
                     onChange={e => setEditSpent_person(e.target.value)}
+                  />
+                </AccountItemInputBox>
+                <AccountItemInputBox>
+                  날짜 :
+                  <AccountEditInputBox
+                    maxlength="5"
+                    placeholder="날짜를 입력해요"
+                    className="AccountItemInput"
+                    ref={editWirteDateInput}
+                    value={editWriteDate}
+                    onChange={e => setEditWriteDate(e.target.value)}
                   />
                 </AccountItemInputBox>
                 <div>
@@ -620,7 +621,7 @@ function AccountEditor({
                           show={modalShow}
                           onHide={() => setModalShow(false)}
                           gps={gps}
-                          item_name={item_name}
+                          data={data}
                         />
                       </div>
                       <div className="AccountItemRemoteBox">

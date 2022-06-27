@@ -14,7 +14,29 @@ const FooterBox = styled.div`
   width: 100%;
 `;
 
-function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
+const PercentageBar = styled.div`
+  background-color: rgb(37, 45, 132);
+  border-radius: 10px;
+  width: 60vw;
+  height: 10px;
+  > div {
+    height: 10px;
+    border-radius: 10px;
+    width: ${props => (props.width <= 100 ? props.width : 100)}%;
+    background-color: ${props => (props.width <= 100 ? 'whitesmoke' : 'red')};
+  }
+`;
+
+function Footer({
+  totalSpentString,
+  remainingString,
+  PercentageOfAmountUsed,
+  exchange_rate,
+  target_currency,
+}) {
+  let totalSpentStringKrw = totalSpentString * exchange_rate;
+  let remainingStringKrw = remainingString * exchange_rate;
+
   return (
     <FooterBox>
       <div
@@ -38,12 +60,23 @@ function Footer({ totalSpentString, remainingString, PercentageOfAmountUsed }) {
               fontSize: '1.5em',
             }}
           >
-            📎 {PercentageOfAmountUsed}
+            📎 {PercentageOfAmountUsed.toFixed(2)} %
           </p>
         </div>
+        <PercentageBar width={PercentageOfAmountUsed}>
+          <div>
+            <div />
+          </div>
+        </PercentageBar>
         <div>
-          <div>{totalSpentString}</div>
-          <div>{remainingString}</div>
+          <div>
+            {totalSpentString.toLocaleString()}
+            {target_currency}/{totalSpentStringKrw.toLocaleString()}원
+          </div>
+          <div>
+            {remainingString.toLocaleString()}
+            {target_currency}/{remainingStringKrw.toLocaleString()}원
+          </div>
         </div>
       </div>
     </FooterBox>

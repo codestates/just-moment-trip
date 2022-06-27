@@ -1,4 +1,5 @@
 const hashtag_delete_schedule = require("./controllers/diary/hashtag_delete_schedule");
+const signup_delete_schedule = require("./controllers/user/signup_delete_schedule");
 require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -11,8 +12,11 @@ const trip = require("./routes/trip");
 const ouath = require("./routes/oauth");
 const account = require("./routes/account");
 const diary = require("./routes/diary");
+const post = require("./routes/post");
+const comment = require("./routes/comment");
 
 hashtag_delete_schedule.cron();
+signup_delete_schedule.cron();
 //!
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
@@ -85,6 +89,8 @@ app.use("/trip", trip);
 app.use("/oauth", ouath);
 app.use("/account", account);
 app.use("/diary", diary);
+app.use("/post", post);
+app.use("/comment", comment);
 
 server.listen(port, () => {
   console.log(`Listening on ${port}`);

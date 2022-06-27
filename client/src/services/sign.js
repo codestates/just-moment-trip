@@ -10,6 +10,23 @@ export const signCustomApi = axios.create({
   withCredentials: true,
 });
 
+export const sendEmail = async email => {
+  await signCustomApi.post('emailVerification', {
+    email,
+  });
+};
+
+export const sendCode = async (email, code) => {
+  await signCustomApi.post('codeVerification', {
+    email,
+    code,
+  });
+};
+
+export const findPassword = async email => {
+  return await signCustomApi.post('find', { email });
+};
+
 export const signUpApi = async (email, nickname, password) => {
   const res = await signCustomApi.post('up', {
     createKey: true,
@@ -76,6 +93,10 @@ export const signOutApi = () => {
   sessionStorage.removeItem('trip_id');
   sessionStorage.removeItem('total_price');
   sessionStorage.removeItem('title');
+  sessionStorage.removeItem('exchange_rate');
+  sessionStorage.removeItem('target_currency');
+  sessionStorage.removeItem('longitude');
+  sessionStorage.removeItem('latitude');
 };
 
 export const kakaoSign = async code => {
@@ -84,7 +105,6 @@ export const kakaoSign = async code => {
     url: `https://www.just-moment-trip.tk/oauth/callback/kakao?code=${code}`,
   });
   try {
-    sessionStorage.setItem('user', JSON.stringify(result.data));
     return result.data;
   } catch (err) {
     console.log(err);

@@ -24,6 +24,8 @@ export const requestTripPost = async (
   country,
   total_price,
   base_currency,
+  exchange_rate,
+  target_currency,
   start_date,
   end_date,
 ) => {
@@ -34,6 +36,8 @@ export const requestTripPost = async (
       country,
       total_price,
       base_currency,
+      exchange_rate,
+      target_currency,
       start_date,
       end_date,
     },
@@ -46,6 +50,23 @@ export const requestTripPost = async (
     },
   );
   changeToken(res);
+};
+
+export const requestTripPatch = async (id, new_total_price) => {
+  const respone = await tripCustomApi.patch(
+    `trip/${id}`,
+    { new_total_price },
+    {
+      headers: {
+        authorization:
+          'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  console.log(respone);
+  changeToken(respone);
+  return respone;
 };
 
 export const requestTripDelete = async id => {
@@ -62,6 +83,8 @@ export const requestTripDelete = async id => {
     sessionStorage.removeItem('trip_id');
     sessionStorage.removeItem('total_price');
     sessionStorage.removeItem('title');
+    sessionStorage.removeItem('exchange_rate');
+    sessionStorage.removeItem('target_currency');
   }
 
   window.location.reload();

@@ -1,6 +1,7 @@
 const axios = require('../../services/diary');
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import DiaryList from './DiaryList';
+import Loading from '../common/Loading';
 
 const INIT = 'INIT';
 const REMOVE = 'REMOVE';
@@ -15,16 +16,18 @@ const reducer = (state, action) => {
       return state.filter(it => it.id !== action.targetId);
     }
     case EDIT: {
-      return state.map(it =>
-        it.id === action.targetId
-          ? {
-              ...it,
-              content: action.new_content,
-              title: action.new_title,
-              hashtags: action.new_hashtags,
-            }
-          : it,
-      );
+      return state
+        .map(it =>
+          it.id === action.targetId
+            ? {
+                ...it,
+                content: action.new_content,
+                title: action.new_title,
+                hashtags: action.new_hashtags,
+              }
+            : it,
+        )
+        .sort((a, b) => new Date(a.write_date) - new Date(b.write_date));
     }
     default:
       return state;
@@ -32,10 +35,11 @@ const reducer = (state, action) => {
 };
 
 function DiaryStore() {
-  const [data, dispatch] = useReducer(reducer, []);
-  const [search, setSearch] = React.useState('');
+  const [data, dispatch] = useReducer(reducer);
+  const [search, setSearch] = useState('');
+  const [searchType, setSearchType] = useState('title');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [searchType, setSearchType] = React.useState('');
   const trip_id = JSON.parse(sessionStorage.getItem('trip_id'));
 
   const changeInput = e => {
@@ -44,17 +48,22 @@ function DiaryStore() {
     }
   };
   const getSearchType = e => {
-    setSearchType(e.target.value);
+    if (searchType !== e.target.value) {
+      setSearchType(e.target.value);
+      setSearch('');
+    }
   };
 
   useEffect(() => {
+    setIsLoading(true);
+    axios.diaryGet(trip_id, search, searchType).then(data => {
+      const initData = data.data.data;
+      dispatch({ type: INIT, data: initData });
+    });
     setTimeout(() => {
-      axios.diaryGet(trip_id, search, searchType).then(data => {
-        const initData = data.data.data;
-        dispatch({ type: INIT, data: initData });
-      });
-    }, 1000);
-  }, [search, searchType]);
+      setIsLoading(false);
+    }, 1500);
+  }, [search]);
 
   const onCreate = (title, content, write_date, hashtags) => {
     axios
@@ -105,16 +114,20 @@ function DiaryStore() {
         padding: '0 0 70px 0',
       }}
     >
-      <DiaryList
-        changeInput={changeInput}
-        diaryList={data}
-        onCreate={onCreate}
-        onRemove={onRemove}
-        onEdit={onEdit}
-        search={search}
-        getSearchType={getSearchType}
-        searchType={searchType}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <DiaryList
+          changeInput={changeInput}
+          diaryList={data}
+          onCreate={onCreate}
+          onRemove={onRemove}
+          onEdit={onEdit}
+          search={search}
+          getSearchType={getSearchType}
+          searchType={searchType}
+        />
+      )}
     </div>
   );
 }

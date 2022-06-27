@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFeatherPointed } from '@fortawesome/free-solid-svg-icons';
 import partyblobcat from '../../Assets/partyblobcat.gif';
 import partymoogle from '../../Assets/partymoogle.gif';
-import { filter } from 'lodash';
 
 const FeatherPointedIcon = (
   <FontAwesomeIcon

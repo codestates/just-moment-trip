@@ -46,19 +46,19 @@ const icon = <FontAwesomeIcon icon={faImage} style={{ fontSize: '20px' }} />;
 
 const Pic = ({ picName, picUploadHandler }) => {
   AWS.config.update({
-    region: 'ap-northeast-2', // 버킷이 존재하는 리전을 문자열로 입력합니다. (Ex. "ap-northeast-2")
+    region: 'ap-northeast-2',
     credentials: new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'ap-northeast-2:8a8d19df-b498-40fe-8b68-719bd6b315c6',
+      IdentityPoolId: process.env.REACT_APP_IDENTITYPOOLID,
     }),
   });
 
   const deleteHandler = name => {
-    if (picName === 'profile.jpeg') {
+    if (name === 'profile.jpeg') {
       return;
     }
 
     var s3 = new AWS.S3();
-    var params = { Bucket: 'jmtpictures', Key: name };
+    var params = { Bucket: process.env.REACT_APP_BUCKET, Key: name };
     s3.deleteObject(params).promise();
   };
 
@@ -71,8 +71,8 @@ const Pic = ({ picName, picUploadHandler }) => {
     // S3 SDK에 내장된 업로드 함수
     const upload = new AWS.S3.ManagedUpload({
       params: {
-        Bucket: 'jmtpictures', // 업로드할 대상 버킷명
-        Key: file.name, // 업로드할 파일명 (* 확장자를 추가해야 합니다!)
+        Bucket: process.env.REACT_APP_BUCKET, // 업로드할 대상 버킷명
+        Key: file.name, // 업로드할 파일명
         Body: file, // 업로드할 파일 객체
       },
     });
