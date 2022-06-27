@@ -28,20 +28,18 @@ function PostViewDetail() {
   const navigate = useNavigate();
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
-  const [createdDate, setCreatedDate] = useState(
-    `${location.state?.data.created_at}`,
-  );
+  const [createdDate, setCreatedDate] = useState('');
   const [updatedDate, setUpdatedDate] = useState('');
+  const [action, setAction] = useState(false);
 
   const [nickname, setNickname] = useState(`${location.state?.data.nickname}`);
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [test, setTest] = useState(false);
+
   const url = 'http://localhost:8080';
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
-
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -74,22 +72,21 @@ function PostViewDetail() {
       .then(res => {
         setNewTitle(res.data.data.title);
         setNewContent(res.data.data.content);
+        setCreatedDate(res.data.data.created_at);
         setUpdatedDate(res.data.data.updated_at);
       })
       .catch(err => console.error(err));
-  }, []);
+  }, [action]);
 
   const onChangeNewTitle = useCallback(e => {
     e.preventDefault();
     setNewTitle(e.target.value);
   }, []);
 
-
   const onChangeNewContent = useCallback((event, editor) => {
     const data = editor.getData();
     setNewContent(`${data}`);
   }, []);
-
 
   const editHandler = useCallback(() => {
     setIsEdit(true);
@@ -183,6 +180,7 @@ function PostViewDetail() {
           `,
             });
             setIsEdit(false);
+            setAction(!action);
           })
           .catch(err => console.log('--------루저ㅋ', err));
       }

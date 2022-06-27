@@ -21,7 +21,6 @@ import {
   ListTable,
   Iconbox,
 } from './styles';
-import data from './dummydata';
 
 function PostList() {
   const [datas, setDatas] = useState([]);
@@ -42,7 +41,6 @@ function PostList() {
         withCredentials: true,
       })
       .then(res => {
-        console.log(res.data.data);
         setDatas(res.data.data.reverse());
       })
       .catch(err => console.log('--------------- 루저ㅋ', err, err.data));

@@ -27,7 +27,6 @@ function CommentList({ post_id }) {
         withCredentials: true,
       })
       .then(res => {
-        console.log(res.data.data);
         setData(res.data.data.reverse());
       });
   }, [action]);
