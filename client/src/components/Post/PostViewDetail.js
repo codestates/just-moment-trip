@@ -42,7 +42,6 @@ function PostViewDetail() {
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
 
-  console.log(updatedDate);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -73,7 +72,6 @@ function PostViewDetail() {
         withCredentials: true,
       })
       .then(res => {
-        console.log('data들어옴 ? ', res.data);
         setNewTitle(res.data.data.title);
         setNewContent(res.data.data.content);
         setUpdatedDate(res.data.data.updated_at);
@@ -85,13 +83,13 @@ function PostViewDetail() {
     e.preventDefault();
     setNewTitle(e.target.value);
   }, []);
-  console.log('============newTitle', newTitle, typeof newTitle);
+
 
   const onChangeNewContent = useCallback((event, editor) => {
     const data = editor.getData();
     setNewContent(`${data}`);
   }, []);
-  console.log('------------newContent', newContent, typeof newContent);
+
 
   const editHandler = useCallback(() => {
     setIsEdit(true);
