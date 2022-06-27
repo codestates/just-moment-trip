@@ -271,3 +271,8 @@ export const PostEditBox = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export const EditedSentence = styled.h6`
+  font-family: SBFontLight;
+  color: rgb(226, 155, 61);
+`;

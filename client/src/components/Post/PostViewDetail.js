@@ -20,6 +20,7 @@ import {
   Warning,
   PostEditBox,
   Input,
+  EditedSentence,
 } from './styles';
 
 function PostViewDetail() {
@@ -27,7 +28,11 @@ function PostViewDetail() {
   const navigate = useNavigate();
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
-  const [date, setDate] = useState(`${location.state?.data.created_at}`);
+  const [createdDate, setCreatedDate] = useState(
+    `${location.state?.data.created_at}`,
+  );
+  const [updatedDate, setUpdatedDate] = useState('');
+
   const [nickname, setNickname] = useState(`${location.state?.data.nickname}`);
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -36,6 +41,8 @@ function PostViewDetail() {
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
+
+  console.log(updatedDate);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -66,10 +73,10 @@ function PostViewDetail() {
         withCredentials: true,
       })
       .then(res => {
-        console.log('data들어옴 ? ', res.data.data.title);
-        console.log('------------', res.data.data);
+        console.log('data들어옴 ? ', res.data);
         setNewTitle(res.data.data.title);
         setNewContent(res.data.data.content);
+        setUpdatedDate(res.data.data.updated_at);
       })
       .catch(err => console.error(err));
   }, []);
@@ -214,9 +221,11 @@ function PostViewDetail() {
         <>
           <Header>글제목 : {newTitle}</Header>
           <MiddleBox>
-            {/* {test ? <h2>수정완료</h2> : <h2>수정전</h2>} */}
+            {createdDate === updatedDate ? null : (
+              <EditedSentence>수정된 글입니다</EditedSentence>
+            )}
             <MiddelSentence>작성자 : {nickname}</MiddelSentence>
-            <MiddelSentence>작성날짜 : {date}</MiddelSentence>
+            <MiddelSentence>작성날짜 : {createdDate}</MiddelSentence>
           </MiddleBox>
           <ContentBox>
             <Content>{ReactHtmlParser(newContent)}</Content>

@@ -28,6 +28,7 @@ module.exports = {
           content: postInfo.content,
           nickname: postInfo.user.nickname,
           created_at: postInfo.createdAt,
+          updated_at: postInfo.updatedAt,
           trip: postInfo.trip,
         };
 
