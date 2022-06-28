@@ -12,20 +12,9 @@ module.exports = {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     });
-    await queryInterface.addColumn("post", "trip_id", {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      references: {
-        model: "trip",
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
-    });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("post", "trip_id");
     await queryInterface.removeColumn("post", "user_id");
   },
 };
