@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/common/Navbar';
-import PostList from '../components/Post/PostList';
-
-// import { useSelector } from 'react-redux';
+import PostWriteUpDetail from '../components/Post/PostWriteUpDetail';
 
 const Box = styled.div`
   padding-top: 120px;
@@ -15,16 +13,13 @@ const Box = styled.div`
   font-family: SsurroundFont;
 `;
 
-function Post() {
-  // const isLogin = useSelector(state => state.sign.isLoggedIn);
-  // const isTrip = JSON.parse(sessionStorage.getItem('trip_id'));
-
+function PostWriteUp() {
   return (
     <Box>
       <Navbar />
-      <PostList />
+      <PostWriteUpDetail />
     </Box>
   );
 }
 
-export default Post;
+export default PostWriteUp;

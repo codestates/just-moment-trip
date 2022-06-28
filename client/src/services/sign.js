@@ -2,8 +2,7 @@ import axios from 'axios';
 const caesar_monoAlphabet = require('./caesar_monoAlphabet');
 
 export const signCustomApi = axios.create({
-  baseURL: 'http://localhost:8080/sign/',
-  // baseURL: 'https://www.just-moment-trip.tk/sign/',
+  baseURL: `${process.env.REACT_APP_URL}/sign/`,
   headers: {
     'Content-Type': 'application/json',
   },

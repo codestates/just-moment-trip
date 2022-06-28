@@ -4,7 +4,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
 import {
@@ -14,26 +16,48 @@ import {
   PostListHeaderBox,
   Label,
   SearchIcon,
-  SearchInput,
+  Input,
   PostTitleBox,
   ListTable,
+  Iconbox,
 } from './styles';
 
-function PostList({ datas }) {
-  const [Clicked, setClicked] = useState(false);
+function PostList() {
+  const [datas, setDatas] = useState([]);
+  const [searchIconClick, setSearchIconClick] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
+  const location = useLocation();
+  const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
+  const url = process.env.REACT_APP_URL;
 
   useEffect(() => {
     searchIconClicked;
   }, [datas]);
 
-  const newDatas = datas.slice(0).reverse();
-  console.log('----------------------- newDatas', newDatas);
+  useEffect(() => {
+    axios
+      .get(`${url}/post`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        setDatas(res.data.data.reverse());
+      })
+      .catch(err => console.log('--------------- 루저ㅋ', err, err.data));
+  }, []);
+
+  const navigate = useNavigate();
+
+  // const newDatas = datas?.slice(0).reverse();
 
   const searchIconClicked = useCallback(() => {
-    setClicked(!Clicked);
-  }, [Clicked]);
+    setSearchIconClick(!searchIconClick);
+  }, [searchIconClick]);
+
+  // const IconboxClicked = useCallback(() => {
+  //   navigate('/post/writeup');
+  //   console.log('---------------------- IconboxClicked', '으앙');
+  // }, []);
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -44,30 +68,41 @@ function PostList({ datas }) {
   };
 
   return (
-    <>
+    <div>
       <PostListHeaderBox>
         <Label>🕊 여행에 관해 이야기 해볼까요 ?</Label>
+        <Link
+          to="/post/writeup"
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          {token && (
+            <Iconbox fontSize="40">
+              <FontAwesomeIcon icon={faPencil} />
+            </Iconbox>
+          )}
+        </Link>
         <SearchIcon>
-          {Clicked ? <SearchInput /> : null}
           <FontAwesomeIcon
+            style={{ float: 'right', cursor: 'pointer' }}
             icon={faMagnifyingGlass}
             onClick={searchIconClicked}
           />
+          {searchIconClick ? <Input width="30" /> : null}
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
         <PostTitleBox>
-          <ListTable style={{ width: '15%' }}>닉네임</ListTable>
-          <ListTable style={{ width: '70%', fontWeight: 'bold' }}>
+          <ListTable width="15">닉네임</ListTable>
+          <ListTable width="70 " fontWeight="bold">
             제목
           </ListTable>
-          <ListTable style={{ width: '15%', marginRight: '6px' }}>
+          <ListTable width="15" marginRight="6">
             작성날짜
           </ListTable>
         </PostTitleBox>
         <DataTablesBox>
-          {currentPosts(newDatas).map(data => (
-            <PostItem key={data.id} data={data} />
+          {currentPosts(datas).map(el => (
+            <PostItem key={el.id} data={el} />
           ))}
         </DataTablesBox>
         <PaginationBox>
@@ -78,7 +113,7 @@ function PostList({ datas }) {
           />
         </PaginationBox>
       </PostListBox>
-    </>
+    </div>
   );
 }
 

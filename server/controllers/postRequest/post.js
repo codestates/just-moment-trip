@@ -21,21 +21,39 @@ module.exports = {
         if (!postInfo) {
           return res.status(200).send({ data: {} });
         }
-        const commentInfo = await comment.findAll({ where: { post_id: id } });
+
         const data = {
           id: postInfo.id,
           title: postInfo.title,
           content: postInfo.content,
           nickname: postInfo.user.nickname,
           created_at: postInfo.createdAt,
-          comments: commentInfo,
+          updated_at: postInfo.updatedAt,
           trip: postInfo.trip,
         };
-        postInfo.dataValues.comments = commentInfo;
+
         return res.status(200).send({ data });
-      } catch {
+      } catch (err) {
         await slack.slack("Post/:post_id GET 501");
         res.status(501).send("Post GET Server Error");
+      }
+    },
+  },
+
+  comment: {
+    get: async (req, res) => {
+      const id = req.params.post_id;
+      try {
+        const commentInfo = await comment.findAll({ where: { post_id: id }, raw: true });
+        for (let i = 0; i < commentInfo.length; i++) {
+          const userInfo = await user.findOne({ where: { id: commentInfo[i].user_id }, raw: true });
+          commentInfo[i].nickname = userInfo.nickname;
+        }
+
+        return res.status(200).send({ data: commentInfo });
+      } catch (err) {
+        await slack.slack("Post/:post_id/comment GET 501");
+        res.status(501).send("comment GET Server Error");
       }
     },
   },
@@ -46,7 +64,10 @@ module.exports = {
         include: [
           {
             model: user,
-            attributes: ["id", "nickname"],
+            attributes: ["nickname"],
+          },
+          {
+            model: trip,
           },
         ],
       });
@@ -54,8 +75,10 @@ module.exports = {
         return {
           id: el.id,
           title: el.title,
+          content: el.content,
           nickname: el.user.nickname,
           created_at: el.createdAt,
+          trip: el.trip,
         };
       });
       return res.status(200).send({ data });
@@ -81,9 +104,7 @@ module.exports = {
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
-        return res
-          .status(201)
-          .send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
+        return res.status(201).send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Post Post 501");
@@ -92,6 +113,7 @@ module.exports = {
   },
   patch: async (req, res) => {
     const { new_title, new_content, new_trip_id } = req.body;
+    console.log(new_title, new_content, new_trip_id);
     const id = req.params.post_id;
     if (!new_title || !new_content || !new_trip_id) {
       await slack.slack("Post Post 422");
