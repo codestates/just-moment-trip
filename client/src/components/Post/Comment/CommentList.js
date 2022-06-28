@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Comment from './Comment';
 import Swal from 'sweetalert2';
@@ -9,26 +8,21 @@ import {
   Btn,
   LoginPlz,
 } from './styles';
+const axios = require('../../../services/comment');
 
 function CommentList({ post_id }) {
-  // const [data, setData] = useState(comments.slice());
   const [newComment, setNewComment] = useState('');
   const [data, setData] = useState([]);
   const [action, setAction] = useState(false);
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
-  const url = 'http://localhost:8080';
   const currURL = window.location.href.split('/');
 
   useEffect(() => {
-    axios
-      .get(`${url}/post/${currURL[currURL.length - 1]}/comment`, {
-        withCredentials: true,
-      })
-      .then(res => {
-        setData(res.data.data.reverse());
-      });
+    axios.commentGet(currURL[currURL.length - 1]).then(res => {
+      setData(res.data.data.reverse());
+    });
   }, [action]);
 
   const newCommentHandler = event => {
@@ -44,19 +38,7 @@ function CommentList({ post_id }) {
     }
 
     try {
-      await axios.post(
-        `${url}/comment`,
-        { post_id: currURL[currURL.length - 1], content: newComment },
-        {
-          headers: {
-            authorization:
-              'Bearer ' +
-              JSON.parse(sessionStorage.getItem('user')).accessToken,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
+      await axios.commentPost(currURL[currURL.length - 1], newComment);
       setNewComment('');
       setAction(!action);
     } catch (err) {
@@ -66,19 +48,7 @@ function CommentList({ post_id }) {
 
   const changeCommentHandler = async (id, new_comment) => {
     try {
-      await axios.patch(
-        `${url}/comment/${id}`,
-        { new_content: new_comment },
-        {
-          headers: {
-            authorization:
-              'Bearer ' +
-              JSON.parse(sessionStorage.getItem('user')).accessToken,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
+      await axios.commentPatch(id, new_comment);
       setAction(!action);
     } catch (err) {
       console.log(err);
@@ -87,14 +57,7 @@ function CommentList({ post_id }) {
 
   const deleteCommentHandler = async id => {
     try {
-      await axios.delete(`${url}/comment/${id}`, {
-        headers: {
-          authorization:
-            'Bearer ' + JSON.parse(sessionStorage.getItem('user')).accessToken,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      await axios.commentRemove(id);
       setAction(!action);
     } catch (err) {
       console.log(err);

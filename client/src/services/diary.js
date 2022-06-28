@@ -1,7 +1,6 @@
 import axios from 'axios';
 import changeToken from './changeToken';
-// let endpoint = 'https://www.just-moment-trip.tk';
-let endpoint = 'http://localhost:8080';
+let endpoint = process.env.REACT_APP_URL;
 
 export async function diaryGet(trip_id, search, searchType) {
   let url = `${endpoint}/diary?trip_id=${trip_id}`;
