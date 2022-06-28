@@ -39,7 +39,7 @@ function PostWriteUpDetail() {
     setContent(data);
   }, []);
 
-  const url = 'http://localhost:8080';
+  const url = process.env.REACT_APP_URL;
   const submit = useCallback(
     e => {
       if (title.length < 1) {

@@ -29,7 +29,7 @@ function PostList() {
   const [postsPerPage, setPostPerPage] = useState(10);
   const location = useLocation();
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
-  const url = 'http://localhost:8080';
+  const url = process.env.REACT_APP_URL;
 
   useEffect(() => {
     searchIconClicked;

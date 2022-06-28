@@ -36,7 +36,7 @@ function PostViewDetail() {
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
 
-  const url = 'http://localhost:8080';
+  const url = process.env.REACT_APP_URL;
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
