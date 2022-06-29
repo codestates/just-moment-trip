@@ -155,6 +155,7 @@ function PostViewDetail() {
             {
               new_content: newContent,
               new_title: newTitle,
+              new_trip_id: 1,
             },
             {
               headers: {

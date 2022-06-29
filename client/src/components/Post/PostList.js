@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
@@ -25,6 +25,7 @@ import {
 function PostList() {
   const [datas, setDatas] = useState([]);
   const [searchIconClick, setSearchIconClick] = useState(false);
+  const [searchDatas, setSearchDatas] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostPerPage] = useState(10);
   const location = useLocation();
@@ -46,18 +47,20 @@ function PostList() {
       .catch(err => console.log('--------------- 루저ㅋ', err, err.data));
   }, []);
 
-  const navigate = useNavigate();
-
-  // const newDatas = datas?.slice(0).reverse();
-
   const searchIconClicked = useCallback(() => {
     setSearchIconClick(!searchIconClick);
   }, [searchIconClick]);
 
-  // const IconboxClicked = useCallback(() => {
-  //   navigate('/post/writeup');
-  //   console.log('---------------------- IconboxClicked', '으앙');
-  // }, []);
+  const search = e => {
+    setSearchDatas(e.target.value);
+    console.log('------------searchDatas', searchDatas);
+  };
+
+  const filterTitle = datas?.filter(p => {
+    return p.title
+      ?.toLocaleLowerCase()
+      .includes(searchDatas?.toLocaleLowerCase());
+  });
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -87,7 +90,9 @@ function PostList() {
             icon={faMagnifyingGlass}
             onClick={searchIconClicked}
           />
-          {searchIconClick ? <Input width="30" /> : null}
+          {searchIconClick ? (
+            <Input width="30" value={searchDatas} onChange={search} />
+          ) : null}
         </SearchIcon>
       </PostListHeaderBox>
       <PostListBox>
@@ -101,9 +106,9 @@ function PostList() {
           </ListTable>
         </PostTitleBox>
         <DataTablesBox>
-          {currentPosts(datas).map(el => (
-            <PostItem key={el.id} data={el} />
-          ))}
+          {searchDatas
+            ? filterTitle.map(el => <PostItem key={el.id} data={el} />)
+            : currentPosts(datas).map(el => <PostItem key={el.id} data={el} />)}
         </DataTablesBox>
         <PaginationBox>
           <Pagination
