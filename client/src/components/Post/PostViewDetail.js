@@ -33,7 +33,7 @@ function PostViewDetail() {
   const [action, setAction] = useState(false);
 
   const [nickname, setNickname] = useState(`${location.state?.data.nickname}`);
-  const [arrNewContent, setArrNewContent] = useState([]);
+  // const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
 
   const url = process.env.REACT_APP_URL;
@@ -148,7 +148,6 @@ function PostViewDetail() {
       `,
     }).then(res => {
       if (res.isConfirmed) {
-        setArrNewContent(arrNewContent.concat({ ...newContent }));
         axios
           .patch(
             `${url}/post/${location.state?.data.id}`,
