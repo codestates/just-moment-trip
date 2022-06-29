@@ -53,7 +53,6 @@ function PostList() {
 
   const search = e => {
     setSearchDatas(e.target.value);
-    console.log('------------searchDatas', searchDatas);
   };
 
   const filterTitle = datas?.filter(p => {
