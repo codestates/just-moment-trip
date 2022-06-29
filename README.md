@@ -114,6 +114,48 @@
     </details>
 </details>
 
+
+<details>
+<summary>자유게시판</summary>
+    <details>
+    <summary>ㅤㅤㅤㅤ비회원인 경우 게시판을 접속한 화면</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176361420-88ff777a-18fc-4253-bdb9-5ea00d24ad1d.gif" width=“50%" height=“50%" /></p>
+    </details>
+<details>
+    <summary>ㅤㅤㅤㅤ회원인 경우 게시판을 접속한 화면</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176361392-4c2c02f9-fce1-4e81-8831-fa3640a29d6d.gif" width=“50%" height=“50%" /></p>
+    </details>
+     <details>
+    <summary>ㅤㅤㅤㅤ게시글 작성</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176364023-0652d773-ab89-4143-930f-5a785951b8c7.gif" width=“50%" height=“50%" /></p>
+    </details>
+        <details>
+    <summary>ㅤㅤㅤㅤ게시글 수정</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176361418-7f11ed1f-38ec-4d75-8361-edd3b001ed0b.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ댓글 수정</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176364570-c619e167-21b8-45d0-b304-c7ab501b4d94.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ게시글 삭제</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176364017-16c9ba11-d97d-4958-8557-f1a0ded82a5c.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ댓글 삭제</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176364563-39fd7f94-5432-4d3b-bcc1-c64ded0dbc5d.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ게시글 제목 검색</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176361426-9ae33573-969c-4656-b226-aa651596ce17.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ게시글 10개 초과 시 페이지 </summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/89396179/176366567-496a9717-0e32-4cc4-a9f8-e3ccff6172d4.gif" width=“50%" height=“50%" /></p>
+    </details>
+</details>
+
+
 <details>
 <summary>인포페이지</summary>
 <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766952-498b830a-cba1-40b5-98c5-fc1bab60f56d.gif" width=“50%" height=“50%" /></p>
@@ -123,6 +165,7 @@
 <summary>채팅</summary>
 <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168766990-39bfe2a5-bebf-470d-a26d-7bb61bc2b5f6.gif" width=“50%" height=“50%" /></p>
 </details>
+
 
 
 ## 3. Members
@@ -167,9 +210,7 @@
 
 🥔 *이스터에그를 숨겨놓았습니다 찾아보세요 !*
 
-📎  화면을 줄이면 경고페이지가 보여지는 반응형 CSS 구현
-
-📎  재사용을 할 수 있는 Navbar와 Modal 구현
+📎  화면을 줄이면 경고페이지가 보여지게 만들었습니다
 
 📎  *sweet alert* 라이브러리를 사용하여 Alert창 구현 및 커스텀
 
@@ -212,6 +253,18 @@ Footer에서 사용한돈 / 여행 총 경비 비율 및 남은돈과 사용한 
 화면을 줄이거나 늘리면 한 행에서 보여지는 리스트의 갯수가 많아지거나 줄어드는 반응형 CSS 구현
 
 백엔드분들의 도움을 받아 Axios를 사용하여 서버와 통신을 가능하게 구현 
+
+📋 **자유게시판(Board)**
+
+코드간결화 및 컴포넌트 분리에 조금 더 신경썼습니다
+
+CKEditor5 라이브러리를 이용하여 게시글을 작성 및 수정할 수 있게 만들었습니다
+
+게시글 목록을 10개씩 볼 수 있도록 구현하였습니다
+
+게시글을 수정하였을 시, 화면 오른쪽 상단에 수정된 글임을 표시하도록 만들었습니다.
+
+비회원으로 Board에 이용할 시, 읽기만 가능하도록 만들었습니다.
 
 ---
 
