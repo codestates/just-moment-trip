@@ -20,6 +20,7 @@ import {
   Warning,
   PostEditBox,
   Input,
+  EditedSentence,
 } from './styles';
 
 function PostViewDetail() {
@@ -27,12 +28,15 @@ function PostViewDetail() {
   const navigate = useNavigate();
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
-  const [date, setDate] = useState(`${location.state?.data.created_at}`);
+  const [createdDate, setCreatedDate] = useState('');
+  const [updatedDate, setUpdatedDate] = useState('');
+  const [action, setAction] = useState(false);
+
   const [nickname, setNickname] = useState(`${location.state?.data.nickname}`);
   const [arrNewContent, setArrNewContent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [test, setTest] = useState(false);
-  const url = 'http://localhost:8080';
+
+  const url = process.env.REACT_APP_URL;
   const token = JSON.parse(sessionStorage.getItem('user'))?.accessToken;
   const userNickname = JSON.parse(sessionStorage.getItem('user'))?.data
     .nickname;
@@ -66,25 +70,23 @@ function PostViewDetail() {
         withCredentials: true,
       })
       .then(res => {
-        console.log('data들어옴 ? ', res.data.data.title);
-        console.log('------------', res.data.data);
         setNewTitle(res.data.data.title);
         setNewContent(res.data.data.content);
+        setCreatedDate(res.data.data.created_at);
+        setUpdatedDate(res.data.data.updated_at);
       })
       .catch(err => console.error(err));
-  }, []);
+  }, [action]);
 
   const onChangeNewTitle = useCallback(e => {
     e.preventDefault();
     setNewTitle(e.target.value);
   }, []);
-  console.log('============newTitle', newTitle, typeof newTitle);
 
   const onChangeNewContent = useCallback((event, editor) => {
     const data = editor.getData();
     setNewContent(`${data}`);
   }, []);
-  console.log('------------newContent', newContent, typeof newContent);
 
   const editHandler = useCallback(() => {
     setIsEdit(true);
@@ -178,6 +180,7 @@ function PostViewDetail() {
           `,
             });
             setIsEdit(false);
+            setAction(!action);
           })
           .catch(err => console.log('--------루저ㅋ', err));
       }
@@ -214,9 +217,11 @@ function PostViewDetail() {
         <>
           <Header>글제목 : {newTitle}</Header>
           <MiddleBox>
-            {/* {test ? <h2>수정완료</h2> : <h2>수정전</h2>} */}
+            {createdDate === updatedDate ? null : (
+              <EditedSentence>수정된 글입니다</EditedSentence>
+            )}
             <MiddelSentence>작성자 : {nickname}</MiddelSentence>
-            <MiddelSentence>작성날짜 : {date}</MiddelSentence>
+            <MiddelSentence>작성날짜 : {createdDate}</MiddelSentence>
           </MiddleBox>
           <ContentBox>
             <Content>{ReactHtmlParser(newContent)}</Content>

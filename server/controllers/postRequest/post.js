@@ -1,4 +1,4 @@
-const { post, comment, trip, user } = require("../../models");
+const { post, comment, user } = require("../../models");
 const tokenHandler = require("../tokenHandler");
 const slack = require("../slack");
 
@@ -11,9 +11,6 @@ module.exports = {
           include: [
             {
               model: user,
-            },
-            {
-              model: trip,
             },
           ],
           where: { id },
@@ -28,7 +25,7 @@ module.exports = {
           content: postInfo.content,
           nickname: postInfo.user.nickname,
           created_at: postInfo.createdAt,
-          trip: postInfo.trip,
+          updated_at: postInfo.updatedAt,
         };
 
         return res.status(200).send({ data });
@@ -65,9 +62,6 @@ module.exports = {
             model: user,
             attributes: ["nickname"],
           },
-          {
-            model: trip,
-          },
         ],
       });
       const data = postInfo.map((el) => {
@@ -77,7 +71,6 @@ module.exports = {
           content: el.content,
           nickname: el.user.nickname,
           created_at: el.createdAt,
-          trip: el.trip,
         };
       });
       return res.status(200).send({ data });
@@ -88,7 +81,7 @@ module.exports = {
   },
 
   post: async (req, res) => {
-    const { title, content, trip_id } = req.body;
+    const { title, content } = req.body;
     if (!title || !content) {
       await slack.slack("Post Post 422");
       return res.status(422).send({ message: "insufficient parameters supplied" });
@@ -99,11 +92,12 @@ module.exports = {
         const postPayload = {
           title,
           content,
-          trip_id: trip_id,
           user_id: validity.id,
         };
         const postInfo = await post.create(postPayload);
-        return res.status(201).send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
+        return res
+          .status(201)
+          .send({ data: { id: postInfo.id }, accessToken: validity.accessToken });
       }
     } catch (err) {
       await slack.slack("Post Post 501");
@@ -111,10 +105,9 @@ module.exports = {
     }
   },
   patch: async (req, res) => {
-    const { new_title, new_content, new_trip_id } = req.body;
-    console.log(new_title, new_content, new_trip_id);
+    const { new_title, new_content } = req.body;
     const id = req.params.post_id;
-    if (!new_title || !new_content || !new_trip_id) {
+    if (!new_title || !new_content) {
       await slack.slack("Post Post 422");
       return res.status(422).send({ message: "insufficient parameters supplied" });
     }
@@ -130,7 +123,6 @@ module.exports = {
           {
             title: new_title,
             content: new_content,
-            trip_id: new_trip_id,
           },
           { where: { id } }
         );

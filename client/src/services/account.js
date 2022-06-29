@@ -1,7 +1,6 @@
 import axios from 'axios';
 import changeToken from './changeToken';
-let endpoint = 'http://localhost:8080';
-// let endpoint = 'https://just-moment-trip.tk';
+let endpoint = process.env.REACT_APP_URL;
 
 //tk : 서버배포
 //ml : 클라배포

@@ -23,8 +23,8 @@ function InfoButton() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const url = 'https://www.just-moment-trip.tk/user';
-  const url = 'http://localhost:8080/user';
+  const url = `${process.env.REACT_APP_URL}/user`;
+
   const options = {
     headers: {
       authorization: `Bearer ${
