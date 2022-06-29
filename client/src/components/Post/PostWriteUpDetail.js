@@ -20,7 +20,6 @@ import {
 function PostWriteUpDetail() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [arrContent, setArrContent] = useState([]);
   const [titleError, setTitleError] = useState(false);
   const [contentError, setContentError] = useState(false);
 
@@ -71,7 +70,6 @@ function PostWriteUpDetail() {
       `,
       }).then(result => {
         if (result.isConfirmed) {
-          setArrContent(arrContent.concat({ ...content }));
           axios
             .post(
               `${url}/post`,
