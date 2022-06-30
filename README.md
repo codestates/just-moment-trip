@@ -45,15 +45,19 @@
 <summary>여행 페이지</summary>
     <details>
     <summary>ㅤㅤㅤㅤ여행작성</summary>
-    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168764552-8ff2866f-308d-4be4-bca3-385c764fb99c.gif" width=“50%" height=“50%" /></p>
+    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/176572140-47e95c37-bf7f-450c-8c42-94b27584f6bd.gif" width=“50%" height=“50%" /></p>
     </details>
     <details>
     <summary>ㅤㅤㅤㅤ여행별 정보 확인</summary>
-    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168764600-252a5008-a264-47c6-ad01-fb08a25185cb.gif" width=“50%" height=“50%" /></p>
+    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/176572144-4c0503a1-c4e4-4fa9-afee-c5e897cfdfd4.gif" width=“50%" height=“50%" /></p>
+    </details>
+    <details>
+    <summary>ㅤㅤㅤㅤ여행수정</summary>
+    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/176572148-de5161b7-70ac-4ae4-8738-aaa8c898a0f4.gif" width=“50%" height=“50%" /></p>
     </details>
     <details>
     <summary>ㅤㅤㅤㅤ여행삭제</summary>
-    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/168764633-7af1cc2f-4916-4530-8b40-35fe969dd7e5.gif" width=“50%" height=“50%" /></p>
+    <p align="center"><img src="https://user-images.githubusercontent.com/95616448/176572155-9f8d8544-7988-4db0-a0c2-a74a573010d1.gif" width=“50%" height=“50%" /></p>
     </details>
 </details>
 
