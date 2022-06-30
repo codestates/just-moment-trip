@@ -19,8 +19,15 @@
 
 # 주요 기능별 시연 gif
 <details>
-<summary>회원가입</summary>
-<p align="center"><img src="https://user-images.githubusercontent.com/95616448/168768315-4b61393c-bee7-4412-a73b-ede673548fab.gif" width=“50%" height=“50%" /></p>
+<summary>회원가입 이메일인증</summary>
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/176570698-8275c53f-7dbd-42ac-bdb4-b6a9acf2a9b6.gif" width=“50%" height=“50%" /></p>
+    이미 가입된 이메일
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/176570868-158759d6-ae18-4ab1-9829-5a66ac92c69c.gif" width=“50%" height=“50%" /></p>
+    제대로된 이메일
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/176570912-6a7da157-1c66-4fbd-bf2c-328cf9be9e14.gif" width=“50%" height=“50%" /></p>
+    이메일 내용
+<p align="center"><img src="https://user-images.githubusercontent.com/95616448/176570939-17308e3d-d93c-4e0e-b0e5-29eeb2367597.gif" width=“50%" height=“50%" /></p>
+    인증및 회원가입
 </details>
 
 <details>
