@@ -12,6 +12,7 @@
 - 소셜로그인 기능
 - 서비스 이용자 간 실시간 채팅 기능
 - 여행중 구입내역 Google Map marker기능
+- 사람들끼리 자유롭게 소통 가능한 자유게시판
 
 배포: https://just-moment-trip.ml
 
